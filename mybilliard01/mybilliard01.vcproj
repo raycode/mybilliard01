@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib ../tinyxml/lib/tinyxml_STL.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -260,14 +260,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\ConstString.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ConstString.h"
-				>
-			</File>
-			<File
 				RelativePath=".\mybilliard01.h"
 				>
 			</File>
@@ -380,6 +372,14 @@
 			Name="Global"
 			>
 			<File
+				RelativePath=".\ConstString.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ConstString.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration
@@ -416,695 +416,879 @@
 			Name="collada_dom"
 			>
 			<File
-				RelativePath="..\collada_dom\include\domAccessor.h"
+				RelativePath="..\collada_dom\include\dae.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domAnimation.h"
+				RelativePath="..\collada_dom\include\dae\daeArray.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domAnimation_clip.h"
+				RelativePath="..\collada_dom\include\dae\daeArrayTypes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domAsset.h"
+				RelativePath="..\collada_dom\include\dae\daeAtomicType.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domBind_material.h"
+				RelativePath="..\collada_dom\include\dae\daeDatabase.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domBool_array.h"
+				RelativePath="..\collada_dom\include\dae\daeDocument.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domBox.h"
+				RelativePath="..\collada_dom\include\dae\daeDom.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCamera.h"
+				RelativePath="..\collada_dom\include\dae\daeDomTypes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCapsule.h"
+				RelativePath="..\collada_dom\include\dae\daeElement.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_connect_param.h"
+				RelativePath="..\collada_dom\include\dae\daeError.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_newarray_type.h"
+				RelativePath="..\collada_dom\include\dae\daeErrorHandler.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_newparam.h"
+				RelativePath="..\collada_dom\include\dae\daeGCCPlatform.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_param_type.h"
+				RelativePath="..\collada_dom\include\dae\daeIDRef.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_sampler1D.h"
+				RelativePath="..\collada_dom\include\dae\daeIOPlugin.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_sampler2D.h"
+				RelativePath="..\collada_dom\include\dae\daeIOPluginCommon.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_sampler3D.h"
+				RelativePath="..\collada_dom\include\modules\daeLIBXMLPlugin.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_samplerCUBE.h"
+				RelativePath="..\collada_dom\include\dae\daeMemorySystem.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_samplerDEPTH.h"
+				RelativePath="..\collada_dom\include\dae\daeMetaAny.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_samplerRECT.h"
+				RelativePath="..\collada_dom\include\dae\daeMetaAttribute.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_setarray_type.h"
+				RelativePath="..\collada_dom\include\dae\daeMetaChoice.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_setparam.h"
+				RelativePath="..\collada_dom\include\dae\daeMetaCMPolicy.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_setparam_simple.h"
+				RelativePath="..\collada_dom\include\dae\daeMetaElement.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_setuser_type.h"
+				RelativePath="..\collada_dom\include\dae\daeMetaElementAttribute.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCg_surface_type.h"
+				RelativePath="..\collada_dom\include\dae\daeMetaGroup.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domChannel.h"
+				RelativePath="..\collada_dom\include\dae\daeMetaSequence.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCOLLADA.h"
+				RelativePath="..\collada_dom\include\dae\daePlatform.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCommon_color_or_texture_type.h"
+				RelativePath="..\collada_dom\include\dae\daeRawResolver.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCommon_float_or_param_type.h"
+				RelativePath="..\collada_dom\include\dae\daeRefCountedObj.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCommon_newparam_type.h"
+				RelativePath="..\collada_dom\include\dae\daeSIDResolver.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCommon_transparent_type.h"
+				RelativePath="..\collada_dom\include\dae\daeSmartRef.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domConstants.h"
+				RelativePath="..\collada_dom\include\dae\daeStandardURIResolver.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domController.h"
+				RelativePath="..\collada_dom\include\modules\daeSTLDatabase.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domConvex_mesh.h"
+				RelativePath="..\collada_dom\include\dae\daeStringRef.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domCylinder.h"
+				RelativePath="..\collada_dom\include\dae\daeStringTable.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domEffect.h"
+				RelativePath="..\collada_dom\include\dae\daeTinyXMLPlugin.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domElements.h"
+				RelativePath="..\collada_dom\include\dae\daeTypes.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domEllipsoid.h"
+				RelativePath="..\collada_dom\include\dae\daeURI.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domExtra.h"
+				RelativePath="..\collada_dom\include\dae\daeUtils.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domFloat_array.h"
+				RelativePath="..\collada_dom\include\dae\daeWin32Platform.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domForce_field.h"
+				RelativePath="..\collada_dom\include\dom.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domFx_annotate_common.h"
+				RelativePath="..\collada_dom\include\dae\domAny.h"
 				>
 			</File>
 			<File
-				RelativePath="..\collada_dom\include\domFx_annotate_type_common.h"
+				RelativePath="..\collada_dom\include\modules\stdErrPlugin.h"
 				>
 			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_basic_type_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_clearcolor_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_cleardepth_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_clearstencil_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_code_profile.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_colortarget_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_depthtarget_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_include_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_newparam_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_profile_abstract.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_sampler1D_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_sampler2D_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_sampler3D_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_samplerCUBE_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_samplerDEPTH_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_samplerRECT_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_stenciltarget_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_surface_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_surface_format_hint_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_surface_init_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_surface_init_cube_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_surface_init_from_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_surface_init_planar_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domFx_surface_init_volume_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGeometry.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGl_hook_abstract.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGl_pipeline_settings.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGl_sampler1D.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGl_sampler2D.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGl_sampler3D.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGl_samplerCUBE.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGl_samplerDEPTH.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGl_samplerRECT.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_basic_type_common.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_newparam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_pipeline_settings.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_sampler_state.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_texcombiner_argumentAlpha_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_texcombiner_argumentRGB_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_texcombiner_command_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_texcombiner_commandAlpha_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_texcombiner_commandRGB_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_texenv_command_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_texture_constant_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_texture_pipeline.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGles_texture_unit.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGlsl_newarray_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGlsl_newparam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGlsl_param_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGlsl_setarray_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGlsl_setparam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGlsl_setparam_simple.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domGlsl_surface_type.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domIDREF_array.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domImage.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInputGlobal.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInputLocal.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInputLocalOffset.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_camera.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_controller.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_effect.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_force_field.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_geometry.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_light.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_material.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_node.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_physics_material.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_physics_model.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_rigid_body.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstance_rigid_constraint.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInstanceWithExtra.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domInt_array.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_animation_clips.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_animations.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_cameras.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_controllers.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_effects.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_force_fields.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_geometries.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_images.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_lights.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_materials.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_nodes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_physics_materials.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_physics_models.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_physics_scenes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLibrary_visual_scenes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLight.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLines.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLinestrips.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domLookat.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domMaterial.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domMatrix.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domMesh.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domMorph.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domName_array.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domNode.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domP.h"
+			<Filter
+				Name="1.4.1"
 				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domParam.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domPhysics_material.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domPhysics_model.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domPhysics_scene.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domPlane.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domPolygons.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domPolylist.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domProfile_CG.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domProfile_COMMON.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domProfile_GLES.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domProfile_GLSL.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domRigid_body.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domRigid_constraint.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domRotate.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domSampler.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domScale.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domSkew.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domSkin.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domSource.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domSphere.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domSpline.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTapered_capsule.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTapered_cylinder.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTargetableFloat.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTargetableFloat3.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTechnique.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTranslate.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTriangles.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTrifans.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTristrips.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domTypes.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domVertices.h"
-				>
-			</File>
-			<File
-				RelativePath="..\collada_dom\include\domVisual_scene.h"
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domAccessor.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domAnimation.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domAnimation_clip.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domAsset.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domBind_material.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domBool_array.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domBox.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCamera.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCapsule.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_connect_param.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_newarray_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_newparam.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_param_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_sampler1D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_sampler2D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_sampler3D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_samplerCUBE.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_samplerDEPTH.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_samplerRECT.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_setarray_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_setparam.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_setparam_simple.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_setuser_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCg_surface_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domChannel.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCOLLADA.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCommon_color_or_texture_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCommon_float_or_param_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCommon_newparam_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCommon_transparent_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domConstants.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domController.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domConvex_mesh.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domCylinder.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domEffect.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domElements.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domEllipsoid.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domExtra.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFloat_array.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domForce_field.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_annotate_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_annotate_type_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_basic_type_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_clearcolor_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_cleardepth_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_clearstencil_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_code_profile.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_colortarget_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_depthtarget_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_include_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_newparam_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_profile_abstract.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_sampler1D_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_sampler2D_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_sampler3D_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_samplerCUBE_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_samplerDEPTH_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_samplerRECT_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_stenciltarget_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_surface_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_surface_format_hint_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_surface_init_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_surface_init_cube_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_surface_init_from_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_surface_init_planar_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domFx_surface_init_volume_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGeometry.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGl_hook_abstract.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGl_pipeline_settings.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGl_sampler1D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGl_sampler2D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGl_sampler3D.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGl_samplerCUBE.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGl_samplerDEPTH.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGl_samplerRECT.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_basic_type_common.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_newparam.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_pipeline_settings.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_sampler_state.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_texcombiner_argumentAlpha_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_texcombiner_argumentRGB_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_texcombiner_command_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_texcombiner_commandAlpha_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_texcombiner_commandRGB_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_texenv_command_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_texture_constant_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_texture_pipeline.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGles_texture_unit.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGlsl_newarray_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGlsl_newparam.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGlsl_param_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGlsl_setarray_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGlsl_setparam.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGlsl_setparam_simple.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domGlsl_surface_type.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domIDREF_array.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domImage.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInputGlobal.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInputLocal.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInputLocalOffset.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_camera.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_controller.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_effect.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_force_field.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_geometry.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_light.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_material.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_node.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_physics_material.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_physics_model.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_rigid_body.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstance_rigid_constraint.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInstanceWithExtra.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domInt_array.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_animation_clips.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_animations.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_cameras.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_controllers.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_effects.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_force_fields.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_geometries.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_images.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_lights.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_materials.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_nodes.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_physics_materials.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_physics_models.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_physics_scenes.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLibrary_visual_scenes.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLight.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLines.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLinestrips.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domLookat.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domMaterial.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domMatrix.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domMesh.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domMorph.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domName_array.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domNode.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domP.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domParam.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domPhysics_material.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domPhysics_model.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domPhysics_scene.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domPlane.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domPolygons.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domPolylist.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domProfile_CG.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domProfile_COMMON.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domProfile_GLES.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domProfile_GLSL.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domRigid_body.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domRigid_constraint.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domRotate.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domSampler.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domScale.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domSkew.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domSkin.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domSource.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domSphere.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domSpline.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTapered_capsule.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTapered_cylinder.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTargetableFloat.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTargetableFloat3.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTechnique.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTranslate.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTriangles.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTrifans.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTristrips.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domTypes.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domVertices.h"
+					>
+				</File>
+				<File
+					RelativePath="..\collada_dom\include\1.4.1\dom\domVisual_scene.h"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="tinyxml"
+			>
+			<File
+				RelativePath="..\tinyxml\include\tinystr.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tinyxml\include\tinyxml.h"
 				>
 			</File>
 		</Filter>
