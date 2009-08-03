@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "RenderForDX9.h"
+#include "my_collada.h"
 namespace billiard {
 
 

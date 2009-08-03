@@ -20,8 +20,7 @@
 #include <memory.h>
 //#include <tchar.h>
 
-#include "MyInterface.h"
-#include "ConstString.h"
+#include "../core_billiard/Stdafx.h"
 
 
 // TODO: reference additional headers your program requires here
