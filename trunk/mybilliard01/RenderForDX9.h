@@ -7,5 +7,3 @@
 #include "SDKmisc.h"
 #include "SDKmesh.h"
 #include "resource.h"
-
-#include "MyColladaLoader.h"

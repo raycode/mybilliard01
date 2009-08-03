@@ -4,4 +4,5 @@
 
 #pragma once
 
+#include "../core_billiard/stdafx.h"
 

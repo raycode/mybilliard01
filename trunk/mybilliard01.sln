@@ -1,22 +1,28 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "mybilliard01", "mybilliard01\mybilliard01.vcproj", "{06B28C9E-8C7F-4CF8-8D33-535C17A298E4}"
-EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestProject", "TestProject1\TestProject1.vcproj", "{A14E08A5-D318-4C5C-B1B4-9CD28B1BA8AF}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "render_for_dx9", "mybilliard01\mybilliard01.vcproj", "{06B28C9E-8C7F-4CF8-8D33-535C17A298E4}"
 	ProjectSection(ProjectDependencies) = postProject
-		{06B28C9E-8C7F-4CF8-8D33-535C17A298E4} = {06B28C9E-8C7F-4CF8-8D33-535C17A298E4}
+		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D} = {F148C4CB-8042-44A2-A04C-1BFB0BD3242D}
+	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestProject1", "TestProject1\TestProject1.vcproj", "{A14E08A5-D318-4C5C-B1B4-9CD28B1BA8AF}"
+	ProjectSection(ProjectDependencies) = postProject
+		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D} = {F148C4CB-8042-44A2-A04C-1BFB0BD3242D}
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1114145B-F8BD-4057-9D9B-EA37AC4EC10D}"
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		mybilliard01.vsmdi = mybilliard01.vsmdi
+		mybilliard012.vsmdi = mybilliard012.vsmdi
 	EndProjectSection
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core_billiard", "core_billiard\core_billiard.vcproj", "{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = mybilliard01.vsmdi
+		CategoryFile = mybilliard012.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
@@ -31,6 +37,10 @@ Global
 		{A14E08A5-D318-4C5C-B1B4-9CD28B1BA8AF}.Debug|Win32.Build.0 = Debug|Win32
 		{A14E08A5-D318-4C5C-B1B4-9CD28B1BA8AF}.Release|Win32.ActiveCfg = Release|Win32
 		{A14E08A5-D318-4C5C-B1B4-9CD28B1BA8AF}.Release|Win32.Build.0 = Release|Win32
+		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}.Debug|Win32.ActiveCfg = Debug|Win32
+		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}.Debug|Win32.Build.0 = Debug|Win32
+		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}.Release|Win32.ActiveCfg = Release|Win32
+		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
