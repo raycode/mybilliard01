@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\DXUT\Core;..\DXUT\Optional;..\collada_dom\include;..\collada_dom\include\1.4.1;..\tinyxml\include"
+				AdditionalIncludeDirectories="../DXUT/Core;../DXUT/Optional;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../PhysX/Cooking/include;../PhysX/Foundation/include;../PhysX/Physics/include;../PhysX/PhysXLoader/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -121,13 +121,16 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="..\DXUT\Core;..\DXUT\Optional;..\collada_dom\include;..\collada_dom\include\1.4.1;..\tinyxml\include"
-				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
+				AdditionalIncludeDirectories="../DXUT/Core;../DXUT/Optional;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../PhysX/Cooking/include;../PhysX/Foundation/include;../PhysX/Physics/include;../PhysX/PhysXLoader/include"
+				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
+				EnableEnhancedInstructionSet="2"
+				FloatingPointModel="2"
 				UsePrecompiledHeader="2"
-				WarningLevel="3"
-				DebugInformationFormat="3"
+				WarningLevel="4"
+				WarnAsError="true"
+				DebugInformationFormat="0"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -140,11 +143,14 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib"
 				LinkIncremental="1"
-				GenerateDebugInformation="true"
+				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -257,39 +263,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\MyColladaLoader.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MyColladaLoader.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MyColladaLoader.test.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-				<FileConfiguration
-					Name="Release|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\RenderForDX9.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Resource.h"
 				>
 			</File>
 			<File
@@ -325,6 +299,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\Resource.h"
+				>
+			</File>
+			<File
 				RelativePath=".\small.ico"
 				>
 			</File>
@@ -335,13 +313,6 @@
 			<File
 				RelativePath="..\DXUT\Core\DXUT.cpp"
 				>
-				<FileConfiguration
-					Name="Test|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Core\DXUT.h"
@@ -350,13 +321,6 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTcamera.cpp"
 				>
-				<FileConfiguration
-					Name="Test|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTcamera.h"
@@ -365,13 +329,6 @@
 			<File
 				RelativePath="..\DXUT\Core\DXUTenum.cpp"
 				>
-				<FileConfiguration
-					Name="Test|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Core\DXUTenum.h"
@@ -380,13 +337,6 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTgui.cpp"
 				>
-				<FileConfiguration
-					Name="Test|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTgui.h"
@@ -395,13 +345,6 @@
 			<File
 				RelativePath="..\DXUT\Core\DXUTmisc.cpp"
 				>
-				<FileConfiguration
-					Name="Test|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Core\DXUTmisc.h"
@@ -410,13 +353,6 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTres.cpp"
 				>
-				<FileConfiguration
-					Name="Test|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTres.h"
@@ -425,13 +361,6 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTsettingsdlg.cpp"
 				>
-				<FileConfiguration
-					Name="Test|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTsettingsdlg.h"
@@ -440,13 +369,6 @@
 			<File
 				RelativePath="..\DXUT\Optional\SDKmisc.cpp"
 				>
-				<FileConfiguration
-					Name="Test|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\SDKmisc.h"
@@ -466,14 +388,6 @@
 			</File>
 			<File
 				RelativePath=".\MyInterface.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MyTestFramework.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\MyTestFramework.h"
 				>
 			</File>
 			<File
@@ -1396,12 +1310,20 @@
 		<Filter
 			Name="Billiard"
 			>
+			<File
+				RelativePath=".\MyColladaLoader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyColladaLoader.h"
+				>
+			</File>
 		</Filter>
 		<Filter
-			Name="gtest"
+			Name="PhysX"
 			>
 			<File
-				RelativePath="..\gtest\include\gtest\gtest.h"
+				RelativePath=".\myphysx.h"
 				>
 			</File>
 		</Filter>
