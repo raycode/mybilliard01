@@ -7,8 +7,17 @@ wstring ConstString::windowTitle() {
 }
 
 wstring ConstString::effectFilename() {
-	return L"SimpleSample.fx";
+	return L"..\\asset\\SimpleSample.fx";
 }
+
+wstring colladaPhysXFilename() {
+	return L"..\\asset\\billiard01.physx.dae";
+}
+
+wstring colladaVisualAssetFilename() {
+	return L"..\\asset\\billiard01.dae";
+}
+
 
 }
 
