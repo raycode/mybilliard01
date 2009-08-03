@@ -10,12 +10,12 @@ wstring ConstString::effectFilename() {
 	return L"..\\asset\\SimpleSample.fx";
 }
 
-wstring colladaPhysXFilename() {
-	return L"..\\asset\\billiard01.physx.dae";
+wstring ConstString::colladaPhysXFilename() {
+	return L"..\\asset\\1ball1box.physx.dae";
 }
 
-wstring colladaVisualAssetFilename() {
-	return L"..\\asset\\billiard01.dae";
+wstring ConstString::colladaVisualAssetFilename() {
+	return L"..\\asset\\1ball1box.dae";
 }
 
 

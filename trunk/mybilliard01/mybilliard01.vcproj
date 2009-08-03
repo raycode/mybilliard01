@@ -41,8 +41,8 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\DXUT\Core; ..\DXUT\Optional"
-				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS"
+				AdditionalIncludeDirectories="..\DXUT\Core;..\DXUT\Optional;..\collada_dom\include;..\collada_dom\include\1.4.1;..\tinyxml\include"
+				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="3"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib ../tinyxml/lib/tinyxml_STL.lib"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -119,8 +119,9 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				Optimization="2"
+				Optimization="1"
 				EnableIntrinsicFunctions="true"
+				AdditionalIncludeDirectories="..\DXUT\Core;..\DXUT\Optional;..\collada_dom\include;..\collada_dom\include\1.4.1;..\tinyxml\include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -193,7 +194,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..\DXUT\Core; ..\DXUT\Optional"
+				AdditionalIncludeDirectories="..\DXUT\Core;..\DXUT\Optional;..\collada_dom\include;..\collada_dom\include\1.4.1;..\tinyxml\include;..\gtest\include"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -216,10 +217,10 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ..\gtest\gtest.lib ..\gtest\gtest_main.lib"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib ../gtest/lib/gtestd.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
-				SubSystem="2"
+				SubSystem="1"
 				RandomizedBaseAddress="1"
 				DataExecutionPrevention="0"
 				TargetMachine="1"
@@ -251,16 +252,40 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Billiard"
+			Name="RenderForDX9"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\Billiard.h"
+				RelativePath=".\MyColladaLoader.cpp"
 				>
 			</File>
 			<File
-				RelativePath=".\mybilliard01.h"
+				RelativePath=".\MyColladaLoader.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyColladaLoader.test.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\RenderForDX9.h"
 				>
 			</File>
 			<File
@@ -270,10 +295,14 @@
 			<File
 				RelativePath=".\SimpleSample.cpp"
 				>
-			</File>
-			<File
-				RelativePath=".\targetver.h"
-				>
+				<FileConfiguration
+					Name="Test|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 		</Filter>
 		<Filter
@@ -306,6 +335,13 @@
 			<File
 				RelativePath="..\DXUT\Core\DXUT.cpp"
 				>
+				<FileConfiguration
+					Name="Test|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Core\DXUT.h"
@@ -314,6 +350,13 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTcamera.cpp"
 				>
+				<FileConfiguration
+					Name="Test|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTcamera.h"
@@ -322,6 +365,13 @@
 			<File
 				RelativePath="..\DXUT\Core\DXUTenum.cpp"
 				>
+				<FileConfiguration
+					Name="Test|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Core\DXUTenum.h"
@@ -330,6 +380,13 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTgui.cpp"
 				>
+				<FileConfiguration
+					Name="Test|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTgui.h"
@@ -338,6 +395,13 @@
 			<File
 				RelativePath="..\DXUT\Core\DXUTmisc.cpp"
 				>
+				<FileConfiguration
+					Name="Test|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Core\DXUTmisc.h"
@@ -346,6 +410,13 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTres.cpp"
 				>
+				<FileConfiguration
+					Name="Test|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTres.h"
@@ -354,6 +425,13 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTsettingsdlg.cpp"
 				>
+				<FileConfiguration
+					Name="Test|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTsettingsdlg.h"
@@ -362,6 +440,13 @@
 			<File
 				RelativePath="..\DXUT\Optional\SDKmisc.cpp"
 				>
+				<FileConfiguration
+					Name="Test|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\SDKmisc.h"
@@ -377,6 +462,18 @@
 			</File>
 			<File
 				RelativePath=".\ConstString.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyInterface.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyTestFramework.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyTestFramework.h"
 				>
 			</File>
 			<File
@@ -409,6 +506,10 @@
 			</File>
 			<File
 				RelativePath=".\stdafx.h"
+				>
+			</File>
+			<File
+				RelativePath=".\targetver.h"
 				>
 			</File>
 		</Filter>
@@ -1289,6 +1390,18 @@
 			</File>
 			<File
 				RelativePath="..\tinyxml\include\tinyxml.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Billiard"
+			>
+		</Filter>
+		<Filter
+			Name="gtest"
+			>
+			<File
+				RelativePath="..\gtest\include\gtest\gtest.h"
 				>
 			</File>
 		</Filter>
