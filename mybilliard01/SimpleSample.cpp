@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 #include "stdafx.h"
-#include "Billiard.h"
+#include "RenderForDX9.h"
 using namespace billiard;
 
 //#define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 

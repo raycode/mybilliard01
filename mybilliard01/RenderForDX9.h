@@ -8,4 +8,4 @@
 #include "SDKmesh.h"
 #include "resource.h"
 
-#include "ConstString.h"
+#include "MyColladaLoader.h"

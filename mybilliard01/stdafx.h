@@ -18,7 +18,10 @@
 #include <stdlib.h>
 #include <malloc.h>
 #include <memory.h>
-#include <tchar.h>
+//#include <tchar.h>
+
+#include "MyInterface.h"
+#include "ConstString.h"
 
 
 // TODO: reference additional headers your program requires here
