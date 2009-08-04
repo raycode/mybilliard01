@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../loki/include;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../PhysX/Cooking/include;../PhysX/Foundation/include;../PhysX/Physics/include;../PhysX/PhysXLoader/include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -50,7 +50,7 @@
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 				WarnAsError="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
@@ -108,7 +108,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../loki/include;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../PhysX/Cooking/include;../PhysX/Foundation/include;../PhysX/Physics/include;../PhysX/PhysXLoader/include"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -179,7 +179,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MyDae.h"
+				>
+			</File>
+			<File
 				RelativePath=".\MyInterface.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MySmartPtr.h"
 				>
 			</File>
 			<File
@@ -1175,10 +1183,6 @@
 				>
 			</File>
 			<File
-				RelativePath="..\loki\include\loki\readme.txt"
-				>
-			</File>
-			<File
 				RelativePath="..\loki\include\loki\RefToValue.h"
 				>
 			</File>
@@ -1203,6 +1207,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\loki\include\loki\Singleton.h"
+				>
+			</File>
+			<File
 				RelativePath="..\loki\include\loki\SmallObj.h"
 				>
 			</File>
@@ -1216,6 +1224,10 @@
 			</File>
 			<File
 				RelativePath="..\loki\include\loki\static_check.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\StrongPtr.h"
 				>
 			</File>
 			<File
@@ -1246,6 +1258,74 @@
 				RelativePath="..\loki\include\loki\Visitor.h"
 				>
 			</File>
+			<Filter
+				Name="flex"
+				>
+				<File
+					RelativePath="..\loki\include\loki\flex\allocatorstringstorage.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\flex\cowstringopt.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\flex\flex_string.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\flex\flex_string_details.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\flex\flex_string_shell.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\flex\simplestringstorage.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\flex\smallstringopt.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\flex\vectorstringstorage.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="yasli"
+				>
+				<File
+					RelativePath="..\loki\include\loki\yasli\platform.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\yasli\random.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\yasli\yasli_fill_iterator.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\yasli\yasli_memory.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\yasli\yasli_protocols.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\yasli\yasli_traits.h"
+					>
+				</File>
+				<File
+					RelativePath="..\loki\include\loki\yasli\yasli_vector.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 	</Files>
 	<Globals>

@@ -4,8 +4,11 @@
 
 #pragma once
 
-#define private public
-#define protected public
+//#define private public
+//#define protected public
 
 #include "../core_billiard/stdafx.h"
 
+using namespace std;
+using namespace core_billiard;
+using namespace billiard;
