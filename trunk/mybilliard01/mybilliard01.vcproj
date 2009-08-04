@@ -122,7 +122,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/DXUT/Core&quot;;&quot;$(SolutionDir)/DXUT/Optional&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/DXUT/Core&quot;;&quot;$(SolutionDir)/DXUT/Optional&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/loki/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
