@@ -232,7 +232,7 @@ namespace Loki
 
         /// Defines singleton made from allocator.
         typedef Loki::SingletonHolder< MyAllocator, Loki::CreateStatic,
-            LifetimePolicy, ThreadingModel > MyAllocatorSingleton;
+            Loki::NoDestroy, ThreadingModel > MyAllocatorSingleton;
 
         /// Returns reference to the singleton.
         inline static AllocatorSingleton & Instance( void )

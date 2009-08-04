@@ -1,4 +1,4 @@
 #pragma once
 
-#define INTERFACE class
-#define IMPLEMENTS virtual public
+#define INTERFACE_ class
+#define IMPLEMENTS_ virtual public

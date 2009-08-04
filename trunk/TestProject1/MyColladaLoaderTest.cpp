@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include <windows.h>
 
 using namespace System;
 using namespace System::Text;
@@ -11,28 +10,46 @@ namespace TestProject
 	[TestClass]
 	public ref class MyColladaLoaderTest
 	{
-	private:
-		TestContext^ testContextInstance;
-
 	public: 
-		property Microsoft::VisualStudio::TestTools::UnitTesting::TestContext^ testContext
-		{
-			Microsoft::VisualStudio::TestTools::UnitTesting::TestContext^ get()
-			{
-				return testContextInstance;
-			}
-			System::Void set(Microsoft::VisualStudio::TestTools::UnitTesting::TestContext^ value)
-			{
-				testContextInstance = value;
-			}
-		};
 
-		[TestMethod]
-		void TestMethod1()
+        [ClassInitialize()]
+        static void MyClassInitialize(TestContext^ testContext)
+        {};
+        
+        [ClassCleanup()]
+        static void MyClassCleanup()
+        {};
+        
+        [TestInitialize()]
+        void MyTestInitialize()
+        {};
+        
+        [TestCleanup()]
+        void MyTestCleanup()
+        {};
+
+        [TestMethod]
+        void VisualAssetFilename()
+        {
+            const wstring filename = ConstString::colladaVisualAssetFilename();
+            Assert::IsFalse( filename.empty() );
+            Assert::IsTrue( filename.find_last_of( L".dae" ) > 0u );
+        }
+
+        [TestMethod]
+        void DllLoading()
+        {
+            DAE * dae = new DAE();
+            Assert::IsTrue( NULL != dae );
+            delete dae;
+        }
+
+        [TestMethod]
+		void Constructor()
 		{
             const wstring filename = ConstString::colladaVisualAssetFilename();
-            ::SetDllDirectory( ConstString::dllDirectory().c_str() );
-            //MyColladaLoader loader( filename );
+
+            MyColladaLoader loader( filename );
             //Assert::AreEqual( gcnew String( filename.c_str() ), gcnew String( loader.filename_.c_str() ) );
 		};
 	};
