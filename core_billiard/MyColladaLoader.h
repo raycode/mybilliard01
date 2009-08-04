@@ -10,6 +10,7 @@ public:
     
 private:
     wstring filename_;    
+    DAE dae_;
 };
 
 

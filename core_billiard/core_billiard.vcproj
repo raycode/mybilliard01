@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../PhysX/Cooking/include;../PhysX/Foundation/include;../PhysX/Physics/include;../PhysX/PhysXLoader/include"
+				AdditionalIncludeDirectories="../loki/include;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../PhysX/Cooking/include;../PhysX/Foundation/include;../PhysX/Physics/include;../PhysX/PhysXLoader/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -107,7 +107,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../PhysX/Cooking/include;../PhysX/Foundation/include;../PhysX/Physics/include;../PhysX/PhysXLoader/include"
+				AdditionalIncludeDirectories="../loki/include;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../PhysX/Cooking/include;../PhysX/Foundation/include;../PhysX/Physics/include;../PhysX/PhysXLoader/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -1059,6 +1059,170 @@
 			>
 			<File
 				RelativePath=".\myphysx.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Loki"
+			>
+			<File
+				RelativePath="..\loki\include\loki\AbstractFactory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Allocator.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\AssocVector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\CachedFactory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Checker.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\CheckReturn.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\ConstPolicy.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\DataGenerators.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\EmptyType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Factory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Function.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Functor.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\HierarchyGenerators.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Key.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\LevelMutex.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\LockingPtr.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\LokiExport.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\LokiTypeInfo.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\MultiMethods.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\NullType.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\OrderedStatic.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Pimpl.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\readme.txt"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\RefToValue.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Register.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\SafeBits.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\SafeFormat.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\ScopeGuard.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Sequence.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\SmallObj.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\SmartPtr.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\SPCachedFactory.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\static_check.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Threads.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Tuple.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Typelist.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\TypelistMacros.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\TypeManip.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\TypeTraits.h"
+				>
+			</File>
+			<File
+				RelativePath="..\loki\include\loki\Visitor.h"
 				>
 			</File>
 		</Filter>

@@ -7,7 +7,7 @@
 	ProjectGUID="{A14E08A5-D318-4C5C-B1B4-9CD28B1BA8AF}"
 	RootNamespace="TestProject1"
 	Keyword="ManagedCProj"
-	TargetFrameworkVersion="0"
+	TargetFrameworkVersion="196613"
 	>
 	<Platforms>
 		<Platform
@@ -27,6 +27,7 @@
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
+				CommandLine=""
 			/>
 			<Tool
 				Name="VCCustomBuildTool"
@@ -43,6 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
+				AdditionalIncludeDirectories="../loki/include;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../PhysX/Cooking/include;../PhysX/Foundation/include;../PhysX/Physics/include;../PhysX/PhysXLoader/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="3"
 				EnableEnhancedInstructionSet="0"
@@ -63,9 +65,12 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
+				IgnoreImportLibrary="false"
 				UseLibraryDependencyInputs="false"
-				AdditionalDependencies="winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib $(NOINHERIT)"
+				AdditionalDependencies="winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib ../collada_dom/lib/libcollada141dom21-d.lib $(NOINHERIT)"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
+				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				SubSystem="0"
@@ -121,6 +126,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="1"
+				AdditionalIncludeDirectories="../loki/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="2"
 				EnableEnhancedInstructionSet="0"
@@ -141,7 +147,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib $(NOINHERIT)"
+				AdditionalDependencies="winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib ../collada_dom/lib/libcollada141dom21.lib $(NOINHERIT)"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				TargetMachine="1"
