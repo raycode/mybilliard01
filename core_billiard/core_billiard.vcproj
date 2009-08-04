@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -108,7 +108,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -1084,12 +1084,52 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="PhysX"
+			Name="my_phyys_x"
 			>
 			<File
-				RelativePath=".\myphysx.h"
+				RelativePath=".\ErrorStream.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\ErrorStream.h"
+				>
+			</File>
+			<File
+				RelativePath=".\my_phys_x.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyPhysX.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyPhysX.h"
+				>
+			</File>
+			<Filter
+				Name="CommonCode"
+				>
+				<File
+					RelativePath=".\PerfRenderer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PerfRenderer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Timing.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\Timing.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Utilities.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Loki"

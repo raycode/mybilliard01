@@ -100,8 +100,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 //--------------------------------------------------------------------------------------
 void InitApp()
 {
-    SetDllDirectory( ConstString::dllDirectory().c_str() );
-    MyColladaLoader loader( L"aa" );
+    SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
 
     g_SettingsDlg.Init( &g_DialogResourceManager );
     g_HUD.Init( &g_DialogResourceManager );

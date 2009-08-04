@@ -1,5 +1,4 @@
 #include "stdafx.h"
-#include "ConstString.h"
 namespace core_billiard {
 
 
@@ -20,7 +19,7 @@ wstring ConstString::colladaVisualAssetFilename() {
 	return L"..\\asset\\1ball1box.dae";
 }
 
-wstring ConstString::dllDirectory() {
+wstring ConstString::dllDirectoryForColladaDOM() {
     return L"..\\collada_dom\\dll";
 }
 

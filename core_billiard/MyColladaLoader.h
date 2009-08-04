@@ -1,7 +1,5 @@
 #pragma once
-#include "my_collada.h"
-namespace core_billiard {
-
+namespace my_collada {
 
 class MyColladaLoader {
 public:

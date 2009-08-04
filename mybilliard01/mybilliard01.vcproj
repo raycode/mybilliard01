@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/DXUT/Core&quot;;&quot;$(SolutionDir)/DXUT/Optional&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/DXUT/Core&quot;;&quot;$(SolutionDir)/DXUT/Optional&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot;"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCharacter.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCooking.lib&quot; &quot;$(SolutionDir)/PhysX/lib/PhysXLoader.lib&quot;"
 				LinkIncremental="1"
 				DelayLoadDLLs="libcollada141dom21-d.dll"
 				GenerateDebugInformation="true"
@@ -124,7 +124,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)/DXUT/Core&quot;;&quot;$(SolutionDir)/DXUT/Optional&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/loki/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/DXUT/Core&quot;;&quot;$(SolutionDir)/DXUT/Optional&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -146,7 +146,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9.lib d3dx10.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21.lib&quot;"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9.lib d3dx10.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCharacter.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCooking.lib&quot; &quot;$(SolutionDir)/PhysX/lib/PhysXLoader.lib&quot;"
 				LinkIncremental="1"
 				DelayLoadDLLs="libcollada141dom21.dll"
 				GenerateDebugInformation="false"
@@ -303,6 +303,26 @@
 			<File
 				RelativePath="..\DXUT\Core\DXUT.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="1"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Core\DXUT.h"
@@ -311,6 +331,24 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTcamera.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTcamera.h"
@@ -319,6 +357,24 @@
 			<File
 				RelativePath="..\DXUT\Core\DXUTenum.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Core\DXUTenum.h"
@@ -327,6 +383,24 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTgui.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTgui.h"
@@ -335,6 +409,24 @@
 			<File
 				RelativePath="..\DXUT\Core\DXUTmisc.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Core\DXUTmisc.h"
@@ -343,6 +435,24 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTres.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTres.h"
@@ -351,6 +461,24 @@
 			<File
 				RelativePath="..\DXUT\Optional\DXUTsettingsdlg.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\DXUTsettingsdlg.h"
@@ -359,6 +487,24 @@
 			<File
 				RelativePath="..\DXUT\Optional\SDKmisc.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath="..\DXUT\Optional\SDKmisc.h"

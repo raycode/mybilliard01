@@ -1,9 +1,9 @@
 #pragma once
 
-#include <string>
-
-namespace core_billiard {
+namespace my_collada {
     using namespace std;
+    using namespace Loki;
+    using namespace core_billiard;
 
 }
 

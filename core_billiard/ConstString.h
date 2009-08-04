@@ -9,7 +9,7 @@ public:
 	static wstring effectFilename();
 	static wstring colladaPhysXFilename();
 	static wstring colladaVisualAssetFilename();
-    static wstring dllDirectory();
+    static wstring dllDirectoryForColladaDOM();
 };
 
 }

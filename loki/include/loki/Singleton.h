@@ -170,8 +170,8 @@ namespace Loki
         
         // nothing has thrown: don't delete the ConcreteLifetimeTracker object
         p.release();
-        
-        LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
+
+        LOKI_STATIC_CHECK( false, "std::atexit does not work correctly in DLL, so that you need to use Loki::NoDestroy as Lifepolicy." );
         // Register a call to AtExitFn
         std::atexit(Private::AtExitFn);
     }
@@ -208,7 +208,7 @@ namespace Loki
         *pos = p;
         ++elements;
         
-        LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
+        LOKI_STATIC_CHECK( false, "std::atexit does not work correctly in DLL, so that you need to use Loki::NoDestroy as Lifepolicy." );
         // Register a call to AtExitFn
         std::atexit(Private::AtExitFn);
     }
@@ -355,7 +355,7 @@ namespace Loki
     {
         static void ScheduleDestruction(T*, atexit_pfn_t pFun)
         {
-            LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
+            LOKI_STATIC_CHECK( false, "std::atexit does not work correctly in DLL, so that you need to use Loki::NoDestroy as Lifepolicy." );
             std::atexit(pFun);
         }
         
@@ -377,7 +377,7 @@ namespace Loki
     public:
         static void ScheduleDestruction(T*, atexit_pfn_t pFun)
         {
-            LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
+            LOKI_STATIC_CHECK( false, "std::atexit does not work correctly in DLL, so that you need to use Loki::NoDestroy as Lifepolicy." );
 #ifndef ATEXIT_FIXED
             if (!destroyedOnce_)
 #endif
@@ -431,7 +431,7 @@ namespace Loki
             deleter = pFun;
             if (firstPass || needCallback)
             {
-                LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
+                LOKI_STATIC_CHECK( false, "std::atexit does not work correctly in DLL, so that you need to use Loki::NoDestroy as Lifepolicy." );
                 std::atexit(atexitCallback);
                 firstPass = false;
                 needCallback = false;
