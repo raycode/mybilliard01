@@ -23,6 +23,6 @@
 
 using namespace std;
 using namespace core_billiard;
-using namespace billiard;
+//using namespace billiard;
 
 // TODO: reference additional headers your program requires here

@@ -1,7 +1,7 @@
 #pragma once
 #include <string>
 using namespace std;
-namespace billiard {
+namespace core_billiard {
 
 class ConstString {
 public:
@@ -9,6 +9,7 @@ public:
 	static wstring effectFilename();
 	static wstring colladaPhysXFilename();
 	static wstring colladaVisualAssetFilename();
+    static wstring dllDirectory();
 };
 
 }

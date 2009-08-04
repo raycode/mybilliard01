@@ -1,7 +1,9 @@
 #include "stdafx.h"
 #include "ConstString.h"
-namespace billiard {
+namespace core_billiard {
 
+
+    // We can change these implementation to be using external XML file.
 wstring ConstString::windowTitle() {
 	return L"Billiard";
 }
@@ -18,6 +20,9 @@ wstring ConstString::colladaVisualAssetFilename() {
 	return L"..\\asset\\1ball1box.dae";
 }
 
+wstring ConstString::dllDirectory() {
+    return L"..\\collada_dom\\dll";
+}
 
 }
 
