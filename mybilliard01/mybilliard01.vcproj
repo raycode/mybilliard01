@@ -66,6 +66,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot; &quot;$(SolutionDir)/loki/lib/loki_D.lib&quot;"
 				LinkIncremental="1"
+				DelayLoadDLLs="libcollada141dom21-d.dll"
 				GenerateDebugInformation="true"
 				SubSystem="2"
 				RandomizedBaseAddress="1"
@@ -92,6 +93,7 @@
 			/>
 			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine=""
 			/>
 		</Configuration>
 		<Configuration
@@ -146,6 +148,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9.lib d3dx10.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21.lib&quot; &quot;$(SolutionDir)/loki/lib/loki.lib&quot;"
 				LinkIncremental="1"
+				DelayLoadDLLs="libcollada141dom21.dll"
 				GenerateDebugInformation="false"
 				SubSystem="2"
 				OptimizeReferences="2"

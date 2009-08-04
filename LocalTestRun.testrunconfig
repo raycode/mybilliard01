@@ -1,8 +1,5 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <TestRunConfiguration name="Local Test Run" id="eae30048-baa4-4c77-8dc6-64c71cc823f1" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2006">
   <Description>This is a default test run configuration for a local test run.</Description>
-  <Deployment>
-    <DeploymentItem filename="collada_dom\dll\libcollada141dom21-d.dll" />
-  </Deployment>
   <TestTypeSpecific />
 </TestRunConfiguration>

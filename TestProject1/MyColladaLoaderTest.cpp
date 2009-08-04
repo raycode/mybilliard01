@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include <windows.h>
 
 using namespace System;
 using namespace System::Text;
@@ -30,7 +31,8 @@ namespace TestProject
 		void TestMethod1()
 		{
             const wstring filename = ConstString::colladaVisualAssetFilename();
-            MyColladaLoader loader( filename );
+            ::SetDllDirectory( ConstString::dllDirectory().c_str() );
+            //MyColladaLoader loader( filename );
             //Assert::AreEqual( gcnew String( filename.c_str() ), gcnew String( loader.filename_.c_str() ) );
 		};
 	};
