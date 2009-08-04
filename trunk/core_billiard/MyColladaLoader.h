@@ -1,7 +1,6 @@
 #pragma once
-#include <string>
-namespace billiard {
-using namespace std;
+#include "my_collada.h"
+namespace core_billiard {
 
 
 class MyColladaLoader {
@@ -10,7 +9,7 @@ public:
     
 private:
     wstring filename_;    
-    DAE dae_;
+    DAEPtr dae_;
 };
 
 
