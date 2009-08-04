@@ -101,6 +101,7 @@
 			ConfigurationType="1"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
+			EnableManagedIncrementalBuild="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
