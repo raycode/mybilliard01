@@ -1,6 +1,7 @@
 #pragma once
 
 #pragma warning ( disable : 4819 )
+
 #include "loki/SmartPtr.h"
 
 #define MY_SMART_PTR( CLASS_NAME ) \

@@ -171,6 +171,7 @@ namespace Loki
         // nothing has thrown: don't delete the ConcreteLifetimeTracker object
         p.release();
         
+        LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
         // Register a call to AtExitFn
         std::atexit(Private::AtExitFn);
     }
@@ -207,6 +208,7 @@ namespace Loki
         *pos = p;
         ++elements;
         
+        LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
         // Register a call to AtExitFn
         std::atexit(Private::AtExitFn);
     }
@@ -352,7 +354,10 @@ namespace Loki
     struct DefaultLifetime
     {
         static void ScheduleDestruction(T*, atexit_pfn_t pFun)
-        { std::atexit(pFun); }
+        {
+            LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
+            std::atexit(pFun);
+        }
         
         static void OnDeadReference()
         { throw std::logic_error("Dead Reference Detected"); }
@@ -372,6 +377,7 @@ namespace Loki
     public:
         static void ScheduleDestruction(T*, atexit_pfn_t pFun)
         {
+            LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
 #ifndef ATEXIT_FIXED
             if (!destroyedOnce_)
 #endif
@@ -425,6 +431,7 @@ namespace Loki
             deleter = pFun;
             if (firstPass || needCallback)
             {
+                LOKI_STATIC_CHECK( false, "Cannot use atexit function." );
                 std::atexit(atexitCallback);
                 firstPass = false;
                 needCallback = false;

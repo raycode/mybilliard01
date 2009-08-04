@@ -4,8 +4,7 @@
 
 #pragma once
 
-//#define private public
-//#define protected public
+#include <windows.h>
 
 #include "../core_billiard/stdafx.h"
 

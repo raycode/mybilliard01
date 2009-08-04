@@ -67,13 +67,14 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
 				UseLibraryDependencyInputs="false"
-				AdditionalDependencies="winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot; &quot;$(SolutionDir)/loki/lib/loki_D.lib&quot; $(NOINHERIT)"
+				AdditionalDependencies="winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot; $(NOINHERIT)"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
-				DelayLoadDLLs="libcollada141dom21-d.dll"
+				DelayLoadDLLs=""
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				SubSystem="0"
+				ResourceOnlyDLL="false"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -149,9 +150,9 @@
 			<Tool
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
-				AdditionalDependencies="winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21.lib&quot; &quot;$(SolutionDir)/loki/lib/loki.lib&quot; $(NOINHERIT)"
+				AdditionalDependencies="winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21.lib&quot; $(NOINHERIT)"
 				LinkIncremental="1"
-				DelayLoadDLLs="libcollada141dom21.dll"
+				DelayLoadDLLs=""
 				GenerateDebugInformation="false"
 				LinkTimeCodeGeneration="1"
 				TargetMachine="1"
