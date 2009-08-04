@@ -8,6 +8,7 @@
 
 #include "targetver.h"
 
+#define NOMINMAX
 #define WIN32_LEAN_AND_MEAN             // Exclude rarely-used stuff from Windows headers
 // Windows Header Files:
 #include <windows.h>
@@ -22,6 +23,7 @@
 #include "tinyxml.h"
 
 using namespace std;
+using namespace Loki;
 using namespace core_billiard;
 //using namespace billiard;
 

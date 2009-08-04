@@ -1,6 +1,5 @@
 #include "stdafx.h"
-#include "my_collada.h"
-namespace core_billiard {
+namespace my_collada {
 
 
 MyColladaLoader::MyColladaLoader( wstring filename )

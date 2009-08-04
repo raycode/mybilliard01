@@ -11,7 +11,6 @@ namespace TestProject
 	public ref class MyColladaLoaderTest
 	{
 	public: 
-
         [ClassInitialize()]
         static void MyClassInitialize(TestContext^ testContext)
         {};
