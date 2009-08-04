@@ -16,7 +16,7 @@ namespace TestProject
 		TestContext^ testContextInstance;
 
 	public: 
-		property Microsoft::VisualStudio::TestTools::UnitTesting::TestContext^ TestContext
+		property Microsoft::VisualStudio::TestTools::UnitTesting::TestContext^ testContext
 		{
 			Microsoft::VisualStudio::TestTools::UnitTesting::TestContext^ get()
 			{
@@ -31,9 +31,9 @@ namespace TestProject
 		[TestMethod]
 		void TestMethod1()
 		{
-            wstring filename = ConstString::colladaVisualAssetFilename();
-            //MyColladaLoader loader( filename );
-            //Assert::Equals( filename, loader.filename_ );
+            const wstring filename = ConstString::colladaVisualAssetFilename();
+            MyColladaLoader loader( filename );
+            Assert::AreEqual( gcnew String( filename.c_str() ), gcnew String( loader.filename_.c_str() ) );
 		};
 	};
 }

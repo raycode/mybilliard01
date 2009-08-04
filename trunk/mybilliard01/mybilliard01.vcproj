@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../DXUT/Core;../DXUT/Optional;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include"
+				AdditionalIncludeDirectories="../loki/include;../DXUT/Core;../DXUT/Optional;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,7 +64,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib ../collada_dom/lib/libcollada141dom21-d.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="2"
@@ -121,7 +121,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../DXUT/Core;../DXUT/Optional;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include"
+				AdditionalIncludeDirectories="../DXUT/Core;../DXUT/Optional;../collada_dom/include;../collada_dom/include/1.4.1;../tinyxml/include;../loki/include"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -143,7 +143,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib ../tinyxml/lib/tinyxml.lib ../collada_dom/lib/libcollada141dom21.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="false"
 				SubSystem="2"
