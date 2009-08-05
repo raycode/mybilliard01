@@ -217,6 +217,10 @@
 				RelativePath=".\MyPhysXTest.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\MyTestingUtility.hpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Global"

@@ -3,9 +3,9 @@ namespace my_collada {
 
 
 MyColladaLoader::MyColladaLoader( wstring filename )
-: filename_( filename )
+: filename_( filename ), dae_( new DAE() )
 {
-    dae_ = new DAE();
+
 }
 
 
