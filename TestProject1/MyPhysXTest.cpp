@@ -1,11 +1,11 @@
 #include "stdafx.h"
-#include "../core_billiard/MediaPath.h"
-#include < vcclr.h >
+#include "MyTestingUtility.hpp"
 
 using namespace System;
 using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
+using namespace MyTestingUtility;
 
 //namespace TestProject1
 //{
@@ -34,27 +34,14 @@ using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
         [TestInitialize()]
         void MyTestInitialize()
         {
-            pin_ptr<const wchar_t> deploymentDir = PtrToStringChars( testContext_->TestDeploymentDir );
-            ::SetCurrentDirectory( deploymentDir );
+            setCurrentDirectory( testContext_ );
         };
 
         [TestMethod]
-        void Constructor()
+        void CreateMyPhysX()
         {
             MyPhysX phys;
 		};
-
-        static wstring getDeployedFilename( wstring filename ) {
-            const size_t dirPos = filename.find_last_of( '\\' );
-            const wstring filenameOnly = filename.c_str() + ( ( dirPos == wstring::npos ) ? 0 : ( dirPos + 1 ) );
-            const wstring deployedFilename = filenameOnly;
-            return deployedFilename;
-        }
-
-        static bool isFileExist( wstring filename ) {
-            std::ifstream ifs1( filename.c_str(), std::ios_base::binary );
-            return ifs1.good();
-        }
 
         [TestMethod]
         void FindAssetFile() {
@@ -105,6 +92,7 @@ using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
             {
                 NxActor * const actor = phys.getActor( i );
                 NxU32 nShapes = actor->getNbShapes();
+
                 Assert::IsTrue( 1 <= nShapes );
                 Assert::AreEqual( 0.00025, (Double) actor->getShapes()[ 0 ]->getSkinWidth(), 0.00002 );
             }

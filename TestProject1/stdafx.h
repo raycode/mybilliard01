@@ -6,6 +6,7 @@
 
 #define NOMINMAX
 #include <windows.h>
+#include <vcclr.h>
 
 #include <iostream>
 #include <fstream>
