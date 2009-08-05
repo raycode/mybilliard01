@@ -3,10 +3,11 @@ namespace my_phys_x {
 
 class MyPhysX {
 public:
-    MyPhysX();
+    MyPhysX( NxUserOutputStream * userOutputStream = NULL );
     ~MyPhysX();
 
-    void loadColladaFile( wstring filename );
+    bool loadColladaFile( wstring filename, NXU_userNotify * userNotify );
+    bool loadColladaFile( wstring filename ) { return loadColladaFile( filename, NULL ); }
 
     size_t countActors() const;
     NxActor * getActor( size_t index );
