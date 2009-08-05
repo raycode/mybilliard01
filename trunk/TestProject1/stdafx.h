@@ -7,6 +7,9 @@
 #define NOMINMAX
 #include <windows.h>
 
+#include <iostream>
+#include <fstream>
+
 #include "../core_billiard/stdafx.h"
 
 using namespace std;

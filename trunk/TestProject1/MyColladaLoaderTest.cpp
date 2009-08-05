@@ -5,28 +5,12 @@ using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
-namespace TestProject
-{
+//namespace TestProject1
+//{
 	[TestClass]
 	public ref class MyColladaLoaderTest
 	{
 	public: 
-        [ClassInitialize()]
-        static void MyClassInitialize(TestContext^ testContext)
-        {};
-        
-        [ClassCleanup()]
-        static void MyClassCleanup()
-        {};
-        
-        [TestInitialize()]
-        void MyTestInitialize()
-        {};
-        
-        [TestCleanup()]
-        void MyTestCleanup()
-        {};
-
         [TestMethod]
         void VisualAssetFilename()
         {
@@ -52,4 +36,4 @@ namespace TestProject
             //Assert::AreEqual( gcnew String( filename.c_str() ), gcnew String( loader.filename_.c_str() ) );
 		};
 	};
-}
+//}

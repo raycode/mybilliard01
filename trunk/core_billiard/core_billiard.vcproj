@@ -1114,6 +1114,34 @@
 				Name="CommonCode"
 				>
 				<File
+					RelativePath=".\MediaPath.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							WarningLevel="2"
+							WarnAsError="false"
+						/>
+					</FileConfiguration>
+					<FileConfiguration
+						Name="Release|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+							WarningLevel="2"
+							WarnAsError="false"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\MediaPath.h"
+					>
+				</File>
+				<File
 					RelativePath=".\PerfRenderer.cpp"
 					>
 				</File>

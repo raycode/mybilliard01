@@ -270,10 +270,15 @@
 				</File>
 			</Filter>
 		</Filter>
-		<File
-			RelativePath="..\asset\1ball1box.physx.dae"
+		<Filter
+			Name="asset"
 			>
-		</File>
+			<File
+				RelativePath="..\asset\1ball1box.physx.dae"
+				DeploymentContent="true"
+				>
+			</File>
+		</Filter>
 		<File
 			RelativePath=".\AuthoringTests.txt"
 			>

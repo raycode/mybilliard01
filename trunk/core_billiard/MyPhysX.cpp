@@ -1,14 +1,8 @@
 #include "stdafx.h"
 #include "NXU_ColladaImport.h"
 #include "NXU_helper.h"
+#include "MediaPath.h"
 namespace my_phys_x {
-
-// Rendering
-static NxVec3	gEye(50.0f, 50.0f, 50.0f);
-static NxVec3	gDir(-0.6f,-0.2f,-0.7f);
-static NxVec3	gViewY;
-static int		gMouseX = 0;
-static int		gMouseY = 0;
 
 MyPhysX::MyPhysX( NxUserOutputStream * userOutputStream )
 {
@@ -39,8 +33,11 @@ MyPhysX::~MyPhysX()
 }
 
 bool MyPhysX::loadColladaFile( wstring filename, NXU_userNotify * userNotify ) {
-    NXU::NxuPhysicsCollection * const collection
-        = NXU::loadCollection( convertString< wstring, string >( filename ).c_str(), NXU::FT_COLLADA );
+    wchar_t LoadFilename[512];
+    FindMediaFile( filename.c_str(), LoadFilename);
+    const string fn = convertString< wstring, string >( LoadFilename );
+
+    NXU::NxuPhysicsCollection * const collection = NXU::loadCollection( fn.c_str(), NXU::FT_COLLADA );
     if( NULL == collection )
         return false;
 
@@ -50,11 +47,11 @@ bool MyPhysX::loadColladaFile( wstring filename, NXU_userNotify * userNotify ) {
 }
 
 size_t MyPhysX::countActors() const {
-    return 0;
+    return scene_->getNbActors();
 }
 
 NxActor * MyPhysX::getActor( size_t index ) {
-    return NULL;
+    return scene_->getActors()[ index ];
 }
 
 
