@@ -7,6 +7,14 @@ using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
 namespace TestProject1
 {
+    class MyUserNotify: public NXU_userNotify
+    {
+    public:
+        virtual void NXU_errorMessage(bool isError, const char *str) {
+            throw exception();
+        }
+    } userNotify;
+
 	[TestClass]
 	public ref class MyPhysXTest
 	{
@@ -36,8 +44,11 @@ namespace TestProject1
         [TestMethod]
         void LoadColladaFile()
         {
+            const wstring filename = ConstString::colladaPhysXFilename();
+
             MyPhysX phys;
-            phys.loadColladaFile( ConstString::colladaPhysXFilename() );
+            const bool bLoad = phys.loadColladaFile( filename, &userNotify );
+            Assert::IsTrue( bLoad );
             Assert::AreEqual( 2, phys.countActors() );
 
             {

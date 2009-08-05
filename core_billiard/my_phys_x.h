@@ -9,13 +9,12 @@
 #	include <xtl.h>
 #endif
 
-#pragma warning ( disable : 4505 )
+#pragma warning ( disable : 4505 4819 )
 
 #include "NxPhysics.h"
-#include "ErrorStream.h"
 #include "PerfRenderer.h"
-#include "Utilities.h"
 #include "Timing.h"
+#include "NXU_helper.h"
 
 namespace my_phys_x {
     using namespace std;
@@ -25,3 +24,5 @@ namespace my_phys_x {
 }
 
 #include "MyPhysX.h"
+#include "ErrorStream.h"
+#include "Utilities.h"
