@@ -1,12 +1,14 @@
 #include "stdafx.h"
+#include "../core_billiard/MediaPath.h"
+#include < vcclr.h >
 
 using namespace System;
 using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
-namespace TestProject1
-{
+//namespace TestProject1
+//{
     class MyUserNotify: public NXU_userNotify
     {
     public:
@@ -15,25 +17,26 @@ namespace TestProject1
         }
     } userNotify;
 
+
 	[TestClass]
 	public ref class MyPhysXTest
 	{
+    private:
+        static TestContext^ testContext_;
+
 	public: 
         [ClassInitialize()]
         static void MyClassInitialize(TestContext^ testContext)
-        {};
-
-        [ClassCleanup()]
-        static void MyClassCleanup()
-        {};
+        {
+            testContext_ = testContext;
+        };
 
         [TestInitialize()]
         void MyTestInitialize()
-        {};
-
-        [TestCleanup()]
-        void MyTestCleanup()
-        {};
+        {
+            pin_ptr<const wchar_t> deploymentDir = PtrToStringChars( testContext_->TestDeploymentDir );
+            ::SetCurrentDirectory( deploymentDir );
+        };
 
         [TestMethod]
         void Constructor()
@@ -41,31 +44,71 @@ namespace TestProject1
             MyPhysX phys;
 		};
 
+        static wstring getDeployedFilename( wstring filename ) {
+            const size_t dirPos = filename.find_last_of( '\\' );
+            const wstring filenameOnly = filename.c_str() + ( ( dirPos == wstring::npos ) ? 0 : ( dirPos + 1 ) );
+            const wstring deployedFilename = filenameOnly;
+            return deployedFilename;
+        }
+
+        static bool isFileExist( wstring filename ) {
+            std::ifstream ifs1( filename.c_str(), std::ios_base::binary );
+            return ifs1.good();
+        }
+
+        [TestMethod]
+        void FindAssetFile() {
+            const wstring filename = getDeployedFilename( ConstString::colladaPhysXFilename() );
+            Assert::IsTrue( isFileExist( filename ), gcnew String( filename.c_str() ) + " is not found." );
+
+            wchar_t LoadFilename[512];
+            wchar_t * const found = FindMediaFile( filename.c_str(), LoadFilename );
+
+            Assert::IsTrue( NULL != found );
+            Assert::IsTrue( isFileExist( found ), gcnew String( found ) + " is not found." );
+        }
+
         [TestMethod]
         void LoadColladaFile()
         {
-            const wstring filename = ConstString::colladaPhysXFilename();
+            const wstring filename = getDeployedFilename( ConstString::colladaPhysXFilename() );
 
             MyPhysX phys;
             const bool bLoad = phys.loadColladaFile( filename, &userNotify );
             Assert::IsTrue( bLoad );
-            Assert::AreEqual( 2, phys.countActors() );
+            Assert::AreEqual( 2u, phys.countActors() );
+        }
 
-            {
-                NxActor * const actor0 = phys.getActor( 0 );
-                Assert::IsTrue( actor0 != NULL );
-                Assert::AreEqual( gcnew String( L"Sphere01" ),
-                    gcnew String( convertString< string, wstring >( actor0->getName() ).c_str() )
-                );
-            }
+        [TestMethod]
+        void CheckActorNames()
+        {
+            MyPhysX phys;
+            phys.loadColladaFile( getDeployedFilename( ConstString::colladaPhysXFilename() ) );
 
+            array< String^ >^ namesOfActors = { L"Sphere01", L"Box01" };
+            for( size_t i = 0; i < (size_t) namesOfActors->Length; ++i )
             {
-                NxActor * const actor1 = phys.getActor( 1 );
-                Assert::IsTrue( actor1 != NULL );
-                Assert::AreEqual( gcnew String( L"Box01" ),
-                    gcnew String( convertString< string, wstring >( actor1->getName() ).c_str() )
-                );
+                NxActor * const actor = phys.getActor( i );
+
+                Assert::IsTrue( actor != NULL );
+                Assert::AreEqual( namesOfActors[ i ], gcnew String( actor->getName() ) );
             }
+        }
+
+        [TestMethod]
+        void CheckSkinWidth()
+        {
+            MyPhysX phys;
+            phys.loadColladaFile( getDeployedFilename( ConstString::colladaPhysXFilename() ) );
+
+            for( size_t i = 0; i < (size_t) phys.countActors(); ++i )
+            {
+                NxActor * const actor = phys.getActor( i );
+                NxU32 nShapes = actor->getNbShapes();
+                Assert::IsTrue( 1 <= nShapes );
+                Assert::AreEqual( 0.00025, (Double) actor->getShapes()[ 0 ]->getSkinWidth(), 0.00002 );
+            }
+        };
     };
-    };
-}
+
+//}
