@@ -35,7 +35,7 @@ MyPhysX::~MyPhysX()
 bool MyPhysX::loadColladaFile( wstring filename, NXU_userNotify * userNotify ) {
     wchar_t LoadFilename[512];
     FindMediaFile( filename.c_str(), LoadFilename);
-    const string fn = convertString< wstring, string >( LoadFilename );
+    const string fn = convertString< string >( wstring( LoadFilename ) );
 
     NXU::NxuPhysicsCollection * const collection = NXU::loadCollection( fn.c_str(), NXU::FT_COLLADA );
     if( NULL == collection )

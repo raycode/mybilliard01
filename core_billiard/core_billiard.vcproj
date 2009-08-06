@@ -179,15 +179,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MyDae.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MyInterface.h"
 				>
 			</File>
 			<File
 				RelativePath=".\MySmartPtr.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyUtilities.h"
 				>
 			</File>
 			<File

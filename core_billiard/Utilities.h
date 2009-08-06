@@ -109,16 +109,6 @@ __forceinline void	EndProfile(unsigned int& val)
 #endif
 }
 
-template< typename T1, typename T2 >
-T2 convertString( T1 input ) {
-    T2 result;
-    T1::iterator iter = input.begin();
-    for( ; iter != input.end(); ++iter )
-        result.push_back( (T2::value_type) *iter );
-    return result;
-}
-
-
 }
 
 #endif
