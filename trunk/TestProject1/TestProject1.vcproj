@@ -221,6 +221,10 @@
 				RelativePath=".\MyTestingUtility.hpp"
 				>
 			</File>
+			<File
+				RelativePath=".\RendererTest.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Global"

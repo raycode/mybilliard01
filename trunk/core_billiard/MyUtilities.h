@@ -1,5 +1,10 @@
 #pragma once
 
+#define MY_ITERATOR_DECL( CLASS_NAME ) \
+    typedef CLASS_NAME::const_iterator CLASS_NAME##Iterator;\
+    typedef CLASS_NAME::iterator CLASS_NAME##ModifiableIterator;
+
+
 namespace core_billiard {
 
 

@@ -1,11 +1,9 @@
 #include "stdafx.h"
-#include "MyTestingUtility.hpp"
 
 using namespace System;
 using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
-using namespace MyTestingUtility;
 
 //namespace TestProject1
 //{
@@ -221,10 +219,15 @@ public:
 
         for( size_t i = 0; i < sizeof( nodeIDs ) / sizeof( wchar_t* ); ++i ) {
 
-            vector< domMesh * > meshes = loader.getMeshByNodeID( nodeIDs[ i ] );
-
+            Meshs meshes = loader.getMeshByNodeID( nodeIDs[ i ] );
             Assert::AreEqual( 1u, meshes.size() );
-            Assert::AreEqual( getString( geometryIDs[ i ] ) , getString( meshes[ 0 ]->getParentElement()->getID() ) );
+
+            MeshsIterator iterMesh = meshes.find( geometryIDs[ i ] );
+            Assert::IsTrue( iterMesh != meshes.end() );
+
+            domMesh * const mesh = iterMesh->second;
+            Assert::IsTrue( NULL != mesh );
+            Assert::AreEqual( getString( geometryIDs[ i ] ) , getString( mesh->getParentElement()->getID() ) );
         }
     }
 };
