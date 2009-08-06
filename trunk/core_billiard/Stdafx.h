@@ -3,12 +3,10 @@
 #include <stdio.h>
 #include <string>
 
-#pragma warning ( disable : 4819 )
-
 #include "MySmartPtr.h"
 #include "MyInterface.h"
+#include "MyUtilities.h"
 #include "ConstString.h"
-#include "MyDae.h"
 
 namespace core_billiard {
 using namespace std;
