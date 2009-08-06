@@ -2,6 +2,8 @@
 
 #include <stdio.h>
 #include <string>
+#include <vector>
+#include <map>
 
 #include "MySmartPtr.h"
 #include "MyInterface.h"

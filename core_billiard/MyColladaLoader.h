@@ -1,6 +1,12 @@
 #pragma once
 namespace my_collada {
 
+
+typedef wstring GeometryID;
+typedef map< GeometryID, domMesh * > Meshs;
+MY_ITERATOR_DECL( Meshs );
+
+
 class MyColladaLoader {
 public:
     MyColladaLoader( wstring filename );
@@ -11,7 +17,7 @@ public:
     daeElement * idLookup( wstring id );
 
     domVisual_scene * getInstancedVisualScene();
-    vector< domMesh * > getMeshByNodeID( wstring nodeId );
+    Meshs getMeshByNodeID( wstring nodeId );
 
 private:
     const wstring filename_;    

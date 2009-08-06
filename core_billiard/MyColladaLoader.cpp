@@ -33,15 +33,15 @@ domVisual_scene * MyColladaLoader::getInstancedVisualScene()
     return visual_scene;
 }
 
-vector< domMesh * > MyColladaLoader::getMeshByNodeID( wstring nodeId )
+Meshs MyColladaLoader::getMeshByNodeID( wstring nodeId )
 {
     domNode * const node = daeDowncast< domNode >( idLookup( nodeId ) );
     domInstance_geometry_Array instance_geometries = node->getInstance_geometry_array();
 
-    vector< domMesh * > rst;
+    Meshs rst;
     for( size_t i = 0; i < instance_geometries.getCount(); ++i ) {
         domGeometry * const geometry = daeDowncast< domGeometry >( instance_geometries[ i ]->getUrl().getElement() );
-        rst.push_back( &(*geometry->getMesh()) );
+        rst.insert( pair< GeometryID, domMesh * >( convertString< wstring, string >( geometry->getId() ),  &(*geometry->getMesh()) ) );
     }
     return rst;
 }

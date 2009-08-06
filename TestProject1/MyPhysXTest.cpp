@@ -1,11 +1,9 @@
 #include "stdafx.h"
-#include "MyTestingUtility.hpp"
 
 using namespace System;
 using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
-using namespace MyTestingUtility;
 
 //namespace TestProject1
 //{
