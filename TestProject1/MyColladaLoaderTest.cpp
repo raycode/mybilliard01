@@ -16,7 +16,7 @@ private:
     static TestContext^ testContext_;
 
     static wstring getFilename() {
-        return getDeployedFilename( ConstString::colladaVisualAssetFilename() );
+        return getDeployedFilename( L"asset\\1ball1box.dae" );
     }
 
 public: 
@@ -45,7 +45,7 @@ public:
     void FindVisualAssetFile()
     {
         const wstring filename = getFilename();
-        Assert::IsTrue( isFileExist( filename ), gcnew String( filename.c_str() ) + " is not found." );
+        Assert::IsTrue( isFileExist( filename ), getString( filename ) + " is not found." );
     }
 
     [TestMethod]
@@ -73,25 +73,81 @@ public:
         domInstanceWithExtraRef instance_visual_scene = scene->getInstance_visual_scene();
         Assert::IsTrue( NULL != instance_visual_scene );
 
-        String^ url = gcnew String( convertString< wstring >( instance_visual_scene->getUrl().originalStr() ).c_str() );
-        Assert::AreEqual( "#RootNode", url );
+        const xsAnyURI url = instance_visual_scene->getUrl();
+        Assert::AreEqual( "#RootNode", getString( url.originalStr() ) );
     }
 
     [TestMethod]
-    void CheckVisualScenes()
+    void CheckInstanceVisualScene()
     {
         MyColladaLoader loader( getFilename() );
 
-        //daeElement * const vscene = loader.getVisualScene( L"#RootNode" );
-        //Assert::IsTrue( NULL != vscene );
+        domCOLLADA::domScene * const scene = loader.getCOLLADA()->getScene();
+        domInstanceWithExtraRef instance_visual_scene = scene->getInstance_visual_scene();
+        xsAnyURI url = instance_visual_scene->getUrl();
+
+        domVisual_scene * const visual_scene = daeDowncast< domVisual_scene >( url.getElement() );
+        Assert::IsTrue( NULL != visual_scene );
+        Assert::AreEqual( "RootNode", getString( visual_scene->getName() ) );
+    }
+
+    [TestMethod]
+    void CheckVisualScene()
+    {
+        wstring visualSceneId = L"RootNode";
+
+        MyColladaLoader loader( getFilename() );
+
+        domVisual_scene * const visual_scene = daeDowncast< domVisual_scene >( loader.idLookup( visualSceneId ) );
+        Assert::IsTrue( NULL != visual_scene );
+        Assert::AreEqual( getString( visualSceneId ), getString( visual_scene->getName() ) );
+
+        Assert::AreEqual( 2u, visual_scene->getChildren().getCount() );
     }
 
     [TestMethod]
     void CheckVisualSceneNodes()
     {
-        //array< String^ >^ names = { L"Sphere01", L"Box01" };
-
         MyColladaLoader loader( getFilename() );
+
+        wchar_t * const names[] = { L"Sphere01", L"Box01" };
+        for( size_t i = 0; i < sizeof( names ) / sizeof( wchar_t* ); ++i ) {
+            wchar_t * const name = names[ i ];
+
+            domNode * const node = daeDowncast< domNode >( loader.idLookup( name ) );
+            Assert::IsTrue( NULL != node );
+            Assert::AreEqual( getString( name ), getString( node->getName() ) );
+        }
+    }
+
+    [TestMethod]
+    void CheckNodeTranslate()
+    {
+        MyColladaLoader loader( getFilename() );
+
+        wchar_t * const names[] = { L"Sphere01", L"Box01" };
+        float xAxies[] = { 0.f, 0.f };
+        float yAxies[] = { 0.028f, -0.8f };
+        float zAxies[] = { 0.f, 0.f };
+        for( size_t i = 0; i < sizeof( names ) / sizeof( wchar_t* ); ++i ) {
+            domNode * const node = daeDowncast< domNode >( loader.idLookup( names[ i ] ) );
+
+            domTranslate_Array translates = node->getTranslate_array();
+            Assert::AreEqual( 1u, translates.getCount() );
+
+            domTranslate * const translate = translates[0];
+            Assert::IsTrue( NULL != translate );
+
+            const string transData = translate->getCharData();
+            Assert::IsTrue( transData.size() > 1 );
+
+            istringstream iss( transData );
+            float x, y, z;
+            iss >> x >> y >> z;
+            Assert::AreEqual( xAxies[ i ], x, 0.001f );
+            Assert::AreEqual( yAxies[ i ], y, 0.001f );
+            Assert::AreEqual( zAxies[ i ], z, 0.001f );
+        }
     }
 
     [TestMethod]
@@ -100,4 +156,5 @@ public:
         MyColladaLoader loader( getFilename() );
     }
 };
+
 //}
