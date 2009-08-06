@@ -129,6 +129,7 @@ public:
         float xAxies[] = { 0.f, 0.f };
         float yAxies[] = { 0.028f, -0.8f };
         float zAxies[] = { 0.f, 0.f };
+
         for( size_t i = 0; i < sizeof( names ) / sizeof( wchar_t* ); ++i ) {
             domNode * const node = daeDowncast< domNode >( loader.idLookup( names[ i ] ) );
 
@@ -154,6 +155,77 @@ public:
     void CheckGeometries()
     {
         MyColladaLoader loader( getFilename() );
+
+        wchar_t * const names[] = { L"Sphere01", L"Box01" };
+
+        for( size_t i = 0; i < sizeof( names ) / sizeof( wchar_t* ); ++i ) {
+            domNode * const node = daeDowncast< domNode >( loader.idLookup( names[ i ] ) );
+
+            domInstance_geometry_Array instance_geometries = node->getInstance_geometry_array();
+            Assert::IsTrue( instance_geometries.getCount() >= 1 );
+
+            domInstance_geometry * const instance_geometry = instance_geometries[0];
+            Assert::IsTrue( NULL != instance_geometry );
+
+            xsAnyURI url = instance_geometry->getUrl();
+            domGeometry * const geometry = daeDowncast< domGeometry >( url.getElement() );
+            Assert::IsTrue( NULL != geometry );
+
+            domMeshRef mesh_ref = geometry->getMesh();
+            Assert::IsTrue( NULL != mesh_ref );
+
+            Assert::IsTrue( mesh_ref->getSource_array().getCount() >= 2 );
+            Assert::IsTrue( NULL != mesh_ref->getVertices() );
+        }
+    }
+
+    [TestMethod]
+    void CheckGeometryMesh()
+    {
+        MyColladaLoader loader( getFilename() );
+
+        wchar_t * const names[] = { L"Sphere01-lib", L"Box01-lib" };
+
+        for( size_t i = 0; i < sizeof( names ) / sizeof( wchar_t* ); ++i ) {
+            domGeometry * const geometry = daeDowncast< domGeometry >( loader.idLookup( names[ i ] ) );
+            domMeshRef mesh_ref = geometry->getMesh();
+
+            daeTArray<daeElementRef> children = mesh_ref->getChildren();
+            const size_t nbSource = mesh_ref->getSource_array().getCount();
+            const size_t offset = nbSource + 1 /* vertices element */ ;
+            Assert::IsTrue( children.getCount() > offset );
+            Assert::IsTrue( NULL != children[ offset ] );
+
+            Assert::AreEqual( "polygons", getString( children[ offset ]->getElementName() ) );
+        }
+    }
+
+    [TestMethod]
+    void getInstancedVisualScene()
+    {
+        MyColladaLoader loader( getFilename() );
+
+        domVisual_scene * const instanced_visual_scene = loader.getInstancedVisualScene();
+        Assert::IsTrue( NULL != instanced_visual_scene );
+
+        Assert::AreEqual( "RootNode", getString( instanced_visual_scene->getID() ) );
+    }
+
+    [TestMethod]
+    void getMeshByNodeID()
+    {
+        MyColladaLoader loader( getFilename() );
+
+        wchar_t * const nodeIDs[] = { L"Sphere01", L"Box01" };
+        wchar_t * const geometryIDs[] = { L"Sphere01-lib", L"Box01-lib" };
+
+        for( size_t i = 0; i < sizeof( nodeIDs ) / sizeof( wchar_t* ); ++i ) {
+
+            vector< domMesh * > meshes = loader.getMeshByNodeID( nodeIDs[ i ] );
+
+            Assert::AreEqual( 1u, meshes.size() );
+            Assert::AreEqual( getString( geometryIDs[ i ] ) , getString( meshes[ 0 ]->getParentElement()->getID() ) );
+        }
     }
 };
 

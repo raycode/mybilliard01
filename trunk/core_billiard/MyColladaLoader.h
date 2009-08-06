@@ -10,11 +10,15 @@ public:
 
     daeElement * idLookup( wstring id );
 
+    domVisual_scene * getInstancedVisualScene();
+    vector< domMesh * > getMeshByNodeID( wstring nodeId );
+
 private:
     const wstring filename_;    
     const DAEPtr dae_;
     domCOLLADA * collada_;
 };
+
 
 template < typename T1 >
 static T1 * daeDowncast( daeElement * elem ) {
