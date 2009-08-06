@@ -46,13 +46,13 @@ public:
     [TestMethod]
     void FindAssetFile() {
         const wstring filename = getDeployedFilename( ConstString::colladaPhysXFilename() );
-        Assert::IsTrue( isFileExist( filename ), gcnew String( filename.c_str() ) + " is not found." );
+        Assert::IsTrue( isFileExist( filename ), getString( filename ) + " is not found." );
 
         wchar_t LoadFilename[512];
         wchar_t * const found = FindMediaFile( filename.c_str(), LoadFilename );
 
         Assert::IsTrue( NULL != found );
-        Assert::IsTrue( isFileExist( found ), gcnew String( found ) + " is not found." );
+        Assert::IsTrue( isFileExist( found ), getString( found ) + " is not found." );
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public:
             NxActor * const actor = phys.getActor( i );
 
             Assert::IsTrue( actor != NULL );
-            Assert::AreEqual( namesOfActors[ i ], gcnew String( actor->getName() ) );
+            Assert::AreEqual( namesOfActors[ i ], getString( actor->getName() ) );
         }
     }
 

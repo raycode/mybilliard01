@@ -14,4 +14,14 @@ domCOLLADA * MyColladaLoader::getCOLLADA() {
     return collada_;
 }
 
+DAE * MyColladaLoader::getDAE() {
+    return &(*dae_);
+}
+
+daeElement * MyColladaLoader::idLookup( wstring id )
+{
+    return getDAE()->getDatabase()->idLookup( convertString< string >( id ), getCOLLADA()->getDocument() );
+}
+
+
 }
