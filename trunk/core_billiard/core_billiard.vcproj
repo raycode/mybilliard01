@@ -108,7 +108,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="1"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;;&quot;$(SolutionDir)/core_billiard/Tools/NxuStream2&quot;"
 				PreprocessorDefinitions="WIN32;NDEBUG;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -1106,10 +1106,6 @@
 				RelativePath=".\MyPhysX.h"
 				>
 			</File>
-			<File
-				RelativePath=".\Utilities.h"
-				>
-			</File>
 			<Filter
 				Name="CommonCode"
 				>
@@ -1155,6 +1151,10 @@
 				</File>
 				<File
 					RelativePath=".\Timing.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Utilities.h"
 					>
 				</File>
 			</Filter>
@@ -1630,6 +1630,7 @@
 								Name="VCCLCompilerTool"
 								UsePrecompiledHeader="0"
 								WarningLevel="2"
+								WarnAsError="false"
 							/>
 						</FileConfiguration>
 					</File>

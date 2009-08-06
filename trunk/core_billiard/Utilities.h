@@ -15,7 +15,7 @@ namespace my_phys_x {
 #define __forceinline inline __attribute__((always_inline))
 #endif
 
-const char* getNxSDKCreateError(const NxSDKCreateError& errorCode) 
+inline const char* getNxSDKCreateError(const NxSDKCreateError& errorCode) 
 {
 	switch(errorCode) 
 	{
@@ -31,7 +31,7 @@ const char* getNxSDKCreateError(const NxSDKCreateError& errorCode)
 };
 
 
-static void RemoveFileFromPath(char *path)
+inline void RemoveFileFromPath(char *path)
 {
   char *ls = 0;
   while(*path)
@@ -42,7 +42,7 @@ static void RemoveFileFromPath(char *path)
   if(ls) *ls = 0;
 }
 
-static void SetCWDToEXE(void)
+inline void SetCWDToEXE(void)
 {
 #if defined(WIN32)
 
