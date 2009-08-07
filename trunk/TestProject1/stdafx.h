@@ -23,5 +23,6 @@ using namespace my_render_imp;
 //using namespace billiard;
 
 #include "MyTestingUtility.hpp"
+#include "DummyBaseFactory.hpp"
 
 using namespace MyTestingUtility;

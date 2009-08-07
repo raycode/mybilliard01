@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <map>
+#include <list>
 
 #include "my_render.h"
 #include "my_collada.h"
@@ -15,6 +16,8 @@ namespace my_render_imp {
     class RenderImp;
     class SceneImp;
     class NodeImp;
+
+    class BaseFactoryImp;
 
     class GeometryImp;
 
@@ -30,6 +33,8 @@ namespace my_render_imp {
 #include "RenderImp.h"
 #include "SceneImp.h"
 #include "NodeImp.h"
+
+#include "BaseFactoryImp.h"
 
 #include "GeometryImp.h"
 

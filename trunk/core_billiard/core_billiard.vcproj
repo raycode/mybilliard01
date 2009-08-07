@@ -1765,6 +1765,23 @@
 			Name="my_render_imp"
 			>
 			<File
+				RelativePath=".\BaseFactoryImp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="my_render_imp.h"
+						PrecompiledHeaderFile="$(IntDir)\my_render_imp.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\BaseFactoryImp.h"
+				>
+			</File>
+			<File
 				RelativePath=".\GeometryImp.cpp"
 				>
 				<FileConfiguration

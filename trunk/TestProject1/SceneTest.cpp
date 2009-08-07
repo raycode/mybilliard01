@@ -13,6 +13,7 @@ private:
 
 private:
     Scene * scene;
+    BaseFactory * baseFactory;
 
 public: 
     [ClassInitialize()]
@@ -25,11 +26,13 @@ public:
     void MyTestInitialize()
     {
         scene = new SceneImp();
+        baseFactory = new DummyBaseFactory();
         setCurrentDirectory( testContext_ );
     };
 
     [TestCleanup()]
     void MyTestCleanup() {
+        delete baseFactory;
         delete scene;
     };
 
@@ -45,16 +48,16 @@ public:
 
     [TestMethod]
     void loadCollada() {
-        const bool succeed1 = scene->load( getFilename(), NULL );
+        const bool succeed1 = scene->load( getFilename(), baseFactory );
         Assert::IsTrue( succeed1 );
 
-        const bool succeed2 = scene->load( L"./" + getFilename(), NULL );
+        const bool succeed2 = scene->load( L"./" + getFilename(), baseFactory );
         Assert::IsTrue( succeed2 );
 
-        const bool succeed3 = scene->load( L".\\" + getFilename(), NULL );
+        const bool succeed3 = scene->load( L".\\" + getFilename(), baseFactory );
         Assert::IsTrue( succeed3 );
 
-        const bool fail1 = scene->load( L"NoFile.dae", NULL );
+        const bool fail1 = scene->load( L"NoFile.dae", baseFactory );
         Assert::IsFalse( fail1 );
     }
 
@@ -67,7 +70,7 @@ public:
 
     [TestMethod]
     void setRenderUpAxis_LoadFirst() {
-        scene->load( getFilename(), NULL );
+        scene->load( getFilename(), baseFactory );
 
         Render * const render = new RenderImp();
         scene->setRender( render );
@@ -80,7 +83,7 @@ public:
         Render * const render = new RenderImp();
         scene->setRender( render );
 
-        scene->load( getFilename(), NULL );
+        scene->load( getFilename(), baseFactory );
 
         Assert::IsTrue( UPAXISTYPE_Y_UP == render->getUpAxis() );
     }
