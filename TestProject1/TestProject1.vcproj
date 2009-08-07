@@ -225,6 +225,10 @@
 				RelativePath=".\RendererTest.cpp"
 				>
 			</File>
+			<File
+				RelativePath=".\SceneTest.cpp"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Global"

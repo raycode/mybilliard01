@@ -30,22 +30,26 @@ void NodeImp::update( float time ) {
     }
 }
 
-void NodeImp::render( RenderImp * render ) const {
+void NodeImp::render( Render * render ) {
     {
-        RenderImp::MatrixStackPtr matrix = render->createMatrix();
+        RenderMatrix matrix( render );
 
-        InstanceGeometriesIterator iter = instanceGeometries_.begin();
-        for( ; iter != instanceGeometries_.end(); ++iter ) {
-            InstanceGeometry * const instanceGeometry = *iter;
-            Geometry * const geometry = instanceGeometry->getGeometry();
-            geometry->draw( render );
-        }
+        renderInstanceGeometries( render );
     }
 
     if( firstChildren_ )
         firstChildren_->render( render );
     if( nextSibling_ )
         nextSibling_->render( render );
+}
+
+void NodeImp::renderInstanceGeometries( Render * render ) {
+    InstanceGeometriesIterator iter = instanceGeometries_.begin();
+    for( ; iter != instanceGeometries_.end(); ++iter ) {
+        InstanceGeometry * const instanceGeometry = *iter;
+        Geometry * const geometry = instanceGeometry->getGeometry();
+        geometry->draw( render );
+    }
 }
 
 NodeImp::NodeImp()

@@ -11,7 +11,7 @@ public: // from Node
 
 public:
     void update( float time );
-    void render( RenderImp * render ) const;
+    void render( Render * render );
 
     NodeImp();
 
@@ -25,6 +25,7 @@ private: // from Node
     size_t nbChildren_;
 
 private:
+    void renderInstanceGeometries( Render * render );
     InstanceGeometries instanceGeometries_;
 
 private:

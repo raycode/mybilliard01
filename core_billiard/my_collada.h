@@ -10,7 +10,7 @@
 namespace my_collada {
     using namespace std;
     using namespace Loki;
-    using namespace core_billiard;
+    using namespace my_utility;
 
     MY_SMART_PTR( DAE );
 }
