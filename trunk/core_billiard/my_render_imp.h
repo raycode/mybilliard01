@@ -3,13 +3,13 @@
 #include "my_render.h"
 #include "MySmartPtr.h"
 #include "MyUtilities.h"
+#include "my_collada.h"
 
 namespace my_render_imp {
     using namespace std;
+    using namespace my_collada;
     using namespace my_utility;
     using namespace my_render;
-
-    MY_SMART_PTR( DAE );
 
     class RenderImp;
     class SceneImp;
@@ -19,6 +19,8 @@ namespace my_render_imp {
 
     class InstanceImp;
     class InstanceGeometryImp;
+
+    class RenderMatrix;
 
     MY_SMART_PTR( SceneImp );
     MY_SMART_PTR( NodeImp );
@@ -32,3 +34,5 @@ namespace my_render_imp {
 
 #include "InstanceImp.h"
 #include "InstanceGeometryImp.h"
+
+#include "RenderMatrix.h"

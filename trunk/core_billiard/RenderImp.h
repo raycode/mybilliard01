@@ -10,49 +10,15 @@ public:
     virtual int getScreenWidth();
     virtual int getScreenHeight();
 
-    virtual bool load( wstring filename );
     virtual void setUpAxis( domUpAxisType up );
     virtual domUpAxisType getUpAxis();
 
-    virtual bool render();
-
-    virtual Scene * getScene();
-
-public: // matrix
-    INTERFACE_ MatrixStack {
-    public:
-    public: virtual ~MatrixStack() {}
-    };
-    MY_SMART_PTR( MatrixStack );
-
-    MatrixStackPtr createMatrix();
-
-private: // update
-    void updateCamera();
-    void updateSceneGraph();
-
-private: // load
-    static wstring getFilenameOnly( wstring fullFilename );
-    static wstring getPathnameOnly( wstring fullFilename );
-
-    wstring filename_, pathname_;
+    virtual void pushMatrix();
+    virtual void popMatrix();
 
 private:
     domUpAxisType upAxis_;
     int width_, height_;
-    SceneImpPtr scene_;
-
-private: // matrix
-    void pushMatrix();
-    void popMatrix();
-
-    class MatrixStackImp : IMPLEMENTS_ MatrixStack {
-    public:
-        MatrixStackImp( RenderImp * render );
-        ~MatrixStackImp();
-    private:
-        RenderImp * render_;
-    };
 };
 
 }

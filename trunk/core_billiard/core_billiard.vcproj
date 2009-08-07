@@ -1864,6 +1864,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RenderMatrix.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="my_render_imp.h"
+						PrecompiledHeaderFile="$(IntDir)\my_render_imp.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\RenderMatrix.h"
+				>
+			</File>
+			<File
 				RelativePath=".\SceneImp.cpp"
 				>
 				<FileConfiguration
