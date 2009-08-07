@@ -5,7 +5,7 @@
     typedef CLASS_NAME::iterator CLASS_NAME##ModifiableIterator;
 
 
-namespace core_billiard {
+namespace my_utility {
 
 
 template< typename TypeTo, typename TypeFrom >

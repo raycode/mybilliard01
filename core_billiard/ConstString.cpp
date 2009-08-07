@@ -1,5 +1,5 @@
 #include "stdafx.h"
-namespace core_billiard {
+namespace my_utility {
 
 
     // We can change these implementation to be using external XML file.
