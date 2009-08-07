@@ -6,6 +6,18 @@ Node * NodeImp::getParent() {
     return parent_;
 }
 
+wstring NodeImp::getID() {
+    return id_;
+}
+
+wstring NodeImp::getSID() {
+    return sid_;
+}
+
+wstring NodeImp::getName() {
+    return name_;
+}
+
 Node * NodeImp::getNextSibling() {
     return nextSibling_;
 }
@@ -33,7 +45,6 @@ void NodeImp::update( float time ) {
 void NodeImp::render( Render * render ) {
     {
         RenderMatrix matrix( render );
-
         renderInstanceGeometries( render );
     }
 
@@ -44,7 +55,7 @@ void NodeImp::render( Render * render ) {
 }
 
 void NodeImp::renderInstanceGeometries( Render * render ) {
-    InstanceGeometriesIterator iter = instanceGeometries_.begin();
+    InstanceGeometries::const_iterator iter = instanceGeometries_.begin();
     for( ; iter != instanceGeometries_.end(); ++iter ) {
         InstanceGeometry * const instanceGeometry = *iter;
         Geometry * const geometry = instanceGeometry->getGeometry();

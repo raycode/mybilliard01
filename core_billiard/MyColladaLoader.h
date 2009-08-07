@@ -4,7 +4,6 @@ namespace my_collada {
 
 typedef wstring GeometryID;
 typedef map< GeometryID, domMesh * > Meshs;
-MY_ITERATOR_DECL( Meshs );
 
 
 class MyColladaLoader {
@@ -32,6 +31,7 @@ static T1 * daeDowncast( daeElement * elem ) {
     if( T1::ID() != elem->typeID() ) return NULL;
     return (T1*) elem;
 }
+
 
 
 }

@@ -10,8 +10,4 @@ public: virtual ~InstanceGeometry() {}
 };
 
 
-typedef vector< InstanceGeometry * > InstanceGeometries;
-MY_ITERATOR_DECL( InstanceGeometries );
-
-
 }

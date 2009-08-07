@@ -222,7 +222,7 @@ public:
             Meshs meshes = loader.getMeshByNodeID( nodeIDs[ i ] );
             Assert::AreEqual( 1u, meshes.size() );
 
-            MeshsIterator iterMesh = meshes.find( geometryIDs[ i ] );
+            Meshs::const_iterator iterMesh = meshes.find( geometryIDs[ i ] );
             Assert::IsTrue( iterMesh != meshes.end() );
 
             domMesh * const mesh = iterMesh->second;
