@@ -45,22 +45,43 @@ public:
 
     [TestMethod]
     void loadCollada() {
-        DAEPtr dae;
-        dae = DAEPtr( new DAE() );
-        domCOLLADA * const collada = dae->open( convertString< string >( getFilename() ).c_str() );
-        Assert::IsTrue( NULL != collada );
+        const bool succeed1 = scene->load( getFilename(), NULL );
+        Assert::IsTrue( succeed1 );
 
-        Scene * const scene_ = new SceneImp();
-        scene_->load( getFilename() );
-        /*Assert::IsTrue( succeed1 );*/
+        const bool succeed2 = scene->load( L"./" + getFilename(), NULL );
+        Assert::IsTrue( succeed2 );
 
-        //const bool succeed2 = scene->load( L"./" + getFilename() );
-        //Assert::IsTrue( succeed2 );
+        const bool succeed3 = scene->load( L".\\" + getFilename(), NULL );
+        Assert::IsTrue( succeed3 );
 
-        //const bool succeed3 = scene->load( L".\\" + getFilename() );
-        //Assert::IsTrue( succeed3 );
+        const bool fail1 = scene->load( L"NoFile.dae", NULL );
+        Assert::IsFalse( fail1 );
+    }
 
-        //const bool fail1 = scene->load( L"NoFile.dae" );
-        //Assert::IsFalse( fail1 );
+    [TestMethod]
+    void setRender() {
+        Render * const render = new RenderImp();
+        scene->setRender( render );
+        Assert::IsTrue( render == scene->getRender() );
+    }
+
+    [TestMethod]
+    void setRenderUpAxis_LoadFirst() {
+        scene->load( getFilename(), NULL );
+
+        Render * const render = new RenderImp();
+        scene->setRender( render );
+
+        Assert::IsTrue( UPAXISTYPE_Y_UP == render->getUpAxis() );
+    }
+
+    [TestMethod]
+    void setRenderUpAxis_SetFirst() {
+        Render * const render = new RenderImp();
+        scene->setRender( render );
+
+        scene->load( getFilename(), NULL );
+
+        Assert::IsTrue( UPAXISTYPE_Y_UP == render->getUpAxis() );
     }
 };

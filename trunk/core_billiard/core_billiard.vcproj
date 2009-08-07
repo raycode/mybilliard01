@@ -179,14 +179,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MyInterface.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MySmartPtr.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MyUtilities.h"
 				>
 			</File>
@@ -1714,6 +1706,18 @@
 		<Filter
 			Name="my_render"
 			>
+			<File
+				RelativePath=".\Base.h"
+				>
+			</File>
+			<File
+				RelativePath=".\BaseFactory.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Camera.h"
+				>
+			</File>
 			<File
 				RelativePath=".\Geometry.h"
 				>

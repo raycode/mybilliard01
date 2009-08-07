@@ -4,7 +4,7 @@
 #include "dae.h"
 #include "dom/domCOLLADA.h"
 
-#include "MySmartPtr.h"
+#include "MyUtilities.h"
 
 
 namespace my_collada {

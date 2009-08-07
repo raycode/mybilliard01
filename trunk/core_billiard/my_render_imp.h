@@ -1,8 +1,9 @@
 #pragma once
 
+#include <vector>
+#include <map>
+
 #include "my_render.h"
-#include "MySmartPtr.h"
-#include "MyUtilities.h"
 #include "my_collada.h"
 
 namespace my_render_imp {

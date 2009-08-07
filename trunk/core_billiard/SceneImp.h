@@ -4,7 +4,7 @@ namespace my_render_imp {
 
 class SceneImp : IMPLEMENTS_ Scene {
 public: // from Scene
-    virtual bool load( wstring filename );
+    virtual bool load( wstring filename, BaseFactory * factory );
 
     virtual void setRender( Render * render );
     virtual Render * getRender() { return render_; }
@@ -12,37 +12,69 @@ public: // from Scene
     virtual void update();
     virtual void render();
 
-private: // load
-    static wstring getFilenameOnly( wstring fullFilename );
-    static wstring getPathnameOnly( wstring fullFilename );
+    virtual vector< wstring > getVisualSceneIDs();
+    virtual wstring getDefaultVisualSceneID();
 
-    wstring filename_, pathname_;
+    virtual wstring getCurrentVisualSceneID();
+    virtual bool setCurrentVisualScene( wstring sceneID );
+
+    SceneImp();
+
+private: // initRender
+    bool initRender();
+    static void initRenderUpAxis( Render * render, domCOLLADA * collada );
 
 private: // load
     void loadLibraryImagesArray();
     void loadLibraryEffectsArray();
     void loadLibraryMaterialsArray();
     void loadLibraryAnimationsArray();
-    void loadInstanceVisualScene();
+    void loadLibraryVisualScenesArray();
+    void loadLibraryScene();
 
     void addDefaultLight();
     void addDefaultCamera();
 
+private: // retrieve data
+    daeElement * idLookup( wstring id );
+    Node * getNode( wstring nodeID );
+
+    Geometry * getGeometryByID( wstring id );
+    Geometry * getGeometryByName( wstring name );
+
 private: // update
-    float calculateTimeDelta();
+    float updateTimeDelta();
     void updateTransformWithPhysics( float timeDelta );
     void updateCamera( float timeDelta );
     void updateSceneGraph( float timeDelta );
 
-private: // setRender
-    void setRenderUpAxis( Render * render );
+private: // load
+    static wstring getFilenameOnly( wstring fullFilename );
+    static wstring getPathnameOnly( wstring fullFilename );
+    wstring filename_, pathname_;
 
 private:
+    Render * render_;
     DAEPtr dae_;
     domCOLLADA * collada_;
-    NodeImp * sceneRoot_;
+    BaseFactory * baseFactory_;
 
-    Render * render_;
+private: // runtime database
+    typedef vector< Geometry * > Geometries;
+    typedef map< wstring, Node * > VisualScenes;
+    typedef map< wstring, Node * > Nodes;
+
+    Geometries geometries_;
+    VisualScenes visualScenes_;
+    Nodes nodes_;
+
+private:
+    Node * currentScene_;
+    Camera * currentCamera_;
+
+private: // I cannot came up with better names
+    void appendNodes( Node * node );
+
 };
 
 
