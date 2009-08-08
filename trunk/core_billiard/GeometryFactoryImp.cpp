@@ -11,7 +11,9 @@ Geometry * GeometryFactoryImp::find( wstring id ) {
     return NULL;
 }
 
-void GeometryFactoryImp::release( Geometry * ) {
+void GeometryFactoryImp::release( Geometry * obj ) {
+    if( NULL == obj ) return;
+
     // TODO
 }
 

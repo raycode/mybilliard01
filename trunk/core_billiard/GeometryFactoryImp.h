@@ -14,7 +14,7 @@ private:
     InstanceResolver * instanceResolver_;
 
 private:
-    typedef list< GeometryPtr > CreatedObjects;
+    typedef list< GeometryImpPtr > CreatedObjects;
     CreatedObjects createdObjects_;
 };
 

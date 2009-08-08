@@ -10,14 +10,14 @@ public: // from Factory
 
 public: // from InstanceResolver
     virtual Base * resolveInstanceUrl( wstring id );
-    virtual Instance * createInstance( string url );
+    virtual Instance * createInstance( wstring url, Base * owner );
     virtual void releaseInstance( Instance * );
 
 public:
     FactoryImp();
 
 private: // instances
-    typedef list< InstancePtr > Instances;
+    typedef list< InstanceImpPtr > Instances;
     Instances instances_;
 
 private: // sub-factories

@@ -2,6 +2,8 @@
 namespace my_render_imp {
 
 void NodeFactoryImp::release( Node * ptr ) {
+    if( NULL == ptr ) return;
+
     MY_FOR_EACH( CreatedObjects, iter, createdObjects_ ) {
         if( (&**iter) != ptr ) continue;
 
@@ -28,7 +30,7 @@ NodeImp * NodeFactoryImp::createNode( string id, string name, string sid, NodeIm
 
     NodeImp * const newNode = new NodeImp();
     if( NULL == newNode ) return NULL;
-    createdObjects_.push_back( NodePtr( newNode ) );
+    createdObjects_.push_back( NodeImpPtr( newNode ) );
 
     newNode->setID( convertString( id ) );
     newNode->setName( convertString( name ) );
@@ -84,10 +86,10 @@ void NodeFactoryImp::readNodeInstanceGeometries( NodeImp * newNode, domNodeRef n
     domInstance_geometry_Array igeos = node->getInstance_geometry_array();
     for (size_t i = 0; i < igeos.getCount(); ++i )
     {
-        Instance * const instance = instanceResolver_->createInstance( igeos[i]->getUrl().originalStr() );
+        const wstring url = convertString( igeos[i]->getUrl().originalStr() );
+        Instance * const instance = instanceResolver_->createInstance( url, newNode );
         if( NULL == instance ) continue;
 
-        instance->setInstanceOwner( newNode );
         newNode->appendInstanceGeometry( instance );
     }
 }
