@@ -42,6 +42,7 @@ NodeImp * NodeFactoryImp::createNode( string id, string name, string sid, NodeIm
 
 Node * NodeFactoryImp::createVisualScene( domVisual_sceneRef scene ) {
     NodeImp * const rootNode = createNode( scene->getName(), scene->getId(), "", NULL );
+    if( NULL == rootNode ) return NULL;
 
     for( size_t i = 0; i < scene->getNode_array().getCount(); ++i ) {
         domNodeRef nodes = scene->getNode_array()[ i ];

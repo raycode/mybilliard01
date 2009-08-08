@@ -6,16 +6,8 @@ Node * NodeImp::getParent() {
     return parent_;
 }
 
-wstring NodeImp::getID() {
-    return id_;
-}
-
 wstring NodeImp::getSID() {
     return sid_;
-}
-
-wstring NodeImp::getName() {
-    return name_;
 }
 
 Node * NodeImp::getNextSibling() {
@@ -30,16 +22,8 @@ size_t NodeImp::getNbChild() {
     return nbChildren_;
 }
 
-void NodeImp::setID( wstring id ) {
-    id_ = id;
-}
-
 void NodeImp::setSID( wstring sid ) {
     sid_ = sid;
-}
-
-void NodeImp::setName( wstring name ) {
-    name_ = name;
 }
 
 void NodeImp::setParent( NodeImp * parent ) {

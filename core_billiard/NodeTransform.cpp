@@ -25,28 +25,31 @@ NodeTransformType NodeTransform::getType( wstring nameType ) {
     return (ENodeTransformUnknown); 
 }
 
-void NodeTransform::setTranslate( NxVec3 ) {
-
+void NodeTransform::setTranslate( NxVec3 translate ) {
+    vector_ = translate;
 }
 
 void NodeTransform::setRotate( NxVec3 dir, NxReal angle ) {
-
+    vector_ = dir;
+    rotationAngle_ = angle;
 }
 
-void NodeTransform::setScale( NxVec3 ) {
-
+void NodeTransform::setScale( NxVec3 scale ) {
+    vector_ = scale;
 }
 
-void NodeTransform::setLookAt( NxVec3 v[] ) {
-
+void NodeTransform::setLookAt( NxVec3 lookAt[] ) {
+    lookAt_[ELookAtLook] = lookAt[ELookAtLook];
+    lookAt_[ELookAtEye] = lookAt[ELookAtEye];
+    lookAt_[ELookAtUp] = lookAt[ELookAtUp];
 }
 
-void NodeTransform::setMatrix( NxMat34 m ) {
-
+void NodeTransform::setMatrix( NxMat34 mat ) {
+    matrix_ = mat;
 }
 
 void NodeTransform::setSid( wstring sid ) {
-
+    sid_ = sid;
 }
 
 }

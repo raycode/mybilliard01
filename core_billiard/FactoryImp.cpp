@@ -18,10 +18,16 @@ FactoryImp::FactoryImp()
 }
 
 Node * FactoryImp::createVisualScene( domVisual_sceneRef vscene ) {
+    Node * const found = nodeFactory_->find( convertString( vscene->getId() ) );
+    if( found ) return NULL;
+
     return nodeFactory_->createVisualScene( vscene );
 }
 
 Geometry * FactoryImp::createGeometry( domGeometryRef geo ) {
+    Geometry * const found = geometryFactory_->find( convertString( geo->getId() ) );
+    if( found ) return NULL;
+
     return geometryFactory_->createGeometry( geo );
 }
 
@@ -40,8 +46,13 @@ Instance * FactoryImp::createInstance( wstring url, Base * owner ) {
     return instance;
 }
 
-void FactoryImp::releaseInstance( Instance * ) {
+void FactoryImp::releaseInstance( Instance * ptr ) {
+    MY_FOR_EACH( Instances, iter, instances_ ) {
+        if( &**iter != ptr ) continue;
 
+        instances_.erase( iter );
+        break;
+    }
 }
 
 

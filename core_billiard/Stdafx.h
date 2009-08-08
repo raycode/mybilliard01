@@ -10,7 +10,6 @@
 
 namespace core_billiard {
     using namespace std;
-    using namespace Loki;
     using namespace my_utility;
 
     

@@ -16,6 +16,7 @@ namespace my_render_imp {
     class RenderImp;
     class SceneImp;
 
+    class BaseImp;
     class NodeImp;
     class GeometryImp;
 
@@ -46,6 +47,7 @@ namespace my_render_imp {
 #include "RenderImp.h"
 #include "SceneImp.h"
 
+#include "BaseImp.h"
 #include "NodeImp.h"
 #include "GeometryImp.h"
 

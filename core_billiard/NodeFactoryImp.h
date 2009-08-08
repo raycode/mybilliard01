@@ -1,7 +1,7 @@
 #pragma once
 namespace my_render_imp {
 
-class NodeFactoryImp : IMPLEMENTS_ NodeFactory {
+class NodeFactoryImp : IMPLEMENTS_( NodeFactory ) {
 public: // from NodeFactory
     virtual Node * createVisualScene( domVisual_sceneRef );
     virtual Node * find( wstring id );
@@ -29,13 +29,11 @@ private: // read transform
     bool readNodeTransformLookAt( NodeTransform * transform, domElement * content );
     bool readNodeTransformMatrix( NodeTransform * transform, domElement * content );
 
-private: // create
-    NodeImp * createNode( string id, string name, string sid, NodeImp * parent );
-
 private:
     InstanceResolver * instanceResolver_;
 
-private:
+private: // create
+    NodeImp * createNode( string id, string name, string sid, NodeImp * parent );
     typedef list< NodeImpPtr > CreatedObjects;
     CreatedObjects createdObjects_;
 };

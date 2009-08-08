@@ -1,7 +1,10 @@
 #pragma once
 namespace my_render_imp {
 
-class FactoryImp : IMPLEMENTS_ Factory, IMPLEMENTS_ InstanceResolver {
+
+// template policy style for sub-factories is possible
+// but I don't want to expose implementations on a header file.
+class FactoryImp : IMPLEMENTS_( Factory ), IMPLEMENTS_( InstanceResolver ) {
 public: // from Factory
     virtual Node * createVisualScene( domVisual_sceneRef );
     virtual Geometry * createGeometry( domGeometryRef );
@@ -24,5 +27,6 @@ private: // sub-factories
     NodeFactoryPtr nodeFactory_;
     GeometryFactoryPtr geometryFactory_;
 };
+
 
 }

@@ -17,7 +17,7 @@ void SceneImp::render() {
 
 bool SceneImp::load( wstring filename, Factory * factory ) {
     if( NULL == factory ) return false;
-    baseFactory_ = factory;
+    factory_ = factory;
 
     dae_ = DAEPtr( new DAE() );
 
@@ -31,6 +31,7 @@ bool SceneImp::load( wstring filename, Factory * factory ) {
     loadLibraryEffectsArray();
     loadLibraryMaterialsArray();
     loadLibraryAnimationsArray();
+    loadLibraryGeometriesArray();
     loadLibraryVisualScenesArray();
     loadLibraryScene();
 
@@ -111,11 +112,33 @@ void SceneImp::loadLibraryVisualScenesArray() {
             if( NULL == vscene ) continue;
 
             const wstring nodeID = convertString( vscene->getId() );
-            Node * newNode = baseFactory_->createVisualScene( vscene );
+            Node * const newNode = factory_->createVisualScene( vscene );
             if( NULL == newNode ) continue;
 
             visualScenes_.insert( VisualScenes::value_type( nodeID, newNode ) );
             appendNodes( newNode );
+        }
+    }
+}
+
+void SceneImp::loadLibraryGeometriesArray() {
+    domLibrary_geometries_Array geosArray = collada_->getLibrary_geometries_array();
+    for( size_t i = 0; i < geosArray.getCount(); ++i ) {
+        domLibrary_geometriesRef geos = geosArray[ i ];
+        if( NULL == geos ) continue;
+
+        domGeometry_Array geoArray = geos->getGeometry_array();
+        for( size_t j = 0; j < geoArray.getCount(); ++ j ) {
+            domGeometryRef geo = geoArray[ j ];
+            if( NULL == geo ) continue;
+
+            const wstring geoID = convertString( geo->getId() );
+            if( geoID.empty() ) continue;
+
+            Geometry * const newGeo = factory_->createGeometry( geo );
+            if( NULL == geo ) continue;
+
+            geometries_.push_back( newGeo );
         }
     }
 }

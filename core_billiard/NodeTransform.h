@@ -18,11 +18,15 @@ class NodeTransform
 {
 private:
     NodeTransformType type_;
+
+private:
     NxVec3 vector_; // this will store axis rotation, translation or scale 
     NxReal rotationAngle_;
-    NodeAnimation * animation_;
-    NodeAnimation lookAt_[3]; // this will store lookAt, eyePoint and up 
+    NxVec3 lookAt_[3]; // this will store lookAt, eyePoint and up 
     NxMat34 matrix_;  
+
+private:
+    NodeAnimation * animation_;
     wstring sid_;
 
 public: // type
@@ -31,10 +35,14 @@ public: // type
     static	NodeTransformType getType( wstring nameType ); 
 
 public: // get
-    NxVec3 &getVecTrans() { return vector_;} // this will be rot,trans or scale depending on type	
-    NodeAnimation * getLookAt() { return lookAt_;} 
+    NxVec3 & getTranslate() { return vector_;}
+    NxVec3 & getRotateDirection() { return vector_; }
+    NxReal & getRotationAngle() { return rotationAngle_; }
+    NxVec3 & getScale() { return vector_; }
+    NxVec3 * getLookAt() { return lookAt_;} 
+    NxMat34 & getMatrix() { return matrix_; }
     NodeAnimation * getAnimation() {return animation_; }
-    NxMat34 &getMatrix() { return matrix_; }
+    wstring getSid() { return sid_; }
 
 public: // set
     NodeTransform();
@@ -43,10 +51,8 @@ public: // set
     void setScale( NxVec3 );  
     void setLookAt( NxVec3 v[] ); 
     void setMatrix( NxMat34 m ); 
-
     void setAnimation( NodeAnimation * anim ) { animation_ = anim; }; 
     void setSid( wstring sid ); 
-    wstring getSid() { return sid_; }
 };
 
 }

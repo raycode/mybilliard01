@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class RenderImp : IMPLEMENTS_ Render {
+class RenderImp : IMPLEMENTS_( Render ) {
 public:
     virtual void setScreenWidth( int width );
     virtual void setScreenHeight( int height );
