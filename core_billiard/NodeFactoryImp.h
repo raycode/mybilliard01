@@ -28,7 +28,7 @@ private:
     InstanceResolver * instanceResolver_;
 
 private:
-    typedef list< NodePtr > CreatedObjects;
+    typedef list< NodeImpPtr > CreatedObjects;
     CreatedObjects createdObjects_;
 };
 

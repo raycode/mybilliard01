@@ -23,7 +23,7 @@ void InstanceImp::setInstanceOwner( Base * owner ) {
     instanceOwner_ = owner;
 }
 
-void InstanceImp::setUrlID( wstring url ) {
+void InstanceImp::setUrl( wstring url ) {
     url_ = url;
 }
 
