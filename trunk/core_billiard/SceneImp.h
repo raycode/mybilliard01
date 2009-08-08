@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class SceneImp : IMPLEMENTS_ Scene {
+class SceneImp : IMPLEMENTS_( Scene ) {
 public: // from Scene
     virtual bool load( wstring filename, Factory * factory );
 
@@ -29,6 +29,7 @@ private: // load
     void loadLibraryEffectsArray();
     void loadLibraryMaterialsArray();
     void loadLibraryAnimationsArray();
+    void loadLibraryGeometriesArray();
     void loadLibraryVisualScenesArray();
     void loadLibraryScene();
 
@@ -57,7 +58,7 @@ private:
     Render * render_;
     DAEPtr dae_;
     domCOLLADA * collada_;
-    Factory * baseFactory_;
+    Factory * factory_;
 
 private: // runtime database
     typedef vector< Geometry * > Geometries;

@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class InstanceImp : IMPLEMENTS_ Instance {
+class InstanceImp : IMPLEMENTS_( Instance ) {
 public: // from Instance
     virtual Base * getInstanceOwner();
     virtual wstring getUrl();

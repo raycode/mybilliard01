@@ -57,5 +57,8 @@ namespace Loki {}
 #endif
 
 
+#pragma warning ( disable : 4250 )
+
 #define INTERFACE_ class
-#define IMPLEMENTS_ virtual public
+#define IMPLEMENTS_( INTERFACE_NAME ) public virtual INTERFACE_NAME
+#define EXTENDS_INTERFACE_( INTERFACE_NAME ) public virtual INTERFACE_NAME

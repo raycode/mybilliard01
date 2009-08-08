@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class GeometryImp : IMPLEMENTS_ Geometry {
+class GeometryImp : public BaseImp, IMPLEMENTS_( Geometry ) {
 public:
     virtual void draw( Render * render );
 };

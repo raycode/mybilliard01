@@ -2,7 +2,7 @@
 namespace my_render {
 
 
-INTERFACE_ Geometry : public Base {
+INTERFACE_ Geometry : EXTENDS_INTERFACE_( Base ) {
 public:
     virtual void draw( Render * render ) = 0;
 

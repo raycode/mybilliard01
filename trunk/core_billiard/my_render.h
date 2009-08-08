@@ -45,10 +45,12 @@ namespace my_render {
     MY_SMART_PTR( Geometry );
 }
 
-#include "Base.h"
 #include "Render.h"
 #include "Scene.h"
+
+#include "Base.h"
 #include "Node.h"
+#include "Camera.h"
 
 #include "Factory.h"
 #include "NodeFactory.h"
