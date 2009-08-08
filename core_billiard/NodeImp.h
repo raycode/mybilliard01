@@ -17,7 +17,17 @@ public: // from Node
     virtual void update( float time );
     virtual void render( Render * render );
 
+public: // initialize
     NodeImp();
+
+    void setID( wstring id );
+    void setSID( wstring sid );
+    void setName( wstring name );
+    void setParent( NodeImp * parent );
+    void setNextSibling( NodeImp * nextSibling );
+    void appendChild( NodeImp * child );
+
+    void appendInstanceGeometry( Instance * instanceGeometry );
 
 public: // update
     void updateOrient( float time );
@@ -32,11 +42,12 @@ private: // from Node
     NodeImp * firstChildren_;
     size_t nbChildren_;
 
-private: // render
-    typedef vector< InstanceGeometry * > InstanceGeometries;
+private: // instance
+    typedef vector< Instance * > Instances;
+    Instances instanceGeometries_;
 
+private: // render
     void renderInstanceGeometries( Render * render );
-    InstanceGeometries instanceGeometries_;
 
 private:
     bool isNeedToUpdate() const;

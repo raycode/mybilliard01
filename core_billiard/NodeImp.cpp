@@ -30,6 +30,40 @@ size_t NodeImp::getNbChild() {
     return nbChildren_;
 }
 
+void NodeImp::setID( wstring id ) {
+    id_ = id;
+}
+
+void NodeImp::setSID( wstring sid ) {
+    sid_ = sid;
+}
+
+void NodeImp::setName( wstring name ) {
+    name_ = name;
+}
+
+void NodeImp::setParent( NodeImp * parent ) {
+    parent_ = parent;
+}
+
+void NodeImp::setNextSibling( NodeImp * nextSibling ) {
+    nextSibling_ = nextSibling;
+}
+
+void NodeImp::appendChild( NodeImp * child ) {
+    if ( NULL == firstChildren_ )
+	    firstChildren_ = child; 
+    else
+    {
+	    child->setNextSibling( firstChildren_ ); 
+	    firstChildren_ = child; 
+    }
+
+    nbChildren_++; 
+}
+
+
+
 void NodeImp::update( float time ) {
     if( false == isNeedToUpdate() ) return;
 
@@ -55,11 +89,10 @@ void NodeImp::render( Render * render ) {
 }
 
 void NodeImp::renderInstanceGeometries( Render * render ) {
-    InstanceGeometries::const_iterator iter = instanceGeometries_.begin();
-    for( ; iter != instanceGeometries_.end(); ++iter ) {
-        InstanceGeometry * const instanceGeometry = *iter;
-        Geometry * const geometry = instanceGeometry->getGeometry();
-        geometry->draw( render );
+    MY_FOR_EACH( Instances, iter, instanceGeometries_ ) {
+        Instance * const igeo = *iter;
+        Geometry * const geo = renderDowncast< Geometry >( igeo->getResolvedReferrence() );
+        geo->draw( render );
     }
 }
 
@@ -86,6 +119,10 @@ bool NodeImp::isNeedToUpdate() const {
 
 void NodeImp::updateLocalMatrix() {
 
+}
+
+void NodeImp::appendInstanceGeometry( Instance * instanceGeometry ) {
+    instanceGeometries_.push_back( instanceGeometry );
 }
 
 }

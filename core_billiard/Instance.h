@@ -2,9 +2,13 @@
 namespace my_render {
 
 
-INTERFACE_ Instance {
+INTERFACE_ Instance : public Base {
 public:
-    virtual Node * getInstanceOwner() = 0;
+    virtual Base * getInstanceOwner() = 0;
+    virtual void setInstanceOwner( Base * owner ) = 0;
+
+    virtual wstring getUrlID() = 0;
+    virtual Base * getResolvedReferrence() = 0;
 
 public: virtual ~Instance() {}
 };

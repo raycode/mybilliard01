@@ -4,7 +4,7 @@ namespace my_render_imp {
 
 class SceneImp : IMPLEMENTS_ Scene {
 public: // from Scene
-    virtual bool load( wstring filename, BaseFactory * factory );
+    virtual bool load( wstring filename, Factory * factory );
 
     virtual void setRender( Render * render );
     virtual Render * getRender() { return render_; }
@@ -57,7 +57,7 @@ private:
     Render * render_;
     DAEPtr dae_;
     domCOLLADA * collada_;
-    BaseFactory * baseFactory_;
+    Factory * baseFactory_;
 
 private: // runtime database
     typedef vector< Geometry * > Geometries;

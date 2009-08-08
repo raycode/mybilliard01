@@ -13,7 +13,7 @@ private:
 
 private:
     Scene * scene;
-    BaseFactory * baseFactory;
+    Factory * baseFactory;
 
 public: 
     [ClassInitialize()]

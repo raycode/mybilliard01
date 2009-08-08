@@ -21,22 +21,26 @@ namespace my_render {
     class Node;
     class Camera;
 
-    class BaseFactory;
+    class Factory;
+    class NodeFactory;
+    class GeometryFactory;
+    class Instance;
+    class InstanceResolver;
 
     class Geometry;
 
-    class Instance;
-    class InstanceGeometry;
 
     MY_SMART_PTR( Render );
     MY_SMART_PTR( Scene );
     MY_SMART_PTR( Base );
     MY_SMART_PTR( Node );
     MY_SMART_PTR( Camera );
-    MY_SMART_PTR( BaseFactory );
-    MY_SMART_PTR( Geometry );
+    MY_SMART_PTR( Factory );
+    MY_SMART_PTR( NodeFactory );
+    MY_SMART_PTR( GeometryFactory );
     MY_SMART_PTR( Instance );
-    MY_SMART_PTR( InstanceGeometry );
+    MY_SMART_PTR( InstanceResolver );
+    MY_SMART_PTR( Geometry );
 }
 
 #include "Base.h"
@@ -44,11 +48,11 @@ namespace my_render {
 #include "Scene.h"
 #include "Node.h"
 
-#include "BaseFactory.h"
+#include "Factory.h"
+#include "NodeFactory.h"
+#include "GeometryFactory.h"
+#include "Instance.h"
+#include "InstanceResolver.h"
 
 #include "Geometry.h"
-
-#include "Instance.h"
-#include "InstanceGeometry.h"
-
 
