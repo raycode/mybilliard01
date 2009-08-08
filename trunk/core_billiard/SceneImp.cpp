@@ -15,7 +15,7 @@ void SceneImp::render() {
     currentScene_->render( getRender() );
 }
 
-bool SceneImp::load( wstring filename, BaseFactory * factory ) {
+bool SceneImp::load( wstring filename, Factory * factory ) {
     if( NULL == factory ) return false;
     baseFactory_ = factory;
 

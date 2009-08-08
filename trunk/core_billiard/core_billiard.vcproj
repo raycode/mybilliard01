@@ -1711,11 +1711,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\BaseFactory.h"
+				RelativePath=".\Camera.h"
 				>
 			</File>
 			<File
-				RelativePath=".\Camera.h"
+				RelativePath=".\Factory.h"
 				>
 			</File>
 			<File
@@ -1723,11 +1723,15 @@
 				>
 			</File>
 			<File
+				RelativePath=".\GeometryFactory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Instance.h"
 				>
 			</File>
 			<File
-				RelativePath=".\InstanceGeometry.h"
+				RelativePath=".\InstanceResolver.h"
 				>
 			</File>
 			<File
@@ -1753,6 +1757,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\NodeFactory.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Render.h"
 				>
 			</File>
@@ -1765,7 +1773,7 @@
 			Name="my_render_imp"
 			>
 			<File
-				RelativePath=".\BaseFactoryImp.cpp"
+				RelativePath=".\FactoryImp.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -1778,7 +1786,24 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\BaseFactoryImp.h"
+				RelativePath=".\FactoryImp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\GeometryFactoryImp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="my_render_imp.h"
+						PrecompiledHeaderFile="$(IntDir)\my_render_imp.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\GeometryFactoryImp.h"
 				>
 			</File>
 			<File
@@ -1796,23 +1821,6 @@
 			</File>
 			<File
 				RelativePath=".\GeometryImp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\InstanceGeometryImp.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="my_render_imp.h"
-						PrecompiledHeaderFile="$(IntDir)\my_render_imp.pch"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\InstanceGeometryImp.h"
 				>
 			</File>
 			<File
@@ -1848,6 +1856,23 @@
 			</File>
 			<File
 				RelativePath=".\my_render_imp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NodeFactoryImp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="my_render_imp.h"
+						PrecompiledHeaderFile="$(IntDir)\my_render_imp.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\NodeFactoryImp.h"
 				>
 			</File>
 			<File

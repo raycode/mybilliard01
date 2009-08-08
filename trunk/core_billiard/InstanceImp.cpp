@@ -2,5 +2,29 @@
 namespace my_render_imp {
 
 
+Base * InstanceImp::getInstanceOwner() {
+    return instanceOwner_;
+}
+
+wstring InstanceImp::getUrl() {
+    return url_;
+}
+
+Base * InstanceImp::getResolvedReferrence() {
+    return resolver_->resolveInstanceID( getUrl() );
+}
+
+InstanceImp::InstanceImp( InstanceResolver * resolver )
+: resolver_( resolver ), instanceOwner_( NULL )
+{
+}
+
+void InstanceImp::setInstanceOwner( Base * owner ) {
+    instanceOwner_ = owner;
+}
+
+void InstanceImp::setUrlID( wstring url ) {
+    url_ = url;
+}
 
 }

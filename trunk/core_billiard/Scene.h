@@ -3,7 +3,7 @@ namespace my_render {
 
 INTERFACE_ Scene {
 public:
-    virtual bool load( wstring filename, BaseFactory * factory ) = 0;
+    virtual bool load( wstring filename, Factory * factory ) = 0;
 
     virtual void setRender( Render * render ) = 0;
     virtual Render * getRender() = 0;
