@@ -14,6 +14,8 @@ public:
 
     virtual void pushMatrix() = 0;
     virtual void popMatrix() = 0;
+    virtual void loadIdentity() = 0;
+    virtual void multMatrix( NxMat34 ) = 0;
 
 public: virtual ~Render() {}
 };

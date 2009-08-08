@@ -15,6 +15,8 @@ public:
 
     virtual void pushMatrix();
     virtual void popMatrix();
+    virtual void loadIdentity();
+    virtual void multMatrix( NxMat34 rhs );
 
 private:
     domUpAxisType upAxis_;

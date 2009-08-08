@@ -33,5 +33,13 @@ void RenderImp::popMatrix() {
 
 }
 
+void RenderImp::loadIdentity() {
+
+}
+
+void RenderImp::multMatrix( NxMat34 rhs ) {
+    
+}
+
 
 }
