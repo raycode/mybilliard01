@@ -5,8 +5,6 @@ using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
-namespace TestProject1
-{
 	[TestClass]
 	public ref class NodeTest
 	{
@@ -60,4 +58,3 @@ namespace TestProject1
 			//
 		};
 	};
-}

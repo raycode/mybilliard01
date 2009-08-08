@@ -79,6 +79,7 @@ void NodeImp::update( float time ) {
 void NodeImp::render( Render * render ) {
     {
         RenderMatrix matrix( render );
+        //matrix.mult( transform_ );
         renderInstanceGeometries( render );
     }
 
@@ -94,6 +95,10 @@ void NodeImp::renderInstanceGeometries( Render * render ) {
         Geometry * const geo = renderDowncast< Geometry >( igeo->getResolvedReferrence() );
         geo->draw( render );
     }
+}
+
+void NodeImp::appendNodeTransform( NodeTransform transform ) {
+    transforms_.push_back( transform );
 }
 
 NodeImp::NodeImp()

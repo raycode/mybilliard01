@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 
+#include "NxMat34.h"
+
 #pragma warning ( disable : 4819 )
 
 #include "dae.h"

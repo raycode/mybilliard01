@@ -21,6 +21,14 @@ private: // read visual_scene
     void readNodeInstanceNodes();
     void readNodeInstanceGeometry();
 
+private: // read transform
+    NodeTransformPtr readNodeTranform( domElement * content );
+    bool readNodeTransformRotate( NodeTransform * transform, domElement * content );
+    bool readNodeTransformTranslate( NodeTransform * transform, domElement * content );
+    bool readNodeTransformScale( NodeTransform * transform, domElement * content );
+    bool readNodeTransformLookAt( NodeTransform * transform, domElement * content );
+    bool readNodeTransformMatrix( NodeTransform * transform, domElement * content );
+
 private: // create
     NodeImp * createNode( string id, string name, string sid, NodeImp * parent );
 

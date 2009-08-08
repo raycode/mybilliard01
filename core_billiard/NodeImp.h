@@ -17,7 +17,7 @@ public: // from Node
     virtual void update( float time );
     virtual void render( Render * render );
 
-public: // initialize
+public: // set
     NodeImp();
 
     void setID( wstring id );
@@ -28,10 +28,13 @@ public: // initialize
     void appendChild( NodeImp * child );
 
     void appendInstanceGeometry( Instance * instanceGeometry );
+    void appendNodeTransform( NodeTransform transform );
 
 public: // update
     void updateOrient( float time );
     void updateLocalMatrix();
+
+public:
 
 private: // from Base
     wstring id_, sid_, name_;
@@ -45,6 +48,10 @@ private: // from Node
 private: // instance
     typedef vector< Instance * > Instances;
     Instances instanceGeometries_;
+
+private: // transform
+    typedef vector< NodeTransform > Transforms;
+    Transforms transforms_;
 
 private: // render
     void renderInstanceGeometries( Render * render );

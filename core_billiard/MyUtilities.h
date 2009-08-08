@@ -1,5 +1,8 @@
 #pragma once
 
+#include <cassert>
+
+
 #define MY_FOR_EACH( STL_TYPE, VAR_ITER, STL_CONTAINNER ) \
     STL_TYPE::const_iterator VAR_ITER = STL_CONTAINNER.begin();\
     for( ; VAR_ITER != STL_CONTAINNER.end(); ++VAR_ITER )
