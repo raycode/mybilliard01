@@ -19,6 +19,7 @@ public:
     virtual void addEventListener( RenderEventListener * eventListener ) = 0;
 
     virtual void start() = 0;
+    virtual void* getNativeDevice() = 0;
 
     virtual void setUpAxis( domUpAxisType up ) = 0;
     virtual domUpAxisType getUpAxis() = 0;
