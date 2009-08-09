@@ -9,7 +9,11 @@ void RenderD3D9Imp::setScreenWidth( int width ) {
 
 RenderD3D9Imp::RenderD3D9Imp()
 : width_(640), height_(480)
+, errorListener_( NULL )
+, eventListener_( NULL )
 {
+    DXUTInit( true, true, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
+    DXUTSetCursorSettings( true, true );
 }
 
 void RenderD3D9Imp::setScreenHeight( int height ) {
@@ -34,12 +38,12 @@ domUpAxisType RenderD3D9Imp::getUpAxis() {
 
 bool RenderD3D9Imp::openWindow( wstring title, bool bWindowed ) {
     if( S_OK != DXUTCreateWindow( title.c_str() ) ) {
-        errorNotify_->openWindow( L"Cannot create window." );
+        if( errorListener_ ) errorListener_->openWindow( L"Cannot create window." );
         return false;
     }
 
     if( S_OK != DXUTCreateDevice( true, getScreenWidth(), getScreenHeight() ) ) {
-        errorNotify_->openWindow( L"Cannot create device." );
+        if( errorListener_ ) errorListener_->openWindow( L"Cannot create device." );
         return false;
     }
 
@@ -50,8 +54,17 @@ void RenderD3D9Imp::closeWindow() {
 
 }
 
-void RenderD3D9Imp::setErrorNotify( RenderErrorNotify * errorNotify ) {
-    errorNotify_ = errorNotify;
+void RenderD3D9Imp::addErrorListener( RenderErrorListener * errorListener ) {
+    errorListener_ = errorListener;
+}
+
+void RenderD3D9Imp::addEventListener( RenderEventListener * eventListener ) {
+    eventListener_ = eventListener;
+}
+
+void RenderD3D9Imp::start() {
+    eventListener_->init( this );
+    DXUTMainLoop(); // Enter into the DXUT render loop
 }
 
 void RenderD3D9Imp::pushMatrix() {

@@ -18,7 +18,10 @@ public: // from Render
 
     virtual bool openWindow( wstring title, bool bWindowed );
     virtual void closeWindow();
-    virtual void setErrorNotify( RenderErrorNotify * errorNotify );
+    virtual void start();
+
+    virtual void addErrorListener( RenderErrorListener * errorListener );
+    virtual void addEventListener( RenderEventListener * eventListener );
 
     virtual void pushMatrix();
     virtual void popMatrix();
@@ -50,7 +53,9 @@ public: // from Render
 private:
     domUpAxisType upAxis_;
     int width_, height_;
-    RenderErrorNotify * errorNotify_;
+
+    RenderErrorListener * errorListener_;
+    RenderEventListener * eventListener_;
 };
 
 }

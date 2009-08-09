@@ -69,6 +69,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 #endif
 
     RenderPtr render_( new RenderD3D9Imp() );
+    RenderEventListenerPtr eventListener( new RenderEventListenerImp() );
+    RenderErrorListenerPtr errorListener( new RenderErrorListenerImp() );
+
     Render * const render = &*render_;
 
     // DXUT will create and use the best device (either D3D9 or D3D10) 
@@ -88,12 +91,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     DXUTSetCallbackD3D9FrameRender( OnD3D9FrameRender );
 
     InitApp();
-    DXUTInit( true, true, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
-    DXUTSetCursorSettings( true, true );
-    render->setScreenWidth( 640 );
-    render->setScreenHeight( 480 );
-    render->openWindow( ConstString::windowTitle(), true );
-    DXUTMainLoop(); // Enter into the DXUT render loop
+    render->addEventListener( &*eventListener );
+    render->addErrorListener( &*errorListener );
+    render->start();
 
     return DXUTGetExitCode();
 }

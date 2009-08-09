@@ -5,7 +5,8 @@ namespace my_render {
     using namespace std;
 
     class Render;
-    class RenderErrorNotify;
+    class RenderEventListener;
+    class RenderErrorListener;
     class Scene;
 
     class Base;
@@ -24,7 +25,8 @@ namespace my_render {
 
 
     MY_SMART_PTR( Render );
-    MY_SMART_PTR( RenderErrorNotify );
+    MY_SMART_PTR( RenderEventListener );
+    MY_SMART_PTR( RenderErrorListener );
     MY_SMART_PTR( Scene );
     MY_SMART_PTR( Base );
     MY_SMART_PTR( Node );
@@ -39,7 +41,8 @@ namespace my_render {
     MY_SMART_PTR( GeometryMeshPrimitive );
 }
 
-#include "RenderErrorNotify.h"
+#include "RenderErrorListener.h"
+#include "RenderEventListener.h"
 #include "Render.h"
 #include "Scene.h"
 
