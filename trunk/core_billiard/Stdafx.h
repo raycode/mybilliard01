@@ -28,6 +28,5 @@
 #include "dom/domCOLLADA.h"
 
 #include "MyUtilities.h"
-#include "ConstString.h"
 
 MY_SMART_PTR( DAE );

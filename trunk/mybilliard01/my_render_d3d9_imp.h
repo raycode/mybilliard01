@@ -1,6 +1,5 @@
 #pragma once
-#include "stdafx.h"
-#include "my_render_imp.h"
+#include "../core_billiard/my_render_imp.h"
 
 namespace my_render_d3d9_imp {
     using namespace std;
@@ -10,3 +9,5 @@ namespace my_render_d3d9_imp {
 }
 
 #include "RenderD3D9Imp.h"
+#include "RenderErrorNotifyImp.h"
+

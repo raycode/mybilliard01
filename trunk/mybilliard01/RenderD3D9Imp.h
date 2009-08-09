@@ -4,6 +4,9 @@ namespace my_render_d3d9_imp {
 
 class RenderD3D9Imp : IMPLEMENTS_( Render ) {
 public:
+    RenderD3D9Imp();
+
+public: // from Render
     virtual void setScreenWidth( int width );
     virtual void setScreenHeight( int height );
 
@@ -13,8 +16,9 @@ public:
     virtual void setUpAxis( domUpAxisType up );
     virtual domUpAxisType getUpAxis();
 
-    virtual bool openWindow();
+    virtual bool openWindow( wstring title, bool bWindowed );
     virtual void closeWindow();
+    virtual void setErrorNotify( RenderErrorNotify * errorNotify );
 
     virtual void pushMatrix();
     virtual void popMatrix();
@@ -46,6 +50,7 @@ public:
 private:
     domUpAxisType upAxis_;
     int width_, height_;
+    RenderErrorNotify * errorNotify_;
 };
 
 }
