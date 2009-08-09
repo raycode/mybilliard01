@@ -11,7 +11,7 @@ public:
     NodeFactoryImp( InstanceResolver * instanceResolver );
 
 private: // read visual_scene
-    void readNode( domNodeRef node, NodeImp * parentNode );
+    void readNode( NodeImp * parentNode, domNodeRef node );
     void readNodeTranforms( NodeImp * newNode, domNodeRef node );
     void readNodeInstanceGeometries( NodeImp * newNode, domNodeRef node );
     void readNodeInstanceControllers();
@@ -32,8 +32,8 @@ private: // read transform
 private:
     InstanceResolver * instanceResolver_;
 
-private: // create
-    NodeImp * createNode( string id, string name, string sid, NodeImp * parent );
+private: // create node
+    NodeImp * createNode( wstring id, wstring name, wstring sid, NodeImp * parent );
     typedef list< NodeImpPtr > CreatedObjects;
     CreatedObjects createdObjects_;
 };

@@ -3,6 +3,7 @@
 #include <string>
 #include <vector>
 
+#include "NxSimpleTypes.h"
 #include "NxMat34.h"
 
 #pragma warning ( disable : 4819 )
@@ -30,6 +31,8 @@ namespace my_render {
     class InstanceResolver;
 
     class Geometry;
+    class GeometryMesh;
+    class GeometryMeshPrimitive;
 
 
     MY_SMART_PTR( Render );
@@ -43,6 +46,8 @@ namespace my_render {
     MY_SMART_PTR( Instance );
     MY_SMART_PTR( InstanceResolver );
     MY_SMART_PTR( Geometry );
+    MY_SMART_PTR( GeometryMesh );
+    MY_SMART_PTR( GeometryMeshPrimitive );
 }
 
 #include "Render.h"
@@ -59,4 +64,6 @@ namespace my_render {
 #include "InstanceResolver.h"
 
 #include "Geometry.h"
+#include "GeometryMesh.h"
+#include "GeometryMeshPrimitive.h"
 

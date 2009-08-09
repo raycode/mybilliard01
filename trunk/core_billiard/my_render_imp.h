@@ -17,17 +17,22 @@ namespace my_render_imp {
     class SceneImp;
 
     class BaseImp;
+
     class NodeImp;
+    class NodeAnimation;
+    class NodeTransform;
+    class NodeFactoryImp;
+
     class GeometryImp;
+    class GeometryMeshImp;
+    class GeometryMeshOffset;
+    class GeometryFactoryImp;
+    class GeometryMeshPrimitiveImp;
 
     class InstanceImp;
     class FactoryImp;
-    class NodeFactoryImp;
-    class GeometryFactoryImp;
 
     class RenderMatrix;
-    class NodeAnimation;
-    class NodeTransform;
 
     MY_SMART_PTR( NodeImp );
     MY_SMART_PTR( GeometryImp );
@@ -37,6 +42,9 @@ namespace my_render_imp {
     MY_SMART_PTR( GeometryFactoryImp );
     MY_SMART_PTR( NodeAnimation );
     MY_SMART_PTR( NodeTransform );
+    MY_SMART_PTR( GeometryMeshImp );
+    MY_SMART_PTR( GeometryMeshOffset );
+    MY_SMART_PTR( GeometryMeshPrimitiveImp );
 
     template< typename T > 
     inline T* renderDowncast( Base * abstractObject ) {
@@ -48,8 +56,15 @@ namespace my_render_imp {
 #include "SceneImp.h"
 
 #include "BaseImp.h"
+
 #include "NodeImp.h"
+#include "NodeAnimation.h"
+#include "NodeTransform.h"
+
 #include "GeometryImp.h"
+#include "GeometryMeshImp.h"
+#include "GeometryMeshOffset.h"
+#include "GeometryMeshPrimitiveImp.h"
 
 #include "FactoryImp.h"
 #include "NodeFactoryImp.h"
@@ -57,5 +72,3 @@ namespace my_render_imp {
 #include "InstanceImp.h"
 
 #include "RenderMatrix.h"
-#include "NodeAnimation.h"
-#include "NodeTransform.h"

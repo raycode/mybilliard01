@@ -10,6 +10,10 @@ wstring BaseImp::getName() {
     return name_;
 }
 
+wstring BaseImp::getURI() {
+    return uri_;
+}
+
 void BaseImp::setID( wstring id ) {
     id_ = id;
 }
@@ -17,5 +21,10 @@ void BaseImp::setID( wstring id ) {
 void BaseImp::setName( wstring name ) {
     name_ = name;
 }
+
+void BaseImp::setURI( wstring uri ) {
+    uri_ = uri;
+}
+
 
 }

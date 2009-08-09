@@ -25,36 +25,40 @@ NodeFactoryImp::NodeFactoryImp( InstanceResolver * instanceResolver )
 {
 }
 
-NodeImp * NodeFactoryImp::createNode( string id, string name, string sid, NodeImp * parent ) {
-    if( NULL != find( convertString( id ) ) ) return NULL;
+NodeImp * NodeFactoryImp::createNode( wstring id, wstring name, wstring sid, NodeImp * parent ) {
+    if( NULL != find( id ) ) return NULL;
 
     NodeImp * const newNode = new NodeImp();
     if( NULL == newNode ) return NULL;
+
     createdObjects_.push_back( NodeImpPtr( newNode ) );
 
-    newNode->setID( convertString( id ) );
-    newNode->setName( convertString( name ) );
-    newNode->setSID( convertString( sid ) );
+    newNode->setID( id );
+    newNode->setName( name );
+    newNode->setSID( sid );
     newNode->setParent( parent );
 
     return newNode;
 }
 
 Node * NodeFactoryImp::createVisualScene( domVisual_sceneRef scene ) {
-    NodeImp * const rootNode = createNode( scene->getName(), scene->getId(), "", NULL );
+    const wstring id = convertString( scene->getId() );
+    const wstring name = convertString( scene->getName() );
+
+    NodeImp * const rootNode = createNode( id, name, L"", NULL );
     if( NULL == rootNode ) return NULL;
 
     for( size_t i = 0; i < scene->getNode_array().getCount(); ++i ) {
         domNodeRef nodes = scene->getNode_array()[ i ];
         if( NULL == nodes ) continue;
 
-        readNode( nodes, rootNode );
+        readNode( rootNode, nodes );
     }
 
     return rootNode;
 }
 
-void NodeFactoryImp::readNode( domNodeRef node, NodeImp * parentNode )
+void NodeFactoryImp::readNode( NodeImp * parentNode, domNodeRef node )
 {
     Base * const alreadyExist = find( convertString( node->getId() ) );
     if( NULL != alreadyExist ) {
@@ -63,7 +67,11 @@ void NodeFactoryImp::readNode( domNodeRef node, NodeImp * parentNode )
         return;
     }
 
-    NodeImp * const newNode = createNode( node->getId(), node->getName(), node->getSid(), parentNode );
+    const wstring id = convertString( node->getId() );
+    const wstring name = convertString( node->getName() );
+    const wstring sid = convertString( node->getSid() );
+
+    NodeImp * const newNode = createNode( id, name, sid, parentNode );
     parentNode->appendChild( newNode ); 
 
     readNodeTranforms( newNode, node );
