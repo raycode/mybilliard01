@@ -3,6 +3,7 @@
 #include <vector>
 #include <map>
 #include <list>
+#include <algorithm>
 
 #include "my_render.h"
 #include "my_collada.h"
@@ -25,7 +26,7 @@ namespace my_render_imp {
 
     class GeometryImp;
     class GeometryMeshImp;
-    class GeometryMeshOffset;
+    class GeometryMeshInput;
     class GeometryFactoryImp;
     class GeometryMeshPrimitiveImp;
 
@@ -43,7 +44,7 @@ namespace my_render_imp {
     MY_SMART_PTR( NodeAnimation );
     MY_SMART_PTR( NodeTransform );
     MY_SMART_PTR( GeometryMeshImp );
-    MY_SMART_PTR( GeometryMeshOffset );
+    //MY_SMART_PTR( GeometryMeshInput ); // don't need
     MY_SMART_PTR( GeometryMeshPrimitiveImp );
 
     template< typename T > 
@@ -61,14 +62,14 @@ namespace my_render_imp {
 #include "NodeAnimation.h"
 #include "NodeTransform.h"
 
+#include "GeometryFactoryImp.h"
 #include "GeometryImp.h"
 #include "GeometryMeshImp.h"
-#include "GeometryMeshOffset.h"
 #include "GeometryMeshPrimitiveImp.h"
+#include "GeometryMeshInput.h"
 
 #include "FactoryImp.h"
 #include "NodeFactoryImp.h"
-#include "GeometryFactoryImp.h"
 #include "InstanceImp.h"
 
 #include "RenderMatrix.h"

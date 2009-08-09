@@ -8,22 +8,6 @@ void GeometryMeshImp::draw( Render * render ) {
     }
 }
 
-size_t GeometryMeshImp::getNumVertex() {
-    return positions_.size();
-}
-
-void GeometryMeshImp::setPositions( const vector< NxReal > & stream ) {
-    //TODO
-}
-
-void GeometryMeshImp::setNormals( const vector< NxReal > & stream ) {
-    //TODO
-}
-
-void GeometryMeshImp::setTexCoords( const vector< NxReal > & stream ) {
-    //TODO
-}
-
 void GeometryMeshImp::appendPrimitive( GeometryMeshPrimitiveImp * primitive ) {
     primitives_.push_back( primitive );
 }

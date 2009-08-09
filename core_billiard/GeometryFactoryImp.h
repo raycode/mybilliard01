@@ -17,8 +17,6 @@ private: // read geometry
     void * createSpline( domSplineRef );
 
 private: // read mesh
-    bool readMeshVertices( GeometryMeshImp * newMesh, domVerticesRef vertices );
-
     GeometryMeshPrimitiveImp * createPrimitive_polygons( domPolygonsRef );
     GeometryMeshPrimitiveImp * createPrimitive_polylist( domPolylistRef );
     GeometryMeshPrimitiveImp * createPrimitive_triangles( domTrianglesRef );
@@ -27,7 +25,7 @@ private: // read mesh
     GeometryMeshPrimitiveImp * createPrimitive_lines( domLinesRef );
     GeometryMeshPrimitiveImp * createPrimitive_linestrips( domLinestripsRef );
 
-    bool SetVertexData(GeometryMeshOffset& offset, GeometryMeshImp * newMesh, domListOfUInts &values, size_t i);
+    bool SetVertexData(GeometryMeshInput& offset, GeometryMeshImp * newMesh, domListOfUInts &values, size_t i);
 
 private:
     InstanceResolver * instanceResolver_;
@@ -47,7 +45,7 @@ private: // create mesh
     Meshs meshs_;
 
 private: // create primitive
-    GeometryMeshPrimitiveImp * createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName );
+    GeometryMeshPrimitiveImp * createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName, Render::EPrimitiveType );
     void releaseGeometryMeshPrimitive( GeometryMeshPrimitive * ptr );
 
     typedef list< GeometryMeshPrimitiveImpPtr > Primitives;
