@@ -13,15 +13,19 @@ public: // from Render
     virtual int getScreenWidth();
     virtual int getScreenHeight();
 
-    virtual void setUpAxis( domUpAxisType up );
-    virtual domUpAxisType getUpAxis();
+    virtual void setScreenTitle( wstring title );
+    virtual wstring getScreenTitle();
 
-    virtual bool openWindow( wstring title, bool bWindowed );
-    virtual void closeWindow();
-    virtual void start();
+    virtual void setWindowedMode( bool );
+    virtual bool isWindowedMode();
 
     virtual void addErrorListener( RenderErrorListener * errorListener );
     virtual void addEventListener( RenderEventListener * eventListener );
+
+    virtual void start();
+
+    virtual void setUpAxis( domUpAxisType up );
+    virtual domUpAxisType getUpAxis();
 
     virtual void pushMatrix();
     virtual void popMatrix();
@@ -51,8 +55,10 @@ public: // from Render
     virtual void SetRenderState( ERenderStateType State, NxU32 Value );
 
 private:
-    domUpAxisType upAxis_;
     int width_, height_;
+    wstring title_;
+    bool bWindowedMode_;
+    domUpAxisType upAxis_;
 
     RenderErrorListener * errorListener_;
     RenderEventListener * eventListener_;

@@ -9,6 +9,8 @@ void RenderD3D9Imp::setScreenWidth( int width ) {
 
 RenderD3D9Imp::RenderD3D9Imp()
 : width_(640), height_(480)
+, bWindowedMode_( true )
+, upAxis_( UPAXISTYPE_Y_UP )
 , errorListener_( NULL )
 , eventListener_( NULL )
 {
@@ -28,6 +30,22 @@ int RenderD3D9Imp::getScreenHeight() {
     return height_;
 }
 
+void RenderD3D9Imp::setWindowedMode( bool val ) {
+    bWindowedMode_ = val;
+}
+
+void RenderD3D9Imp::setScreenTitle( wstring title ) {
+    title_ = title;
+}
+
+wstring RenderD3D9Imp::getScreenTitle() {
+    return title_;
+}
+
+bool RenderD3D9Imp::isWindowedMode() {
+    return bWindowedMode_;
+}
+
 void RenderD3D9Imp::setUpAxis( domUpAxisType up ) {
     upAxis_ = up;
 }
@@ -36,22 +54,19 @@ domUpAxisType RenderD3D9Imp::getUpAxis() {
     return upAxis_;
 }
 
-bool RenderD3D9Imp::openWindow( wstring title, bool bWindowed ) {
-    if( S_OK != DXUTCreateWindow( title.c_str() ) ) {
+void RenderD3D9Imp::start() {
+    if( S_OK != DXUTCreateWindow( getScreenTitle().c_str() ) ) {
         if( errorListener_ ) errorListener_->openWindow( L"Cannot create window." );
-        return false;
+        return;
     }
 
-    if( S_OK != DXUTCreateDevice( true, getScreenWidth(), getScreenHeight() ) ) {
+    if( S_OK != DXUTCreateDevice( isWindowedMode(), getScreenWidth(), getScreenHeight() ) ) {
         if( errorListener_ ) errorListener_->openWindow( L"Cannot create device." );
-        return false;
+        return;
     }
 
-    return true;
-}
-
-void RenderD3D9Imp::closeWindow() {
-
+    DXUTMainLoop(); // Enter into the DXUT render loop
+    return;
 }
 
 void RenderD3D9Imp::addErrorListener( RenderErrorListener * errorListener ) {
@@ -60,11 +75,6 @@ void RenderD3D9Imp::addErrorListener( RenderErrorListener * errorListener ) {
 
 void RenderD3D9Imp::addEventListener( RenderEventListener * eventListener ) {
     eventListener_ = eventListener;
-}
-
-void RenderD3D9Imp::start() {
-    eventListener_->init( this );
-    DXUTMainLoop(); // Enter into the DXUT render loop
 }
 
 void RenderD3D9Imp::pushMatrix() {
