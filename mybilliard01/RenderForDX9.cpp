@@ -15,7 +15,6 @@
 //--------------------------------------------------------------------------------------
 CModelViewerCamera          g_Camera;               // A model viewing camera
 CDXUTDialogResourceManager  g_DialogResourceManager; // manager for shared resources of dialogs
-CD3DSettingsDlg             g_SettingsDlg;          // Device settings dialog
 CDXUTTextHelper*            g_pTxtHelper = NULL;
 CDXUTDialog                 g_HUD;                  // dialog for standard controls
 CDXUTDialog                 g_SampleUI;             // dialog for sample specific controls
@@ -56,6 +55,10 @@ void CALLBACK OnD3D9DestroyDevice( void* pUserContext );
 void InitApp();
 void RenderText();
 
+MY_SMART_PTR( RenderEventListenerImp );
+RenderEventListenerImpPtr eventListener( new RenderEventListenerImp() );
+RenderErrorListenerPtr errorListener( new RenderErrorListenerImp() );
+
 
 //--------------------------------------------------------------------------------------
 // Entry point to the program. Initializes everything and goes into a message processing 
@@ -69,9 +72,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 #endif
 
     RenderPtr render_( new RenderD3D9Imp() );
-    RenderEventListenerPtr eventListener( new RenderEventListenerImp() );
-    RenderErrorListenerPtr errorListener( new RenderErrorListenerImp() );
-
     Render * const render = &*render_;
 
     // DXUT will create and use the best device (either D3D9 or D3D10) 
@@ -91,6 +91,12 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     DXUTSetCallbackD3D9FrameRender( OnD3D9FrameRender );
 
     InitApp();
+
+    render->setScreenWidth( 640 );
+    render->setScreenHeight( 480 );
+    render->setScreenTitle( ConstString::windowTitle() );
+    render->setWindowedMode( true );
+
     render->addEventListener( &*eventListener );
     render->addErrorListener( &*errorListener );
     render->start();
@@ -106,7 +112,7 @@ void InitApp()
 {
     SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
 
-    g_SettingsDlg.Init( &g_DialogResourceManager );
+    eventListener->g_SettingsDlg.Init( &g_DialogResourceManager );
     g_HUD.Init( &g_DialogResourceManager );
     g_SampleUI.Init( &g_DialogResourceManager );
 
@@ -217,7 +223,7 @@ HRESULT CALLBACK OnD3D9CreateDevice( IDirect3DDevice9* pd3dDevice, const D3DSURF
     HRESULT hr;
 
     V_RETURN( g_DialogResourceManager.OnD3D9CreateDevice( pd3dDevice ) );
-    V_RETURN( g_SettingsDlg.OnD3D9CreateDevice( pd3dDevice ) );
+    V_RETURN( eventListener->g_SettingsDlg.OnD3D9CreateDevice( pd3dDevice ) );
 
     V_RETURN( D3DXCreateFont( pd3dDevice, 15, 0, FW_BOLD, 1, FALSE, DEFAULT_CHARSET,
                               OUT_DEFAULT_PRECIS, DEFAULT_QUALITY, DEFAULT_PITCH | FF_DONTCARE,
@@ -255,7 +261,7 @@ HRESULT CALLBACK OnD3D9ResetDevice( IDirect3DDevice9* pd3dDevice,
     HRESULT hr;
 
     V_RETURN( g_DialogResourceManager.OnD3D9ResetDevice() );
-    V_RETURN( g_SettingsDlg.OnD3D9ResetDevice() );
+    V_RETURN( eventListener->g_SettingsDlg.OnD3D9ResetDevice() );
 
     if( g_pFont9 ) V_RETURN( g_pFont9->OnResetDevice() );
     if( g_pEffect9 ) V_RETURN( g_pEffect9->OnResetDevice() );
@@ -299,9 +305,9 @@ void CALLBACK OnD3D9FrameRender( IDirect3DDevice9* pd3dDevice, double fTime, flo
     D3DXMATRIXA16 mWorldViewProjection;
 
     // If the settings dialog is being shown, then render it instead of rendering the app's scene
-    if( g_SettingsDlg.IsActive() )
+    if( eventListener->g_SettingsDlg.IsActive() )
     {
-        g_SettingsDlg.OnRender( fElapsedTime );
+        eventListener->g_SettingsDlg.OnRender( fElapsedTime );
         return;
     }
 
@@ -348,9 +354,9 @@ LRESULT CALLBACK MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bo
         return 0;
 
     // Pass messages to settings dialog if its active
-    if( g_SettingsDlg.IsActive() )
+    if( eventListener->g_SettingsDlg.IsActive() )
     {
-        g_SettingsDlg.MsgProc( hWnd, uMsg, wParam, lParam );
+        eventListener->g_SettingsDlg.MsgProc( hWnd, uMsg, wParam, lParam );
         return 0;
     }
 
@@ -389,7 +395,7 @@ void CALLBACK OnGUIEvent( UINT nEvent, int nControlID, CDXUTControl* pControl, v
         case IDC_TOGGLEREF:
             DXUTToggleREF(); break;
         case IDC_CHANGEDEVICE:
-            g_SettingsDlg.SetActive( !g_SettingsDlg.IsActive() ); break;
+            eventListener->g_SettingsDlg.SetActive( !eventListener->g_SettingsDlg.IsActive() ); break;
     }
 }
 
@@ -400,7 +406,7 @@ void CALLBACK OnGUIEvent( UINT nEvent, int nControlID, CDXUTControl* pControl, v
 void CALLBACK OnD3D9LostDevice( void* pUserContext )
 {
     g_DialogResourceManager.OnD3D9LostDevice();
-    g_SettingsDlg.OnD3D9LostDevice();
+    eventListener->g_SettingsDlg.OnD3D9LostDevice();
     if( g_pFont9 ) g_pFont9->OnLostDevice();
     if( g_pEffect9 ) g_pEffect9->OnLostDevice();
     SAFE_RELEASE( g_pSprite9 );
@@ -414,7 +420,7 @@ void CALLBACK OnD3D9LostDevice( void* pUserContext )
 void CALLBACK OnD3D9DestroyDevice( void* pUserContext )
 {
     g_DialogResourceManager.OnD3D9DestroyDevice();
-    g_SettingsDlg.OnD3D9DestroyDevice();
+    eventListener->g_SettingsDlg.OnD3D9DestroyDevice();
     SAFE_RELEASE( g_pEffect9 );
     SAFE_RELEASE( g_pFont9 );
 }

@@ -21,3 +21,4 @@ using namespace my_render_d3d9_imp;
 #include "RenderErrorListenerImp.h"
 #include "RenderEventListenerImp.h"
 
+MY_SMART_PTR( RenderErrorListenerImp );

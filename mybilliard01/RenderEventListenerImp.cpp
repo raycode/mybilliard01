@@ -10,9 +10,6 @@ void RenderEventListenerImp::displayChanged( Render * render, bool modeChanged, 
 }
 
 void RenderEventListenerImp::init( Render * render ) {
-    render->setScreenWidth( 640 );
-    render->setScreenHeight( 480 );
-    render->openWindow( ConstString::windowTitle(), true );
 }
 
 void RenderEventListenerImp::reshape( Render * redner, int x, int y, int width, int height ) {

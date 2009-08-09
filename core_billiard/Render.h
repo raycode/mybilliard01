@@ -9,15 +9,19 @@ public:
     virtual int getScreenWidth() = 0;
     virtual int getScreenHeight() = 0;
 
-    virtual void setUpAxis( domUpAxisType up ) = 0;
-    virtual domUpAxisType getUpAxis() = 0;
+    virtual void setScreenTitle( wstring title ) = 0;
+    virtual wstring getScreenTitle() = 0;
 
-    virtual bool openWindow( wstring title, bool bWindowed ) = 0;
-    virtual void closeWindow() = 0;
-    virtual void start() = 0;
+    virtual void setWindowedMode( bool ) = 0;
+    virtual bool isWindowedMode() = 0;
 
     virtual void addErrorListener( RenderErrorListener * errorListener ) = 0;
     virtual void addEventListener( RenderEventListener * eventListener ) = 0;
+
+    virtual void start() = 0;
+
+    virtual void setUpAxis( domUpAxisType up ) = 0;
+    virtual domUpAxisType getUpAxis() = 0;
 
     virtual void pushMatrix() = 0;
     virtual void popMatrix() = 0;
