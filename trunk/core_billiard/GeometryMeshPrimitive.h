@@ -10,9 +10,8 @@ public:
 
     virtual void draw( Render * render ) = 0;
 
-public: // types
-    typedef unsigned int Index;
-    typedef vector< Index > Indexies;
+public:
+    typedef unsigned int VertexIndex;
 
 public: virtual ~GeometryMeshPrimitive() {}
 };

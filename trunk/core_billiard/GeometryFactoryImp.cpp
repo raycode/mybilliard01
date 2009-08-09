@@ -53,7 +53,7 @@ GeometryMeshImp * GeometryFactoryImp::createGeometryMesh() {
     return newMesh;
 }
 
-GeometryMeshPrimitiveImp * GeometryFactoryImp::createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName )
+GeometryMeshPrimitiveImp * GeometryFactoryImp::createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName, Render::EPrimitiveType primitiveType )
 {
     GeometryMeshPrimitiveImp * const newPrim = new GeometryMeshPrimitiveImp();
     if( NULL == newPrim ) return NULL;
@@ -63,6 +63,7 @@ GeometryMeshPrimitiveImp * GeometryFactoryImp::createGeometryMeshPrimitive( wstr
     newPrim->setName( name );
     newPrim->setTriangleCount( triangleCount );
     newPrim->setMaterialName( materialName );
+    newPrim->setRenderingPrimitiveType( primitiveType );
 
     return newPrim;
 }
@@ -141,7 +142,8 @@ struct GeometryFactoryImp::Pimpl {
         GeometryMeshImp * newMesh,
         daeTArray< daeSmartRef< typename TDom > > & primitiveArray,
         TFactory * factory,
-        GeometryMeshPrimitiveImp * (TFactory::*funcCreateMesh)( daeSmartRef< typename TDom > ) )
+        GeometryMeshPrimitiveImp * (TFactory::*funcCreateMesh)( daeSmartRef< typename TDom > )
+    )
     {
         const size_t numPrimitiveArray = primitiveArray.getCount();
         for( size_t i = 0; i < numPrimitiveArray; ++i )
@@ -155,47 +157,10 @@ struct GeometryFactoryImp::Pimpl {
     }
 };
 
-bool GeometryFactoryImp::readMeshVertices( GeometryMeshImp * newMesh, domVerticesRef vertices )
-{
-    if( NULL == vertices ) return false;
-
-    domInputLocal_Array inputs = vertices->getInput_array();
-
-    bool foundPosition = false;
-    for( size_t i = 0; i < inputs.getCount(); ++i )
-    {
-        domInputLocal * const input = inputs[ i ];
-        if( NULL == input ) continue;
-
-        domSource * const source = daeDowncast< domSource >( input->getSource().getElement() );
-        if( NULL == source ) continue;
-
-        domListOfFloats values = source->getFloat_array()->getValue();
-        //vector< NxReal > reals( &(values[ 0 ]), &(values[ values.getCount() ]) );
-
-        //if( convertString( input->getSemantic() ) == L"POSITION" ) {
-        //    newMesh->setPositions( reals );
-        //    foundPosition = true;
-
-        //} else if( convertString( input->getSemantic() ) == L"NORMAL" ) {
-        //    newMesh->setNormals( reals );
-
-        //} else if( convertString( input->getSemantic() ) == L"TEXCOORD" )
-        //    newMesh->setTexCoords( reals );
-    }
-    return foundPosition;
-}
-
 GeometryMeshImp * GeometryFactoryImp::createMesh( domMeshRef mesh )
 {
     GeometryMeshImp * const newMesh = createGeometryMesh();
     if( NULL == newMesh ) return NULL;
-
-    const bool bVertices = readMeshVertices( newMesh, mesh->getVertices() );
-    if( false == bVertices ) {
-        releaseGeometryMesh( newMesh );
-        return NULL;
-    }
 
     Pimpl::readPrimitives( newMesh, mesh->getPolygons_array(), this, &GeometryFactoryImp::createPrimitive_polygons );
     Pimpl::readPrimitives( newMesh, mesh->getPolylist_array(), this, &GeometryFactoryImp::createPrimitive_polylist );
@@ -214,28 +179,33 @@ GeometryMeshPrimitiveImp * GeometryFactoryImp::createPrimitive_polygons( domPoly
     const size_t numTriangle = (size_t) polygon->getCount();
     const wstring materialName = convertString( polygon->getMaterial() );
 
-    GeometryMeshPrimitiveImp * const newPrim = createGeometryMeshPrimitive( name, numTriangle, materialName );
+    GeometryMeshPrimitiveImp * const newPrim = createGeometryMeshPrimitive( name, numTriangle, materialName, Render::EPrimitive_TRIANGLELIST );
     if( NULL == newPrim ) return NULL;
 
-    // TODO
-    //GeometryMeshOffset offsets( polygon->getInput_array() );
-    //domP_Array p = polygon->getP_array();
+    GeometryMeshInput input( polygon->getInput_array() );
+    const size_t numTexture = input.getNumTexture();
+    domP_Array p = polygon->getP_array();
 
-    //for( size_t i = 0; i < p.getCount(); ++i )
-    //{		
-    //    domListOfUInts values = p[ i ]->getValue();
-    //    const size_t numVertices = values.getCount() / offsets.max_offset;
+    for( size_t i = 0; i < p.getCount(); ++i )
+    {
+        assert( 0 == (p[ i ]->getValue().getCount() % 3) );
+        input.setIndexies( p[ i ]->getValue() );
 
-    //    GeometryMeshImp::Indexies indexies;
-    //    for( size_t j = 0; j < numVertices ; ++j )
-    //    {
-    //        const bool succeed = SetVertexData( offsets, newMesh, values, j );
-    //        if( false == succeed ) continue;
+        while( input.hasNext() )
+        {
+            input.getNext();
+            newPrim->appendPosition( input.getVertex() );
+            if( input.hasNormal() ) newPrim->appendNormal( input.getNormal() );
+            if( input.hasBinormal() ) newPrim->appendBinormal( input.getBinormal() );
+            if( input.hasTangent() ) newPrim->appendTangent( input.getTangent() );
+            if( input.hasColor() ) newPrim->appendColor( input.getColor() );
 
-    //        indexies.push_back( newMesh->getNumVertex() - 1 );
-    //    }
-    //    newMesh->appendIndex( indexies );
-    //}
+            for( size_t tex = 0; tex < numTexture; ++tex )
+                newPrim->appendTexCoord( input.getTexCoord( tex ), tex );
+
+            newPrim->appendIndex( newPrim->getNumVertex() -1 );
+        }
+    }
 
     return newPrim;
 }
