@@ -1683,14 +1683,18 @@
 			Name="my_render"
 			>
 			<Filter
-				Name="1. Main"
+				Name="1. Render"
 				>
 				<File
 					RelativePath=".\Render.h"
 					>
 				</File>
 				<File
-					RelativePath=".\RenderErrorNotify.h"
+					RelativePath=".\RenderErrorListener.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderEventListener.h"
 					>
 				</File>
 				<File

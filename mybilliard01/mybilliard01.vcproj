@@ -283,6 +283,40 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RenderErrorListenerImp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="dxut.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\RenderErrorListenerImp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderEventListenerImp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\RenderEventListenerImp.h"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderForDX9.cpp"
 				>
 				<FileConfiguration
@@ -562,23 +596,6 @@
 			</File>
 			<File
 				RelativePath=".\RenderD3D9Imp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderErrorNotifyImp.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="dxut.h"
-						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\RenderErrorNotifyImp.h"
 				>
 			</File>
 		</Filter>

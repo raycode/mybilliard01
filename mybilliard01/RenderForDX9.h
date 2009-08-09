@@ -17,3 +17,7 @@ using namespace std;
 using namespace my_render;
 using namespace my_render_imp;
 using namespace my_render_d3d9_imp;
+
+#include "RenderErrorListenerImp.h"
+#include "RenderEventListenerImp.h"
+

@@ -2,11 +2,11 @@
 namespace my_render {
 
 
-INTERFACE_ RenderErrorNotify {
+INTERFACE_ RenderErrorListener {
 public:
     virtual void openWindow( wstring ) = 0;
 
-public: virtual ~RenderErrorNotify() {}
+public: virtual ~RenderErrorListener() {}
 };
 
 

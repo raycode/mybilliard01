@@ -14,7 +14,10 @@ public:
 
     virtual bool openWindow( wstring title, bool bWindowed ) = 0;
     virtual void closeWindow() = 0;
-    virtual void setErrorNotify( RenderErrorNotify * errorNotify ) = 0;
+    virtual void start() = 0;
+
+    virtual void addErrorListener( RenderErrorListener * errorListener ) = 0;
+    virtual void addEventListener( RenderEventListener * eventListener ) = 0;
 
     virtual void pushMatrix() = 0;
     virtual void popMatrix() = 0;
