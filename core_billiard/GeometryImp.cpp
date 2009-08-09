@@ -2,8 +2,20 @@
 namespace my_render_imp {
 
 void GeometryImp::draw( Render * render ) {
-    render;
+    mesh_->draw( render );
 }
 
+void GeometryImp::setMesh( GeometryMesh * newMesh ) {
+    mesh_ = newMesh;
+}
+
+GeometryImp::GeometryImp()
+: mesh_( NULL )
+{
+}
+
+GeometryMesh * GeometryImp::getMesh() {
+    return mesh_;
+}
 
 }
