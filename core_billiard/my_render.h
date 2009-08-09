@@ -5,6 +5,7 @@ namespace my_render {
     using namespace std;
 
     class Render;
+    class RenderErrorNotify;
     class Scene;
 
     class Base;
@@ -23,6 +24,7 @@ namespace my_render {
 
 
     MY_SMART_PTR( Render );
+    MY_SMART_PTR( RenderErrorNotify );
     MY_SMART_PTR( Scene );
     MY_SMART_PTR( Base );
     MY_SMART_PTR( Node );
@@ -37,6 +39,7 @@ namespace my_render {
     MY_SMART_PTR( GeometryMeshPrimitive );
 }
 
+#include "RenderErrorNotify.h"
 #include "Render.h"
 #include "Scene.h"
 

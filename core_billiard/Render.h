@@ -12,8 +12,9 @@ public:
     virtual void setUpAxis( domUpAxisType up ) = 0;
     virtual domUpAxisType getUpAxis() = 0;
 
-    virtual bool openWindow() = 0;
+    virtual bool openWindow( wstring title, bool bWindowed ) = 0;
     virtual void closeWindow() = 0;
+    virtual void setErrorNotify( RenderErrorNotify * errorNotify ) = 0;
 
     virtual void pushMatrix() = 0;
     virtual void popMatrix() = 0;

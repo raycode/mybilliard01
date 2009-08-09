@@ -75,6 +75,7 @@
 #endif
 
 // Standard Windows includes
+#define NOMINMAX
 #include <windows.h>
 #include <initguid.h>
 #include <assert.h>
@@ -355,8 +356,21 @@ void      WINAPI DXUTDestroyState(); // Optional method to destroy DXUT's memory
 #include "DXUTenum.h"
 
 
+
+// my settings here
+#include <stdio.h>
+#include <string>
+#include <vector>
+#include <map>
+#include <list>
+#include <algorithm>
+#include "NxPhysics.h"
+
+#pragma warning( disable: 4201 )
+#include "tinyxml.h"
+
+#include "../../mybilliard01/targetver.h"
+
+
 #endif
-
-
-
 

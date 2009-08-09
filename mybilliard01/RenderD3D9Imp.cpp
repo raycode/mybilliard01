@@ -1,10 +1,15 @@
-#include "stdafx.h"
+#include "DXUT.h"
 #include "my_render_d3d9_imp.h"
 namespace my_render_d3d9_imp {
 
 
 void RenderD3D9Imp::setScreenWidth( int width ) {
     width_ = width;
+}
+
+RenderD3D9Imp::RenderD3D9Imp()
+: width_(640), height_(480)
+{
 }
 
 void RenderD3D9Imp::setScreenHeight( int height ) {
@@ -27,12 +32,26 @@ domUpAxisType RenderD3D9Imp::getUpAxis() {
     return upAxis_;
 }
 
-bool RenderD3D9Imp::openWindow() {
-    return false;
+bool RenderD3D9Imp::openWindow( wstring title, bool bWindowed ) {
+    if( S_OK != DXUTCreateWindow( title.c_str() ) ) {
+        errorNotify_->openWindow( L"Cannot create window." );
+        return false;
+    }
+
+    if( S_OK != DXUTCreateDevice( true, getScreenWidth(), getScreenHeight() ) ) {
+        errorNotify_->openWindow( L"Cannot create device." );
+        return false;
+    }
+
+    return true;
 }
 
 void RenderD3D9Imp::closeWindow() {
 
+}
+
+void RenderD3D9Imp::setErrorNotify( RenderErrorNotify * errorNotify ) {
+    errorNotify_ = errorNotify;
 }
 
 void RenderD3D9Imp::pushMatrix() {

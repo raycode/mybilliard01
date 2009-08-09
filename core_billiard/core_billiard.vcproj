@@ -155,14 +155,6 @@
 			Name="Global"
 			>
 			<File
-				RelativePath=".\ConstString.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ConstString.h"
-				>
-			</File>
-			<File
 				RelativePath=".\MyUtilities.h"
 				>
 			</File>
@@ -1698,6 +1690,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\RenderErrorNotify.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Scene.h"
 					>
 				</File>
@@ -2027,31 +2023,6 @@
 					>
 				</File>
 			</Filter>
-		</Filter>
-		<Filter
-			Name="my_render_d3d9_imp"
-			>
-			<File
-				RelativePath=".\my_render_d3d9_imp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderD3D9Imp.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="StdAfx.h"
-						PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\RenderD3D9Imp.h"
-				>
-			</File>
 		</Filter>
 		<File
 			RelativePath=".\ClassDiagram1.cd"

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "ConstString.h"
 namespace my_utility {
 
 

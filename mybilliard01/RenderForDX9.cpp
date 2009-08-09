@@ -3,7 +3,7 @@
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
-#include "stdafx.h"
+#include "DXUT.h"
 #include "RenderForDX9.h"
 
 //#define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
@@ -68,6 +68,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 
+    RenderPtr render_( new RenderD3D9Imp() );
+    Render * const render = &*render_;
+
     // DXUT will create and use the best device (either D3D9 or D3D10) 
     // that is available on the system depending on which D3D callbacks are set below
 
@@ -87,8 +90,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     InitApp();
     DXUTInit( true, true, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
     DXUTSetCursorSettings( true, true );
-	DXUTCreateWindow( ConstString::windowTitle().c_str() );
-    DXUTCreateDevice( true, 640, 480 );
+    render->setScreenWidth( 640 );
+    render->setScreenHeight( 480 );
+    render->openWindow( ConstString::windowTitle(), true );
     DXUTMainLoop(); // Enter into the DXUT render loop
 
     return DXUTGetExitCode();
