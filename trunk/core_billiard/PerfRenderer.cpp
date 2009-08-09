@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "my_phys_x.h"
 namespace my_phys_x {
 
 PerfRenderer::PerfRenderer()

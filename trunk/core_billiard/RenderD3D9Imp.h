@@ -1,8 +1,8 @@
 #pragma once
-namespace my_render_imp {
+namespace my_render_d3d9_imp {
 
 
-class RenderImp : IMPLEMENTS_( Render ) {
+class RenderD3D9Imp : IMPLEMENTS_( Render ) {
 public:
     virtual void setScreenWidth( int width );
     virtual void setScreenHeight( int height );

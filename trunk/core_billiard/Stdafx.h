@@ -1,19 +1,33 @@
 #pragma once
 
+#ifdef WIN32 
+#	define NOMINMAX
+#	include <windows.h>
+#endif
+
+#if defined(_XBOX)
+#	include <xtl.h>
+#endif
+
 #include <stdio.h>
 #include <string>
 #include <vector>
 #include <map>
+#include <list>
+#include <algorithm>
+
+
+#include "NxPhysics.h"
+#include "NxSimpleTypes.h"
+#include "NxMat34.h"
+
+#pragma warning ( disable : 4819 )
+
+#include "dae.h"
+#include "dom/domTypes.h"
+#include "dom/domCOLLADA.h"
 
 #include "MyUtilities.h"
 #include "ConstString.h"
 
-namespace core_billiard {
-    using namespace std;
-    using namespace my_utility;
-
-    
-}
-
-#include "my_collada.h"
-#include "my_phys_x.h"
+MY_SMART_PTR( DAE );

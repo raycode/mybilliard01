@@ -25,7 +25,7 @@ public:
     [TestInitialize()]
     void MyTestInitialize()
     {
-        render = new RenderImp();
+        render = new RenderD3D9Imp();
         setCurrentDirectory( testContext_ );
     };
 

@@ -63,7 +63,7 @@ public:
 
     [TestMethod]
     void setRender() {
-        Render * const render = new RenderImp();
+        Render * const render = new RenderD3D9Imp();
         scene->setRender( render );
         Assert::IsTrue( render == scene->getRender() );
     }
@@ -72,7 +72,7 @@ public:
     void setRenderUpAxis_LoadFirst() {
         scene->load( getFilename(), baseFactory );
 
-        Render * const render = new RenderImp();
+        Render * const render = new RenderD3D9Imp();
         scene->setRender( render );
 
         Assert::IsTrue( UPAXISTYPE_Y_UP == render->getUpAxis() );
@@ -80,7 +80,7 @@ public:
 
     [TestMethod]
     void setRenderUpAxis_SetFirst() {
-        Render * const render = new RenderImp();
+        Render * const render = new RenderD3D9Imp();
         scene->setRender( render );
 
         scene->load( getFilename(), baseFactory );

@@ -1,7 +1,5 @@
 #include "stdafx.h"
-#include "NXU_ColladaImport.h"
-#include "NXU_helper.h"
-#include "MediaPath.h"
+#include "my_phys_x.h"
 namespace my_phys_x {
 
 MyPhysX::MyPhysX( NxUserOutputStream * userOutputStream )
