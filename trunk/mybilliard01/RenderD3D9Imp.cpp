@@ -18,6 +18,11 @@ RenderD3D9Imp::RenderD3D9Imp()
     DXUTSetCursorSettings( true, true );
 }
 
+void* RenderD3D9Imp::getNativeDevice() {
+    return d3dDevice_;
+}
+
+
 void RenderD3D9Imp::setScreenHeight( int height ) {
     height_ = height;
 }
@@ -75,7 +80,17 @@ void RenderD3D9Imp::addErrorListener( RenderErrorListener * errorListener ) {
 
 void RenderD3D9Imp::addEventListener( RenderEventListener * eventListener ) {
     eventListener_ = eventListener;
+    DXUTSetCallbackD3D9DeviceCreated( &RenderD3D9Imp::s_init, this );
 }
+
+HRESULT RenderD3D9Imp::s_init( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc, void* pUserContext ) {
+    RenderD3D9Imp * const render = (RenderD3D9Imp*) pUserContext;
+    render->d3dDevice_ = pd3dDevice;
+
+    render->eventListener_->init( render );
+    return S_OK;
+}
+
 
 void RenderD3D9Imp::pushMatrix() {
 

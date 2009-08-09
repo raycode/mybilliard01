@@ -23,6 +23,7 @@ public: // from Render
     virtual void addEventListener( RenderEventListener * eventListener );
 
     virtual void start();
+    virtual void* getNativeDevice();
 
     virtual void setUpAxis( domUpAxisType up );
     virtual domUpAxisType getUpAxis();
@@ -54,6 +55,9 @@ public: // from Render
     virtual void GetRenderState( ERenderStateType State, NxU32 * pValue );
     virtual void SetRenderState( ERenderStateType State, NxU32 Value );
 
+public: // static members
+    static HRESULT CALLBACK s_init( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc, void* pUserContext );
+
 private:
     int width_, height_;
     wstring title_;
@@ -62,6 +66,8 @@ private:
 
     RenderErrorListener * errorListener_;
     RenderEventListener * eventListener_;
+
+    IDirect3DDevice9 * d3dDevice_;
 };
 
 }
