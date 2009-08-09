@@ -1,25 +1,17 @@
 #pragma once
-
-#ifdef WIN32 
-#	define NOMINMAX
-#	include <windows.h>
-#endif
-
-#if defined(_XBOX)
-#	include <xtl.h>
-#endif
+#include "stdafx.h"
 
 #pragma warning ( disable : 4505 4819 )
 
-#include "NxPhysics.h"
 #include "PerfRenderer.h"
 #include "Timing.h"
 #include "NXU_helper.h"
+#include "NXU_ColladaImport.h"
+#include "MediaPath.h"
 
 namespace my_phys_x {
     using namespace std;
-    using namespace Loki;
-    using namespace core_billiard;
+    using namespace my_utility;
 
 }
 

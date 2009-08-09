@@ -62,3 +62,11 @@ namespace Loki {}
 #define INTERFACE_ class
 #define IMPLEMENTS_( INTERFACE_NAME ) public virtual INTERFACE_NAME
 #define EXTENDS_INTERFACE_( INTERFACE_NAME ) public virtual INTERFACE_NAME
+
+
+template < typename T1 >
+static T1 * daeDowncast( daeElement * elem ) {
+    if( NULL == elem ) return NULL;
+    if( T1::ID() != elem->typeID() ) return NULL;
+    return (T1*) elem;
+}

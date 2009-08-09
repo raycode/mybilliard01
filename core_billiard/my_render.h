@@ -1,18 +1,5 @@
 #pragma once
-
-#include <string>
-#include <vector>
-
-#include "NxSimpleTypes.h"
-#include "NxMat34.h"
-
-#pragma warning ( disable : 4819 )
-
-#include "dae.h"
-#include "dom/domTypes.h"
-#include "dom/domCOLLADA.h"
-
-#include "MyUtilities.h"
+#include "stdafx.h"
 
 namespace my_render {
     using namespace std;

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "my_phys_x.h"
 namespace my_phys_x {
 
 #if defined(__CELLOS_LV2__)
