@@ -317,7 +317,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RenderForDX9.cpp"
+				RelativePath=".\RenderForDX9.h"
+				>
+			</File>
+			<File
+				RelativePath=".\wWinMain.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -328,10 +332,6 @@
 						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\RenderForDX9.h"
-				>
 			</File>
 		</Filter>
 		<Filter
