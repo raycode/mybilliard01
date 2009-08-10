@@ -66,8 +66,37 @@ ApplicationWin32Imp::ApplicationWin32Imp()
 }
 
 void ApplicationWin32Imp::mainLoop() {
-    DXUTMainLoop(); // Enter into the DXUT render loop
+    //DXUTMainLoop(); // Enter into the DXUT render loop
 
+    HWND hWnd = DXUTGetHWND();
+    HACCEL hAccel = NULL;
+
+    bool bGotMsg;
+    MSG msg;
+    msg.message = WM_NULL;
+    PeekMessage( &msg, NULL, 0U, 0U, PM_NOREMOVE );
+
+    while( WM_QUIT != msg.message )
+    {
+        // Use PeekMessage() so we can use idle time to render the scene. 
+        bGotMsg = ( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) != 0 );
+
+        if( bGotMsg )
+        {
+            // Translate and dispatch the message
+            if( hWnd == NULL || // hAccel == NULL || 
+                0 == TranslateAccelerator( hWnd, hAccel, &msg ) )
+            {
+                TranslateMessage( &msg );
+                DispatchMessage( &msg );
+            }
+        }
+        else
+        {
+            // Render a frame during idle time (no messages are waiting)
+            render_->render();
+        }
+    }
 }
 
 //--------------------------------------------------------------------------------------

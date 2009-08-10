@@ -7,6 +7,7 @@ public:
     virtual void addEventListener( RenderEventListener * eventListener ) = 0;
 
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) = 0;
+    virtual void render() = 0;
     virtual void releaseDevice() = 0;
     virtual void* getNativeDevice() = 0;
 
