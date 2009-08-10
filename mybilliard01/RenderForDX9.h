@@ -1,9 +1,5 @@
 #pragma once
 #include "DXUT.h"
-#include "DXUTgui.h"
-#include "DXUTmisc.h"
-#include "DXUTCamera.h"
-#include "DXUTSettingsDlg.h"
 #include "SDKmisc.h"
 #include "SDKmesh.h"
 #include "resource.h"
@@ -22,3 +18,4 @@ using namespace my_render_d3d9_imp;
 #include "RenderEventListenerImp.h"
 
 MY_SMART_PTR( RenderErrorListenerImp );
+MY_SMART_PTR( RenderEventListenerImp );

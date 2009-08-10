@@ -56,7 +56,14 @@ public: // from Render
     virtual void SetRenderState( ERenderStateType State, NxU32 Value );
 
 public: // static members
+    static bool CALLBACK IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext );
+    static bool CALLBACK ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSettings, void* pUserContext );
+
     static HRESULT CALLBACK s_init( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc, void* pUserContext );
+    static HRESULT CALLBACK s_displayReset( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc, void* pUserContext );
+    static void CALLBACK s_display( IDirect3DDevice9* pd3dDevice, double fTime, float fElapsedTime, void* pUserContext );
+    static void CALLBACK s_displayLost( void* pUserContext );
+
 
 private:
     int width_, height_;
@@ -66,6 +73,9 @@ private:
 
     RenderErrorListener * errorListener_;
     RenderEventListener * eventListener_;
+
+    NullRenderErrorListener nullErrorListener_;
+    NullRenderEventListener nullEventListener_;
 
     IDirect3DDevice9 * d3dDevice_;
 };
