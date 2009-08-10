@@ -72,19 +72,19 @@ domUpAxisType RenderD3D9Imp::getUpAxis() {
 
 void RenderD3D9Imp::start() {
     if( S_OK != DXUTCreateWindow( getScreenTitle().c_str() ) ) {
-        if( errorListener_ ) errorListener_->openWindow( L"Cannot create window." );
+        errorListener_->createWindow( L"Cannot create window." );
         return;
     }
 
     if( S_OK != DXUTCreateDevice( isWindowedMode(), getScreenWidth(), getScreenHeight() ) ) {
-        if( errorListener_ ) errorListener_->openWindow( L"Cannot create device." );
+        errorListener_->createDevice( L"Cannot create device." );
         return;
     }
 
     DXUTMainLoop(); // Enter into the DXUT render loop
 
     DXUTSetCallbackD3D9DeviceLost( NULL );
-    eventListener_->displayLost( this );
+    s_displayLost( this );
 
     ::OutputDebugStr( L"RenderEventListener::destroy()\n" );
     eventListener_->destroy( this );
