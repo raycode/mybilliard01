@@ -6,6 +6,8 @@ class ApplicationWin32Imp : IMPLEMENTS_( ApplicationWindow ) {
 public: // from ApplicationWindow
     virtual void openWindow(); // main loop
 
+    virtual void setScreenX( int x );
+    virtual void setScreenY( int y );
     virtual void setScreenWidth( int width );
     virtual void setScreenHeight( int height );
     virtual void setWindowedMode( bool );
@@ -23,6 +25,8 @@ public:
     void mainLoop();
 
 public: // get
+    int getScreenX();
+    int getScreenY();
     int getScreenWidth();
     int getScreenHeight();
     bool isWindowedMode();
@@ -30,12 +34,11 @@ public: // get
 
 public: // static
     static LRESULT CALLBACK MsgProc(HWND, UINT, WPARAM, LPARAM);
-    //static LRESULT CALLBACK MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool* pbNoFurtherProcessing, void* pUserContext );
     static void CALLBACK OnKeyboard( UINT nChar, bool bKeyDown, bool bAltDown, void* pUserContext );
     static void CALLBACK OnGUIEvent( UINT nEvent, int nControlID, CDXUTControl* pControl, void* pUserContext );
 
 private:
-    int width_, height_;
+    int x_, y_, width_, height_;
     bool bWindowedMode_;
     wstring title_;
 

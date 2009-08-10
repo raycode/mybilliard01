@@ -7,6 +7,8 @@ public:
     virtual void openWindow() = 0;
     virtual void setRender( Render * ) = 0;
 
+    virtual void setScreenX( int x ) = 0;
+    virtual void setScreenY( int y ) = 0;
     virtual void setScreenWidth( int width ) = 0;
     virtual void setScreenHeight( int height ) = 0;
     virtual void setWindowedMode( bool ) = 0;
