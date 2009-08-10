@@ -3,7 +3,8 @@
 
 class RenderErrorListenerImp : IMPLEMENTS_( RenderErrorListener ) {
 public:
-    virtual void openWindow( wstring );
+    virtual void createWindow( wstring );
+    virtual void createDevice( wstring );
 
 };
 
