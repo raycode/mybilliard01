@@ -1,4 +1,6 @@
 #pragma once
+#include "DXUT.h"
+#include "SDKmisc.h"
 #include "../core_billiard/my_render_imp.h"
 
 namespace my_render_d3d9_imp {
