@@ -7,22 +7,11 @@ public:
     RenderD3D9Imp();
 
 public: // from Render
-    virtual void setScreenWidth( int width );
-    virtual void setScreenHeight( int height );
-
-    virtual int getScreenWidth();
-    virtual int getScreenHeight();
-
-    virtual void setScreenTitle( wstring title );
-    virtual wstring getScreenTitle();
-
-    virtual void setWindowedMode( bool );
-    virtual bool isWindowedMode();
-
     virtual void addErrorListener( RenderErrorListener * errorListener );
     virtual void addEventListener( RenderEventListener * eventListener );
 
-    virtual int start();
+    virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight );
+    virtual void releaseDevice();
     virtual void* getNativeDevice();
 
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil );
@@ -65,9 +54,6 @@ public: // static members
 
 
 private:
-    int width_, height_;
-    wstring title_;
-    bool bWindowedMode_;
     domUpAxisType upAxis_;
 
     RenderErrorListener * errorListener_;

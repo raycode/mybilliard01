@@ -1689,30 +1689,62 @@
 			<Filter
 				Name="1. Render"
 				>
-				<File
-					RelativePath=".\NullRenderErrorListener.hpp"
+				<Filter
+					Name="3. Render"
 					>
-				</File>
-				<File
-					RelativePath=".\NullRenderEventListener.hpp"
+					<File
+						RelativePath=".\NullRenderErrorListener.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\NullRenderEventListener.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\Render.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderErrorListener.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderEventListener.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="2. Scene"
 					>
-				</File>
-				<File
-					RelativePath=".\Render.h"
+					<File
+						RelativePath=".\Scene.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="1. ApplicationWindow"
 					>
-				</File>
-				<File
-					RelativePath=".\RenderErrorListener.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RenderEventListener.h"
-					>
-				</File>
-				<File
-					RelativePath=".\Scene.h"
-					>
-				</File>
+					<File
+						RelativePath=".\ApplicationWindow.h"
+						>
+					</File>
+					<File
+						RelativePath=".\KeyboardEventListener.h"
+						>
+					</File>
+					<File
+						RelativePath=".\MouseEventListener.h"
+						>
+					</File>
+					<File
+						RelativePath=".\NullKeyboardEventListener.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\NullMouseEventListener.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="2. Factory"

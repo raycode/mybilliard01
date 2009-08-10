@@ -19,9 +19,29 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 
-    App app;
-    app.init();
-    return app.mainLoop();
+    SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
+
+    RenderEventListenerImp renderEvent;
+    RenderErrorListenerImp renderError;
+
+    RenderD3D9Imp render;
+    render.addEventListener( &renderEvent );
+    render.addErrorListener( &renderError );
+
+    KeyboardEventListenerImp keyEvent;
+    MouseEventListenerImp mouseEvent;
+
+    ApplicationWin32Imp app;
+    app.setRender( &render );
+    app.addKeyboardListener( &keyEvent );
+    app.addMouseListener( &mouseEvent );
+    app.setScreenWidth( 640 );
+    app.setScreenHeight( 480 );
+    app.setWindowedMode( true );
+    app.setScreenTitle( ConstString::windowTitle() );
+    app.openWindow();
+
+    return 0;
 }
 
 

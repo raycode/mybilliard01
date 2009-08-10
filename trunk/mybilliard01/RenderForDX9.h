@@ -24,5 +24,4 @@ MY_SMART_PTR( RenderEventListenerImp );
 
 #include "RenderErrorListenerImp.h"
 #include "RenderEventListenerImp.h"
-#include "App.h"
 
