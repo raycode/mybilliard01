@@ -2,7 +2,6 @@
 #include "my_render_d3d9_imp.h"
 namespace my_render_d3d9_imp {
 
-
 void ApplicationWin32Imp::openWindow() {
     if( false == createWindow() )
         throw exception();
@@ -25,8 +24,6 @@ bool ApplicationWin32Imp::createWindow()
 
     HICON hIcon = NULL;
     HMENU hMenu = NULL;
-    int x = 10;
-    int y = 10;
     const wstring registerClassName = getScreenTitle();
 
     {
@@ -40,7 +37,7 @@ bool ApplicationWin32Imp::createWindow()
         // Register the windows class
         WNDCLASS wndClass;
         wndClass.style = CS_DBLCLKS;
-        wndClass.lpfnWndProc = DXUTStaticWndProc;
+        wndClass.lpfnWndProc = ApplicationWin32Imp::MsgProc;
         wndClass.cbClsExtra = 0;
         wndClass.cbWndExtra = 0;
         wndClass.hInstance = hInstance_;
@@ -56,19 +53,22 @@ bool ApplicationWin32Imp::createWindow()
             if( dwError != ERROR_CLASS_ALREADY_EXISTS )
                 return false;
         }
+    }
 
-        int nDefaultWidth = 640;
-        int nDefaultHeight = 480;
+    {
+        int nDefaultWidth = getScreenHeight();
+        int nDefaultHeight = getScreenHeight();
 
         RECT rc;
         SetRect( &rc, 0, 0, nDefaultWidth, nDefaultHeight );
         AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, ( hMenu != NULL ) ? true : false );
 
         // Create the render window
-        HWND hWnd = CreateWindow( registerClassName.c_str(), getScreenTitle().c_str(), WS_OVERLAPPEDWINDOW,
-            x, y, ( rc.right - rc.left ), ( rc.bottom - rc.top ), 0,
+        hWnd_ = CreateWindow( registerClassName.c_str(), getScreenTitle().c_str(), WS_OVERLAPPEDWINDOW,
+            getScreenX(), getScreenY(),
+            ( rc.right - rc.left ), ( rc.bottom - rc.top ), 0,
             hMenu, hInstance_, 0 );
-        if( hWnd == NULL )
+        if( NULL == hWnd_ )
             return false;
 
         //GetDXUTState().SetHWNDDeviceFullScreen( hWnd );
@@ -86,6 +86,22 @@ void ApplicationWin32Imp::releaseWindow() {
 
 void ApplicationWin32Imp::setRender( Render * render ) {
     render_ = render;
+}
+
+int ApplicationWin32Imp::getScreenX() {
+    return x_;
+}
+
+int ApplicationWin32Imp::getScreenY() {
+    return y_;
+}
+
+void ApplicationWin32Imp::setScreenX( int x ) {
+    x_ = x;
+}
+
+void ApplicationWin32Imp::setScreenY( int y ) {
+    y_ = y;
 }
 
 void ApplicationWin32Imp::setScreenWidth( int width ) {
@@ -129,7 +145,9 @@ wstring ApplicationWin32Imp::getScreenTitle() {
 }
 
 ApplicationWin32Imp::ApplicationWin32Imp()
-: bWindowCreated_( false )
+: x_( 10 ), y_( 10 )
+, width_( 640 ), height_( 480 )
+, bWindowCreated_( false )
 , render_( NULL )
 {
     keyboardListener_ = &nullKeyboardListener_;
@@ -173,9 +191,7 @@ void ApplicationWin32Imp::mainLoop() {
 //--------------------------------------------------------------------------------------
 // Handle messages to the application
 //--------------------------------------------------------------------------------------
-LRESULT ApplicationWin32Imp::MsgProc(HWND, UINT, WPARAM, LPARAM)
-//LRESULT ApplicationWin32Imp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool* pbNoFurtherProcessing,
-//                     void* pUserContext )
+LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
 {
     /*
     App * const app = (App *) pUserContext;
@@ -204,7 +220,7 @@ LRESULT ApplicationWin32Imp::MsgProc(HWND, UINT, WPARAM, LPARAM)
     app->eventListener_->camera_.HandleMessages( hWnd, uMsg, wParam, lParam );
 
     */
-    return 0;
+    return DefWindowProc(hWnd, Msg, wParam, lParam);
 }
 
 
