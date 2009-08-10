@@ -7,6 +7,7 @@ public:
 
 public:
     App();
+    ~App();
 
 private:
     RenderPtr render_;

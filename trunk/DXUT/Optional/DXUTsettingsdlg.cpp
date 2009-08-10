@@ -459,14 +459,14 @@ void CD3DSettingsDlg::OnRender9( float fElapsedTime )
     pd3dDevice->Clear( 0, NULL, D3DCLEAR_TARGET, 0x00003F3F, 1.0f, 0 );
 
     // Render the scene
-    if( SUCCEEDED( pd3dDevice->BeginScene() ) )
-    {
+    //if( SUCCEEDED( pd3dDevice->BeginScene() ) )
+    //{
         m_pStateBlock->Capture();
         pd3dDevice->SetRenderState( D3DRS_FILLMODE, D3DFILL_SOLID );
         m_pActiveDialog->OnRender( fElapsedTime );
         m_pStateBlock->Apply();
-        pd3dDevice->EndScene();
-    }
+    //    pd3dDevice->EndScene();
+    //}
 }
 
 

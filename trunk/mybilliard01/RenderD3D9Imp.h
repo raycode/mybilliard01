@@ -22,8 +22,12 @@ public: // from Render
     virtual void addErrorListener( RenderErrorListener * errorListener );
     virtual void addEventListener( RenderEventListener * eventListener );
 
-    virtual void start();
+    virtual int start();
     virtual void* getNativeDevice();
+
+    virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil );
+    virtual bool beginScene();
+    virtual void endScene();
 
     virtual void setUpAxis( domUpAxisType up );
     virtual domUpAxisType getUpAxis();
@@ -32,12 +36,6 @@ public: // from Render
     virtual void popMatrix();
     virtual void loadIdentity();
     virtual void multMatrix( NxMat34 );
-
-    virtual void beginScene();
-    virtual void endScene();
-
-    virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil );
-    virtual void Present();
 
     virtual void drawPrimitive(
         EPrimitiveType primitiveType,
@@ -52,8 +50,9 @@ public: // from Render
         NxU32 startIndex,
         NxU32 primitiveCount );
 
-    virtual void GetRenderState( ERenderStateType State, NxU32 * pValue );
-    virtual void SetRenderState( ERenderStateType State, NxU32 Value );
+public: // render state
+    virtual void getRenderState( ERenderStateType State, NxU32 * pValue );
+    virtual void setRenderState( ERenderStateType State, NxU32 Value );
 
 public: // static members
     static bool CALLBACK IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext );
@@ -77,6 +76,7 @@ private:
     NullRenderErrorListener nullErrorListener_;
     NullRenderEventListener nullEventListener_;
 
+private:
     IDirect3DDevice9 * d3dDevice_;
 };
 
