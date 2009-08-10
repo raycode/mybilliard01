@@ -70,15 +70,17 @@ domUpAxisType RenderD3D9Imp::getUpAxis() {
     return upAxis_;
 }
 
-void RenderD3D9Imp::start() {
-    if( S_OK != DXUTCreateWindow( getScreenTitle().c_str() ) ) {
+int RenderD3D9Imp::start() {
+    HRESULT hr;
+
+    if( S_OK != (hr = DXUTCreateWindow( getScreenTitle().c_str() ) ) ) {
         errorListener_->createWindow( L"Cannot create window." );
-        return;
+        return hr;
     }
 
-    if( S_OK != DXUTCreateDevice( isWindowedMode(), getScreenWidth(), getScreenHeight() ) ) {
+    if( S_OK != (hr = DXUTCreateDevice( isWindowedMode(), getScreenWidth(), getScreenHeight() ) ) ) {
         errorListener_->createDevice( L"Cannot create device." );
-        return;
+        return hr;
     }
 
     DXUTMainLoop(); // Enter into the DXUT render loop
@@ -88,7 +90,8 @@ void RenderD3D9Imp::start() {
 
     ::OutputDebugStr( L"RenderEventListener::destroy()\n" );
     eventListener_->destroy( this );
-    return;
+
+    return DXUTGetExitCode();
 }
 
 void RenderD3D9Imp::addErrorListener( RenderErrorListener * errorListener ) {
@@ -111,6 +114,7 @@ HRESULT RenderD3D9Imp::s_init( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DE
 
 void RenderD3D9Imp::s_display( IDirect3DDevice9* pd3dDevice, double fTime, float fElapsedTime, void* pUserContext ) {
     RenderD3D9Imp * const render = (RenderD3D9Imp*) pUserContext;
+    render->eventListener_->update( fElapsedTime );
     render->eventListener_->display( render );
 }
 
@@ -219,20 +223,16 @@ void RenderD3D9Imp::multMatrix( NxMat34 ) {
 
 }
 
-void RenderD3D9Imp::beginScene() {
-
+bool RenderD3D9Imp::beginScene() {
+    return D3D_OK == d3dDevice_->BeginScene();
 }
 
 void RenderD3D9Imp::endScene() {
-
+    d3dDevice_->EndScene();
 }
 
 void RenderD3D9Imp::clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) {
-
-}
-
-void RenderD3D9Imp::Present() {
-
+    d3dDevice_->Clear( 0, NULL, Flags, Color, Z, Stencil );
 }
 
 void RenderD3D9Imp::drawPrimitive(
@@ -253,11 +253,11 @@ void RenderD3D9Imp::drawIndexedPrimitive(
 
 }
 
-void RenderD3D9Imp::GetRenderState( ERenderStateType State, NxU32 * pValue ) {
+void RenderD3D9Imp::getRenderState( ERenderStateType State, NxU32 * pValue ) {
 
 }
 
-void RenderD3D9Imp::SetRenderState( ERenderStateType State, NxU32 Value ) {
+void RenderD3D9Imp::setRenderState( ERenderStateType State, NxU32 Value ) {
 
 }
 

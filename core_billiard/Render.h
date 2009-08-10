@@ -18,8 +18,16 @@ public:
     virtual void addErrorListener( RenderErrorListener * errorListener ) = 0;
     virtual void addEventListener( RenderEventListener * eventListener ) = 0;
 
-    virtual void start() = 0;
+    virtual int start() = 0;
     virtual void* getNativeDevice() = 0;
+
+#define ERenderClear_TARGET            0x00000001l  /* Clear target surface */
+#define ERenderClear_ZBUFFER           0x00000002l  /* Clear target z buffer */
+#define ERenderClear_STENCIL           0x00000004l  /* Clear stencil planes */
+
+    virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) = 0;
+    virtual bool beginScene() = 0;
+    virtual void endScene() = 0;
 
     virtual void setUpAxis( domUpAxisType up ) = 0;
     virtual domUpAxisType getUpAxis() = 0;
@@ -28,12 +36,6 @@ public:
     virtual void popMatrix() = 0;
     virtual void loadIdentity() = 0;
     virtual void multMatrix( NxMat34 ) = 0;
-
-    virtual void beginScene() = 0;
-    virtual void endScene() = 0;
-
-    virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) = 0;
-    virtual void Present() = 0;
 
     enum EPrimitiveType {
         EPrimitive_POINTLIST = 1,
@@ -58,6 +60,7 @@ public:
         NxU32 startIndex,
         NxU32 primitiveCount ) = 0;
 
+public: // render state
     enum ERenderStateType {
         ERenderState_ZENABLE = 7,
         ERenderState_FILLMODE = 8,
@@ -165,8 +168,8 @@ public:
         ERenderState_FORCE_DWORD = 0x7fffffff
     };
    
-    virtual void GetRenderState( ERenderStateType State, NxU32 * pValue ) = 0;
-    virtual void SetRenderState( ERenderStateType State, NxU32 Value ) = 0;
+    virtual void getRenderState( ERenderStateType State, NxU32 * pValue ) = 0;
+    virtual void setRenderState( ERenderStateType State, NxU32 Value ) = 0;
 
 public:
     typedef int VertexBufferID;

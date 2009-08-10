@@ -8,6 +8,10 @@ App::App()
 {
 }
 
+App::~App() {
+    render_ = RenderPtr( (Render*)( NULL ) );
+}
+
 void App::init() {
     SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
 
@@ -25,8 +29,7 @@ void App::init() {
 }
 
 int App::mainLoop() {
-    render_->start();
-    return DXUTGetExitCode();
+    return render_->start();
 }
 
 //--------------------------------------------------------------------------------------
@@ -34,10 +37,10 @@ int App::mainLoop() {
 //--------------------------------------------------------------------------------------
 void App::OnFrameMove( double fTime, float fElapsedTime, void* pUserContext )
 {
-    App * const app = (App *) pUserContext;
+    //App * const app = (App *) pUserContext;
 
     // Update the camera's position based on user input 
-    app->eventListener_->g_Camera.FrameMove( fElapsedTime );
+    //app->eventListener_->Camera.FrameMove( fElapsedTime );
 }
 
 
@@ -51,27 +54,27 @@ LRESULT App::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool* 
     App * const app = (App *) pUserContext;
 
     // Pass messages to dialog resource manager calls so GUI state is updated correctly
-    *pbNoFurtherProcessing = app->eventListener_->g_DialogResourceManager.MsgProc( hWnd, uMsg, wParam, lParam );
+    *pbNoFurtherProcessing = app->eventListener_->dialogResourceManager_.MsgProc( hWnd, uMsg, wParam, lParam );
     if( *pbNoFurtherProcessing )
         return 0;
 
     // Pass messages to settings dialog if its active
-    if( app->eventListener_->g_SettingsDlg.IsActive() )
+    if( app->eventListener_->settingsDlg_.IsActive() )
     {
-        app->eventListener_->g_SettingsDlg.MsgProc( hWnd, uMsg, wParam, lParam );
+        app->eventListener_->settingsDlg_.MsgProc( hWnd, uMsg, wParam, lParam );
         return 0;
     }
 
     // Give the dialogs a chance to handle the message first
-    *pbNoFurtherProcessing = app->eventListener_->g_HUD.MsgProc( hWnd, uMsg, wParam, lParam );
+    *pbNoFurtherProcessing = app->eventListener_->hud_.MsgProc( hWnd, uMsg, wParam, lParam );
     if( *pbNoFurtherProcessing )
         return 0;
-    *pbNoFurtherProcessing = app->eventListener_->g_SampleUI.MsgProc( hWnd, uMsg, wParam, lParam );
+    *pbNoFurtherProcessing = app->eventListener_->sampleUI_.MsgProc( hWnd, uMsg, wParam, lParam );
     if( *pbNoFurtherProcessing )
         return 0;
 
     // Pass all remaining windows messages to camera so it can respond to user input
-    app->eventListener_->g_Camera.HandleMessages( hWnd, uMsg, wParam, lParam );
+    app->eventListener_->camera_.HandleMessages( hWnd, uMsg, wParam, lParam );
 
     return 0;
 }
