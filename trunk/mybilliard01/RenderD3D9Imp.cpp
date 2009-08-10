@@ -23,6 +23,10 @@ RenderD3D9Imp::RenderD3D9Imp()
     DXUTSetCallbackD3D9DeviceLost( &RenderD3D9Imp::s_displayLost, this );
 }
 
+void RenderD3D9Imp::render() {
+    DXUTRender3DEnvironment();
+}
+
 bool RenderD3D9Imp::createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) {
     return S_OK == DXUTCreateDevice( bWindowed, nSuggestedWidth, nSuggestedHeight );
 }

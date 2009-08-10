@@ -11,6 +11,7 @@ public: // from Render
     virtual void addEventListener( RenderEventListener * eventListener );
 
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight );
+    virtual void render();
     virtual void releaseDevice();
     virtual void* getNativeDevice();
 
