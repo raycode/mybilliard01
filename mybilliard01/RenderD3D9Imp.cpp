@@ -5,14 +5,8 @@ namespace my_render_d3d9_imp {
 //#define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
 //#define DEBUG_PS   // Uncomment this line to debug D3D9 pixel shaders 
 
-void RenderD3D9Imp::setScreenWidth( int width ) {
-    width_ = width;
-}
-
 RenderD3D9Imp::RenderD3D9Imp()
-: width_(640), height_(480)
-, bWindowedMode_( true )
-, upAxis_( UPAXISTYPE_Y_UP )
+: upAxis_( UPAXISTYPE_Y_UP )
 {
     errorListener_ = &nullErrorListener_;
     eventListener_ = &nullEventListener_;
@@ -29,38 +23,23 @@ RenderD3D9Imp::RenderD3D9Imp()
     DXUTSetCallbackD3D9DeviceLost( &RenderD3D9Imp::s_displayLost, this );
 }
 
+bool RenderD3D9Imp::createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) {
+    return S_OK == DXUTCreateDevice( bWindowed, nSuggestedWidth, nSuggestedHeight );
+}
+
+void RenderD3D9Imp::releaseDevice()
+{
+    DXUTSetCallbackD3D9DeviceLost( NULL );
+    s_displayLost( this );
+
+    ::OutputDebugStr( L"RenderEventListener::destroy()\n" );
+    eventListener_->destroy( this );
+}
+
 void* RenderD3D9Imp::getNativeDevice() {
     return d3dDevice_;
 }
 
-
-void RenderD3D9Imp::setScreenHeight( int height ) {
-    height_ = height;
-}
-
-int RenderD3D9Imp::getScreenWidth() {
-    return width_;
-}
-
-int RenderD3D9Imp::getScreenHeight() {
-    return height_;
-}
-
-void RenderD3D9Imp::setWindowedMode( bool val ) {
-    bWindowedMode_ = val;
-}
-
-void RenderD3D9Imp::setScreenTitle( wstring title ) {
-    title_ = title;
-}
-
-wstring RenderD3D9Imp::getScreenTitle() {
-    return title_;
-}
-
-bool RenderD3D9Imp::isWindowedMode() {
-    return bWindowedMode_;
-}
 
 void RenderD3D9Imp::setUpAxis( domUpAxisType up ) {
     upAxis_ = up;
@@ -68,30 +47,6 @@ void RenderD3D9Imp::setUpAxis( domUpAxisType up ) {
 
 domUpAxisType RenderD3D9Imp::getUpAxis() {
     return upAxis_;
-}
-
-int RenderD3D9Imp::start() {
-    HRESULT hr;
-
-    if( S_OK != (hr = DXUTCreateWindow( getScreenTitle().c_str() ) ) ) {
-        errorListener_->createWindow( L"Cannot create window." );
-        return hr;
-    }
-
-    if( S_OK != (hr = DXUTCreateDevice( isWindowedMode(), getScreenWidth(), getScreenHeight() ) ) ) {
-        errorListener_->createDevice( L"Cannot create device." );
-        return hr;
-    }
-
-    DXUTMainLoop(); // Enter into the DXUT render loop
-
-    DXUTSetCallbackD3D9DeviceLost( NULL );
-    s_displayLost( this );
-
-    ::OutputDebugStr( L"RenderEventListener::destroy()\n" );
-    eventListener_->destroy( this );
-
-    return DXUTGetExitCode();
 }
 
 void RenderD3D9Imp::addErrorListener( RenderErrorListener * errorListener ) {

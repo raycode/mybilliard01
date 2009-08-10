@@ -3,22 +3,11 @@ namespace my_render {
 
 INTERFACE_ Render {
 public:
-    virtual void setScreenWidth( int width ) = 0;
-    virtual void setScreenHeight( int height ) = 0;
-
-    virtual int getScreenWidth() = 0;
-    virtual int getScreenHeight() = 0;
-
-    virtual void setScreenTitle( wstring title ) = 0;
-    virtual wstring getScreenTitle() = 0;
-
-    virtual void setWindowedMode( bool ) = 0;
-    virtual bool isWindowedMode() = 0;
-
     virtual void addErrorListener( RenderErrorListener * errorListener ) = 0;
     virtual void addEventListener( RenderEventListener * eventListener ) = 0;
 
-    virtual int start() = 0;
+    virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) = 0;
+    virtual void releaseDevice() = 0;
     virtual void* getNativeDevice() = 0;
 
 #define ERenderClear_TARGET            0x00000001l  /* Clear target surface */

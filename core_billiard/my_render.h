@@ -4,11 +4,18 @@
 namespace my_render {
     using namespace std;
 
+    class ApplicationWindow;
+    class MouseEventListener;
+    class KeyboardEventListener;
+    class NullMouseEventListener;
+    class NullKeyboardEventListener;
+
     class Render;
     class RenderEventListener;
     class RenderErrorListener;
     class NullRenderEventListener;
     class NullRenderErrorListener;
+
     class Scene;
 
     class Base;
@@ -26,6 +33,11 @@ namespace my_render {
     class GeometryMeshPrimitive;
 
 
+    MY_SMART_PTR( ApplicationWindow );
+    MY_SMART_PTR( MouseEventListener );
+    MY_SMART_PTR( KeyboardEventListener );
+    MY_SMART_PTR( NullMouseEventListener );
+    MY_SMART_PTR( NullKeyboardEventListener );
     MY_SMART_PTR( Render );
     MY_SMART_PTR( RenderEventListener );
     MY_SMART_PTR( RenderErrorListener );
@@ -44,6 +56,12 @@ namespace my_render {
     MY_SMART_PTR( GeometryMesh );
     MY_SMART_PTR( GeometryMeshPrimitive );
 }
+
+#include "ApplicationWindow.h"
+#include "MouseEventListener.h"
+#include "KeyboardEventListener.h"
+#include "NullMouseEventListener.hpp"
+#include "NullKeyboardEventListener.hpp"
 
 #include "RenderErrorListener.h"
 #include "RenderEventListener.h"
