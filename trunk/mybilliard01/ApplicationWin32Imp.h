@@ -17,6 +17,9 @@ public: // from ApplicationWindow
 
 public:
     ApplicationWin32Imp();
+
+    bool createWindow();
+    void releaseWindow();
     void mainLoop();
 
 public: // get
@@ -25,8 +28,9 @@ public: // get
     bool isWindowedMode();
     wstring getScreenTitle();
 
-private: // static
-    static LRESULT CALLBACK MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool* pbNoFurtherProcessing, void* pUserContext );
+public: // static
+    static LRESULT CALLBACK MsgProc(HWND, UINT, WPARAM, LPARAM);
+    //static LRESULT CALLBACK MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool* pbNoFurtherProcessing, void* pUserContext );
     static void CALLBACK OnKeyboard( UINT nChar, bool bKeyDown, bool bAltDown, void* pUserContext );
     static void CALLBACK OnGUIEvent( UINT nEvent, int nControlID, CDXUTControl* pControl, void* pUserContext );
 
@@ -34,6 +38,10 @@ private:
     int width_, height_;
     bool bWindowedMode_;
     wstring title_;
+
+    bool bWindowCreated_;
+    HINSTANCE hInstance_;
+    HWND hWnd_;
 
     Render * render_;
     KeyboardEventListener * keyboardListener_;

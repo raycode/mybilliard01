@@ -4,7 +4,10 @@ namespace my_render_d3d9_imp {
 
 
 void ApplicationWin32Imp::openWindow() {
-    if( S_OK != DXUTCreateWindow( getScreenTitle().c_str() ) ) // this should also work for OpenGL.
+    if( false == createWindow() )
+        throw exception();
+
+    if( NULL == render_ )
         throw exception();
 
     if( false == render_->createDevice( isWindowedMode(), getScreenWidth(), getScreenHeight() ) )
@@ -14,6 +17,72 @@ void ApplicationWin32Imp::openWindow() {
 
     render_->releaseDevice();
 }
+
+bool ApplicationWin32Imp::createWindow()
+{
+    if( bWindowCreated_ )
+        return false;
+
+    HICON hIcon = NULL;
+    HMENU hMenu = NULL;
+    int x = 10;
+    int y = 10;
+    const wstring registerClassName = getScreenTitle();
+
+    {
+        hInstance_ = ( HINSTANCE )GetModuleHandle( NULL );
+
+        WCHAR szExePath[MAX_PATH];
+        GetModuleFileName( NULL, szExePath, MAX_PATH );
+        if( hIcon == NULL ) // If the icon is NULL, then use the first one found in the exe
+            hIcon = ExtractIcon( hInstance_, szExePath, 0 );
+
+        // Register the windows class
+        WNDCLASS wndClass;
+        wndClass.style = CS_DBLCLKS;
+        wndClass.lpfnWndProc = DXUTStaticWndProc;
+        wndClass.cbClsExtra = 0;
+        wndClass.cbWndExtra = 0;
+        wndClass.hInstance = hInstance_;
+        wndClass.hIcon = hIcon;
+        wndClass.hCursor = LoadCursor( NULL, IDC_ARROW );
+        wndClass.hbrBackground = ( HBRUSH )GetStockObject( BLACK_BRUSH );
+        wndClass.lpszMenuName = NULL;
+        wndClass.lpszClassName = registerClassName.c_str();
+
+        if( !RegisterClass( &wndClass ) )
+        {
+            DWORD dwError = GetLastError();
+            if( dwError != ERROR_CLASS_ALREADY_EXISTS )
+                return false;
+        }
+
+        int nDefaultWidth = 640;
+        int nDefaultHeight = 480;
+
+        RECT rc;
+        SetRect( &rc, 0, 0, nDefaultWidth, nDefaultHeight );
+        AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, ( hMenu != NULL ) ? true : false );
+
+        // Create the render window
+        HWND hWnd = CreateWindow( registerClassName.c_str(), getScreenTitle().c_str(), WS_OVERLAPPEDWINDOW,
+            x, y, ( rc.right - rc.left ), ( rc.bottom - rc.top ), 0,
+            hMenu, hInstance_, 0 );
+        if( hWnd == NULL )
+            return false;
+
+        //GetDXUTState().SetHWNDDeviceFullScreen( hWnd );
+        //GetDXUTState().SetHWNDDeviceWindowed( hWnd );
+    }
+
+    bWindowCreated_ = true;
+    return true;
+}
+
+void ApplicationWin32Imp::releaseWindow() {
+    bWindowCreated_ = false;
+}
+
 
 void ApplicationWin32Imp::setRender( Render * render ) {
     render_ = render;
@@ -60,6 +129,8 @@ wstring ApplicationWin32Imp::getScreenTitle() {
 }
 
 ApplicationWin32Imp::ApplicationWin32Imp()
+: bWindowCreated_( false )
+, render_( NULL )
 {
     keyboardListener_ = &nullKeyboardListener_;
     mouseListener_ = &nullMouseListener_;
@@ -102,8 +173,9 @@ void ApplicationWin32Imp::mainLoop() {
 //--------------------------------------------------------------------------------------
 // Handle messages to the application
 //--------------------------------------------------------------------------------------
-LRESULT ApplicationWin32Imp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool* pbNoFurtherProcessing,
-                     void* pUserContext )
+LRESULT ApplicationWin32Imp::MsgProc(HWND, UINT, WPARAM, LPARAM)
+//LRESULT ApplicationWin32Imp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam, bool* pbNoFurtherProcessing,
+//                     void* pUserContext )
 {
     /*
     App * const app = (App *) pUserContext;
