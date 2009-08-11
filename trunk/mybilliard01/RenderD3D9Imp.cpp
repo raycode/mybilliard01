@@ -38,6 +38,8 @@ bool RenderD3D9Imp::createDevice( bool bWindowed, int nSuggestedWidth, int nSugg
 
 void RenderD3D9Imp::releaseDevice()
 {
+    if( false == isDeviceCreated() ) return;
+
     DXUTSetCallbackD3D9DeviceLost( NULL );
     s_displayLost( this );
 

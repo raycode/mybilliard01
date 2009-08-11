@@ -14,7 +14,7 @@ void InputListenerImp::keyUp( unsigned int key, bool bAlt ) {
 
 }
 
-void InputListenerImp::onEvent(
+void InputListenerImp::onMouseEvent(
         int xPos,
         int yPos,
         bool bLeftButton,
@@ -25,5 +25,14 @@ void InputListenerImp::onEvent(
         int nMouseWheelDelta ) 
 {
 
+}
+
+bool InputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
+    if( false == MsgProcDXUT( hWnd, uMsg, wParam, lParam ) )
+        return false;
+
+    // add more here
+
+    return true;
 }
 

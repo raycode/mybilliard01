@@ -14,6 +14,10 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT uMsg, WPARAM wPara
     static bool    bKeys[256];                                // array of key state
     static bool    bMouseButtons[5];                          // array of mouse states
 
+    const bool bProceedMore = g_app_->win32MessageListener_->MsgProc( hWnd, uMsg, wParam, lParam );
+    if( false == bProceedMore )
+        return 0;
+
     // Consolidate the keyboard messages and pass them to the app's keyboard callback
     if( uMsg == WM_KEYDOWN ||
        uMsg == WM_SYSKEYDOWN ||
@@ -78,7 +82,7 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT uMsg, WPARAM wPara
         bMouseButtons[3] = bSideButton1;
         bMouseButtons[4] = bSideButton2;
 
-        g_app_->mouseListener_->onEvent( xPos, yPos, bLeftButton, bRightButton, bMiddleButton, bSideButton1, bSideButton2, nMouseWheelDelta );
+        g_app_->mouseListener_->onMouseEvent( xPos, yPos, bLeftButton, bRightButton, bMiddleButton, bSideButton1, bSideButton2, nMouseWheelDelta );
     }
 
     switch( uMsg )

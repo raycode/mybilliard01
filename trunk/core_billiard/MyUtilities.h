@@ -2,6 +2,9 @@
 
 #include <cassert>
 
+#include "static_check.h"
+
+
 
 #define MY_FOR_EACH( STL_TYPE, VAR_ITER, STL_CONTAINNER ) \
     STL_TYPE::const_iterator VAR_ITER = STL_CONTAINNER.begin();\

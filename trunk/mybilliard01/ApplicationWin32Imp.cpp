@@ -17,6 +17,7 @@ ApplicationWin32Imp::ApplicationWin32Imp()
 {
     keyboardListener_ = &nullKeyboardListener_;
     mouseListener_ = &nullMouseListener_;
+    win32MessageListener_ = &nullWin32MessageListener_;
 
     if( NULL != g_app_ )
         throw exception();
@@ -193,6 +194,10 @@ void ApplicationWin32Imp::addMouseListener( MouseEventListener * listener ) {
     mouseListener_ = listener;
 }
 
+void ApplicationWin32Imp::addWin32MessageListener( Win32MessageListener * listener ) {
+    win32MessageListener_ = listener;
+}
+
 int ApplicationWin32Imp::getScreenWidth() {
     return width_;
 }
@@ -235,41 +240,6 @@ void ApplicationWin32Imp::mainLoop() {
         }
     }
 }
-
-//--------------------------------------------------------------------------------------
-// Handle messages to the application
-//--------------------------------------------------------------------------------------
-//LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
-//{
-//    App * const app = (App *) pUserContext;
-//
-//    // Pass messages to dialog resource manager calls so GUI state is updated correctly
-//    *pbNoFurtherProcessing = app->eventListener_->dialogResourceManager_.MsgProc( hWnd, uMsg, wParam, lParam );
-//    if( *pbNoFurtherProcessing )
-//        return 0;
-//
-//    // Pass messages to settings dialog if its active
-//    if( app->eventListener_->settingsDlg_.IsActive() )
-//    {
-//        app->eventListener_->settingsDlg_.MsgProc( hWnd, uMsg, wParam, lParam );
-//        return 0;
-//    }
-//
-//    // Give the dialogs a chance to handle the message first
-//    *pbNoFurtherProcessing = app->eventListener_->hud_.MsgProc( hWnd, uMsg, wParam, lParam );
-//    if( *pbNoFurtherProcessing )
-//        return 0;
-//    *pbNoFurtherProcessing = app->eventListener_->sampleUI_.MsgProc( hWnd, uMsg, wParam, lParam );
-//    if( *pbNoFurtherProcessing )
-//        return 0;
-//
-//    // Pass all remaining windows messages to camera so it can respond to user input
-//    app->eventListener_->camera_.HandleMessages( hWnd, uMsg, wParam, lParam );
-//
-////    return DefWindowProc(hWnd, Msg, wParam, lParam);
-//}
-//
-
 
 
 

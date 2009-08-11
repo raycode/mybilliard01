@@ -4,7 +4,7 @@ namespace my_render {
 
 class NullMouseEventListener : IMPLEMENTS_( MouseEventListener ) {
 public:
-    virtual void onEvent(
+    virtual void onMouseEvent(
         int xPos,
         int yPos,
         bool bLeftButton,
