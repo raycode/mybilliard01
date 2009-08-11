@@ -21,27 +21,58 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
 
+    //assert(
+    //    ApplicationWin32Imp::MyRegisterClass( GetModuleHandle( NULL ) ) );
 
-    RenderEventListenerImp renderEvent;
-    RenderErrorListenerImp renderError;
+    //const int x = 0;
+    //const int y = 0;
+    //const int width = 640;
+    //const int height = 480;
+    //const wchar_t * title = L"AAA";
+    //ApplicationWin32Imp::InitInstance( hInstance, SW_SHOW, title, x, y, width, height );
 
-    RenderD3D9Imp render;
-    render.addEventListener( &renderEvent );
-    render.addErrorListener( &renderError );
+    //assert( render.createDevice( true, width, height ) );
+
+    //MSG msg;
+    //msg.message = WM_NULL;
+    //PeekMessage( &msg, NULL, 0U, 0U, PM_NOREMOVE );
+
+    //while( WM_QUIT != msg.message )
+    //{
+    //    // Use PeekMessage() so we can use idle time to render the scene. 
+    //    const bool bGotMsg = ( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) != 0 );
+
+    //    if( bGotMsg )
+    //        ApplicationWin32Imp::handleMessage( msg );
+    //}
 
 
-    InputListenerImp inputListener( &renderEvent );
+    RenderEventListenerImp * renderEvent = new RenderEventListenerImp();
+    RenderErrorListener * renderError = new RenderErrorListenerImp();
 
-    ApplicationWin32Imp app;
-    app.setRender( &render );
-    app.addKeyboardListener( &inputListener );
-    app.addMouseListener( &inputListener );
-    app.addWin32MessageListener( &inputListener );
-    app.setScreenWidth( 640 );
-    app.setScreenHeight( 480 );
-    app.setWindowedMode( true );
-    app.setScreenTitle( ConstString::windowTitle() );
-    app.openWindow();
+    RenderD3D9 * render = new RenderD3D9Imp();
+    render->addEventListener( renderEvent );
+    render->addErrorListener( renderError );
+
+
+    InputListenerImp * inputListener = new InputListenerImp( renderEvent );
+
+    ApplicationWin32 * app = new ApplicationWin32Imp();
+    app->setRender( render );
+    app->addKeyboardListener( inputListener );
+    app->addMouseListener( inputListener );
+    app->addWin32MessageListener( inputListener );
+    app->setScreenWidth( 640 );
+    app->setScreenHeight( 480 );
+    app->setWindowedMode( true );
+    app->setScreenTitle( ConstString::windowTitle() );
+    app->start();
+
+    delete app;
+    delete inputListener;
+    delete render;
+    delete renderError;
+    delete renderEvent;
 
     return 0;
 }

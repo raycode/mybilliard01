@@ -1,5 +1,5 @@
 #pragma once
-namespace my_render_d3d9_imp {
+namespace my_render_win32 {
 
 //==============================================
 // !!!! This interface works only for windows.

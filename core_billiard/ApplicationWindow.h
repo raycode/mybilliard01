@@ -4,8 +4,7 @@ namespace my_render {
 
 INTERFACE_ ApplicationWindow {
 public:
-    virtual void openWindow() = 0;
-    virtual bool isWindowOpen() = 0;
+    virtual void start() = 0;
 
     virtual void setScreenX( int x ) = 0;
     virtual void setScreenY( int y ) = 0;

@@ -1,10 +1,13 @@
 #include "DXUT.h"
-#include "my_render_d3d9_imp.h"
+#include "my_render_win32_d3d9_imp.h"
 
 void DXUTCheckForWindowSizeChange();
 void DXUTCheckForWindowChangingMonitors();
+HRESULT DXUTChangeDevice( DXUTDeviceSettings* pNewDeviceSettings,
+                         IDirect3DDevice9* pd3d9DeviceFromApp, ID3D10Device* pd3d10DeviceFromApp,
+                         bool bForceRecreate, bool bClipWindowToSingleAdapter );
 
-namespace my_render_d3d9_imp {
+namespace my_render_win32_d3d9_imp {
 
 //#define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
 //#define DEBUG_PS   // Uncomment this line to debug D3D9 pixel shaders 
@@ -33,6 +36,10 @@ void RenderD3D9Imp::render() {
 }
 
 bool RenderD3D9Imp::createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) {
+    //GetDXUTState().SetWindowCreated( true );
+    //GetDXUTState().SetHWNDFocus( hWnd );
+    //GetDXUTState().SetHWNDDeviceFullScreen( hWnd );
+    //GetDXUTState().SetHWNDDeviceWindowed( hWnd );
     return S_OK == DXUTCreateDevice( bWindowed, nSuggestedWidth, nSuggestedHeight );
 }
 

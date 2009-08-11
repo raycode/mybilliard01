@@ -1,6 +1,7 @@
 #include "DXUT.h"
-#include "my_render_d3d9_imp.h"
-namespace my_render_d3d9_imp {
+#include "my_render_win32_imp.h"
+namespace my_render_win32_imp {
+
 
 #define MY_RENDER_MIN_WINDOW_SIZE_X 200
 #define MY_RENDER_MIN_WINDOW_SIZE_Y 200
@@ -13,6 +14,14 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT uMsg, WPARAM wPara
 {
     static bool    bKeys[256];                                // array of key state
     static bool    bMouseButtons[5];                          // array of mouse states
+
+    wchar_t szTmp[ 256 ];
+    _snwprintf_s( szTmp, 256, L"%d\n", uMsg );
+    OutputDebugStr( szTmp );
+
+    OutputDebugStr( L"." );
+    if( hWnd != NULL )
+    return DefWindowProc( hWnd, uMsg, wParam, lParam );
 
     // Consolidate the keyboard messages and pass them to the app's keyboard callback
     if( uMsg == WM_KEYDOWN ||
@@ -181,6 +190,7 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT uMsg, WPARAM wPara
     case WM_ACTIVATEAPP:
             // Enable controller rumble & input when activating app
             DXUTEnableXInput( true );
+            ::OutputDebugStr(L"WM_ACTIVEATEAPP\n");
         break;
 
     case WM_ENTERMENULOOP:
