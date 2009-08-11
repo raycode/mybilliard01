@@ -18,10 +18,9 @@ ApplicationWin32Imp::ApplicationWin32Imp()
 , bSizeInMove_( false )
 {
     setRender( &nullRender_ );
-    keyboardListener_ = &nullKeyboardListener_;
-    mouseListener_ = &nullMouseListener_;
-    win32MessageListener_ = &nullWin32MessageListener_;
-
+    addKeyboardListener( &nullKeyboardListener_ );
+    addMouseListener( &nullMouseListener_ );
+    addWin32MessageListener( &nullWin32MessageListener_ );
 
     if( NULL != g_app_ )
         throw exception();
@@ -49,10 +48,6 @@ void ApplicationWin32Imp::start() {
     destroyWindow();
 }
 
-bool ApplicationWin32Imp::isWindowOpen() {
-    return NULL != hWnd_;
-}
-
 HWND ApplicationWin32Imp::getHWND() {
     return hWnd_;
 }
@@ -63,25 +58,21 @@ const wchar_t * ApplicationWin32Imp::getRegisterClassName() {
 
 bool ApplicationWin32Imp::createWindow()
 {
-    if( isWindowOpen() )
-        return false;
+    if( NULL != hWnd_ ) return false;
 
     hInstance_ = ( HINSTANCE )GetModuleHandle( NULL );
-    assert( hInstance_ );
+
     if( false == MyRegisterClass( hInstance_ ) )
-    {
-        assert( false );
-        const DWORD dwError = GetLastError();
-        if( dwError != ERROR_CLASS_ALREADY_EXISTS )
-            return false;
-    }
+        return false;
 
     const int x = getScreenX();
     const int y = getScreenY();
     const int width = getScreenHeight();
     const int height = getScreenHeight();
     const wchar_t * title = getScreenTitle().c_str();
-    return InitInstance( hInstance_, SW_SHOW, title, x, y, width, height );
+    hWnd_ = InitInstance( hInstance_, SW_SHOW, title, x, y, width, height );
+
+    return NULL != hWnd_;
 }
 
 
@@ -151,12 +142,12 @@ void ApplicationWin32Imp::setScreenHeight( int height ) {
 void ApplicationWin32Imp::setWindowedMode( bool mode ) {
     bWindowedMode_ = mode;
 
-    if( isWindowOpen() && (isWindowedMode() != mode ) && render_->isDeviceCreated() )
+    if( render_->isDeviceCreated() && render_->isWindowed() != mode )
         render_->toggleFullScreen();
 }
 
 bool ApplicationWin32Imp::isWindowedMode() {
-    if( isWindowOpen() && render_->isDeviceCreated() )
+    if( render_->isDeviceCreated() )
         return render_->isWindowed();
     return bWindowedMode_;
 }

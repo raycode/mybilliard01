@@ -10,7 +10,6 @@ namespace my_render_win32_imp {
 class ApplicationWin32Imp : IMPLEMENTS_( ApplicationWin32 ) {
 public: // from ApplicationWindow
     virtual void start(); // main loop
-    virtual bool isWindowOpen();
 
     virtual void setScreenX( int x );
     virtual void setScreenY( int y );
@@ -53,7 +52,7 @@ private: // creating window
 
     static void handleMessage( MSG & msg );
     static ATOM MyRegisterClass(HINSTANCE hInstance);
-    static bool InitInstance(HINSTANCE hInstance, int nCmdShow, const wchar_t * szTitle, int x, int y, int width, int height);
+    static HWND InitInstance(HINSTANCE hInstance, int nCmdShow, const wchar_t * szTitle, int x, int y, int width, int height);
     static const wchar_t * getRegisterClassName();
 
 public: // message proc

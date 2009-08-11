@@ -53,7 +53,7 @@ ATOM ApplicationWin32Imp::MyRegisterClass(HINSTANCE hInstance)
 //        In this function, we save the instance handle in a global variable and
 //        create and display the main program window.
 //
-bool ApplicationWin32Imp::InitInstance(HINSTANCE hInstance, int nCmdShow, 
+HWND ApplicationWin32Imp::InitInstance(HINSTANCE hInstance, int nCmdShow, 
                                        const wchar_t * szTitle, int x, int y, int width, int height)
 {
     HMENU hMenu = NULL;
@@ -66,12 +66,12 @@ bool ApplicationWin32Imp::InitInstance(HINSTANCE hInstance, int nCmdShow,
         x, y, width, height, NULL, NULL, hInstance, NULL);
 
     if (!hWnd)
-        return false;
+        return NULL;
 
     ShowWindow(hWnd, nCmdShow);
     UpdateWindow(hWnd);
 
-    return true;
+    return hWnd;
 }
 
 void ApplicationWin32Imp::mainLoop() {
