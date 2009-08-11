@@ -1790,6 +1790,10 @@
 				Name="9. Precompiled"
 				>
 				<File
+					RelativePath=".\my_render.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\my_render.h"
 					>
 				</File>

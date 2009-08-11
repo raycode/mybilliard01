@@ -2,30 +2,33 @@
 namespace my_render {
 
 
-class NulLRender : IMPLEMENTS_( Render ) {
+class NullRender : IMPLEMENTS_( Render ) {
 public:
     virtual void addErrorListener( RenderErrorListener * errorListener ) {}
     virtual void addEventListener( RenderEventListener * eventListener ) {}
 
-    virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) {}
+    virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) { return false; }
     virtual void releaseDevice() {}
-    virtual bool isDeviceCreated() {}
+    virtual bool isDeviceCreated() { return false; }
 
-    virtual bool isWindowed() {}
+    virtual bool isWindowed() { return true; }
     virtual void toggleFullScreen() {}
 
     virtual void force_displayReset() {}
 
-    virtual void* getNativeDevice() {}
+    virtual void* getNativeDevice() { return NULL; }
 
     virtual void render() {}
 
+    virtual void setCursorPosition( int x, int y ) {}
+    virtual void showCursor( bool ) {}
+
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) {}
-    virtual bool beginScene() {}
+    virtual bool beginScene() { return false; }
     virtual void endScene() {}
 
     virtual void setUpAxis( domUpAxisType up ) {}
-    virtual domUpAxisType getUpAxis() {}
+    virtual domUpAxisType getUpAxis() { return UPAXISTYPE_Y_UP; }
 
     virtual void pushMatrix() {}
     virtual void popMatrix() {}

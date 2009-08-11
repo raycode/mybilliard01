@@ -67,6 +67,7 @@ private:
     MouseEventListener * mouseListener_;
     Win32MessageListener * win32MessageListener_;
 
+    NullRender nullRender_;
     NullKeyboardEventListener nullKeyboardListener_;
     NullMouseEventListener nullMouseListener_;
     NullWin32MessageListener nullWin32MessageListener_;
@@ -76,6 +77,7 @@ private: //volatile data
     HWND hWnd_;
 
     bool bMinimized_, bMaximized_, bSizeInMove_;
+    Render * actualRender_;
 
 };
 

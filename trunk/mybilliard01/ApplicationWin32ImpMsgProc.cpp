@@ -14,10 +14,6 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT uMsg, WPARAM wPara
     static bool    bKeys[256];                                // array of key state
     static bool    bMouseButtons[5];                          // array of mouse states
 
-    const bool bProceedMore = g_app_->win32MessageListener_->MsgProc( hWnd, uMsg, wParam, lParam );
-    if( false == bProceedMore )
-        return 0;
-
     // Consolidate the keyboard messages and pass them to the app's keyboard callback
     if( uMsg == WM_KEYDOWN ||
        uMsg == WM_SYSKEYDOWN ||
@@ -84,6 +80,14 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT uMsg, WPARAM wPara
 
         g_app_->mouseListener_->onMouseEvent( xPos, yPos, bLeftButton, bRightButton, bMiddleButton, bSideButton1, bSideButton2, nMouseWheelDelta );
     }
+
+
+    // Pass all messages to the app's MsgProc callback, and don't 
+    // process further messages if the apps says not to.
+    const bool bProceedMore = g_app_->win32MessageListener_->MsgProc( hWnd, uMsg, wParam, lParam );
+    if( false == bProceedMore )
+        return 0;
+
 
     switch( uMsg )
     {
@@ -175,7 +179,8 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT uMsg, WPARAM wPara
         break;
 
     case WM_ACTIVATEAPP:
-        // TODO: I don't understand what this message is.
+            // Enable controller rumble & input when activating app
+            DXUTEnableXInput( true );
         break;
 
     case WM_ENTERMENULOOP:
