@@ -8,8 +8,6 @@
 
 #include "my_render_d3d9_imp.h"
 
-#include "ConstString.h"
-
 using namespace std;
 using namespace my_render;
 using namespace my_render_imp;
@@ -24,4 +22,5 @@ MY_SMART_PTR( RenderEventListenerImp );
 
 #include "RenderErrorListenerImp.h"
 #include "RenderEventListenerImp.h"
-
+#include "InputListenerImp.h"
+#include "ConstString.h"

@@ -262,7 +262,7 @@
 	</References>
 	<Files>
 		<Filter
-			Name="RenderForDX9"
+			Name="my_app"
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
@@ -280,6 +280,27 @@
 			</File>
 			<File
 				RelativePath=".\ConstString.h"
+				>
+			</File>
+			<File
+				RelativePath=".\InputListenerImp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\InputListenerImp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\my_app.h"
 				>
 			</File>
 			<File
@@ -328,10 +349,6 @@
 						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\RenderForDX9.h"
-				>
 			</File>
 			<File
 				RelativePath=".\wWinMain.cpp"
@@ -619,40 +636,6 @@
 						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
 					/>
 				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\KeyboardEventListenerImp.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="DXUT.h"
-						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\KeyboardEventListenerImp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\MouseEventListenerImp.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="DXUT.h"
-						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\MouseEventListenerImp.h"
-				>
 			</File>
 			<File
 				RelativePath=".\my_render_d3d9_imp.h"
