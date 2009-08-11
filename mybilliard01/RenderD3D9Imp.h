@@ -2,6 +2,11 @@
 namespace my_render_d3d9_imp {
 
 
+//===================================================
+// This class is supposed to work only for DirectX9
+//===================================================
+
+
 class RenderD3D9Imp : IMPLEMENTS_( Render ) {
 public:
     RenderD3D9Imp();

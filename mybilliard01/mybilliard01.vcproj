@@ -300,6 +300,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\InputListenerImpDXUT.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\my_app.h"
 				>
 			</File>
@@ -642,6 +655,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\NullWin32MessageListener.h"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderD3D9Imp.cpp"
 				>
 				<FileConfiguration
@@ -656,6 +673,10 @@
 			</File>
 			<File
 				RelativePath=".\RenderD3D9Imp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Win32MessageListener.h"
 				>
 			</File>
 		</Filter>

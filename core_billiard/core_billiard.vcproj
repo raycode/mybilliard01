@@ -159,6 +159,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\static_check.h"
+				>
+			</File>
+			<File
 				RelativePath=".\stdafx.cpp"
 				>
 				<FileConfiguration

@@ -1,6 +1,11 @@
 #pragma once
 namespace my_render_d3d9_imp {
 
+//==================================================
+// This class is dependant on Win32 system.
+// It is supposed to work for DirectX and OpenGL.
+//==================================================
+
 
 class ApplicationWin32Imp : IMPLEMENTS_( ApplicationWindow ) {
 public: // from ApplicationWindow
@@ -21,11 +26,12 @@ public: // from ApplicationWindow
 public:
     ApplicationWin32Imp();
 
+    virtual void addWin32MessageListener( Win32MessageListener * listener );
+
+private:
     bool createWindow();
     void destroyWindow();
     void mainLoop();
-
-    static const wchar_t * getRegisterClassName();
 
 public: // get
     int getScreenX();
@@ -37,7 +43,6 @@ public: // get
 
 public: // message proc
     static LRESULT CALLBACK MsgProc(HWND, UINT, WPARAM, LPARAM);
-    static ApplicationWin32Imp * g_app_;
 
 public: // window manage
     void setMinimized( bool );
@@ -46,6 +51,10 @@ public: // window manage
     bool isMinimized();
     bool isMaximized();
     bool isSizeInMove();
+
+public: // static
+    static const wchar_t * getRegisterClassName();
+    static ApplicationWin32Imp * g_app_;
 
 private:
     int x_, y_, width_, height_;
@@ -56,9 +65,11 @@ private:
     Render * render_;
     KeyboardEventListener * keyboardListener_;
     MouseEventListener * mouseListener_;
+    Win32MessageListener * win32MessageListener_;
 
     NullKeyboardEventListener nullKeyboardListener_;
     NullMouseEventListener nullMouseListener_;
+    NullWin32MessageListener nullWin32MessageListener_;
 
 private: //volatile data
     HINSTANCE hInstance_;
