@@ -1,5 +1,5 @@
 #include "DXUT.h"
-#include "RenderForDX9.h"
+#include "my_app.h"
 
 //--------------------------------------------------------------------------------------
 // UI control IDs

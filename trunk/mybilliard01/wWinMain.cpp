@@ -4,7 +4,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
 #include "DXUT.h"
-#include "RenderForDX9.h"
+#include "my_app.h"
 
 
 
@@ -21,6 +21,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
 
+
     RenderEventListenerImp renderEvent;
     RenderErrorListenerImp renderError;
 
@@ -28,13 +29,13 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     render.addEventListener( &renderEvent );
     render.addErrorListener( &renderError );
 
-    KeyboardEventListenerImp keyEvent;
-    MouseEventListenerImp mouseEvent;
+
+    InputListenerImp inputListener( &renderEvent );
 
     ApplicationWin32Imp app;
     app.setRender( &render );
-    app.addKeyboardListener( &keyEvent );
-    app.addMouseListener( &mouseEvent );
+    app.addKeyboardListener( &inputListener );
+    app.addMouseListener( &inputListener );
     app.setScreenWidth( 640 );
     app.setScreenHeight( 480 );
     app.setWindowedMode( true );
