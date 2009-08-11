@@ -2,29 +2,61 @@
 #include "my_render_d3d9_imp.h"
 namespace my_render_d3d9_imp {
 
-void ApplicationWin32Imp::openWindow() {
-    if( false == createWindow() )
-        throw exception();
+ApplicationWin32Imp * ApplicationWin32Imp::g_app_ = NULL;
 
+ApplicationWin32Imp::ApplicationWin32Imp()
+: x_( 10 ), y_( 10 )
+, width_( 640 ), height_( 480 )
+, bWindowedMode_( true )
+, bPaused_( false )
+, render_( NULL )
+, hWnd_( NULL )
+, bMinimized_( false )
+, bMaximized_( false )
+, bSizeInMove_( false )
+{
+    keyboardListener_ = &nullKeyboardListener_;
+    mouseListener_ = &nullMouseListener_;
+
+    if( NULL != g_app_ )
+        throw exception();
+    g_app_ = this;
+}
+
+void ApplicationWin32Imp::openWindow() {
     if( NULL == render_ )
         throw exception();
 
-    if( false == render_->createDevice( isWindowedMode(), getScreenWidth(), getScreenHeight() ) )
-         throw exception();
+    if( false == createWindow() )
+        throw exception();
+
+    if( false == render_->createDevice( isWindowedMode(), getScreenWidth(), getScreenHeight() ) ) {
+        destroyWindow();
+        throw exception();
+    }
 
     mainLoop();
 
     render_->releaseDevice();
+
+    destroyWindow();
+}
+
+bool ApplicationWin32Imp::isWindowOpen() {
+    return NULL != hWnd_;
+}
+
+const wchar_t * ApplicationWin32Imp::getRegisterClassName() {
+    return L"ApplicationWin32ImpClass";
 }
 
 bool ApplicationWin32Imp::createWindow()
 {
-    if( bWindowCreated_ )
+    if( isWindowOpen() )
         return false;
 
     HICON hIcon = NULL;
     HMENU hMenu = NULL;
-    const wstring registerClassName = getScreenTitle();
 
     {
         hInstance_ = ( HINSTANCE )GetModuleHandle( NULL );
@@ -45,7 +77,7 @@ bool ApplicationWin32Imp::createWindow()
         wndClass.hCursor = LoadCursor( NULL, IDC_ARROW );
         wndClass.hbrBackground = ( HBRUSH )GetStockObject( BLACK_BRUSH );
         wndClass.lpszMenuName = NULL;
-        wndClass.lpszClassName = registerClassName.c_str();
+        wndClass.lpszClassName = getRegisterClassName();
 
         if( !RegisterClass( &wndClass ) )
         {
@@ -64,7 +96,7 @@ bool ApplicationWin32Imp::createWindow()
         AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, ( hMenu != NULL ) ? true : false );
 
         // Create the render window
-        hWnd_ = CreateWindow( registerClassName.c_str(), getScreenTitle().c_str(), WS_OVERLAPPEDWINDOW,
+        hWnd_ = CreateWindow( getRegisterClassName(), getScreenTitle().c_str(), WS_OVERLAPPEDWINDOW,
             getScreenX(), getScreenY(),
             ( rc.right - rc.left ), ( rc.bottom - rc.top ), 0,
             hMenu, hInstance_, 0 );
@@ -75,12 +107,12 @@ bool ApplicationWin32Imp::createWindow()
         //GetDXUTState().SetHWNDDeviceWindowed( hWnd );
     }
 
-    bWindowCreated_ = true;
     return true;
 }
 
-void ApplicationWin32Imp::releaseWindow() {
-    bWindowCreated_ = false;
+void ApplicationWin32Imp::destroyWindow() {
+    DestroyWindow( hWnd_ );
+    hWnd_ = NULL;
 }
 
 
@@ -104,6 +136,30 @@ void ApplicationWin32Imp::setScreenY( int y ) {
     y_ = y;
 }
 
+void ApplicationWin32Imp::setMinimized( bool val ) {
+    bMinimized_ = val;
+}
+
+void ApplicationWin32Imp::setMaximized( bool val ) {
+    bMaximized_ = val;
+}
+
+bool ApplicationWin32Imp::isMinimized() {
+    return bMinimized_;
+}
+
+bool ApplicationWin32Imp::isMaximized() {
+    return bMaximized_;
+}
+
+bool ApplicationWin32Imp::isSizeInMove() {
+    return bSizeInMove_;
+}
+
+void ApplicationWin32Imp::setSizeInMove( bool val ) {
+    bSizeInMove_ = val;
+}
+
 void ApplicationWin32Imp::setScreenWidth( int width ) {
     width_ = width;
 }
@@ -114,6 +170,15 @@ void ApplicationWin32Imp::setScreenHeight( int height ) {
 
 void ApplicationWin32Imp::setWindowedMode( bool mode ) {
     bWindowedMode_ = mode;
+
+    if( isWindowOpen() && (isWindowedMode() != mode ) && render_->isDeviceCreated() )
+        render_->toggleFullScreen();
+}
+
+bool ApplicationWin32Imp::isWindowedMode() {
+    if( isWindowOpen() && render_->isDeviceCreated() )
+        return render_->isWindowed();
+    return bWindowedMode_;
 }
 
 void ApplicationWin32Imp::setScreenTitle( wstring title ) {
@@ -136,31 +201,14 @@ int ApplicationWin32Imp::getScreenHeight() {
     return height_;
 }
 
-bool ApplicationWin32Imp::isWindowedMode() {
-    return bWindowedMode_;
-}
-
 wstring ApplicationWin32Imp::getScreenTitle() {
     return title_;
 }
 
-ApplicationWin32Imp::ApplicationWin32Imp()
-: x_( 10 ), y_( 10 )
-, width_( 640 ), height_( 480 )
-, bWindowCreated_( false )
-, render_( NULL )
-{
-    keyboardListener_ = &nullKeyboardListener_;
-    mouseListener_ = &nullMouseListener_;
-}
-
 void ApplicationWin32Imp::mainLoop() {
     //DXUTMainLoop(); // Enter into the DXUT render loop
-
-    HWND hWnd = DXUTGetHWND();
     HACCEL hAccel = NULL;
 
-    bool bGotMsg;
     MSG msg;
     msg.message = WM_NULL;
     PeekMessage( &msg, NULL, 0U, 0U, PM_NOREMOVE );
@@ -168,13 +216,13 @@ void ApplicationWin32Imp::mainLoop() {
     while( WM_QUIT != msg.message )
     {
         // Use PeekMessage() so we can use idle time to render the scene. 
-        bGotMsg = ( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) != 0 );
+        const bool bGotMsg = ( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) != 0 );
 
         if( bGotMsg )
         {
             // Translate and dispatch the message
-            if( hWnd == NULL || // hAccel == NULL || 
-                0 == TranslateAccelerator( hWnd, hAccel, &msg ) )
+            if( hWnd_ == NULL || hAccel == NULL || 
+                0 == TranslateAccelerator( hWnd_, hAccel, &msg ) )
             {
                 TranslateMessage( &msg );
                 DispatchMessage( &msg );
@@ -191,45 +239,37 @@ void ApplicationWin32Imp::mainLoop() {
 //--------------------------------------------------------------------------------------
 // Handle messages to the application
 //--------------------------------------------------------------------------------------
-LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
-{
-    /*
-    App * const app = (App *) pUserContext;
+//LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT Msg, WPARAM wParam, LPARAM lParam)
+//{
+//    App * const app = (App *) pUserContext;
+//
+//    // Pass messages to dialog resource manager calls so GUI state is updated correctly
+//    *pbNoFurtherProcessing = app->eventListener_->dialogResourceManager_.MsgProc( hWnd, uMsg, wParam, lParam );
+//    if( *pbNoFurtherProcessing )
+//        return 0;
+//
+//    // Pass messages to settings dialog if its active
+//    if( app->eventListener_->settingsDlg_.IsActive() )
+//    {
+//        app->eventListener_->settingsDlg_.MsgProc( hWnd, uMsg, wParam, lParam );
+//        return 0;
+//    }
+//
+//    // Give the dialogs a chance to handle the message first
+//    *pbNoFurtherProcessing = app->eventListener_->hud_.MsgProc( hWnd, uMsg, wParam, lParam );
+//    if( *pbNoFurtherProcessing )
+//        return 0;
+//    *pbNoFurtherProcessing = app->eventListener_->sampleUI_.MsgProc( hWnd, uMsg, wParam, lParam );
+//    if( *pbNoFurtherProcessing )
+//        return 0;
+//
+//    // Pass all remaining windows messages to camera so it can respond to user input
+//    app->eventListener_->camera_.HandleMessages( hWnd, uMsg, wParam, lParam );
+//
+////    return DefWindowProc(hWnd, Msg, wParam, lParam);
+//}
+//
 
-    // Pass messages to dialog resource manager calls so GUI state is updated correctly
-    *pbNoFurtherProcessing = app->eventListener_->dialogResourceManager_.MsgProc( hWnd, uMsg, wParam, lParam );
-    if( *pbNoFurtherProcessing )
-        return 0;
-
-    // Pass messages to settings dialog if its active
-    if( app->eventListener_->settingsDlg_.IsActive() )
-    {
-        app->eventListener_->settingsDlg_.MsgProc( hWnd, uMsg, wParam, lParam );
-        return 0;
-    }
-
-    // Give the dialogs a chance to handle the message first
-    *pbNoFurtherProcessing = app->eventListener_->hud_.MsgProc( hWnd, uMsg, wParam, lParam );
-    if( *pbNoFurtherProcessing )
-        return 0;
-    *pbNoFurtherProcessing = app->eventListener_->sampleUI_.MsgProc( hWnd, uMsg, wParam, lParam );
-    if( *pbNoFurtherProcessing )
-        return 0;
-
-    // Pass all remaining windows messages to camera so it can respond to user input
-    app->eventListener_->camera_.HandleMessages( hWnd, uMsg, wParam, lParam );
-
-    */
-    return DefWindowProc(hWnd, Msg, wParam, lParam);
-}
-
-
-//--------------------------------------------------------------------------------------
-// Handle key presses
-//--------------------------------------------------------------------------------------
-void ApplicationWin32Imp::OnKeyboard( UINT nChar, bool bKeyDown, bool bAltDown, void* pUserContext )
-{
-}
 
 
 

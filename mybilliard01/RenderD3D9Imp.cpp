@@ -1,5 +1,9 @@
 #include "DXUT.h"
 #include "my_render_d3d9_imp.h"
+
+void DXUTCheckForWindowSizeChange();
+void DXUTCheckForWindowChangingMonitors();
+
 namespace my_render_d3d9_imp {
 
 //#define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
@@ -7,6 +11,7 @@ namespace my_render_d3d9_imp {
 
 RenderD3D9Imp::RenderD3D9Imp()
 : upAxis_( UPAXISTYPE_Y_UP )
+, d3dDevice_( NULL )
 {
     errorListener_ = &nullErrorListener_;
     eventListener_ = &nullEventListener_;
@@ -38,12 +43,39 @@ void RenderD3D9Imp::releaseDevice()
 
     ::OutputDebugStr( L"RenderEventListener::destroy()\n" );
     eventListener_->destroy( this );
+
+    d3dDevice_ = NULL;
+}
+
+bool RenderD3D9Imp::isDeviceCreated() {
+    return NULL != d3dDevice_;
+}
+
+void RenderD3D9Imp::force_displayReset() {
+    DXUTCheckForWindowSizeChange();
+    DXUTCheckForWindowChangingMonitors();
 }
 
 void* RenderD3D9Imp::getNativeDevice() {
     return d3dDevice_;
 }
 
+bool RenderD3D9Imp::isWindowed() {
+    return DXUTIsWindowed();
+}
+
+void RenderD3D9Imp::toggleFullScreen()
+{
+    DXUTToggleFullScreen();
+}
+
+void RenderD3D9Imp::setCursorPosition( int x, int y ) {
+    d3dDevice_->SetCursorPosition( x, y, 0 );
+}
+
+void RenderD3D9Imp::showCursor( bool val ) {
+    d3dDevice_->ShowCursor( val );
+}
 
 void RenderD3D9Imp::setUpAxis( domUpAxisType up ) {
     upAxis_ = up;

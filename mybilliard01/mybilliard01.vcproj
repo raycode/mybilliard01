@@ -608,6 +608,19 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ApplicationWin32ImpMsgProc.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\KeyboardEventListenerImp.cpp"
 				>
 				<FileConfiguration

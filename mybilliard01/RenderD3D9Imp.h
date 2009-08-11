@@ -11,9 +11,20 @@ public: // from Render
     virtual void addEventListener( RenderEventListener * eventListener );
 
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight );
-    virtual void render();
     virtual void releaseDevice();
+    virtual bool isDeviceCreated();
+
+    virtual bool isWindowed();
+    virtual void toggleFullScreen();
+
     virtual void* getNativeDevice();
+
+    virtual void force_displayReset();
+
+    virtual void render();
+
+    virtual void setCursorPosition( int x, int y );
+    virtual void showCursor( bool );
 
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil );
     virtual bool beginScene();
