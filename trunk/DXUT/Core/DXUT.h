@@ -371,12 +371,7 @@ void      WINAPI DXUTDestroyState(); // Optional method to destroy DXUT's memory
 #include "DXUTCamera.h"
 #include "DXUTSettingsDlg.h"
 
-#pragma warning( disable: 4201 )
-#include "tinyxml.h"
-
-#include "../../mybilliard01/targetver.h"
-
-#include "../../mybilliard01/my_render_win32.h"
+#include "../../core_billiard/my_render.h"
 
 #endif
 
