@@ -22,20 +22,20 @@ public: // from ApplicationWindow
     virtual void addKeyboardListener( KeyboardEventListener * listener );
     virtual void addMouseListener( MouseEventListener * listener );
 
+    virtual int getScreenX();
+    virtual int getScreenY();
+    virtual int getScreenWidth();
+    virtual int getScreenHeight();
+    virtual bool isWindowedMode();
+    virtual wstring getScreenTitle();
+
 public: // from ApplicationWin32
     virtual void addWin32MessageListener( Win32MessageListener * listener );
     virtual HWND getHWND();
 
 public:
     ApplicationWin32Imp();
-
-public: // get
-    int getScreenX();
-    int getScreenY();
-    int getScreenWidth();
-    int getScreenHeight();
-    bool isWindowedMode();
-    wstring getScreenTitle();
+    ~ApplicationWin32Imp();
 
 public: // window manage
     void setMinimized( bool );
@@ -70,7 +70,7 @@ private:
     MouseEventListener * mouseListener_;
     Win32MessageListener * win32MessageListener_;
 
-    NullRender nullRender_;
+    NullRenderWin32 nullRenderWin32_;
     NullKeyboardEventListener nullKeyboardListener_;
     NullMouseEventListener nullMouseListener_;
     NullWin32MessageListener nullWin32MessageListener_;
@@ -83,6 +83,7 @@ private: //volatile data
     bool bMinimized_, bMaximized_, bSizeInMove_;
     Render * actualRender_;
 
+    MY_UNIT_TEST_BACKDOOR;
 };
 
 

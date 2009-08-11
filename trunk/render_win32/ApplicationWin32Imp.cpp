@@ -16,7 +16,7 @@ ApplicationWin32Imp::ApplicationWin32Imp()
 , bMaximized_( false )
 , bSizeInMove_( false )
 {
-    setRender( &nullRender_ );
+    setRender( &nullRenderWin32_ );
     addKeyboardListener( &nullKeyboardListener_ );
     addMouseListener( &nullMouseListener_ );
     addWin32MessageListener( &nullWin32MessageListener_ );
@@ -24,6 +24,10 @@ ApplicationWin32Imp::ApplicationWin32Imp()
     if( NULL != g_app_ )
         throw exception();
     g_app_ = this;
+}
+
+ApplicationWin32Imp::~ApplicationWin32Imp() {
+    g_app_ = NULL;
 }
 
 void ApplicationWin32Imp::start() {
@@ -105,7 +109,7 @@ void ApplicationWin32Imp::setScreenY( int y ) {
 void ApplicationWin32Imp::setMinimized( bool val ) {
     bMinimized_ = val;
 
-    actualRender_ = (val ? &nullRender_ : (Render*) render_ );
+    actualRender_ = (val ? &nullRenderWin32_ : (Render*) render_ );
 }
 
 void ApplicationWin32Imp::setMaximized( bool val ) {
@@ -127,7 +131,7 @@ bool ApplicationWin32Imp::isSizeInMove() {
 void ApplicationWin32Imp::setSizeInMove( bool val ) {
     bSizeInMove_ = val;
 
-    actualRender_ = (val ? (Render*)(&nullRender_) : render_ );
+    actualRender_ = (val ? (Render*)(&nullRenderWin32_) : render_ );
 }
 
 void ApplicationWin32Imp::setScreenWidth( int width ) {

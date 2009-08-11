@@ -73,3 +73,8 @@ static T1 * daeDowncast( daeElement * elem ) {
     if( T1::ID() != elem->typeID() ) return NULL;
     return (T1*) elem;
 }
+
+
+
+#define MY_UNIT_TEST_BACKDOOR public: struct TestingBackdoor; private: struct __NothingButForSemicolon__
+
