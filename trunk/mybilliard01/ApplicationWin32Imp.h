@@ -5,6 +5,7 @@ namespace my_render_d3d9_imp {
 class ApplicationWin32Imp : IMPLEMENTS_( ApplicationWindow ) {
 public: // from ApplicationWindow
     virtual void openWindow(); // main loop
+    virtual bool isWindowOpen();
 
     virtual void setScreenX( int x );
     virtual void setScreenY( int y );
@@ -21,8 +22,10 @@ public:
     ApplicationWin32Imp();
 
     bool createWindow();
-    void releaseWindow();
+    void destroyWindow();
     void mainLoop();
+
+    static const wchar_t * getRegisterClassName();
 
 public: // get
     int getScreenX();
@@ -32,19 +35,23 @@ public: // get
     bool isWindowedMode();
     wstring getScreenTitle();
 
-public: // static
+public: // message proc
     static LRESULT CALLBACK MsgProc(HWND, UINT, WPARAM, LPARAM);
-    static void CALLBACK OnKeyboard( UINT nChar, bool bKeyDown, bool bAltDown, void* pUserContext );
-    static void CALLBACK OnGUIEvent( UINT nEvent, int nControlID, CDXUTControl* pControl, void* pUserContext );
+    static ApplicationWin32Imp * g_app_;
+
+public: // window manage
+    void setMinimized( bool );
+    void setMaximized( bool );
+    void setSizeInMove( bool );
+    bool isMinimized();
+    bool isMaximized();
+    bool isSizeInMove();
 
 private:
     int x_, y_, width_, height_;
     bool bWindowedMode_;
     wstring title_;
-
-    bool bWindowCreated_;
-    HINSTANCE hInstance_;
-    HWND hWnd_;
+    bool bPaused_;
 
     Render * render_;
     KeyboardEventListener * keyboardListener_;
@@ -52,6 +59,13 @@ private:
 
     NullKeyboardEventListener nullKeyboardListener_;
     NullMouseEventListener nullMouseListener_;
+
+private: //volatile data
+    HINSTANCE hInstance_;
+    HWND hWnd_;
+
+    bool bMinimized_, bMaximized_, bSizeInMove_;
+
 };
 
 

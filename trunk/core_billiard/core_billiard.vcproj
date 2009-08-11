@@ -1693,6 +1693,10 @@
 					Name="3. Render"
 					>
 					<File
+						RelativePath=".\NullRender.hpp"
+						>
+					</File>
+					<File
 						RelativePath=".\NullRenderErrorListener.hpp"
 						>
 					</File>
@@ -1771,6 +1775,10 @@
 				>
 				<File
 					RelativePath=".\Camera.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Pause.h"
 					>
 				</File>
 			</Filter>

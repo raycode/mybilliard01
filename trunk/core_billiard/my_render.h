@@ -13,6 +13,7 @@ namespace my_render {
     class Render;
     class RenderEventListener;
     class RenderErrorListener;
+    class NullRender;
     class NullRenderEventListener;
     class NullRenderErrorListener;
 
@@ -41,6 +42,7 @@ namespace my_render {
     MY_SMART_PTR( Render );
     MY_SMART_PTR( RenderEventListener );
     MY_SMART_PTR( RenderErrorListener );
+    MY_SMART_PTR( NullRender );
     MY_SMART_PTR( NullRenderEventListener );
     MY_SMART_PTR( NullRenderErrorListener );
     MY_SMART_PTR( Scene );
@@ -68,11 +70,13 @@ namespace my_render {
 #include "NullRenderErrorListener.hpp"
 #include "NullRenderEventListener.hpp"
 #include "Render.h"
+#include "NullRender.hpp"
 #include "Scene.h"
 
 #include "Base.h"
 #include "Node.h"
 #include "Camera.h"
+#include "Pause.h"
 
 #include "Factory.h"
 #include "NodeFactory.h"
