@@ -376,6 +376,7 @@ void      WINAPI DXUTDestroyState(); // Optional method to destroy DXUT's memory
 
 #include "../../mybilliard01/targetver.h"
 
+#include "../../mybilliard01/my_render_win32.h"
 
 #endif
 

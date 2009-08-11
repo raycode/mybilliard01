@@ -618,7 +618,89 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="my_render_d3d9_imp"
+			Name="my_render_win32_d3d9_imp"
+			>
+			<File
+				RelativePath=".\my_render_win32_d3d9_imp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderD3D9Imp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\RenderD3D9Imp.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="tinyxml"
+			>
+			<File
+				RelativePath="..\tinyxml\include\tinystr.h"
+				>
+			</File>
+			<File
+				RelativePath="..\tinyxml\include\tinyxml.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="my_render_win32"
+			>
+			<File
+				RelativePath=".\ApplicationWin32.h"
+				>
+			</File>
+			<File
+				RelativePath=".\my_render_win32.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="0"
+						PrecompiledHeaderThrough=""
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\my_render_win32.h"
+				>
+			</File>
+			<File
+				RelativePath=".\NullWin32MessageListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\Win32MessageListener.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="my_render_win32_d3d9"
+			>
+			<File
+				RelativePath=".\my_render_win32_d3d9.h"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderD3D9.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="my_render_win32_imp"
 			>
 			<File
 				RelativePath=".\ApplicationWin32Imp.cpp"
@@ -651,15 +733,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\my_render_d3d9_imp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\NullWin32MessageListener.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderD3D9Imp.cpp"
+				RelativePath=".\ApplicationWin32ImpRegister.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -672,23 +746,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\RenderD3D9Imp.h"
-				>
-			</File>
-			<File
-				RelativePath=".\Win32MessageListener.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="tinyxml"
-			>
-			<File
-				RelativePath="..\tinyxml\include\tinystr.h"
-				>
-			</File>
-			<File
-				RelativePath="..\tinyxml\include\tinyxml.h"
+				RelativePath=".\my_render_win32_imp.h"
 				>
 			</File>
 		</Filter>

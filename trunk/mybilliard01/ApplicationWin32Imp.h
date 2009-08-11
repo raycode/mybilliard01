@@ -1,5 +1,5 @@
 #pragma once
-namespace my_render_d3d9_imp {
+namespace my_render_win32_imp {
 
 //==================================================
 // This class is dependant on Win32 system.
@@ -7,9 +7,9 @@ namespace my_render_d3d9_imp {
 //==================================================
 
 
-class ApplicationWin32Imp : IMPLEMENTS_( ApplicationWindow ) {
+class ApplicationWin32Imp : IMPLEMENTS_( ApplicationWin32 ) {
 public: // from ApplicationWindow
-    virtual void openWindow(); // main loop
+    virtual void start(); // main loop
     virtual bool isWindowOpen();
 
     virtual void setScreenX( int x );
@@ -23,15 +23,12 @@ public: // from ApplicationWindow
     virtual void addKeyboardListener( KeyboardEventListener * listener );
     virtual void addMouseListener( MouseEventListener * listener );
 
+public: // from ApplicationWin32
+    virtual void addWin32MessageListener( Win32MessageListener * listener );
+    virtual HWND getHWND();
+
 public:
     ApplicationWin32Imp();
-
-    virtual void addWin32MessageListener( Win32MessageListener * listener );
-
-private:
-    bool createWindow();
-    void destroyWindow();
-    void mainLoop();
 
 public: // get
     int getScreenX();
@@ -41,9 +38,6 @@ public: // get
     bool isWindowedMode();
     wstring getScreenTitle();
 
-public: // message proc
-    static LRESULT CALLBACK MsgProc(HWND, UINT, WPARAM, LPARAM);
-
 public: // window manage
     void setMinimized( bool );
     void setMaximized( bool );
@@ -52,8 +46,18 @@ public: // window manage
     bool isMaximized();
     bool isSizeInMove();
 
-public: // static
+private: // creating window
+    bool createWindow();
+    void destroyWindow();
+    void mainLoop();
+
+    static void handleMessage( MSG & msg );
+    static ATOM MyRegisterClass(HINSTANCE hInstance);
+    static bool InitInstance(HINSTANCE hInstance, int nCmdShow, const wchar_t * szTitle, int x, int y, int width, int height);
     static const wchar_t * getRegisterClassName();
+
+public: // message proc
+    static LRESULT CALLBACK MsgProc(HWND, UINT, WPARAM, LPARAM);
     static ApplicationWin32Imp * g_app_;
 
 private:
@@ -75,6 +79,7 @@ private:
 private: //volatile data
     HINSTANCE hInstance_;
     HWND hWnd_;
+    HACCEL hAccelTable_;
 
     bool bMinimized_, bMaximized_, bSizeInMove_;
     Render * actualRender_;

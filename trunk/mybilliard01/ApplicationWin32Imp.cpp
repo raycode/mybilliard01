@@ -1,8 +1,10 @@
 #include "DXUT.h"
-#include "my_render_d3d9_imp.h"
-namespace my_render_d3d9_imp {
+#include "my_render_win32_imp.h"
+namespace my_render_win32_imp {
+
 
 ApplicationWin32Imp * ApplicationWin32Imp::g_app_ = NULL;
+
 
 ApplicationWin32Imp::ApplicationWin32Imp()
 : x_( 10 ), y_( 10 )
@@ -26,7 +28,7 @@ ApplicationWin32Imp::ApplicationWin32Imp()
     g_app_ = this;
 }
 
-void ApplicationWin32Imp::openWindow() {
+void ApplicationWin32Imp::start() {
     if( NULL == render_ )
         throw exception();
 
@@ -49,6 +51,10 @@ bool ApplicationWin32Imp::isWindowOpen() {
     return NULL != hWnd_;
 }
 
+HWND ApplicationWin32Imp::getHWND() {
+    return hWnd_;
+}
+
 const wchar_t * ApplicationWin32Imp::getRegisterClassName() {
     return L"ApplicationWin32ImpClass";
 }
@@ -58,60 +64,24 @@ bool ApplicationWin32Imp::createWindow()
     if( isWindowOpen() )
         return false;
 
-    HICON hIcon = NULL;
-    HMENU hMenu = NULL;
-
+    hInstance_ = ( HINSTANCE )GetModuleHandle( NULL );
+    assert( hInstance_ );
+    if( false == MyRegisterClass( hInstance_ ) )
     {
-        hInstance_ = ( HINSTANCE )GetModuleHandle( NULL );
-
-        WCHAR szExePath[MAX_PATH];
-        GetModuleFileName( NULL, szExePath, MAX_PATH );
-        if( hIcon == NULL ) // If the icon is NULL, then use the first one found in the exe
-            hIcon = ExtractIcon( hInstance_, szExePath, 0 );
-
-        // Register the windows class
-        WNDCLASS wndClass;
-        wndClass.style = CS_DBLCLKS;
-        wndClass.lpfnWndProc = ApplicationWin32Imp::MsgProc;
-        wndClass.cbClsExtra = 0;
-        wndClass.cbWndExtra = 0;
-        wndClass.hInstance = hInstance_;
-        wndClass.hIcon = hIcon;
-        wndClass.hCursor = LoadCursor( NULL, IDC_ARROW );
-        wndClass.hbrBackground = ( HBRUSH )GetStockObject( BLACK_BRUSH );
-        wndClass.lpszMenuName = NULL;
-        wndClass.lpszClassName = getRegisterClassName();
-
-        if( !RegisterClass( &wndClass ) )
-        {
-            DWORD dwError = GetLastError();
-            if( dwError != ERROR_CLASS_ALREADY_EXISTS )
-                return false;
-        }
-    }
-
-    {
-        int nDefaultWidth = getScreenHeight();
-        int nDefaultHeight = getScreenHeight();
-
-        RECT rc;
-        SetRect( &rc, 0, 0, nDefaultWidth, nDefaultHeight );
-        AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, ( hMenu != NULL ) ? true : false );
-
-        // Create the render window
-        hWnd_ = CreateWindow( getRegisterClassName(), getScreenTitle().c_str(), WS_OVERLAPPEDWINDOW,
-            getScreenX(), getScreenY(),
-            ( rc.right - rc.left ), ( rc.bottom - rc.top ), 0,
-            hMenu, hInstance_, 0 );
-        if( NULL == hWnd_ )
+        assert( false );
+        const DWORD dwError = GetLastError();
+        if( dwError != ERROR_CLASS_ALREADY_EXISTS )
             return false;
-
-        //GetDXUTState().SetHWNDDeviceFullScreen( hWnd );
-        //GetDXUTState().SetHWNDDeviceWindowed( hWnd );
     }
 
-    return true;
+    const int x = getScreenX();
+    const int y = getScreenY();
+    const int width = getScreenHeight();
+    const int height = getScreenHeight();
+    const wchar_t * title = getScreenTitle().c_str();
+    return InitInstance( hInstance_, SW_SHOW, title, x, y, width, height );
 }
+
 
 void ApplicationWin32Imp::destroyWindow() {
     DestroyWindow( hWnd_ );
@@ -216,38 +186,6 @@ int ApplicationWin32Imp::getScreenHeight() {
 wstring ApplicationWin32Imp::getScreenTitle() {
     return title_;
 }
-
-void ApplicationWin32Imp::mainLoop() {
-    //DXUTMainLoop(); // Enter into the DXUT render loop
-    HACCEL hAccel = NULL;
-
-    MSG msg;
-    msg.message = WM_NULL;
-    PeekMessage( &msg, NULL, 0U, 0U, PM_NOREMOVE );
-
-    while( WM_QUIT != msg.message )
-    {
-        // Use PeekMessage() so we can use idle time to render the scene. 
-        const bool bGotMsg = ( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) != 0 );
-
-        if( bGotMsg )
-        {
-            // Translate and dispatch the message
-            if( hWnd_ == NULL || hAccel == NULL || 
-                0 == TranslateAccelerator( hWnd_, hAccel, &msg ) )
-            {
-                TranslateMessage( &msg );
-                DispatchMessage( &msg );
-            }
-        }
-        else
-        {
-            // Render a frame during idle time (no messages are waiting)
-            actualRender_->render();
-        }
-    }
-}
-
 
 
 

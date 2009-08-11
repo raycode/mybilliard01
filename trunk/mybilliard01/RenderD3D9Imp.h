@@ -1,5 +1,5 @@
 #pragma once
-namespace my_render_d3d9_imp {
+namespace my_render_win32_d3d9_imp {
 
 
 //===================================================
@@ -7,7 +7,7 @@ namespace my_render_d3d9_imp {
 //===================================================
 
 
-class RenderD3D9Imp : IMPLEMENTS_( Render ) {
+class RenderD3D9Imp : IMPLEMENTS_( RenderD3D9 ) {
 public:
     RenderD3D9Imp();
 
