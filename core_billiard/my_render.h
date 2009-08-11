@@ -87,4 +87,3 @@ namespace my_render {
 #include "Geometry.h"
 #include "GeometryMesh.h"
 #include "GeometryMeshPrimitive.h"
-

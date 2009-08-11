@@ -36,6 +36,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     app.setRender( &render );
     app.addKeyboardListener( &inputListener );
     app.addMouseListener( &inputListener );
+    app.addWin32MessageListener( &inputListener );
     app.setScreenWidth( 640 );
     app.setScreenHeight( 480 );
     app.setWindowedMode( true );

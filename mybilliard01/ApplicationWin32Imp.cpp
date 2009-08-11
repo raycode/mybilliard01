@@ -15,9 +15,11 @@ ApplicationWin32Imp::ApplicationWin32Imp()
 , bMaximized_( false )
 , bSizeInMove_( false )
 {
+    setRender( &nullRender_ );
     keyboardListener_ = &nullKeyboardListener_;
     mouseListener_ = &nullMouseListener_;
     win32MessageListener_ = &nullWin32MessageListener_;
+
 
     if( NULL != g_app_ )
         throw exception();
@@ -119,6 +121,7 @@ void ApplicationWin32Imp::destroyWindow() {
 
 void ApplicationWin32Imp::setRender( Render * render ) {
     render_ = render;
+    actualRender_ = render_;
 }
 
 int ApplicationWin32Imp::getScreenX() {
@@ -139,6 +142,8 @@ void ApplicationWin32Imp::setScreenY( int y ) {
 
 void ApplicationWin32Imp::setMinimized( bool val ) {
     bMinimized_ = val;
+
+    actualRender_ = (val ? &nullRender_ : render_ );
 }
 
 void ApplicationWin32Imp::setMaximized( bool val ) {
@@ -159,6 +164,8 @@ bool ApplicationWin32Imp::isSizeInMove() {
 
 void ApplicationWin32Imp::setSizeInMove( bool val ) {
     bSizeInMove_ = val;
+
+    actualRender_ = (val ? &nullRender_ : render_ );
 }
 
 void ApplicationWin32Imp::setScreenWidth( int width ) {
@@ -236,7 +243,7 @@ void ApplicationWin32Imp::mainLoop() {
         else
         {
             // Render a frame during idle time (no messages are waiting)
-            render_->render();
+            actualRender_->render();
         }
     }
 }

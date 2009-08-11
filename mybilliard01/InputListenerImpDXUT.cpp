@@ -5,10 +5,6 @@
 bool InputListenerImp::MsgProcDXUT( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
     bool bNoFurtherProcessing;
 
-    bNoFurtherProcessing = renderListener_->dialogResourceManager_.MsgProc( hWnd, uMsg, wParam, lParam );
-    if( bNoFurtherProcessing )
-        return false;
-
     // Pass messages to settings dialog if its active
     if( renderListener_->settingsDlg_.IsActive() )
     {
