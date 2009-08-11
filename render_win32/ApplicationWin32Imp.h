@@ -11,6 +11,9 @@ class ApplicationWin32Imp : IMPLEMENTS_( ApplicationWin32 ) {
 public: // from ApplicationWindow
     virtual void start(); // main loop
 
+    virtual bool setRender( Render * );
+    virtual Render * getRender();
+
     virtual void setScreenX( int x );
     virtual void setScreenY( int y );
     virtual void setScreenWidth( int width );
@@ -18,7 +21,6 @@ public: // from ApplicationWindow
     virtual void setWindowedMode( bool );
     virtual void setScreenTitle( wstring title );
 
-    virtual void setRender( Render * );
     virtual void addKeyboardListener( KeyboardEventListener * listener );
     virtual void addMouseListener( MouseEventListener * listener );
 
@@ -47,11 +49,12 @@ public: // window manage
 
 private: // creating window
     bool createWindow();
+    bool isWindowCreated();
     void destroyWindow();
     void mainLoop();
 
     static void handleMessage( MSG & msg );
-    static ATOM MyRegisterClass(HINSTANCE hInstance);
+    static bool MyRegisterClass(HINSTANCE hInstance);
     static HWND InitInstance(HINSTANCE hInstance, int nCmdShow, const wchar_t * szTitle, int x, int y, int width, int height);
     static const wchar_t * getRegisterClassName();
 

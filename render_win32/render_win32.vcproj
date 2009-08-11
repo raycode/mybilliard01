@@ -21,6 +21,7 @@
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
 			CharacterSet="1"
+			ManagedExtensions="0"
 			>
 			<Tool
 				Name="VCPreBuildEventTool"
@@ -42,8 +43,9 @@
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/DXUT/Core&quot;;&quot;$(SolutionDir)/DXUT/Optional&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;;&quot;$(SolutionDir)/core_billiard/Tools/NxuStream2&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
-				MinimalRebuild="true"
-				BasicRuntimeChecks="3"
+				MinimalRebuild="false"
+				ExceptionHandling="1"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				EnableEnhancedInstructionSet="2"
 				FloatingPointModel="2"
@@ -51,7 +53,7 @@
 				PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 				WarningLevel="4"
 				WarnAsError="true"
-				DebugInformationFormat="4"
+				DebugInformationFormat="3"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"

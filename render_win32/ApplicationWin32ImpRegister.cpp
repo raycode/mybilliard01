@@ -14,7 +14,7 @@ namespace my_render_win32_imp {
 //    so that the application will get 'well formed' small icons associated
 //    with it.
 //
-ATOM ApplicationWin32Imp::MyRegisterClass(HINSTANCE hInstance)
+bool ApplicationWin32Imp::MyRegisterClass(HINSTANCE hInstance)
 {
     HICON hIcon = NULL;
 
@@ -39,7 +39,16 @@ ATOM ApplicationWin32Imp::MyRegisterClass(HINSTANCE hInstance)
     wcex.lpszClassName	= getRegisterClassName();
     wcex.hIconSm		= NULL;
 
-    return RegisterClassEx(&wcex);
+    const ATOM rst = RegisterClassEx(&wcex);
+
+    if( !rst )
+    {
+        const DWORD dwError = GetLastError();
+        if( dwError != ERROR_CLASS_ALREADY_EXISTS )
+            return false;
+    }
+
+    return true;
 }
 
 //
