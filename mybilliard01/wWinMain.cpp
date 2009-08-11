@@ -50,7 +50,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     RenderEventListenerImp * renderEvent = new RenderEventListenerImp();
     RenderErrorListener * renderError = new RenderErrorListenerImp();
 
-    RenderD3D9 * render = new RenderD3D9Imp();
+    RenderWin32DX9 * render = new RenderWin32DX9Imp();
     render->addEventListener( renderEvent );
     render->addErrorListener( renderError );
 

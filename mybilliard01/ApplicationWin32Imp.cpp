@@ -35,6 +35,8 @@ void ApplicationWin32Imp::start() {
     if( false == createWindow() )
         throw exception();
 
+    render_->setHWND( getHWND() );
+
     if( false == render_->createDevice( isWindowedMode(), getScreenWidth(), getScreenHeight() ) ) {
         destroyWindow();
         throw exception();
@@ -90,7 +92,7 @@ void ApplicationWin32Imp::destroyWindow() {
 
 
 void ApplicationWin32Imp::setRender( Render * render ) {
-    render_ = render;
+    render_ = dynamic_cast< RenderWin32 *>( render );
     actualRender_ = render_;
 }
 
@@ -113,7 +115,7 @@ void ApplicationWin32Imp::setScreenY( int y ) {
 void ApplicationWin32Imp::setMinimized( bool val ) {
     bMinimized_ = val;
 
-    actualRender_ = (val ? &nullRender_ : render_ );
+    actualRender_ = (val ? &nullRender_ : (Render*) render_ );
 }
 
 void ApplicationWin32Imp::setMaximized( bool val ) {
@@ -135,7 +137,7 @@ bool ApplicationWin32Imp::isSizeInMove() {
 void ApplicationWin32Imp::setSizeInMove( bool val ) {
     bSizeInMove_ = val;
 
-    actualRender_ = (val ? &nullRender_ : render_ );
+    actualRender_ = (val ? (Render*)(&nullRender_) : render_ );
 }
 
 void ApplicationWin32Imp::setScreenWidth( int width ) {

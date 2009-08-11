@@ -1,5 +1,5 @@
 #pragma once
-namespace my_render_win32_d3d9_imp {
+namespace my_render_win32_dx9_imp {
 
 
 //===================================================
@@ -7,9 +7,12 @@ namespace my_render_win32_d3d9_imp {
 //===================================================
 
 
-class RenderD3D9Imp : IMPLEMENTS_( RenderD3D9 ) {
+class RenderWin32DX9Imp : IMPLEMENTS_( RenderWin32DX9 ) {
 public:
-    RenderD3D9Imp();
+    RenderWin32DX9Imp();
+
+public: // from RenderWin32
+    virtual void setHWND( HWND );
 
 public: // from Render
     virtual void addErrorListener( RenderErrorListener * errorListener );
@@ -80,6 +83,7 @@ private:
     NullRenderEventListener nullEventListener_;
 
 private:
+    HWND hWnd_;
     IDirect3DDevice9 * d3dDevice_;
 };
 
