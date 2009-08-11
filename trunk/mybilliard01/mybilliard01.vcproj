@@ -618,14 +618,14 @@
 			</File>
 		</Filter>
 		<Filter
-			Name="my_render_win32_d3d9_imp"
+			Name="my_render_win32_dx9_imp"
 			>
 			<File
-				RelativePath=".\my_render_win32_d3d9_imp.h"
+				RelativePath=".\my_render_win32_dx9_imp.h"
 				>
 			</File>
 			<File
-				RelativePath=".\RenderD3D9Imp.cpp"
+				RelativePath=".\RenderWin32DX9Imp.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -638,7 +638,7 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\RenderD3D9Imp.h"
+				RelativePath=".\RenderWin32DX9Imp.h"
 				>
 			</File>
 		</Filter>
@@ -683,19 +683,23 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RenderWin32.h"
+				>
+			</File>
+			<File
 				RelativePath=".\Win32MessageListener.h"
 				>
 			</File>
 		</Filter>
 		<Filter
-			Name="my_render_win32_d3d9"
+			Name="my_render_win32_dx9"
 			>
 			<File
-				RelativePath=".\my_render_win32_d3d9.h"
+				RelativePath=".\my_render_win32_dx9.h"
 				>
 			</File>
 			<File
-				RelativePath=".\RenderD3D9.h"
+				RelativePath=".\RenderWin32DX9.h"
 				>
 			</File>
 		</Filter>
@@ -749,6 +753,14 @@
 				RelativePath=".\my_render_win32_imp.h"
 				>
 			</File>
+		</Filter>
+		<Filter
+			Name="my_render_win32_opengl"
+			>
+		</Filter>
+		<Filter
+			Name="my_render_win32_opengl_imp"
+			>
 		</Filter>
 	</Files>
 	<Globals>

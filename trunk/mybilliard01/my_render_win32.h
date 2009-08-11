@@ -15,11 +15,15 @@ namespace my_render_win32 {
     class Win32MessageListener;
     class NullWin32MessageListener;
 
+    class RenderWin32;
+
     MY_SMART_PTR( ApplicationWin32 );
     MY_SMART_PTR( Win32MessageListener );
     MY_SMART_PTR( NullWin32MessageListener );
+    MY_SMART_PTR( RenderWin32 );
 }
 
 #include "Win32MessageListener.h"
 #include "NullWin32MessageListener.h"
+#include "RenderWin32.h"
 #include "ApplicationWin32.h"

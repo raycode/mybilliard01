@@ -66,7 +66,7 @@ private:
     wstring title_;
     bool bPaused_;
 
-    Render * render_;
+    RenderWin32 * render_;
     KeyboardEventListener * keyboardListener_;
     MouseEventListener * mouseListener_;
     Win32MessageListener * win32MessageListener_;
