@@ -21,31 +21,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
 
-    //assert(
-    //    ApplicationWin32Imp::MyRegisterClass( GetModuleHandle( NULL ) ) );
-
-    //const int x = 0;
-    //const int y = 0;
-    //const int width = 640;
-    //const int height = 480;
-    //const wchar_t * title = L"AAA";
-    //ApplicationWin32Imp::InitInstance( hInstance, SW_SHOW, title, x, y, width, height );
-
-    //assert( render.createDevice( true, width, height ) );
-
-    //MSG msg;
-    //msg.message = WM_NULL;
-    //PeekMessage( &msg, NULL, 0U, 0U, PM_NOREMOVE );
-
-    //while( WM_QUIT != msg.message )
-    //{
-    //    // Use PeekMessage() so we can use idle time to render the scene. 
-    //    const bool bGotMsg = ( PeekMessage( &msg, NULL, 0U, 0U, PM_REMOVE ) != 0 );
-
-    //    if( bGotMsg )
-    //        ApplicationWin32Imp::handleMessage( msg );
-    //}
-
 
     RenderEventListenerImp * renderEvent = new RenderEventListenerImp();
     RenderErrorListener * renderError = new RenderErrorListenerImp();

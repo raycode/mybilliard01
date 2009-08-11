@@ -16,8 +16,8 @@ RenderWin32DX9Imp::RenderWin32DX9Imp()
 : upAxis_( UPAXISTYPE_Y_UP )
 , d3dDevice_( NULL )
 {
-    errorListener_ = &nullErrorListener_;
-    eventListener_ = &nullEventListener_;
+    addErrorListener( &nullErrorListener_ );
+    addEventListener( &nullEventListener_ );
 
     // DXUT implementation doesn't allow more than one D3D device at time, which is bad.
     DXUTInit( true, true, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
@@ -36,10 +36,6 @@ void RenderWin32DX9Imp::render() {
 }
 
 bool RenderWin32DX9Imp::createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) {
-    //GetDXUTState().SetWindowCreated( true );
-    //GetDXUTState().SetHWNDFocus( hWnd );
-    //GetDXUTState().SetHWNDDeviceFullScreen( hWnd );
-    //GetDXUTState().SetHWNDDeviceWindowed( hWnd );
     return S_OK == DXUTCreateDevice( bWindowed, nSuggestedWidth, nSuggestedHeight );
 }
 
@@ -58,6 +54,7 @@ void RenderWin32DX9Imp::releaseDevice()
 
 void RenderWin32DX9Imp::setHWND( HWND hWnd ) {
     hWnd_ = hWnd;
+    DXUTSetWindow( hWnd_, hWnd_, hWnd_, false );
 }
 
 bool RenderWin32DX9Imp::isDeviceCreated() {
