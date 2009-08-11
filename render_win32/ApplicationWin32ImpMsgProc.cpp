@@ -1,4 +1,3 @@
-#include "DXUT.h"
 #include "my_render_win32_imp.h"
 namespace my_render_win32_imp {
 
@@ -111,7 +110,7 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT uMsg, WPARAM wPara
         else
         {
             RECT rcCurrentClient;
-            GetClientRect( DXUTGetHWND(), &rcCurrentClient );
+            GetClientRect( hWnd, &rcCurrentClient );
             if( rcCurrentClient.top == 0 && rcCurrentClient.bottom == 0 )
             {
                 // Rapidly clicking the task bar to minimize and restore a window
@@ -189,8 +188,7 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProc(HWND hWnd, UINT uMsg, WPARAM wPara
 
     case WM_ACTIVATEAPP:
             // Enable controller rumble & input when activating app
-            DXUTEnableXInput( true );
-            ::OutputDebugStr(L"WM_ACTIVEATEAPP\n");
+            //DXUTEnableXInput( true );
         break;
 
     case WM_ENTERMENULOOP:

@@ -3,7 +3,7 @@
 //
 // Copyright (c) Microsoft Corporation. All rights reserved.
 //--------------------------------------------------------------------------------------
-#include "DXUT.h"
+#include "StdAfx.h"
 #include "my_app.h"
 
 

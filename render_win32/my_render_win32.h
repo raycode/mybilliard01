@@ -1,11 +1,6 @@
 #pragma once
 #include "../core_billiard/my_render.h"
 
-#ifndef WIN32
-#error "OnlyForWin32"
-#endif
-
-
 namespace my_render_win32 {
     using namespace std;
     using namespace my_utility;

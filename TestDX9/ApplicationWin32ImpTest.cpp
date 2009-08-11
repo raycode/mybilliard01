@@ -1,11 +1,21 @@
 #include "stdafx.h"
-#include "../mybilliard01/my_render_win32_imp.h"
-#include "../mybilliard01/my_render_win32_dx9_imp.h"
+#include "../render_win32/my_render_win32_imp.h"
+#include "../render_win32/my_render_win32_dx9_imp.h"
 
 using namespace System;
 using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
+
+using namespace std;
+using namespace my_render;
+using namespace my_render_win32;
+using namespace my_render_win32_dx9;
+
+using namespace my_render_imp;
+using namespace my_render_win32_imp;
+using namespace my_render_win32_dx9_imp;
+
 
 namespace TestDX9
 {
@@ -55,11 +65,12 @@ namespace TestDX9
 		#pragma endregion 
 
 		[TestMethod]
-		void TestMethod1()
+		void Constructor()
 		{
+            ApplicationWin32Imp app;
             //InputListenerImp * inputListener = new InputListenerImp( renderEvent );
 
-            ApplicationWin32 * app = new ApplicationWin32Imp();
+            //ApplicationWin32 * app = new ApplicationWin32Imp();
             //app->setRender( render );
             //app->addKeyboardListener( inputListener );
             //app->addMouseListener( inputListener );
@@ -70,7 +81,7 @@ namespace TestDX9
             //app->setScreenTitle( ConstString::windowTitle() );
             //app->start();
 
-            delete app;
+            //delete app;
             //delete inputListener;
 		};
 	};

@@ -44,7 +44,10 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/DXUT/Core&quot;;&quot;$(SolutionDir)/DXUT/Optional&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;;&quot;$(SolutionDir)/core_billiard/Tools/NxuStream2&quot;"
-				PreprocessorDefinitions="WIN32;_DEBUG"
+				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
+				MinimalRebuild="false"
+				ExceptionHandling="2"
+				BasicRuntimeChecks="0"
 				RuntimeLibrary="3"
 				EnableEnhancedInstructionSet="0"
 				FloatingPointModel="2"
@@ -64,8 +67,9 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCharacter.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCooking.lib&quot; &quot;$(SolutionDir)/PhysX/lib/PhysXLoader.lib&quot; $(NOINHERIT)"
-				LinkIncremental="2"
+				IgnoreImportLibrary="false"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCharacter.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCooking.lib&quot; &quot;$(SolutionDir)/PhysX/lib/PhysXLoader.lib&quot;"
+				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				TargetMachine="1"
