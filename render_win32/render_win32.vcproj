@@ -183,7 +183,11 @@
 				>
 			</File>
 			<File
-				RelativePath=".\NullWin32MessageListener.h"
+				RelativePath=".\NullRenderWin32.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\NullWin32MessageListener.hpp"
 				>
 			</File>
 			<File
