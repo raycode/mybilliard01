@@ -17,10 +17,13 @@ using namespace my_render_win32_imp;
 using namespace my_render_win32_dx9_imp;
 
 
+#define PRIVATE_METHOD( methodName ) ApplicationWin32Imp::TestingBackdoor::methodName
+#define ACCESS_0( returnType, methodName ) static returnType methodName( ApplicationWin32Imp * app ) { return app->methodName(); }
+#define ACCESS_0_VOID( methodName ) static void methodName( ApplicationWin32Imp * app ) { app->methodName(); }
+
 struct ApplicationWin32Imp::TestingBackdoor {
-    static bool getWindowedMode( ApplicationWin32Imp * app ) {
-        return app->bWindowedMode_;
-    }
+    ACCESS_0( bool, createWindow );
+    ACCESS_0_VOID( destroyWindow );
 };
 
 
@@ -87,10 +90,26 @@ namespace TestDX9
         }
 
         [TestMethod]
+        void DefaultScreenXY() {
+            Assert::IsTrue( app->getScreenX() >= 0 );
+            Assert::IsTrue( app->getScreenY() >= 0 );
+            Assert::IsTrue( app->getScreenX() <= 3000 );
+            Assert::IsTrue( app->getScreenY() <= 2000 );
+        }
+
+        [TestMethod]
+        void ScreenXY() {
+            app->setScreenX( 123 );
+            app->setScreenY( 32 );
+
+            Assert::IsTrue( app->getScreenX() == 123 );
+            Assert::IsTrue( app->getScreenY() >= 32 );
+        }
+
+        [TestMethod]
         void DefaultWindowedMode() {
             NullRender nullRender;
             Assert::IsFalse( nullRender.isDeviceCreated() );
-            Assert::IsTrue( ApplicationWin32Imp::TestingBackdoor::getWindowedMode( appImp ) );
             Assert::IsTrue( app->isWindowedMode() );
         }
 
@@ -102,7 +121,8 @@ namespace TestDX9
 
         [TestMethod]
         void DefaultWindowTitle() {
-            Assert::IsTrue( app->getScreenTitle() == L"");
+            Assert::IsTrue( app->getScreenTitle() == L"" );
+            Assert::IsTrue( app->getScreenTitle().empty() );
         }
 
         [TestMethod]
@@ -110,17 +130,73 @@ namespace TestDX9
             app->setScreenTitle( L"My new title" );
             Assert::IsTrue( app->getScreenTitle() == L"My new title" );
         }
-            //InputListenerImp * inputListener = new InputListenerImp( renderEvent );
 
-            //ApplicationWin32 * app = new ApplicationWin32Imp();
-            //app->setRender( render );
-            //app->addKeyboardListener( inputListener );
-            //app->addMouseListener( inputListener );
-            //app->addWin32MessageListener( inputListener );
-            //app->setScreenTitle( ConstString::windowTitle() );
-            //app->start();
+        [TestMethod]
+        void SetRender() {
+            Render * const defaultRender = app->getRender();
+            Assert::IsTrue( NULL != defaultRender );
 
-            //delete app;
-            //delete inputListener;
-	};
+            NullRender nullRender;
+            Assert::IsFalse( app->setRender( &nullRender ) );
+            Assert::IsTrue( app->getRender() != &nullRender );
+            Assert::IsTrue( app->getRender() == defaultRender );
+
+            NullRenderWin32 nullRenderWin32;
+            Assert::IsTrue( app->setRender( &nullRenderWin32 ) );
+            Assert::IsTrue( app->getRender() == &nullRenderWin32 );
+        }
+
+        [TestMethod]
+        void DefaultGetHWND() {
+            Assert::IsTrue( app->getHWND() == NULL );
+        }
+
+        [TestMethod]
+        void CreateAndDestroyWindow1() {
+            Assert::IsTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            PRIVATE_METHOD( destroyWindow )( appImp );
+        }
+
+        [TestMethod]
+        void CreateAndDestroyWindow2() {
+            PRIVATE_METHOD( destroyWindow )( appImp ); // before creation
+
+            Assert::IsTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            const HWND hWnd = appImp->getHWND();
+            Assert::IsTrue( hWnd != NULL );
+
+            Assert::IsFalse( PRIVATE_METHOD( createWindow )( appImp ) ); // double creation
+            Assert::IsTrue( hWnd == appImp->getHWND() );
+
+            PRIVATE_METHOD( destroyWindow )( appImp );
+        }
+
+        [TestMethod]
+        void ScreenWidthAndHeight2() {
+            // before creation
+            Assert::AreEqual( 640, appImp->getScreenWidth() );
+            Assert::AreEqual( 480, appImp->getScreenHeight() );
+
+            Assert::IsTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+
+            // after creation
+            Assert::AreEqual( 640, appImp->getScreenWidth() );
+            Assert::AreEqual( 480, appImp->getScreenHeight() );
+
+            // actual size
+            RECT rt;
+            ::GetWindowRect( appImp->getHWND(), &rt );
+            const int width = rt.right - rt.left;
+            const int height = rt.bottom - rt.top;
+            Assert::AreEqual( 640, width );
+            Assert::AreEqual( 480, height );
+
+            PRIVATE_METHOD( destroyWindow )( appImp );
+
+            // after destroy
+            Assert::AreEqual( 640, appImp->getScreenWidth() );
+            Assert::AreEqual( 480, appImp->getScreenHeight() );
+        }
+
+    };
 }

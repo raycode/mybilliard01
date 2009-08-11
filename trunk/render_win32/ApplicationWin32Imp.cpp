@@ -27,13 +27,12 @@ ApplicationWin32Imp::ApplicationWin32Imp()
 }
 
 ApplicationWin32Imp::~ApplicationWin32Imp() {
+    if( isWindowCreated() )
+        destroyWindow();
     g_app_ = NULL;
 }
 
 void ApplicationWin32Imp::start() {
-    if( NULL == render_ )
-        throw exception();
-
     if( false == createWindow() )
         throw exception();
 
@@ -59,9 +58,13 @@ const wchar_t * ApplicationWin32Imp::getRegisterClassName() {
     return L"ApplicationWin32ImpClass";
 }
 
+bool ApplicationWin32Imp::isWindowCreated() {
+    return NULL != hWnd_;
+}
+
 bool ApplicationWin32Imp::createWindow()
 {
-    if( NULL != hWnd_ ) return false;
+    if( isWindowCreated() ) return false;
 
     hInstance_ = ( HINSTANCE )GetModuleHandle( NULL );
 
@@ -70,7 +73,7 @@ bool ApplicationWin32Imp::createWindow()
 
     const int x = getScreenX();
     const int y = getScreenY();
-    const int width = getScreenHeight();
+    const int width = getScreenWidth();
     const int height = getScreenHeight();
     const wchar_t * title = getScreenTitle().c_str();
     hWnd_ = InitInstance( hInstance_, SW_SHOW, title, x, y, width, height );
@@ -82,12 +85,23 @@ bool ApplicationWin32Imp::createWindow()
 void ApplicationWin32Imp::destroyWindow() {
     DestroyWindow( hWnd_ );
     hWnd_ = NULL;
+
+    UnregisterClass( getRegisterClassName(), hInstance_ );
 }
 
 
-void ApplicationWin32Imp::setRender( Render * render ) {
+bool ApplicationWin32Imp::setRender( Render * render ) {
     render_ = dynamic_cast< RenderWin32 *>( render );
+    const bool bRst = (NULL != render_);
+    if( false == bRst )
+        render_ = &nullRenderWin32_;
+
     actualRender_ = render_;
+    return bRst;
+}
+
+Render * ApplicationWin32Imp::getRender() {
+    return render_;
 }
 
 int ApplicationWin32Imp::getScreenX() {

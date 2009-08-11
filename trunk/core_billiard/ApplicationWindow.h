@@ -6,7 +6,8 @@ INTERFACE_ ApplicationWindow {
 public:
     virtual void start() = 0;
 
-    virtual void setRender( Render * ) = 0;
+    virtual bool setRender( Render * ) = 0;
+    virtual Render * getRender() = 0;
 
     virtual void setScreenX( int x ) = 0;
     virtual void setScreenY( int y ) = 0;
