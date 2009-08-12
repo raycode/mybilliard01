@@ -1,11 +1,11 @@
-#ifndef FSM_RenderListenerSMC_08_12_2009_14_56_11_H
-#define FSM_RenderListenerSMC_08_12_2009_14_56_11_H
+#ifndef FSM_RenderListenerSMC_08_12_2009_15_53_11_H
+#define FSM_RenderListenerSMC_08_12_2009_15_53_11_H
 //----------------------------------------------
 // RenderListenerSMC.h
 // FSM:       RenderListenerSMC
-// Context:   RenderListenerContext
+// Context:   DummyEventListener_RenderWin32DX9Imp
 // Version:   
-// Generated: Wednesday 08/12/2009 at 14:56:11 EDT
+// Generated: Wednesday 08/12/2009 at 15:53:11 EDT
 //
 
 
@@ -27,10 +27,12 @@ class RenderListenerSMCState
 {
   public: 
     virtual const char* StateName() const = 0;
-    virtual void destroy( RenderListenerSMC& );
-    virtual void lost( RenderListenerSMC& );
-    virtual void reset( RenderListenerSMC& );
-    virtual void init( RenderListenerSMC& );
+    virtual void resetSMC( RenderListenerSMC& );
+    virtual void initSMC( RenderListenerSMC& );
+    virtual void lostSMC( RenderListenerSMC& );
+    virtual void displaySMC( RenderListenerSMC& );
+    virtual void destroySMC( RenderListenerSMC& );
+    virtual void updateSMC( RenderListenerSMC& );
 };
 
 //----------------------------------------------
@@ -41,7 +43,7 @@ class RenderListenerSMCAfterInitState : public RenderListenerSMCState
   public: 
     virtual const char* StateName() const
         { return "AfterInit"; }
-    virtual void reset( RenderListenerSMC& );
+    virtual void resetSMC( RenderListenerSMC& );
 };
 //----------------------------------------------
 // State: AfterReset
@@ -51,7 +53,9 @@ class RenderListenerSMCAfterResetState : public RenderListenerSMCState
   public: 
     virtual const char* StateName() const
         { return "AfterReset"; }
-    virtual void lost( RenderListenerSMC& );
+    virtual void displaySMC( RenderListenerSMC& );
+    virtual void lostSMC( RenderListenerSMC& );
+    virtual void updateSMC( RenderListenerSMC& );
 };
 //----------------------------------------------
 // State: AfterLost
@@ -61,8 +65,8 @@ class RenderListenerSMCAfterLostState : public RenderListenerSMCState
   public: 
     virtual const char* StateName() const
         { return "AfterLost"; }
-    virtual void reset( RenderListenerSMC& );
-    virtual void destroy( RenderListenerSMC& );
+    virtual void destroySMC( RenderListenerSMC& );
+    virtual void resetSMC( RenderListenerSMC& );
 };
 //----------------------------------------------
 // State: AfterDestroy
@@ -81,12 +85,12 @@ class RenderListenerSMCBeforeInitState : public RenderListenerSMCState
   public: 
     virtual const char* StateName() const
         { return "BeforeInit"; }
-    virtual void init( RenderListenerSMC& );
+    virtual void initSMC( RenderListenerSMC& );
 };
 //----------------------------------------------
 // RenderListenerSMC: The Finite State Machine class
 //----------------------------------------------
-class RenderListenerSMC : public DummyEventListener_RenderWin32DX9Imp
+class RenderListenerSMC: public DummyEventListener_RenderWin32DX9Imp
 {
   public: 
     // Static State variables
@@ -99,10 +103,12 @@ class RenderListenerSMC : public DummyEventListener_RenderWin32DX9Imp
     RenderListenerSMC(); // default Constructor
 
     // Event functions
-    virtual void destroy() { itsState->destroy( *this ); }
-    virtual void lost() { itsState->lost( *this ); }
-    virtual void reset() { itsState->reset( *this ); }
-    virtual void init() { itsState->init( *this ); }
+    virtual void resetSMC() { itsState->resetSMC( *this ); }
+    virtual void initSMC() { itsState->initSMC( *this ); }
+    virtual void lostSMC() { itsState->lostSMC( *this ); }
+    virtual void displaySMC() { itsState->displaySMC( *this ); }
+    virtual void destroySMC() { itsState->destroySMC( *this ); }
+    virtual void updateSMC() { itsState->updateSMC( *this ); }
 
     // State Accessor functions
     void SetState( RenderListenerSMCState& theState ) { itsState = &theState; }
@@ -119,4 +125,4 @@ class RenderListenerSMC : public DummyEventListener_RenderWin32DX9Imp
 
 }  // end namespace smc
 
-#endif /* FSM_RenderListenerSMC_08_12_2009_14_56_11_H */
+#endif /* FSM_RenderListenerSMC_08_12_2009_15_53_11_H */

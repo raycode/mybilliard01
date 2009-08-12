@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "RenderEventListenerDX9_DummyEventListener.h"
+#include "RenderEventListenerDX9_DummyRenderListener.h"
 #include "RenderListenerSMC.h"
 
 using namespace System;
@@ -44,6 +44,16 @@ namespace TestDX9
             delete dx9;
         };
 
+        bool isState( int init, int reset, int update, int display, int lost, int destroy ) {
+            return
+                init == evtSMC->countInit_ &&
+                reset == evtSMC->countReset_ &&
+                update == evtSMC->countUpdate_ &&
+                display == evtSMC->countDisplay_ &&
+                lost == evtSMC->countLost_ &&
+                destroy == evtSMC->countDestroy_;
+        }
+
     public:
 		[TestMethod]
 		void Construction()
@@ -52,12 +62,40 @@ namespace TestDX9
 
 
         [TestMethod]
-        void RenderListenerState()
+        void StateCheck1()
         {
+            Assert::IsTrue( isState( 0, 0, 0, 0, 0, 0 ) );
+
             dx9->createDevice( true, 300, 300 );
+            Assert::IsTrue( isState( 1, 1, 0, 0, 0, 0 ) );
             Assert::IsTrue( evtSMC->isStateCorrectSoFar() );
             Assert::IsFalse( evtSMC->isStateCorrectToFinish() );
+
             dx9->destroyDevice();
+            Assert::IsTrue( isState( 1, 1, 0, 0, 1, 1 ) );
+        };
+
+        [TestMethod]
+        void StateCheck2_WithRender()
+        {
+            Assert::IsTrue( isState( 0, 0, 0, 0, 0, 0 ) );
+
+            dx9->createDevice( false, 0, 0 );
+            Assert::IsTrue( isState( 1, 1, 0, 0, 0, 0 ) );
+            Assert::IsFalse( evtSMC->isStateCorrectToFinish() );
+
+            dx9->render();
+            Assert::IsTrue( isState( 1, 1, 1, 1, 0, 0 ) );
+
+            dx9->render();
+            Assert::IsTrue( isState( 1, 1, 2, 2, 0, 0 ) );
+
+            dx9->render();
+            Assert::IsTrue( isState( 1, 1, 3, 3, 0, 0 ) );
+            Assert::IsFalse( evtSMC->isStateCorrectToFinish() );
+
+            dx9->destroyDevice();
+            Assert::IsTrue( isState( 1, 1, 3, 3, 1, 1 ) );
         };
 
     };

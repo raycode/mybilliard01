@@ -1,4 +1,4 @@
-//Context RenderListenerContext
+Context DummyEventListener_RenderWin32DX9Imp
 FSMName RenderListenerSMC
 Initial BeforeInit
 FSMGenerator smc.generator.cpp.SMCppGenerator
@@ -9,20 +9,22 @@ pragma Header RenderListenerSMC.h
 {
     BeforeInit
     {
-        init    AfterInit   { } 
+        initSMC    AfterInit   { } 
     }
     AfterInit
     {
-        reset    AfterReset    { }
+        resetSMC    AfterReset    { }
     }
     AfterReset
     {
-        lost    AfterLost    { }
+        lostSMC    AfterLost    { }
+        updateSMC    *    { }
+        displaySMC    *    { }
     }
     AfterLost
     {
-        reset    AfterReset    { }
-        destroy    AfterDestroy    { }
+        resetSMC    AfterReset    { }
+        destroySMC    AfterDestroy    { }
     }
     AfterDestroy
     {
