@@ -4,21 +4,21 @@ namespace my_render {
 
 class NullRender : IMPLEMENTS_( Render ) {
 public:
-    virtual void addErrorListener( RenderErrorListener * errorListener ) OVERRIDE {}
+    virtual void render() OVERRIDE {}
     virtual void addEventListener( RenderEventListener * eventListener ) OVERRIDE {}
 
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) OVERRIDE { return false; }
     virtual void releaseDevice() OVERRIDE {}
+    virtual void* getNativeDevice() OVERRIDE { return NULL; }
     virtual bool isDeviceCreated() OVERRIDE { return false; }
+
+    virtual void force_displayReset() OVERRIDE {}
 
     virtual bool isWindowed() OVERRIDE { return true; }
     virtual void toggleFullScreen() OVERRIDE {}
 
-    virtual void force_displayReset() OVERRIDE {}
-
-    virtual void* getNativeDevice() OVERRIDE { return NULL; }
-
-    virtual void render() OVERRIDE {}
+    virtual void setUpAxis( domUpAxisType up ) OVERRIDE {}
+    virtual domUpAxisType getUpAxis() OVERRIDE { return UPAXISTYPE_Y_UP; }
 
     virtual void setCursorPosition( int x, int y ) OVERRIDE {}
     virtual void showCursor( bool ) OVERRIDE {}
@@ -26,9 +26,6 @@ public:
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE {}
     virtual bool beginScene() OVERRIDE { return false; }
     virtual void endScene() OVERRIDE {}
-
-    virtual void setUpAxis( domUpAxisType up ) OVERRIDE {}
-    virtual domUpAxisType getUpAxis() OVERRIDE { return UPAXISTYPE_Y_UP; }
 
     virtual void pushMatrix() OVERRIDE {}
     virtual void popMatrix() OVERRIDE {}

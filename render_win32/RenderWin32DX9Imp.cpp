@@ -1,8 +1,10 @@
 #include "DXUT.h"
 #include "my_render_win32_dx9_imp.h"
 
+void DXUTCleanup3DEnvironment( bool bReleaseSettings );
 void DXUTCheckForWindowSizeChange();
 void DXUTCheckForWindowChangingMonitors();
+void WINAPI DXUTDisplaySwitchingToREFWarning( DXUTDeviceVersion ver );
 HRESULT DXUTChangeDevice( DXUTDeviceSettings* pNewDeviceSettings,
                          IDirect3DDevice9* pd3d9DeviceFromApp, ID3D10Device* pd3d10DeviceFromApp,
                          bool bForceRecreate, bool bClipWindowToSingleAdapter );
@@ -14,9 +16,9 @@ namespace my_render_win32_dx9_imp {
 
 RenderWin32DX9Imp::RenderWin32DX9Imp()
 : upAxis_( UPAXISTYPE_Y_UP )
+, hWnd_( NULL )
 , d3dDevice_( NULL )
 {
-    addErrorListener( &nullErrorListener_ );
     addEventListener( &nullEventListener_ );
 
     // DXUT implementation doesn't allow more than one D3D device at time, which is bad.
@@ -31,6 +33,11 @@ RenderWin32DX9Imp::RenderWin32DX9Imp()
     DXUTSetCallbackD3D9DeviceLost( &RenderWin32DX9Imp::s_displayLost, this );
 }
 
+RenderWin32DX9Imp::~RenderWin32DX9Imp() {
+    if( isDeviceCreated() )
+        releaseDevice();
+}
+
 void RenderWin32DX9Imp::render() {
     DXUTRender3DEnvironment();
 }
@@ -43,11 +50,7 @@ void RenderWin32DX9Imp::releaseDevice()
 {
     if( false == isDeviceCreated() ) return;
 
-    DXUTSetCallbackD3D9DeviceLost( NULL );
-    s_displayLost( this );
-
-    ::OutputDebugStr( L"RenderEventListener::destroy()\n" );
-    eventListener_->destroy( this );
+    DXUTCleanup3DEnvironment( true );
 
     d3dDevice_ = NULL;
 }
@@ -55,6 +58,10 @@ void RenderWin32DX9Imp::releaseDevice()
 void RenderWin32DX9Imp::setHWND( HWND hWnd ) {
     hWnd_ = hWnd;
     DXUTSetWindow( hWnd_, hWnd_, hWnd_, false );
+}
+
+HWND RenderWin32DX9Imp::getHWND() {
+    return hWnd_;
 }
 
 bool RenderWin32DX9Imp::isDeviceCreated() {
@@ -93,10 +100,6 @@ void RenderWin32DX9Imp::setUpAxis( domUpAxisType up ) {
 
 domUpAxisType RenderWin32DX9Imp::getUpAxis() {
     return upAxis_;
-}
-
-void RenderWin32DX9Imp::addErrorListener( RenderErrorListener * errorListener ) {
-    errorListener_ = errorListener;
 }
 
 void RenderWin32DX9Imp::addEventListener( RenderEventListener * eventListener ) {

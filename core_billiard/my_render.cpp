@@ -6,7 +6,6 @@ namespace my_render {
     NullRender nullRender__;
     NullKeyboardEventListener nullKeyboardEventListener__;
     NullMouseEventListener nullMouseEventListener__;
-    NullRenderErrorListener nullRenderErrorListener__;
     NullRenderEventListener nullRenderEventListener__;
 #endif
 }

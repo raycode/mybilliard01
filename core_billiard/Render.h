@@ -3,21 +3,21 @@ namespace my_render {
 
 INTERFACE_ Render {
 public:
-    virtual void addErrorListener( RenderErrorListener * errorListener ) = 0;
+    virtual void render() = 0;
     virtual void addEventListener( RenderEventListener * eventListener ) = 0;
 
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) = 0;
     virtual void releaseDevice() = 0;
     virtual bool isDeviceCreated() = 0;
-
-    virtual bool isWindowed() = 0;
-    virtual void toggleFullScreen() = 0;
-
     virtual void* getNativeDevice() = 0;
 
     virtual void force_displayReset() = 0;
 
-    virtual void render() = 0;
+    virtual bool isWindowed() = 0;
+    virtual void toggleFullScreen() = 0;
+
+    virtual void setUpAxis( domUpAxisType up ) = 0;
+    virtual domUpAxisType getUpAxis() = 0;
 
     virtual void setCursorPosition( int x, int y ) = 0;
     virtual void showCursor( bool ) = 0;
@@ -29,9 +29,6 @@ public:
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) = 0;
     virtual bool beginScene() = 0;
     virtual void endScene() = 0;
-
-    virtual void setUpAxis( domUpAxisType up ) = 0;
-    virtual domUpAxisType getUpAxis() = 0;
 
     virtual void pushMatrix() = 0;
     virtual void popMatrix() = 0;

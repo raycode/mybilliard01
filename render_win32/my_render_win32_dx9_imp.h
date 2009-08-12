@@ -1,6 +1,6 @@
 #pragma once
 #include "DXUT.h"
-#include "SDKmisc.h"
+//#include "SDKmisc.h"
 #include "my_render_win32_dx9.h"
 #include "my_render_win32_imp.h"
 
