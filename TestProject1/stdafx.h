@@ -13,15 +13,12 @@
 
 #include "../core_billiard/stdafx.h"
 #include "../core_billiard/my_render_imp.h"
-#include "../core_billiard/my_render_d3d9_imp.h"
+#include "../render_win32/my_render_win32_dx9_imp.h"
 
 using namespace std;
-using namespace core_billiard;
-using namespace my_collada;
-using namespace my_phys_x;
 using namespace my_render;
 using namespace my_render_imp;
-using namespace my_render_d3d9_imp;
+using namespace my_render_win32_dx9_imp;
 //using namespace billiard;
 
 #include "MyTestingUtility.hpp"

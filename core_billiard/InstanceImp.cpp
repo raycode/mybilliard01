@@ -12,7 +12,7 @@ wstring InstanceImp::getUrl() {
 }
 
 Base * InstanceImp::getResolvedReferrence() {
-    return resolver_->resolveInstanceID( getUrl() );
+    return resolver_->resolveInstanceUrl( getUrl() );
 }
 
 InstanceImp::InstanceImp( InstanceResolver * resolver )

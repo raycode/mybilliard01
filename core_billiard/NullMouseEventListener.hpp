@@ -12,7 +12,8 @@ public:
         bool bMiddleButton, 
         bool bSideButton1, 
         bool bSideButton2, 
-        int nMouseWheelDelta ) {}
+        int nMouseWheelDelta ) OVERRIDE
+    {}
 };
 
 

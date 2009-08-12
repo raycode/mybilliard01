@@ -6,15 +6,15 @@ namespace my_render_imp {
 // but I don't want to expose implementations on a header file.
 class FactoryImp : IMPLEMENTS_( Factory ), IMPLEMENTS_( InstanceResolver ) {
 public: // from Factory
-    virtual Node * createVisualScene( domVisual_sceneRef );
-    virtual Geometry * createGeometry( domGeometryRef );
+    virtual Node * createVisualScene( domVisual_sceneRef ) OVERRIDE;
+    virtual Geometry * createGeometry( domGeometryRef ) OVERRIDE;
 
-    virtual void release( Base * );
+    virtual void release( Base * ) OVERRIDE;
 
 public: // from InstanceResolver
-    virtual Base * resolveInstanceUrl( wstring id );
-    virtual Instance * createInstance( wstring url, Base * owner );
-    virtual void releaseInstance( Instance * );
+    virtual Base * resolveInstanceUrl( wstring id ) OVERRIDE;
+    virtual Instance * createInstance( wstring url, Base * owner ) OVERRIDE;
+    virtual void releaseInstance( Instance * ) OVERRIDE;
 
 public:
     FactoryImp();

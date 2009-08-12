@@ -4,9 +4,9 @@ namespace my_render_imp {
 
 class InstanceImp : IMPLEMENTS_( Instance ) {
 public: // from Instance
-    virtual Base * getInstanceOwner();
-    virtual wstring getUrl();
-    virtual Base * getResolvedReferrence();
+    virtual Base * getInstanceOwner() OVERRIDE;
+    virtual wstring getUrl() OVERRIDE;
+    virtual Base * getResolvedReferrence() OVERRIDE;
 
 public:
     InstanceImp( InstanceResolver * resolver );

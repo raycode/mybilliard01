@@ -4,19 +4,19 @@ namespace my_render_imp {
 
 class NodeImp : public BaseImp, IMPLEMENTS_( Node ) {
 public: // from Node
-    virtual Node * getParent();
-    virtual Node * getNextSibling();
-    virtual Node * getFirstChild();
-    virtual size_t getNbChild();
-    virtual wstring getSID();
+    virtual Node * getParent() OVERRIDE;
+    virtual Node * getNextSibling() OVERRIDE;
+    virtual Node * getFirstChild() OVERRIDE;
+    virtual size_t getNbChild() OVERRIDE;
+    virtual wstring getSID() OVERRIDE;
 
-    virtual void update( float time );
-    virtual void render( Render * render );
+    virtual void update( float time ) OVERRIDE;
+    virtual void render( Render * render ) OVERRIDE;
 
-
-public: // set
+public:
     NodeImp();
 
+public: // set
     void setParent( NodeImp * parent );
     void setNextSibling( NodeImp * nextSibling );
     void appendChild( NodeImp * child );

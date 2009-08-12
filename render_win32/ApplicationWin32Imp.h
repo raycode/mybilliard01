@@ -9,31 +9,31 @@ namespace my_render_win32_imp {
 
 class ApplicationWin32Imp : IMPLEMENTS_( ApplicationWin32 ) {
 public: // from ApplicationWindow
-    virtual void start(); // main loop
+    virtual void start() OVERRIDE; // main loop
 
-    virtual bool setRender( Render * );
-    virtual Render * getRender();
+    virtual bool setRender( Render * ) OVERRIDE;
+    virtual Render * getRender() OVERRIDE;
 
-    virtual void setScreenX( int x );
-    virtual void setScreenY( int y );
-    virtual void setScreenWidth( int width );
-    virtual void setScreenHeight( int height );
-    virtual void setWindowedMode( bool );
-    virtual void setScreenTitle( wstring title );
+    virtual void setScreenX( int x ) OVERRIDE;
+    virtual void setScreenY( int y ) OVERRIDE;
+    virtual void setScreenWidth( int width ) OVERRIDE;
+    virtual void setScreenHeight( int height ) OVERRIDE;
+    virtual void setWindowedMode( bool ) OVERRIDE;
+    virtual void setScreenTitle( wstring title ) OVERRIDE;
 
-    virtual void addKeyboardListener( KeyboardEventListener * listener );
-    virtual void addMouseListener( MouseEventListener * listener );
+    virtual void addKeyboardListener( KeyboardEventListener * listener ) OVERRIDE;
+    virtual void addMouseListener( MouseEventListener * listener ) OVERRIDE;
 
-    virtual int getScreenX();
-    virtual int getScreenY();
-    virtual int getScreenWidth();
-    virtual int getScreenHeight();
-    virtual bool isWindowedMode();
-    virtual wstring getScreenTitle();
+    virtual int getScreenX() OVERRIDE;
+    virtual int getScreenY() OVERRIDE;
+    virtual int getScreenWidth() OVERRIDE;
+    virtual int getScreenHeight() OVERRIDE;
+    virtual bool isWindowedMode() OVERRIDE;
+    virtual wstring getScreenTitle() OVERRIDE;
 
 public: // from ApplicationWin32
-    virtual void addWin32MessageListener( Win32MessageListener * listener );
-    virtual HWND getHWND();
+    virtual void addWin32MessageListener( Win32MessageListener * listener ) OVERRIDE;
+    virtual HWND getHWND() OVERRIDE;
 
 public:
     ApplicationWin32Imp();

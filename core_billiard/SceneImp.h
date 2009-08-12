@@ -4,20 +4,21 @@ namespace my_render_imp {
 
 class SceneImp : IMPLEMENTS_( Scene ) {
 public: // from Scene
-    virtual bool load( wstring filename, Factory * factory );
+    virtual bool load( wstring filename, Factory * factory ) OVERRIDE;
 
-    virtual void setRender( Render * render );
-    virtual Render * getRender() { return render_; }
+    virtual void setRender( Render * render ) OVERRIDE;
+    virtual Render * getRender()  OVERRIDE{ return render_; }
 
-    virtual void update();
-    virtual void render();
+    virtual void update() OVERRIDE;
+    virtual void render() OVERRIDE;
 
-    virtual vector< wstring > getVisualSceneIDs();
-    virtual wstring getDefaultVisualSceneID();
+    virtual vector< wstring > getVisualSceneIDs() OVERRIDE;
+    virtual wstring getDefaultVisualSceneID() OVERRIDE;
 
-    virtual wstring getCurrentVisualSceneID();
-    virtual bool setCurrentVisualScene( wstring sceneID );
+    virtual wstring getCurrentVisualSceneID() OVERRIDE;
+    virtual bool setCurrentVisualScene( wstring sceneID ) OVERRIDE;
 
+public:
     SceneImp();
 
 private: // initRender
