@@ -8,7 +8,7 @@ namespace my_render_win32 {
 
 class NullWin32MessageListener : IMPLEMENTS_( Win32MessageListener ) {
 public:
-    virtual bool MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) { return true; }
+    virtual bool MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) OVERRIDE { return true; }
 };
 
 

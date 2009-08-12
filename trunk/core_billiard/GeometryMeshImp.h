@@ -4,7 +4,7 @@ namespace my_render_imp {
 
 class GeometryMeshImp : IMPLEMENTS_( GeometryMesh ) {
 public: // from GeometryMesh
-    virtual void draw( Render * render );
+    virtual void draw( Render * render ) OVERRIDE;
 
 public: // primitive
     void appendPrimitive( GeometryMeshPrimitiveImp * primitive );

@@ -75,14 +75,17 @@ bool ApplicationWin32Imp::createWindow()
     const int y = getScreenY();
     const int width = getScreenWidth();
     const int height = getScreenHeight();
-    const wchar_t * title = getScreenTitle().c_str();
-    hWnd_ = InitInstance( hInstance_, SW_SHOW, title, x, y, width, height );
+    hWnd_ = InitInstance( hInstance_, SW_SHOW, title_.c_str(), x, y, width, height );
 
     return NULL != hWnd_;
 }
 
 
 void ApplicationWin32Imp::destroyWindow() {
+    HMENU hMenu = GetMenu( hWnd_ );
+    if( NULL != hMenu )
+        DestroyMenu( hMenu );
+
     DestroyWindow( hWnd_ );
     hWnd_ = NULL;
 

@@ -3,9 +3,9 @@ namespace my_render_imp {
 
 class NodeFactoryImp : IMPLEMENTS_( NodeFactory ) {
 public: // from NodeFactory
-    virtual Node * createVisualScene( domVisual_sceneRef );
-    virtual Node * find( wstring id );
-    virtual void release( Node * );
+    virtual Node * createVisualScene( domVisual_sceneRef ) OVERRIDE;
+    virtual Node * find( wstring id ) OVERRIDE;
+    virtual void release( Node * ) OVERRIDE;
 
 public:
     NodeFactoryImp( InstanceResolver * instanceResolver );

@@ -1,5 +1,11 @@
-#include "stdafx.h"
-#include "../core_billiard/MediaPath.h"
+#define NOMINMAX
+#include <windows.h>
+#include <vcclr.h>
+#include <string>
+#include <iostream>
+#include <fstream>
+#include "../core_billiard/MyUtilities.h"
+
 
 using namespace System;
 using namespace System::Text;
@@ -8,6 +14,8 @@ using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
 namespace MyTestingUtility
 {
+    using namespace std;
+    using namespace my_utility;
 
     inline void setCurrentDirectory( TestContext^ testContext ) {
         pin_ptr< const wchar_t > deploymentDir = PtrToStringChars( testContext->TestDeploymentDir );

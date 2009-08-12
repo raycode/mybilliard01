@@ -4,9 +4,9 @@ namespace my_render_imp {
 
 class GeometryFactoryImp : IMPLEMENTS_( GeometryFactory ) {
 public: // from GeometryFactory
-    virtual Geometry * createGeometry( domGeometryRef );
-    virtual Geometry * find( wstring id );
-    virtual void release( Geometry * );
+    virtual Geometry * createGeometry( domGeometryRef ) OVERRIDE;
+    virtual Geometry * find( wstring id ) OVERRIDE;
+    virtual void release( Geometry * ) OVERRIDE;
 
 public:
     GeometryFactoryImp( InstanceResolver * instanceResolver );

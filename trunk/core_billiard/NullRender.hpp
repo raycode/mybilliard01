@@ -4,41 +4,41 @@ namespace my_render {
 
 class NullRender : IMPLEMENTS_( Render ) {
 public:
-    virtual void addErrorListener( RenderErrorListener * errorListener ) {}
-    virtual void addEventListener( RenderEventListener * eventListener ) {}
+    virtual void addErrorListener( RenderErrorListener * errorListener ) OVERRIDE {}
+    virtual void addEventListener( RenderEventListener * eventListener ) OVERRIDE {}
 
-    virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) { return false; }
-    virtual void releaseDevice() {}
-    virtual bool isDeviceCreated() { return false; }
+    virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) OVERRIDE { return false; }
+    virtual void releaseDevice() OVERRIDE {}
+    virtual bool isDeviceCreated() OVERRIDE { return false; }
 
-    virtual bool isWindowed() { return true; }
-    virtual void toggleFullScreen() {}
+    virtual bool isWindowed() OVERRIDE { return true; }
+    virtual void toggleFullScreen() OVERRIDE {}
 
-    virtual void force_displayReset() {}
+    virtual void force_displayReset() OVERRIDE {}
 
-    virtual void* getNativeDevice() { return NULL; }
+    virtual void* getNativeDevice() OVERRIDE { return NULL; }
 
-    virtual void render() {}
+    virtual void render() OVERRIDE {}
 
-    virtual void setCursorPosition( int x, int y ) {}
-    virtual void showCursor( bool ) {}
+    virtual void setCursorPosition( int x, int y ) OVERRIDE {}
+    virtual void showCursor( bool ) OVERRIDE {}
 
-    virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) {}
-    virtual bool beginScene() { return false; }
-    virtual void endScene() {}
+    virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE {}
+    virtual bool beginScene() OVERRIDE { return false; }
+    virtual void endScene() OVERRIDE {}
 
-    virtual void setUpAxis( domUpAxisType up ) {}
-    virtual domUpAxisType getUpAxis() { return UPAXISTYPE_Y_UP; }
+    virtual void setUpAxis( domUpAxisType up ) OVERRIDE {}
+    virtual domUpAxisType getUpAxis() OVERRIDE { return UPAXISTYPE_Y_UP; }
 
-    virtual void pushMatrix() {}
-    virtual void popMatrix() {}
-    virtual void loadIdentity() {}
-    virtual void multMatrix( NxMat34 ) {}
+    virtual void pushMatrix() OVERRIDE {}
+    virtual void popMatrix() OVERRIDE {}
+    virtual void loadIdentity() OVERRIDE {}
+    virtual void multMatrix( NxMat34 ) OVERRIDE {}
 
     virtual void drawPrimitive(
         EPrimitiveType primitiveType,
         NxU32 startVertex,
-        NxU32 primitiveCount ) {}
+        NxU32 primitiveCount ) OVERRIDE {}
 
     virtual void drawIndexedPrimitive(
         EPrimitiveType primitiveType,
@@ -46,10 +46,10 @@ public:
         NxU32 minIndex,
         NxU32 numVertices,
         NxU32 startIndex,
-        NxU32 primitiveCount ) {}
+        NxU32 primitiveCount ) OVERRIDE {}
 
-    virtual void getRenderState( ERenderStateType State, NxU32 * pValue ) {}
-    virtual void setRenderState( ERenderStateType State, NxU32 Value ) {}
+    virtual void getRenderState( ERenderStateType State, NxU32 * pValue ) OVERRIDE {}
+    virtual void setRenderState( ERenderStateType State, NxU32 Value ) OVERRIDE {}
 };
 
 

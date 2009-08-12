@@ -78,3 +78,12 @@ static T1 * daeDowncast( daeElement * elem ) {
 
 #define MY_UNIT_TEST_BACKDOOR public: struct TestingBackdoor; private: struct __NothingButForSemicolon__
 
+
+
+#pragma warning ( disable : 4481 )
+
+#if defined(_MSC_VER)
+#define OVERRIDE override
+#else
+#define OVERRIDE  
+#endif
