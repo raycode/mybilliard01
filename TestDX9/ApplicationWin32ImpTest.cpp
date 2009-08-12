@@ -1,55 +1,12 @@
 #include "stdafx.h"
-#include "../render_win32/my_render_win32_imp.h"
-#include "../render_win32/my_render_win32_dx9_imp.h"
-#include "../TestProject1/MyTestingUtility.hpp"
+#include "ApplicationWin32ImpTest_Backdoor.hpp"
+#include "ApplicationWin32ImpTest_DummyRenderWin32.hpp"
+#include "ApplicationWin32ImpTest_DummyKeyboardListener.h"
 
 using namespace System;
 using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
-
-using namespace std;
-using namespace my_render;
-using namespace my_render_win32;
-using namespace my_render_win32_dx9;
-
-using namespace my_render_imp;
-using namespace my_render_win32_imp;
-using namespace my_render_win32_dx9_imp;
-
-using namespace MyTestingUtility;
-
-
-#define PRIVATE_METHOD( methodName ) ApplicationWin32Imp::TestingBackdoor::methodName
-#define ACCESS_0( returnType, methodName ) static returnType methodName( ApplicationWin32Imp * app ) { return app->methodName(); }
-#define ACCESS_0_VOID( methodName ) static void methodName( ApplicationWin32Imp * app ) { app->methodName(); }
-
-struct ApplicationWin32Imp::TestingBackdoor {
-    ACCESS_0( bool, createWindow );
-    ACCESS_0( bool, isWindowCreated );
-    ACCESS_0_VOID( destroyWindow );
-    ACCESS_0_VOID( mainLoop );
-};
-
-
-class DummyRenderForMainLoop : IMPLEMENTS_( NullRenderWin32 ) {
-public:
-    DummyRenderForMainLoop()
-        : renderCounter_(0)
-    {}
-
-    virtual void setHWND( HWND hWnd ) OVERRIDE {
-        hWnd_ = hWnd;
-    }
-
-    virtual void render() OVERRIDE {
-        ++renderCounter_;
-        if( renderCounter_ <= 10 ) return;
-        PostQuitMessage( 0 );
-    }
-    int renderCounter_;
-    HWND hWnd_;
-};
 
 
 namespace TestDX9
@@ -280,7 +237,7 @@ namespace TestDX9
 
         [TestMethod, Timeout(10000)]
         void MainLoop() {
-            DummyRenderForMainLoop dummyRender;
+            DummyRenderWin32_ApplicationWin32Imp dummyRender;
             app->setRender( &dummyRender );
             Assert::IsTrue( &dummyRender == app->getRender() );
 
@@ -288,5 +245,43 @@ namespace TestDX9
             PRIVATE_METHOD( mainLoop )( appImp );
             PRIVATE_METHOD( destroyWindow )( appImp );
         }
+
+        [TestMethod, Timeout(10000)]
+        void Start() {
+            DummyRenderWin32_ApplicationWin32Imp dummyRender;
+            app->setRender( &dummyRender );
+            app->start();
+        }
+
+        [TestMethod]
+        void AddKeyboardListener() {
+            DummyKeyboardListener_ApplicationWin32Imp keyListener;
+            app->addKeyboardListener( &keyListener );
+
+            keyListener.appendExpectingKey( VK_RIGHT, true, false );
+            PRIVATE_METHOD( MsgProcKeyboard )( appImp, NULL, WM_KEYDOWN, VK_RIGHT, 0 );
+
+            Assert::IsTrue( keyListener.isAllKeyRecieved() );
+        }
+
+        [TestMethod]
+        void AddMouseListener() {
+        }
+
+        [TestMethod]
+        void AddWin32MessageListener() {
+        }
+
+        //void setMinimized( bool );
+        //void setMaximized( bool );
+        //void setSizeInMove( bool );
+        //bool isMinimized();
+        //bool isMaximized();
+        //bool isSizeInMove();
+
+        [TestMethod]
+        void MessageProc() {
+        }
+
     };
 }

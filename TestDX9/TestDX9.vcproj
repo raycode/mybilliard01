@@ -203,6 +203,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ApplicationWin32ImpTest_Backdoor.hpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ApplicationWin32ImpTest_DummyKeyboardListener.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ApplicationWin32ImpTest_DummyKeyboardListener.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ApplicationWin32ImpTest_DummyRenderWin32.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\AssemblyInfo.cpp"
 				>
 			</File>

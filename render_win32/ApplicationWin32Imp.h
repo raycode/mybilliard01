@@ -21,15 +21,15 @@ public: // from ApplicationWindow
     virtual void setWindowedMode( bool ) OVERRIDE;
     virtual void setScreenTitle( wstring title ) OVERRIDE;
 
-    virtual void addKeyboardListener( KeyboardEventListener * listener ) OVERRIDE;
-    virtual void addMouseListener( MouseEventListener * listener ) OVERRIDE;
-
     virtual int getScreenX() OVERRIDE;
     virtual int getScreenY() OVERRIDE;
     virtual int getScreenWidth() OVERRIDE;
     virtual int getScreenHeight() OVERRIDE;
     virtual bool isWindowedMode() OVERRIDE;
     virtual wstring getScreenTitle() OVERRIDE;
+
+    virtual void addKeyboardListener( KeyboardEventListener * listener ) OVERRIDE;
+    virtual void addMouseListener( MouseEventListener * listener ) OVERRIDE;
 
 public: // from ApplicationWin32
     virtual void addWin32MessageListener( Win32MessageListener * listener ) OVERRIDE;
@@ -58,9 +58,26 @@ private: // creating window
     static HWND InitInstance(HINSTANCE hInstance, int nCmdShow, const wchar_t * szTitle, int x, int y, int width, int height);
     static const wchar_t * getRegisterClassName();
 
-public: // message proc
-    static LRESULT CALLBACK MsgProc(HWND, UINT, WPARAM, LPARAM);
+private: // message proc
     static ApplicationWin32Imp * g_app_;
+    static LRESULT CALLBACK MsgProc(HWND, UINT, WPARAM, LPARAM);
+
+    static void CALLBACK MsgProcKeyboard(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    static void CALLBACK MsgProcMouse(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+    static LRESULT CALLBACK MsgProcSystem(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
+
+    static void CALLBACK MsgProcSystem_WM_SIZE( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static void CALLBACK MsgProcSystem_WM_GETMINMAXINFO( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static void CALLBACK MsgProcSystem_WM_ENTERSIZEMOVE( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static void CALLBACK MsgProcSystem_WM_EXITSIZEMOVE( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static void CALLBACK MsgProcSystem_WM_MOUSEMOVE( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static bool CALLBACK MsgProcSystem_WM_SETCURSOR( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static void CALLBACK MsgProcSystem_WM_ACTIVATEAPP( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static bool CALLBACK MsgProcSystem_WM_POWERBROADCAST( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static int CALLBACK MsgProcSystem_WM_SYSKEYDOWN( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static void CALLBACK MsgProcSystem_WM_KEYDOWN( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static void CALLBACK MsgProcSystem_WM_CLOSE( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
+    static int CALLBACK MsgProcSystem_WM_SYSCOMMAND( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 private:
     int x_, y_, width_, height_;
