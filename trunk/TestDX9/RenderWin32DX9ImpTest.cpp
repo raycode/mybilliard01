@@ -16,7 +16,6 @@ namespace TestDX9
 
     private:
         RenderWin32DX9 * dx9;
-        RenderWin32DX9Imp * dx9Imp;
 
 	public: 
         [ClassInitialize()]
@@ -26,13 +25,12 @@ namespace TestDX9
 
         [TestInitialize()]
         void MyTestInitialize() {
-            dx9Imp = new RenderWin32DX9Imp();
-            dx9 = dx9Imp;
+            dx9 = new RenderWin32DX9Imp();
         };
 
         [TestCleanup()]
         void MyTestCleanup() {
-            delete dx9Imp;
+            delete dx9;
         };
 
     public:
@@ -66,9 +64,9 @@ namespace TestDX9
             Assert::IsFalse( dx9->isDeviceCreated() );
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
-            delete dx9Imp; // no release
+            delete dx9; // no release
 
-            dx9Imp = new RenderWin32DX9Imp();
+            dx9 = new RenderWin32DX9Imp();
             Assert::IsFalse( dx9->isDeviceCreated() );
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );

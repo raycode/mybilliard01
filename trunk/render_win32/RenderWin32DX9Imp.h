@@ -12,14 +12,10 @@ public:
     RenderWin32DX9Imp();
     ~RenderWin32DX9Imp();
 
+public: // from RenderWin32DX9
+    virtual IDirect3DDevice9 * getD3D9();
+
 public: // from RenderWin32
-    virtual void setHWND( HWND ) OVERRIDE;
-    virtual HWND getHWND() OVERRIDE;
-
-public: // from Render
-    virtual void render() OVERRIDE;
-    virtual void addEventListener( RenderEventListener * eventListener ) OVERRIDE;
-
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) OVERRIDE;
     virtual void destroyDevice() OVERRIDE;
     virtual bool isDeviceCreated() OVERRIDE;
@@ -30,13 +26,20 @@ public: // from Render
     virtual bool isWindowed() OVERRIDE;
     virtual void toggleFullScreen() OVERRIDE;
 
-    virtual void setUpAxis( domUpAxisType up ) OVERRIDE;
-    virtual domUpAxisType getUpAxis() OVERRIDE;
+    virtual void setHWND( HWND ) OVERRIDE;
+    virtual HWND getHWND() OVERRIDE;
 
     virtual void setCursorPosition( int x, int y ) OVERRIDE;
     virtual void showCursor( bool ) OVERRIDE;
 
     virtual int getFPS() OVERRIDE;
+
+public: // from Render
+    virtual void render() OVERRIDE;
+    virtual void addRenderEventListener( RenderEventListener * eventListener ) OVERRIDE;
+
+    virtual void setUpAxis( domUpAxisType up ) OVERRIDE;
+    virtual domUpAxisType getUpAxis() OVERRIDE;
 
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE;
     virtual bool beginScene() OVERRIDE;
@@ -79,9 +82,6 @@ private:
 
     RenderEventListener * eventListener_;
     NullRenderEventListener nullEventListener_;
-
-private:
-    IDirect3DDevice9 * getD3D9();
 };
 
 }

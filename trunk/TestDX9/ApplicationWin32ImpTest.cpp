@@ -79,7 +79,7 @@ namespace TestDX9
 
         [TestMethod]
         void DefaultWindowedMode() {
-            NullRender nullRender;
+            NullRenderWin32 nullRender;
             Assert::IsFalse( nullRender.isDeviceCreated() );
             Assert::IsTrue( app->isWindowedMode() );
         }
