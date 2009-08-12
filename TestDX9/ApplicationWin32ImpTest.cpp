@@ -22,35 +22,24 @@ namespace TestDX9
         ApplicationWin32Imp * appImp;
 
 	public: 
-		#pragma region Additional test attributes
-		//
-		//You can use the following additional attributes as you write your tests:
-		//
-		//Use ClassInitialize to run code before running the first test in the class
 		[ClassInitialize()]
 		static void MyClassInitialize(TestContext^ testContext) {
             testContextInstance = testContext;
         };
 		
-		//Use ClassCleanup to run code after all tests in a class have run
-		//[ClassCleanup()]
-		//static void MyClassCleanup() {};
-		//
-		//Use TestInitialize to run code before running each test
 		[TestInitialize()]
 		void MyTestInitialize() {
             appImp = new ApplicationWin32Imp();
             app = appImp;
         };
 		
-		//Use TestCleanup to run code after each test has run
 		[TestCleanup()]
 		void MyTestCleanup() {
             delete app;
         };
 		
-		#pragma endregion 
 
+    public:
 		[TestMethod]
 		void Constructor()
 		{
