@@ -1701,19 +1701,11 @@
 						>
 					</File>
 					<File
-						RelativePath=".\NullRenderErrorListener.hpp"
-						>
-					</File>
-					<File
 						RelativePath=".\NullRenderEventListener.hpp"
 						>
 					</File>
 					<File
 						RelativePath=".\Render.h"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderErrorListener.h"
 						>
 					</File>
 					<File

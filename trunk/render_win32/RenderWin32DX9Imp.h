@@ -10,26 +10,28 @@ namespace my_render_win32_dx9_imp {
 class RenderWin32DX9Imp : IMPLEMENTS_( RenderWin32DX9 ) {
 public:
     RenderWin32DX9Imp();
+    ~RenderWin32DX9Imp();
 
 public: // from RenderWin32
     virtual void setHWND( HWND ) OVERRIDE;
+    virtual HWND getHWND() OVERRIDE;
 
 public: // from Render
-    virtual void addErrorListener( RenderErrorListener * errorListener ) OVERRIDE;
+    virtual void render() OVERRIDE;
     virtual void addEventListener( RenderEventListener * eventListener ) OVERRIDE;
 
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) OVERRIDE;
     virtual void releaseDevice() OVERRIDE;
     virtual bool isDeviceCreated() OVERRIDE;
-
-    virtual bool isWindowed() OVERRIDE;
-    virtual void toggleFullScreen() OVERRIDE;
-
     virtual void* getNativeDevice() OVERRIDE;
 
     virtual void force_displayReset() OVERRIDE;
 
-    virtual void render() OVERRIDE;
+    virtual bool isWindowed() OVERRIDE;
+    virtual void toggleFullScreen() OVERRIDE;
+
+    virtual void setUpAxis( domUpAxisType up ) OVERRIDE;
+    virtual domUpAxisType getUpAxis() OVERRIDE;
 
     virtual void setCursorPosition( int x, int y ) OVERRIDE;
     virtual void showCursor( bool ) OVERRIDE;
@@ -37,9 +39,6 @@ public: // from Render
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE;
     virtual bool beginScene() OVERRIDE;
     virtual void endScene() OVERRIDE;
-
-    virtual void setUpAxis( domUpAxisType up ) OVERRIDE;
-    virtual domUpAxisType getUpAxis() OVERRIDE;
 
     virtual void pushMatrix() OVERRIDE;
     virtual void popMatrix() OVERRIDE;
@@ -75,10 +74,7 @@ public: // static members
 private:
     domUpAxisType upAxis_;
 
-    RenderErrorListener * errorListener_;
     RenderEventListener * eventListener_;
-
-    NullRenderErrorListener nullErrorListener_;
     NullRenderEventListener nullEventListener_;
 
 private:
