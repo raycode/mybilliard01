@@ -8,7 +8,7 @@ public:
     virtual void addEventListener( RenderEventListener * eventListener ) OVERRIDE {}
 
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) OVERRIDE { return false; }
-    virtual void releaseDevice() OVERRIDE {}
+    virtual void destroyDevice() OVERRIDE {}
     virtual void* getNativeDevice() OVERRIDE { return NULL; }
     virtual bool isDeviceCreated() OVERRIDE { return false; }
 
@@ -22,6 +22,8 @@ public:
 
     virtual void setCursorPosition( int x, int y ) OVERRIDE {}
     virtual void showCursor( bool ) OVERRIDE {}
+
+    virtual int getFPS() OVERRIDE { return 0; }
 
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE {}
     virtual bool beginScene() OVERRIDE { return false; }

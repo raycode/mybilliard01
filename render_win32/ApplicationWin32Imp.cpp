@@ -45,7 +45,7 @@ void ApplicationWin32Imp::start() {
 
     mainLoop();
 
-    render_->releaseDevice();
+    render_->destroyDevice();
 
     destroyWindow();
 }

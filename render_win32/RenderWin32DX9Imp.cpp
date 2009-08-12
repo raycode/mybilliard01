@@ -1,28 +1,22 @@
 #include "DXUT.h"
 #include "my_render_win32_dx9_imp.h"
 
-void DXUTCleanup3DEnvironment( bool bReleaseSettings );
 void DXUTCheckForWindowSizeChange();
 void DXUTCheckForWindowChangingMonitors();
 void WINAPI DXUTDisplaySwitchingToREFWarning( DXUTDeviceVersion ver );
-HRESULT DXUTChangeDevice( DXUTDeviceSettings* pNewDeviceSettings,
-                         IDirect3DDevice9* pd3d9DeviceFromApp, ID3D10Device* pd3d10DeviceFromApp,
-                         bool bForceRecreate, bool bClipWindowToSingleAdapter );
 
 namespace my_render_win32_dx9_imp {
 
-//#define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
-//#define DEBUG_PS   // Uncomment this line to debug D3D9 pixel shaders 
+#define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
+#define DEBUG_PS   // Uncomment this line to debug D3D9 pixel shaders 
 
 RenderWin32DX9Imp::RenderWin32DX9Imp()
 : upAxis_( UPAXISTYPE_Y_UP )
-, hWnd_( NULL )
-, d3dDevice_( NULL )
 {
     addEventListener( &nullEventListener_ );
 
-    // DXUT implementation doesn't allow more than one D3D device at time, which is bad.
-    DXUTInit( true, true, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
+    DXUTCreateState();
+    DXUTInit( false, false, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
     DXUTSetCursorSettings( true, true );
     DXUTSetCallbackD3D9DeviceAcceptable( &RenderWin32DX9Imp::IsD3D9DeviceAcceptable );
     DXUTSetCallbackDeviceChanging( &RenderWin32DX9Imp::ModifyDeviceSettings );
@@ -31,11 +25,21 @@ RenderWin32DX9Imp::RenderWin32DX9Imp()
     DXUTSetCallbackD3D9DeviceReset( &RenderWin32DX9Imp::s_displayReset, this );
     DXUTSetCallbackD3D9FrameRender( &RenderWin32DX9Imp::s_display, this );
     DXUTSetCallbackD3D9DeviceLost( &RenderWin32DX9Imp::s_displayLost, this );
+    DXUTSetCallbackD3D9DeviceDestroyed( &RenderWin32DX9Imp::s_destroy, this );
 }
 
 RenderWin32DX9Imp::~RenderWin32DX9Imp() {
     if( isDeviceCreated() )
-        releaseDevice();
+        destroyDevice();
+    DXUTDestroyState();
+}
+
+void RenderWin32DX9Imp::destroyDevice()
+{
+    // DXUT cannot shutdown d39 device correctly
+    DXUTShutdown();
+    DXUTDestroyState();
+    DXUTCreateState();
 }
 
 void RenderWin32DX9Imp::render() {
@@ -46,26 +50,20 @@ bool RenderWin32DX9Imp::createDevice( bool bWindowed, int nSuggestedWidth, int n
     return S_OK == DXUTCreateDevice( bWindowed, nSuggestedWidth, nSuggestedHeight );
 }
 
-void RenderWin32DX9Imp::releaseDevice()
-{
-    if( false == isDeviceCreated() ) return;
-
-    DXUTCleanup3DEnvironment( true );
-
-    d3dDevice_ = NULL;
+bool RenderWin32DX9Imp::isDeviceCreated() {
+    return NULL != getNativeDevice();
 }
 
 void RenderWin32DX9Imp::setHWND( HWND hWnd ) {
-    hWnd_ = hWnd;
-    DXUTSetWindow( hWnd_, hWnd_, hWnd_, false );
+    DXUTSetWindow( hWnd, hWnd, hWnd, false );
 }
 
 HWND RenderWin32DX9Imp::getHWND() {
-    return hWnd_;
+    return DXUTGetHWND();
 }
 
-bool RenderWin32DX9Imp::isDeviceCreated() {
-    return NULL != d3dDevice_;
+int RenderWin32DX9Imp::getFPS() {
+    return (int) DXUTGetFPS();
 }
 
 void RenderWin32DX9Imp::force_displayReset() {
@@ -74,7 +72,11 @@ void RenderWin32DX9Imp::force_displayReset() {
 }
 
 void* RenderWin32DX9Imp::getNativeDevice() {
-    return d3dDevice_;
+    return getD3D9();
+}
+
+IDirect3DDevice9* RenderWin32DX9Imp::getD3D9() {
+    return DXUTGetD3D9Device();
 }
 
 bool RenderWin32DX9Imp::isWindowed() {
@@ -87,11 +89,11 @@ void RenderWin32DX9Imp::toggleFullScreen()
 }
 
 void RenderWin32DX9Imp::setCursorPosition( int x, int y ) {
-    d3dDevice_->SetCursorPosition( x, y, 0 );
+    getD3D9()->SetCursorPosition( x, y, 0 );
 }
 
 void RenderWin32DX9Imp::showCursor( bool val ) {
-    d3dDevice_->ShowCursor( val );
+    getD3D9()->ShowCursor( val );
 }
 
 void RenderWin32DX9Imp::setUpAxis( domUpAxisType up ) {
@@ -110,8 +112,6 @@ HRESULT RenderWin32DX9Imp::s_init( IDirect3DDevice9* pd3dDevice, const D3DSURFAC
     ::OutputDebugStr( L"RenderWin32DX9Imp::s_init()\n" );
 
     RenderWin32DX9Imp * const render = (RenderWin32DX9Imp*) pUserContext;
-    render->d3dDevice_ = pd3dDevice;
-
     render->eventListener_->init( render );
     return S_OK;
 }
@@ -139,6 +139,14 @@ void RenderWin32DX9Imp::s_displayLost( void* pUserContext ) {
     RenderWin32DX9Imp * const render = (RenderWin32DX9Imp*) pUserContext;
     render->eventListener_->displayLost( render );
 }
+
+void RenderWin32DX9Imp::s_destroy( void* pUserContext ) {
+    ::OutputDebugStr( L"RenderWin32DX9Imp::s_destroy()\n" );
+
+    RenderWin32DX9Imp * const render = (RenderWin32DX9Imp*) pUserContext;
+    render->eventListener_->destroy( render );
+}
+
 
 //--------------------------------------------------------------------------------------
 // Rejects any D3D9 devices that aren't acceptable to the app by returning false
@@ -198,7 +206,7 @@ bool RenderWin32DX9Imp::ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSetting
     }
 
     // For the first device created if its a REF device, optionally display a warning dialog box
-    static bool s_bFirstTime = true;
+    static bool s_bFirstTime = false; // true;
     if( s_bFirstTime )
     {
         s_bFirstTime = false;
@@ -228,15 +236,15 @@ void RenderWin32DX9Imp::multMatrix( NxMat34 ) {
 }
 
 bool RenderWin32DX9Imp::beginScene() {
-    return D3D_OK == d3dDevice_->BeginScene();
+    return D3D_OK == getD3D9()->BeginScene();
 }
 
 void RenderWin32DX9Imp::endScene() {
-    d3dDevice_->EndScene();
+    getD3D9()->EndScene();
 }
 
 void RenderWin32DX9Imp::clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) {
-    d3dDevice_->Clear( 0, NULL, Flags, Color, Z, Stencil );
+    getD3D9()->Clear( 0, NULL, Flags, Color, Z, Stencil );
 }
 
 void RenderWin32DX9Imp::drawPrimitive(

@@ -204,6 +204,13 @@
 				<File
 					RelativePath=".\ApplicationWin32ImpTest.cpp"
 					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ApplicationWin32ImpTest_Backdoor.hpp"
