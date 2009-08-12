@@ -198,28 +198,50 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\ApplicationWin32ImpTest.cpp"
+			<Filter
+				Name="ApplicationWin32ImpTest"
 				>
-			</File>
-			<File
-				RelativePath=".\ApplicationWin32ImpTest_Backdoor.hpp"
+				<File
+					RelativePath=".\ApplicationWin32ImpTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ApplicationWin32ImpTest_Backdoor.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ApplicationWin32ImpTest_DummyKeyboardListener.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ApplicationWin32ImpTest_DummyKeyboardListener.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ApplicationWin32ImpTest_DummyRenderWin32.hpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="RenderWin32DX9ImpTest"
 				>
-			</File>
-			<File
-				RelativePath=".\ApplicationWin32ImpTest_DummyKeyboardListener.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\ApplicationWin32ImpTest_DummyKeyboardListener.h"
-				>
-			</File>
-			<File
-				RelativePath=".\ApplicationWin32ImpTest_DummyRenderWin32.hpp"
-				>
-			</File>
+				<File
+					RelativePath=".\RenderWin32DX9ImpTest.cpp"
+					>
+				</File>
+			</Filter>
+		</Filter>
+		<Filter
+			Name="Global"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
 			<File
 				RelativePath=".\AssemblyInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\resource.h"
 				>
 			</File>
 			<File
@@ -241,16 +263,6 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
-			</File>
-		</Filter>
-		<Filter
-			Name="Header Files"
-			Filter="h;hpp;hxx;hm;inl;inc;xsd"
-			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
-			>
-			<File
-				RelativePath=".\resource.h"
-				>
 			</File>
 			<File
 				RelativePath=".\stdafx.h"
