@@ -42,15 +42,22 @@ namespace TestDX9
         }
 
         [TestMethod]
-        void CreateDevice()
+        void CreateDevice1()
         {
             Assert::IsFalse( dx9->isDeviceCreated() );
 
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
 
-            dx9->releaseDevice();
+            dx9->destroyDevice();
             Assert::IsFalse( dx9->isDeviceCreated() );
+        }
+
+        [TestMethod]
+        void CreateDevice2()
+        {
+            CreateDevice1();
+            CreateDevice1();
         }
 
         [TestMethod]
@@ -59,13 +66,14 @@ namespace TestDX9
             Assert::IsFalse( dx9->isDeviceCreated() );
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
-            // no release
-            delete dx9Imp;
+            delete dx9Imp; // no release
 
             dx9Imp = new RenderWin32DX9Imp();
             Assert::IsFalse( dx9->isDeviceCreated() );
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
+            dx9->destroyDevice();
+            Assert::IsFalse( dx9->isDeviceCreated() );
         }
 
         [TestMethod]
@@ -73,10 +81,10 @@ namespace TestDX9
         {
             Assert::IsFalse( dx9->isDeviceCreated() );
 
-            Assert::IsTrue( dx9->createDevice( false, 320, 240 ) );
+            Assert::IsTrue( dx9->createDevice( false, 0, 0 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
 
-            dx9->releaseDevice();
+            dx9->destroyDevice();
             Assert::IsFalse( dx9->isDeviceCreated() );
         }
 
@@ -84,14 +92,16 @@ namespace TestDX9
         void GetNativeDevice()
         {
             Assert::IsTrue( NULL == dx9->getNativeDevice() );
-            Assert::IsTrue( dx9->isDeviceCreated() );
+
+            Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
             Assert::IsTrue( NULL != dx9->getNativeDevice() );
-            dx9->releaseDevice();
+
+            dx9->destroyDevice();
             Assert::IsTrue( NULL == dx9->getNativeDevice() );
         }
 
         [TestMethod]
-        void CreateDeviceDoubleTimes()
+        void AdjustCreatedDevice()
         {
             Assert::IsFalse( dx9->isDeviceCreated() );
 
@@ -99,11 +109,11 @@ namespace TestDX9
             Assert::IsTrue( dx9->isDeviceCreated() );
             void * const nativeDevice = dx9->getNativeDevice();
 
-            Assert::IsFalse( dx9->createDevice( true, 320, 240 ) );
+            Assert::IsTrue( dx9->createDevice( false, 0, 0 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
             Assert::IsTrue( dx9->getNativeDevice() == nativeDevice );
 
-            dx9->releaseDevice();
+            dx9->destroyDevice();
             Assert::IsFalse( dx9->isDeviceCreated() );
             Assert::IsTrue( NULL == dx9->getNativeDevice() );
         }
@@ -113,16 +123,16 @@ namespace TestDX9
         {
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
             Assert::IsTrue( dx9->isWindowed() );
-            dx9->releaseDevice();
+            dx9->destroyDevice();
             dx9->isWindowed(); // after device released.
         }
 
         [TestMethod]
         void IsWindowed_StartFromFullScreen()
         {
-            Assert::IsTrue( dx9->createDevice( false, 320, 240 ) );
+            Assert::IsTrue( dx9->createDevice( false, 0, 0 ) );
             Assert::IsFalse( dx9->isWindowed() );
-            dx9->releaseDevice();
+            dx9->destroyDevice();
             dx9->isWindowed(); // after device released.
         }
 
@@ -140,7 +150,7 @@ namespace TestDX9
         [TestMethod]
         void ToggleFullScreen_StartFromFullScreen()
         {
-            Assert::IsTrue( dx9->createDevice( false, 320, 240 ) );
+            Assert::IsTrue( dx9->createDevice( false, 0, 0 ) );
             Assert::IsFalse( dx9->isWindowed() );
             dx9->toggleFullScreen();
             Assert::IsTrue( dx9->isWindowed() );
