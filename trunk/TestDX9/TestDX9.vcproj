@@ -204,13 +204,6 @@
 				<File
 					RelativePath=".\ApplicationWin32ImpTest.cpp"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 				<File
 					RelativePath=".\ApplicationWin32ImpTest_Backdoor.hpp"
@@ -234,6 +227,26 @@
 				>
 				<File
 					RelativePath=".\RenderEventListenerDX9.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderEventListenerDX9_DummyEventListener.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderListenerSMC.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="2"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\RenderListenerSMC.h"
 					>
 				</File>
 				<File
@@ -291,6 +304,10 @@
 			</File>
 			<File
 				RelativePath=".\app.rc"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderListenerSMC.smc"
 				>
 			</File>
 		</Filter>

@@ -1,48 +1,14 @@
 #include "stdafx.h"
+#include "RenderEventListenerDX9_DummyEventListener.h"
+#include "RenderListenerSMC.h"
 
 using namespace System;
 using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
-
-class DummyEventListener_RenderWin32DX9Imp : public NullRenderEventListener {
-public:
-    virtual void init( Render * render )
-    {
-
-    }
-
-    virtual void displayReset( Render * render, int x, int y, int width, int height )
-    {
-
-    }
-
-    virtual void update( float elapsedTime )
-    {
-
-    }
-
-    virtual void display( Render * render )
-    {
-
-
-    }
-
-    virtual void displayLost( Render * render )
-    {
-
-
-    }
-
-    virtual void destroy( Render * render )
-    {
-
-
-    }
-
-};
-
+using namespace smc;
+ 
 
 namespace TestDX9
 {
@@ -55,6 +21,7 @@ namespace TestDX9
     private:
         RenderWin32DX9 * dx9;
         RenderEventListener * evt;
+        RenderListenerSMC * evtSMC;
 
     public: 
         [ClassInitialize()]
@@ -64,13 +31,15 @@ namespace TestDX9
 
         [TestInitialize()]
         void MyTestInitialize() {
+            evt = evtSMC = new RenderListenerSMC();
             dx9 = new RenderWin32DX9Imp();
-            evt = new DummyEventListener_RenderWin32DX9Imp();
             dx9->addRenderEventListener( evt );
         };
 
         [TestCleanup()]
         void MyTestCleanup() {
+            Assert::IsTrue( evtSMC->isStateCorrectSoFar() );
+            Assert::IsTrue( evtSMC->isStateCorrectToFinish() );
             delete evt;
             delete dx9;
         };
@@ -81,6 +50,15 @@ namespace TestDX9
 		{
 		};
 
+
+        [TestMethod]
+        void RenderListenerState()
+        {
+            dx9->createDevice( true, 300, 300 );
+            Assert::IsTrue( evtSMC->isStateCorrectSoFar() );
+            Assert::IsFalse( evtSMC->isStateCorrectToFinish() );
+            dx9->destroyDevice();
+        };
 
     };
 }

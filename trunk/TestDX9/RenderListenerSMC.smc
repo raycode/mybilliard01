@@ -1,0 +1,30 @@
+//Context RenderListenerContext
+FSMName RenderListenerSMC
+Initial BeforeInit
+FSMGenerator smc.generator.cpp.SMCppGenerator
+
+Pragma Namespace smc
+
+pragma Header RenderListenerSMC.h
+{
+    BeforeInit
+    {
+        init    AfterInit   { } 
+    }
+    AfterInit
+    {
+        reset    AfterReset    { }
+    }
+    AfterReset
+    {
+        lost    AfterLost    { }
+    }
+    AfterLost
+    {
+        reset    AfterReset    { }
+        destroy    AfterDestroy    { }
+    }
+    AfterDestroy
+    {
+    }
+}
