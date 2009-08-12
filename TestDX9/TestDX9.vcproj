@@ -233,6 +233,10 @@
 				Name="RenderWin32DX9ImpTest"
 				>
 				<File
+					RelativePath=".\RenderEventListenerDX9.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\RenderWin32DX9ImpTest.cpp"
 					>
 				</File>

@@ -4,25 +4,10 @@ namespace my_render {
 INTERFACE_ Render {
 public:
     virtual void render() = 0;
-    virtual void addEventListener( RenderEventListener * eventListener ) = 0;
-
-    virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) = 0;
-    virtual void destroyDevice() = 0;
-    virtual bool isDeviceCreated() = 0;
-    virtual void* getNativeDevice() = 0;
-
-    virtual void force_displayReset() = 0;
-
-    virtual bool isWindowed() = 0;
-    virtual void toggleFullScreen() = 0;
+    virtual void addRenderEventListener( RenderEventListener * eventListener ) = 0;
 
     virtual void setUpAxis( domUpAxisType up ) = 0;
     virtual domUpAxisType getUpAxis() = 0;
-
-    virtual void setCursorPosition( int x, int y ) = 0;
-    virtual void showCursor( bool ) = 0;
-
-    virtual int getFPS() = 0;
 
 #define ERenderClear_TARGET            0x00000001l  /* Clear target surface */
 #define ERenderClear_ZBUFFER           0x00000002l  /* Clear target z buffer */

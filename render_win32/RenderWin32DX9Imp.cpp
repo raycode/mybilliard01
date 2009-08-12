@@ -13,7 +13,7 @@ namespace my_render_win32_dx9_imp {
 RenderWin32DX9Imp::RenderWin32DX9Imp()
 : upAxis_( UPAXISTYPE_Y_UP )
 {
-    addEventListener( &nullEventListener_ );
+    addRenderEventListener( &nullEventListener_ );
 
     DXUTCreateState();
     DXUTInit( false, false, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
@@ -104,7 +104,7 @@ domUpAxisType RenderWin32DX9Imp::getUpAxis() {
     return upAxis_;
 }
 
-void RenderWin32DX9Imp::addEventListener( RenderEventListener * eventListener ) {
+void RenderWin32DX9Imp::addRenderEventListener( RenderEventListener * eventListener ) {
     eventListener_ = eventListener;
 }
 
