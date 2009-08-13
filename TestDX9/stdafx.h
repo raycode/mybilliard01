@@ -8,6 +8,7 @@
 #include "../dxut/Core/DXUT.h"
 #include "../render_win32/my_render_win32_dx9_imp.h"
 #include "../TestProject1/MyTestingUtility.hpp"
+#include "BackbufferHelper.hpp"
 
 using namespace std;
 using namespace my_render;

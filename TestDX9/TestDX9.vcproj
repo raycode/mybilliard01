@@ -258,6 +258,10 @@
 				Name="RenderTest"
 				>
 				<File
+					RelativePath=".\BackbufferHelper.hpp"
+					>
+				</File>
+				<File
 					RelativePath=".\RenderTest.cpp"
 					>
 				</File>
