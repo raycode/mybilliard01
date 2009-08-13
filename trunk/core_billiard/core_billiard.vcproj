@@ -1697,7 +1697,15 @@
 					Name="3. Render"
 					>
 					<File
+						RelativePath=".\IndexBuffer.h"
+						>
+					</File>
+					<File
 						RelativePath=".\NullRender.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\NullRenderBufferFactory.hpp"
 						>
 					</File>
 					<File
@@ -1706,6 +1714,10 @@
 					</File>
 					<File
 						RelativePath=".\Render.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderBufferFactory.h"
 						>
 					</File>
 					<File
@@ -1718,6 +1730,10 @@
 					</File>
 					<File
 						RelativePath=".\SurfaceLockedRect.h"
+						>
+					</File>
+					<File
+						RelativePath=".\VertexBuffer.h"
 						>
 					</File>
 				</Filter>
@@ -1843,23 +1859,6 @@
 				</File>
 				<File
 					RelativePath=".\PixelColor.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RenderMatrix.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PrecompiledHeaderThrough="StdAfx.h"
-							PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\RenderMatrix.h"
 					>
 				</File>
 				<File

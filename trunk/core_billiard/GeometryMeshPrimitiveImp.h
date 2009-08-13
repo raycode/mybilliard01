@@ -21,7 +21,7 @@ public: // set
     void setName( wstring name );
     void setTriangleCount( size_t nTriangle );
     void setMaterialName( wstring materialName );
-    void setRenderingPrimitiveType( Render::EPrimitiveType );
+    void setRenderingPrimitiveType( int primitiveTypeID );
 
 public: // set
     void appendPosition( NxVec3 );
@@ -71,9 +71,9 @@ private: // index
     VertexIndex_Array vertexIndex_Array_;
 
 private: // for rendering
-    Render::EPrimitiveType primitiveType_;
-    Render::VertexBufferID vertexBuffer_;
-    Render::IndexBufferID indexBuffer_;
+    int primitiveTypeID_;
+    VertexBuffer * vertexBuffer_;
+    IndexBuffer * indexBuffer_;
 };
 
 

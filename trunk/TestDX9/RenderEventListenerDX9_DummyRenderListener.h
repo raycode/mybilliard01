@@ -1,6 +1,6 @@
 #pragma once
 
-class DummyEventListener_RenderWin32DX9Imp : public NullRenderEventListener {
+class DummyEventListener_RenderWin32DX9Imp : IMPLEMENTS_( RenderEventListener ) {
 public: // checking state machine
     DummyEventListener_RenderWin32DX9Imp()
         : lastErrorState_( NULL )
@@ -22,12 +22,12 @@ public: // checking state machine
 
     virtual bool isStateCorrectToFinish() = 0;
 
-    virtual void init( Render * ) OVERRIDE { initSMC(); ++countInit_; }
-    virtual void displayReset( Render *, int, int, int, int ) OVERRIDE { resetSMC(); ++countReset_; }
+    virtual void init( RenderBufferFactory * ) OVERRIDE { initSMC(); ++countInit_; }
+    virtual void displayReset( RenderBufferFactory *, int, int, int, int ) OVERRIDE { resetSMC(); ++countReset_; }
     virtual void display( Render * ) OVERRIDE { displaySMC(); ++countDisplay_; }
-    virtual void update( float ) OVERRIDE { updateSMC(); ++countUpdate_; }
-    virtual void displayLost( Render * ) OVERRIDE { lostSMC(); ++countLost_; }
-    virtual void destroy( Render * ) OVERRIDE { destroySMC(); ++countDestroy_; }
+    virtual void update( RenderBufferFactory *, float ) OVERRIDE { updateSMC(); ++countUpdate_; }
+    virtual void displayLost( RenderBufferFactory * ) OVERRIDE { lostSMC(); ++countLost_; }
+    virtual void destroy( RenderBufferFactory * ) OVERRIDE { destroySMC(); ++countDestroy_; }
 
     void FSMError(const char* errorTrans, const char* lastState ) {
         lastErrorState_ = lastState;

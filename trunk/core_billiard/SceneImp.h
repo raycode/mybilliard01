@@ -6,11 +6,8 @@ class SceneImp : IMPLEMENTS_( Scene ) {
 public: // from Scene
     virtual bool load( wstring filename, Factory * factory ) OVERRIDE;
 
-    virtual void setRender( Render * render ) OVERRIDE;
-    virtual Render * getRender()  OVERRIDE{ return render_; }
-
     virtual void update() OVERRIDE;
-    virtual void render() OVERRIDE;
+    virtual void render( Render * ) OVERRIDE;
 
     virtual vector< wstring > getVisualSceneIDs() OVERRIDE;
     virtual wstring getDefaultVisualSceneID() OVERRIDE;
@@ -21,11 +18,8 @@ public: // from Scene
 public:
     SceneImp();
 
-private: // initRender
-    bool initRender();
-    static void initRenderUpAxis( Render * render, domCOLLADA * collada );
-
 private: // load
+    void loadUpAxis( domCOLLADA * collada );
     void loadLibraryImagesArray();
     void loadLibraryEffectsArray();
     void loadLibraryMaterialsArray();
@@ -56,7 +50,6 @@ private: // load
     wstring filename_, pathname_;
 
 private:
-    Render * render_;
     DAEPtr dae_;
     domCOLLADA * collada_;
     Factory * factory_;
@@ -69,6 +62,8 @@ private: // runtime database
     Geometries geometries_;
     VisualScenes visualScenes_;
     Nodes nodes_;
+
+    domUpAxisType upAxis_;
 
 private:
     Node * currentScene_;

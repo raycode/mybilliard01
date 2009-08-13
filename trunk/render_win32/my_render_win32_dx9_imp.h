@@ -18,14 +18,29 @@ namespace my_render_win32_dx9_imp {
 
     class SurfaceLockedRectDX9Imp;
     class SurfaceDX9Imp;
+
+    class VertexBufferDX9Imp;
+    class IndexBufferDX9Imp;
+
+    class RenderBufferFactoryDX9Imp;
     class RenderWin32DX9Imp;
 
     MY_SMART_PTR( SurfaceDX9Imp );
-    MY_SMART_PTR( RenderWin32DX9Imp );
     MY_SMART_PTR( SurfaceLockedRectDX9Imp );
+
+    MY_SMART_PTR( VertexBufferDX9Imp );
+    MY_SMART_PTR( IndexBufferDX9Imp );
+
+    MY_SMART_PTR( RenderBufferFactoryDX9Imp );
+    MY_SMART_PTR( RenderWin32DX9Imp );
 }
 
 #include "SurfaceLockedRectDX9Imp.h"
 #include "SurfaceDX9Imp.h"
+
+#include "VertexBufferDX9Imp.h"
+#include "IndexBufferDX9Imp.h"
+
+#include "RenderBufferFactoryDX9Imp.h"
 #include "RenderWin32DX9Imp.h"
 

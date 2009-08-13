@@ -24,8 +24,6 @@ namespace my_render_imp {
     class InstanceImp;
     class FactoryImp;
 
-    class RenderMatrix;
-
     MY_SMART_PTR( NodeImp );
     MY_SMART_PTR( GeometryImp );
     MY_SMART_PTR( PixelColor );
@@ -36,7 +34,7 @@ namespace my_render_imp {
     MY_SMART_PTR( NodeAnimation );
     MY_SMART_PTR( NodeTransform );
     MY_SMART_PTR( GeometryMeshImp );
-    //MY_SMART_PTR( GeometryMeshInput ); // don't need
+    MY_SMART_PTR( GeometryMeshInput );
     MY_SMART_PTR( GeometryMeshPrimitiveImp );
 
     template< typename T > 
@@ -63,5 +61,3 @@ namespace my_render_imp {
 #include "FactoryImp.h"
 #include "NodeFactoryImp.h"
 #include "InstanceImp.h"
-
-#include "RenderMatrix.h"

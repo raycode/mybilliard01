@@ -7,33 +7,46 @@ public:
     virtual void render() OVERRIDE {}
     virtual void addRenderEventListener( RenderEventListener * eventListener ) OVERRIDE {}
 
-    virtual void setUpAxis( domUpAxisType up ) OVERRIDE {}
-    virtual domUpAxisType getUpAxis() OVERRIDE { return UPAXISTYPE_Y_UP; }
-
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE {}
     virtual bool beginScene() OVERRIDE { return false; }
     virtual void endScene() OVERRIDE {}
 
-    virtual Surface * getBackBuffer( size_t whichBackBuffer ) OVERRIDE { return NULL; }
-    virtual void releaseSurface( Surface * ) OVERRIDE {}
+    virtual void drawPrimitive_POINTLIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}
+    virtual void drawPrimitive_LINELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}
+    virtual void drawPrimitive_LINESTRIP( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}
+    virtual void drawPrimitive_TRIANGLELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}
+    virtual void drawPrimitive_TRIANGLESTRIP( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}
+    virtual void drawPrimitive_TRIANGLEFAN( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}
 
-    virtual void pushMatrix() OVERRIDE {}
-    virtual void popMatrix() OVERRIDE {}
-    virtual void loadIdentity() OVERRIDE {}
-    virtual void multMatrix( NxMat34 ) OVERRIDE {}
+    virtual void drawIndexedPrimitive_POINTLIST(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE {}
 
-    virtual void drawPrimitive(
-        EPrimitiveType primitiveType,
-        NxU32 startVertex,
-        NxU32 primitiveCount ) OVERRIDE {}
+    virtual void drawIndexedPrimitive_LINELIST(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE {}
 
-    virtual void drawIndexedPrimitive(
-        EPrimitiveType primitiveType,
-        int baseVertexIndex,
-        NxU32 minIndex,
-        NxU32 numVertices,
-        NxU32 startIndex,
-        NxU32 primitiveCount ) OVERRIDE {}
+    virtual void drawIndexedPrimitive_LINESTRIP(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE {}
+
+    virtual void drawIndexedPrimitive_TRIANGLELIST(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE {}
+
+    virtual void drawIndexedPrimitive_TRIANGLESTRIP(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE {}
+
+    virtual void drawIndexedPrimitive_TRIANGLEFAN(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE {}
 
     virtual void getRenderState( ERenderStateType State, NxU32 * pValue ) OVERRIDE {}
     virtual void setRenderState( ERenderStateType State, NxU32 Value ) OVERRIDE {}

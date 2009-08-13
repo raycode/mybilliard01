@@ -45,7 +45,7 @@ private: // create mesh
     Meshs meshs_;
 
 private: // create primitive
-    GeometryMeshPrimitiveImp * createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName, Render::EPrimitiveType );
+    GeometryMeshPrimitiveImp * createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName, int primitiveTypeID );
     void releaseGeometryMeshPrimitive( GeometryMeshPrimitive * ptr );
 
     typedef list< GeometryMeshPrimitiveImpPtr > Primitives;

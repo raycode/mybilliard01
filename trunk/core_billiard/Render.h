@@ -6,9 +6,6 @@ public:
     virtual void render() = 0;
     virtual void addRenderEventListener( RenderEventListener * eventListener ) = 0;
 
-    virtual void setUpAxis( domUpAxisType up ) = 0;
-    virtual domUpAxisType getUpAxis() = 0;
-
 #define ERenderClear_TARGET            0x00000001l  /* Clear target surface */
 #define ERenderClear_ZBUFFER           0x00000002l  /* Clear target z buffer */
 #define ERenderClear_STENCIL           0x00000004l  /* Clear stencil planes */
@@ -17,36 +14,43 @@ public:
     virtual bool beginScene() = 0;
     virtual void endScene() = 0;
 
-    virtual Surface * getBackBuffer( size_t whichBackBuffer ) = 0;
-    virtual void releaseSurface( Surface * ) = 0;
+    virtual void drawPrimitive_POINTLIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) = 0;
+    virtual void drawPrimitive_LINELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) = 0;
+    virtual void drawPrimitive_LINESTRIP( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) = 0;
+    virtual void drawPrimitive_TRIANGLELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) = 0;
+    virtual void drawPrimitive_TRIANGLESTRIP( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) = 0;
+    virtual void drawPrimitive_TRIANGLEFAN( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) = 0;
 
-    virtual void pushMatrix() = 0;
-    virtual void popMatrix() = 0;
-    virtual void loadIdentity() = 0;
-    virtual void multMatrix( NxMat34 ) = 0;
+    virtual void drawIndexedPrimitive_POINTLIST(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) = 0;
 
-    enum EPrimitiveType {
-        EPrimitive_POINTLIST = 1,
-        EPrimitive_LINELIST = 2,
-        EPrimitive_LINESTRIP = 3,
-        EPrimitive_TRIANGLELIST = 4,
-        EPrimitive_TRIANGLESTRIP = 5,
-        EPrimitive_TRIANGLEFAN = 6,
-        EPrimitive_FORCE_DWORD = 0x7fffffff,
-    };
+    virtual void drawIndexedPrimitive_LINELIST(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) = 0;
 
-    virtual void drawPrimitive(
-        EPrimitiveType primitiveType,
-        NxU32 startVertex,
-        NxU32 primitiveCount ) = 0;
+    virtual void drawIndexedPrimitive_LINESTRIP(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) = 0;
 
-    virtual void drawIndexedPrimitive(
-        EPrimitiveType primitiveType,
-        int baseVertexIndex,
-        NxU32 minIndex,
-        NxU32 numVertices,
-        NxU32 startIndex,
-        NxU32 primitiveCount ) = 0;
+    virtual void drawIndexedPrimitive_TRIANGLELIST(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) = 0;
+
+    virtual void drawIndexedPrimitive_TRIANGLESTRIP(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) = 0;
+
+    virtual void drawIndexedPrimitive_TRIANGLEFAN(
+        VertexBuffer *, IndexBuffer *,
+        int baseVertexIndex, NxU32 minIndex,
+        NxU32 startIndex, NxU32 primitiveCount ) = 0;
+
 
 public: // render state
     enum ERenderStateType {

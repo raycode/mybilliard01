@@ -89,13 +89,13 @@ namespace TestDX9
         [TestMethod]
         void GetNativeDevice()
         {
-            Assert::IsTrue( NULL == dx9->getNativeDevice() );
+            Assert::IsTrue( NULL == dx9->getD3D9() );
 
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
-            Assert::IsTrue( NULL != dx9->getNativeDevice() );
+            Assert::IsTrue( NULL != dx9->getD3D9() );
 
             dx9->destroyDevice();
-            Assert::IsTrue( NULL == dx9->getNativeDevice() );
+            Assert::IsTrue( NULL == dx9->getD3D9() );
         }
 
         [TestMethod]
@@ -105,15 +105,15 @@ namespace TestDX9
 
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
-            void * const nativeDevice = dx9->getNativeDevice();
+            void * const nativeDevice = dx9->getD3D9();
 
             Assert::IsTrue( dx9->createDevice( false, 0, 0 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
-            Assert::IsTrue( dx9->getNativeDevice() == nativeDevice );
+            Assert::IsTrue( dx9->getD3D9() == nativeDevice );
 
             dx9->destroyDevice();
             Assert::IsFalse( dx9->isDeviceCreated() );
-            Assert::IsTrue( NULL == dx9->getNativeDevice() );
+            Assert::IsTrue( NULL == dx9->getD3D9() );
         }
 
         [TestMethod]
@@ -156,14 +156,5 @@ namespace TestDX9
             Assert::IsFalse( dx9->isWindowed() );
         }
 
-        [TestMethod]
-        void UpAxis()
-        {
-            dx9->setUpAxis( UPAXISTYPE_Y_UP );
-            Assert::IsTrue( UPAXISTYPE_Y_UP == dx9->getUpAxis() );
-
-            dx9->setUpAxis(UPAXISTYPE_Z_UP);
-            Assert::IsTrue( UPAXISTYPE_Z_UP == dx9->getUpAxis() );
-        }
     };
 }
