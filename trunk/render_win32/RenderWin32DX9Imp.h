@@ -13,7 +13,10 @@ public:
     ~RenderWin32DX9Imp();
 
 public: // from RenderWin32DX9
-    virtual IDirect3DDevice9 * getD3D9();
+    virtual IDirect3DDevice9 * getD3D9() OVERRIDE;
+
+    virtual void setBackbufferLockable( bool ) OVERRIDE;
+    virtual bool isBackbufferLockable() OVERRIDE;
 
 public: // from RenderWin32
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) OVERRIDE;
@@ -44,6 +47,9 @@ public: // from Render
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE;
     virtual bool beginScene() OVERRIDE;
     virtual void endScene() OVERRIDE;
+
+    virtual Surface * getBackBuffer( size_t whichBackBuffer ) OVERRIDE;
+    virtual void releaseSurface( Surface * ) OVERRIDE;
 
     virtual void pushMatrix() OVERRIDE;
     virtual void popMatrix() OVERRIDE;
@@ -82,6 +88,12 @@ private:
 
     RenderEventListener * eventListener_;
     NullRenderEventListener nullEventListener_;
+
+private:
+    typedef list< SurfaceDX9ImpPtr > Surfaces;
+    Surfaces surfaces_;
+
+    bool bBackbufferLockable_;
 };
 
 }

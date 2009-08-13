@@ -14,6 +14,9 @@ public:
     virtual bool beginScene() OVERRIDE { return false; }
     virtual void endScene() OVERRIDE {}
 
+    virtual Surface * getBackBuffer( size_t whichBackBuffer ) OVERRIDE { return NULL; }
+    virtual void releaseSurface( Surface * ) OVERRIDE {}
+
     virtual void pushMatrix() OVERRIDE {}
     virtual void popMatrix() OVERRIDE {}
     virtual void loadIdentity() OVERRIDE {}

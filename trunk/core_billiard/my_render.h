@@ -10,6 +10,8 @@ namespace my_render {
     class NullMouseEventListener;
     class NullKeyboardEventListener;
 
+    class SurfaceLockedRect;
+    class Surface;
     class Render;
     class RenderEventListener;
     class NullRender;
@@ -37,6 +39,8 @@ namespace my_render {
     MY_SMART_PTR( KeyboardEventListener );
     MY_SMART_PTR( NullMouseEventListener );
     MY_SMART_PTR( NullKeyboardEventListener );
+    MY_SMART_PTR( SurfaceLockedRect );
+    MY_SMART_PTR( Surface );
     MY_SMART_PTR( Render );
     MY_SMART_PTR( RenderEventListener );
     MY_SMART_PTR( NullRender );
@@ -63,6 +67,8 @@ namespace my_render {
 
 #include "RenderEventListener.h"
 #include "NullRenderEventListener.hpp"
+#include "SurfaceLockedRect.h"
+#include "Surface.h"
 #include "Render.h"
 #include "NullRender.hpp"
 #include "Scene.h"

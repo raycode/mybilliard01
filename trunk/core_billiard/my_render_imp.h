@@ -8,6 +8,7 @@ namespace my_render_imp {
 
     class SceneImp;
     class BaseImp;
+    class PixelColor;
 
     class NodeImp;
     class NodeAnimation;
@@ -27,6 +28,7 @@ namespace my_render_imp {
 
     MY_SMART_PTR( NodeImp );
     MY_SMART_PTR( GeometryImp );
+    MY_SMART_PTR( PixelColor );
     MY_SMART_PTR( InstanceImp );
     MY_SMART_PTR( FactoryImp );
     MY_SMART_PTR( NodeFactoryImp );
@@ -46,6 +48,7 @@ namespace my_render_imp {
 #include "SceneImp.h"
 
 #include "BaseImp.h"
+#include "PixelColor.h"
 
 #include "NodeImp.h"
 #include "NodeAnimation.h"
