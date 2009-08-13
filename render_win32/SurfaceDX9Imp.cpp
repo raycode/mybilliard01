@@ -14,8 +14,7 @@ SurfaceDX9Imp::~SurfaceDX9Imp()
     if( isLocked() )
         unlockRect( NULL );
 
-    const UINT references = dx9Surface_->Release();
-    if( 0 != references ) throw exception();
+    dx9Surface_->Release();
 }
 
 

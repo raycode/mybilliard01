@@ -8,6 +8,7 @@ public:
 
     virtual void setBackbufferLockable( bool ) = 0;
     virtual bool isBackbufferLockable() = 0;
+
 };
 
 

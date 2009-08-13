@@ -36,8 +36,8 @@ size_t GeometryMeshPrimitiveImp::getNumVertex() {
     return positions_.size();
 }
 
-void GeometryMeshPrimitiveImp::setRenderingPrimitiveType( Render::EPrimitiveType primitiveType ) {
-    primitiveType_ = primitiveType;
+void GeometryMeshPrimitiveImp::setRenderingPrimitiveType( int primitiveTypeID ) {
+    primitiveTypeID_ = primitiveTypeID;
 }
 
 void GeometryMeshPrimitiveImp::updateVertexIndexBuffers( Render * render ) {

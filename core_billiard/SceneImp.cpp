@@ -12,8 +12,8 @@ void SceneImp::update() {
     currentScene_->update( timeDelta );
 }
 
-void SceneImp::render() {
-    currentScene_->render( getRender() );
+void SceneImp::render( Render * render ) {
+    currentScene_->render( render );
 }
 
 bool SceneImp::load( wstring filename, Factory * factory ) {
@@ -26,7 +26,7 @@ bool SceneImp::load( wstring filename, Factory * factory ) {
     if( NULL == collada_ )
         return false;
 
-    initRender();
+    loadUpAxis( collada_ );
 
     loadLibraryImagesArray();
     loadLibraryEffectsArray();
@@ -43,29 +43,15 @@ bool SceneImp::load( wstring filename, Factory * factory ) {
 }
 
 SceneImp::SceneImp()
-: collada_( NULL ), currentScene_( NULL ), render_( NULL )
+: collada_( NULL ), currentScene_( NULL )
 {
 }
 
-void SceneImp::setRender( Render * render )
-{
-    render_ = render;
-
-    initRender();
-}
-
-bool SceneImp::initRender() {
-    if( NULL == collada_ || NULL == render_ ) return false;
-
-    initRenderUpAxis( render_, collada_ );
-    // There can be more.
-    return true;
-}
-
-void SceneImp::initRenderUpAxis( Render * render, domCOLLADA * collada ) {
+void SceneImp::loadUpAxis( domCOLLADA * collada ) {
     const domAsset::domUp_axis * const upAxis = collada->getAsset()->getUp_axis();
-    if ( upAxis )
-        render->setUpAxis( upAxis->getValue() );
+    if( NULL == upAxis ) return;
+
+    upAxis_ = upAxis->getValue();
 }
 
 wstring SceneImp::getCurrentVisualSceneID() {

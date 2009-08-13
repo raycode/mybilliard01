@@ -17,6 +17,11 @@ namespace my_render {
     class NullRender;
     class NullRenderEventListener;
 
+    class VertexBuffer;
+    class IndexBuffer;
+    class RenderBufferFactory;
+    class NullRenderBufferFactory;
+
     class Scene;
 
     class Base;
@@ -45,6 +50,10 @@ namespace my_render {
     MY_SMART_PTR( RenderEventListener );
     MY_SMART_PTR( NullRender );
     MY_SMART_PTR( NullRenderEventListener );
+    MY_SMART_PTR( VertexBuffer );
+    MY_SMART_PTR( IndexBuffer );
+    MY_SMART_PTR( RenderBufferFactory );
+    MY_SMART_PTR( NullRenderBufferFactory );
     MY_SMART_PTR( Scene );
     MY_SMART_PTR( Base );
     MY_SMART_PTR( Node );
@@ -64,6 +73,11 @@ namespace my_render {
 #include "KeyboardEventListener.h"
 #include "NullMouseEventListener.hpp"
 #include "NullKeyboardEventListener.hpp"
+
+#include "VertexBuffer.h"
+#include "IndexBuffer.h"
+#include "RenderBufferFactory.h"
+#include "NullRenderBufferFactory.hpp"
 
 #include "RenderEventListener.h"
 #include "NullRenderEventListener.hpp"

@@ -7,6 +7,7 @@ namespace my_render {
     NullKeyboardEventListener nullKeyboardEventListener__;
     NullMouseEventListener nullMouseEventListener__;
     NullRenderEventListener nullRenderEventListener__;
+    NullRenderBufferFactory nullRenderBufferFactory__; 
 #endif
 
 }

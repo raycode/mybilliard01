@@ -8,7 +8,6 @@ public:
     virtual void destroyDevice() = 0;
 
     virtual bool isDeviceCreated() = 0;
-    virtual void* getNativeDevice() = 0;
 
     virtual void force_displayReset() = 0;
 

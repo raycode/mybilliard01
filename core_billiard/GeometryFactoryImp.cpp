@@ -54,7 +54,7 @@ GeometryMeshImp * GeometryFactoryImp::createGeometryMesh() {
     return newMesh;
 }
 
-GeometryMeshPrimitiveImp * GeometryFactoryImp::createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName, Render::EPrimitiveType primitiveType )
+GeometryMeshPrimitiveImp * GeometryFactoryImp::createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName, int primitiveTypeID )
 {
     GeometryMeshPrimitiveImp * const newPrim = new GeometryMeshPrimitiveImp();
     if( NULL == newPrim ) return NULL;
@@ -64,7 +64,7 @@ GeometryMeshPrimitiveImp * GeometryFactoryImp::createGeometryMeshPrimitive( wstr
     newPrim->setName( name );
     newPrim->setTriangleCount( triangleCount );
     newPrim->setMaterialName( materialName );
-    newPrim->setRenderingPrimitiveType( primitiveType );
+    newPrim->setRenderingPrimitiveType( primitiveTypeID );
 
     return newPrim;
 }
@@ -180,7 +180,7 @@ GeometryMeshPrimitiveImp * GeometryFactoryImp::createPrimitive_polygons( domPoly
     const size_t numTriangle = (size_t) polygon->getCount();
     const wstring materialName = convertString( polygon->getMaterial() );
 
-    GeometryMeshPrimitiveImp * const newPrim = createGeometryMeshPrimitive( name, numTriangle, materialName, Render::EPrimitive_TRIANGLELIST );
+    GeometryMeshPrimitiveImp * const newPrim = createGeometryMeshPrimitive( name, numTriangle, materialName, domPolygons::ID() );
     if( NULL == newPrim ) return NULL;
 
     GeometryMeshInput input( polygon->getInput_array() );

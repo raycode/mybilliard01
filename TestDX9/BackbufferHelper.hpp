@@ -8,25 +8,25 @@ public:
         return bitPointer;
     }
 
-    BackbufferHelper( Render * render )
-        : render_( render )
+    BackbufferHelper( RenderBufferFactory * factory )
+        : factory_( factory )
     {
-        backbuffer_ = render->getBackBuffer( 0 );
-        if( NULL == backbuffer_ ) throw exception();
+        backBuffer_ = factory->getBackBuffer( 0 );
+        if( NULL == backBuffer_ ) throw exception();
 
-        SurfaceLockedRect * const locked = backbuffer_->lockRect( SurfaceLock_READONLY );
+        SurfaceLockedRect * const locked = backBuffer_->lockRect( SurfaceLock_READONLY );
         if( NULL == locked ) throw exception();
 
         bitPointer = (NxU32*) locked->getBitPointer();
     }
 
     ~BackbufferHelper() {
-        render_->releaseSurface( backbuffer_ );        
+        factory_->releaseSurface( backBuffer_ );        
     }
 
 private:
-    Render * render_;
-    Surface * backbuffer_;
+    RenderBufferFactory * factory_;
+    Surface * backBuffer_;
     NxU32 * bitPointer;
 };
 

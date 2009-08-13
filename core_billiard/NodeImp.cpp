@@ -63,8 +63,6 @@ void NodeImp::update( float time ) {
 
 void NodeImp::render( Render * render ) {
     {
-        RenderMatrix matrix( render );
-        //matrix.mult( transform_ );
         renderInstanceGeometries( render );
     }
 
