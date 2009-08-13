@@ -16,6 +16,7 @@ namespace my_render_win32_imp {
     class ApplicationWin32Imp;
 
     MY_SMART_PTR( ApplicationWin32Imp );
+
 }
 
 #include "ApplicationWin32Imp.h"

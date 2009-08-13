@@ -242,6 +242,42 @@
 				RelativePath=".\RenderWin32DX9Imp.h"
 				>
 			</File>
+			<File
+				RelativePath=".\SurfaceDX9Imp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\SurfaceDX9Imp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SurfaceLockedRectDX9Imp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\SurfaceLockedRectDX9Imp.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="my_render_win32_imp"

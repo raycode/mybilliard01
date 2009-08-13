@@ -8,5 +8,6 @@ namespace my_render {
     NullMouseEventListener nullMouseEventListener__;
     NullRenderEventListener nullRenderEventListener__;
 #endif
+
 }
 

@@ -1712,6 +1712,14 @@
 						RelativePath=".\RenderEventListener.h"
 						>
 					</File>
+					<File
+						RelativePath=".\Surface.h"
+						>
+					</File>
+					<File
+						RelativePath=".\SurfaceLockedRect.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="2. Scene"
@@ -1829,6 +1837,14 @@
 			<Filter
 				Name="1. Main"
 				>
+				<File
+					RelativePath=".\PixelColor.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\PixelColor.h"
+					>
+				</File>
 				<File
 					RelativePath=".\RenderMatrix.cpp"
 					>

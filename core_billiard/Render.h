@@ -17,6 +17,9 @@ public:
     virtual bool beginScene() = 0;
     virtual void endScene() = 0;
 
+    virtual Surface * getBackBuffer( size_t whichBackBuffer ) = 0;
+    virtual void releaseSurface( Surface * ) = 0;
+
     virtual void pushMatrix() = 0;
     virtual void popMatrix() = 0;
     virtual void loadIdentity() = 0;

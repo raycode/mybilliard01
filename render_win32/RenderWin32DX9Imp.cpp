@@ -7,19 +7,22 @@ void WINAPI DXUTDisplaySwitchingToREFWarning( DXUTDeviceVersion ver );
 
 namespace my_render_win32_dx9_imp {
 
+#ifdef DEBUG
 #define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
 #define DEBUG_PS   // Uncomment this line to debug D3D9 pixel shaders 
+#endif
 
 RenderWin32DX9Imp::RenderWin32DX9Imp()
 : upAxis_( UPAXISTYPE_Y_UP )
+, bBackbufferLockable_( false )
 {
     addRenderEventListener( &nullEventListener_ );
 
     DXUTCreateState();
     DXUTInit( false, false, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
     DXUTSetCursorSettings( true, true );
-    DXUTSetCallbackD3D9DeviceAcceptable( &RenderWin32DX9Imp::IsD3D9DeviceAcceptable );
-    DXUTSetCallbackDeviceChanging( &RenderWin32DX9Imp::ModifyDeviceSettings );
+    DXUTSetCallbackD3D9DeviceAcceptable( &RenderWin32DX9Imp::IsD3D9DeviceAcceptable, this );
+    DXUTSetCallbackDeviceChanging( &RenderWin32DX9Imp::ModifyDeviceSettings, this );
 
     DXUTSetCallbackD3D9DeviceCreated( &RenderWin32DX9Imp::s_init, this );
     DXUTSetCallbackD3D9DeviceReset( &RenderWin32DX9Imp::s_displayReset, this );
@@ -104,6 +107,15 @@ domUpAxisType RenderWin32DX9Imp::getUpAxis() {
     return upAxis_;
 }
 
+void RenderWin32DX9Imp::setBackbufferLockable( bool val ) {
+    bBackbufferLockable_ = val;
+}
+
+bool RenderWin32DX9Imp::isBackbufferLockable() {
+    return bBackbufferLockable_;
+}
+
+
 void RenderWin32DX9Imp::addRenderEventListener( RenderEventListener * eventListener ) {
     eventListener_ = eventListener;
 }
@@ -176,6 +188,8 @@ bool RenderWin32DX9Imp::IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT Adapt
 //--------------------------------------------------------------------------------------
 bool RenderWin32DX9Imp::ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSettings, void* pUserContext )
 {
+    RenderWin32DX9Imp * const render = (RenderWin32DX9Imp*) pUserContext;
+
     if( pDeviceSettings->ver == DXUT_D3D9_DEVICE )
     {
         IDirect3D9* pD3D = DXUTGetD3D9Object();
@@ -190,9 +204,12 @@ bool RenderWin32DX9Imp::ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSetting
             pDeviceSettings->d3d9.BehaviorFlags = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
         }
 
+        if( render->isBackbufferLockable() )
+            pDeviceSettings->d3d9.pp.Flags |= D3DPRESENTFLAG_LOCKABLE_BACKBUFFER;
+
+#ifdef DEBUG_VS
         // Debugging vertex shaders requires either REF or software vertex processing 
         // and debugging pixel shaders requires REF.  
-#ifdef DEBUG_VS
         if( pDeviceSettings->d3d9.DeviceType != D3DDEVTYPE_REF )
         {
             pDeviceSettings->d3d9.BehaviorFlags &= ~D3DCREATE_HARDWARE_VERTEXPROCESSING;
@@ -241,6 +258,28 @@ bool RenderWin32DX9Imp::beginScene() {
 
 void RenderWin32DX9Imp::endScene() {
     getD3D9()->EndScene();
+}
+
+Surface * RenderWin32DX9Imp::getBackBuffer( size_t whichBackBuffer ) {
+    IDirect3DSurface9 * newDXSurface;
+    const HRESULT hr = getD3D9()->GetBackBuffer( 0, whichBackBuffer, D3DBACKBUFFER_TYPE_MONO, &newDXSurface );
+    if( FAILED( hr ) ) {
+        DXUT_ERR( L"RenderWin32DX9Imp::getBackBuffer", hr );
+        return NULL;
+    }
+
+    SurfaceDX9Imp * const newSurface = new SurfaceDX9Imp( newDXSurface );
+    surfaces_.push_back( SurfaceDX9ImpPtr( newSurface ) );  
+    return newSurface;
+}
+
+void RenderWin32DX9Imp::releaseSurface( Surface * surface ) {
+    MY_FOR_EACH( Surfaces, iter, surfaces_ ) {
+        if( &**iter != surface ) continue;
+        surfaces_.erase( iter );
+        return;
+    }
+    // not found
 }
 
 void RenderWin32DX9Imp::clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) {
