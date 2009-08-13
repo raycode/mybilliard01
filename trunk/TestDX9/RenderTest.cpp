@@ -5,11 +5,11 @@ using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
+
 class RenderListener_clear : public NullRenderEventListener {
 public:
-    RenderListener_clear( NxU32 clearColor )
-        : clearColor_( clearColor )
-    {}
+    void setClearColor( NxU32 clearColor ) { clearColor_ = clearColor; }
+    NxU32 getClearColor() const { return clearColor_; }
 
 public:
     virtual void display( Render * render ) OVERRIDE {
@@ -18,35 +18,6 @@ public:
 
 private:
     NxU32 clearColor_;
-};
-
-
-class Backbuffer {
-public:
-    NxU32 * getBitPointer() {
-        return bitPointer;
-    }
-
-    Backbuffer( Render * render )
-        : render_( render )
-    {
-        backbuffer_ = render->getBackBuffer( 0 );
-        if( NULL == backbuffer_ ) throw exception();
-
-        SurfaceLockedRect * const locked = backbuffer_->lockRect( SurfaceLock_READONLY );
-        if( NULL == locked ) throw exception();
-
-        bitPointer = (NxU32*) locked->getBitPointer();
-    }
-
-    ~Backbuffer() {
-        render_->releaseSurface( backbuffer_ );        
-    }
-
-private:
-    Render * render_;
-    Surface * backbuffer_;
-    NxU32 * bitPointer;
 };
 
 
@@ -60,7 +31,6 @@ namespace TestDX9
 
     private:
         RenderWin32DX9 * dx9;
-        RenderEventListener * evt;
 
     public: 
         [ClassInitialize()]
@@ -78,25 +48,42 @@ namespace TestDX9
         [TestCleanup()]
         void MyTestCleanup() {
             dx9->destroyDevice();
-            delete evt;
             delete dx9;
         };
 
     public:
 		[TestMethod]
-		void TestMethod1()
+		void Render_Clear()
 		{
-            evt = new RenderListener_clear( PixelColor( 1, 0, 0, 0 ) );
+            RenderListener_clear * const evt = new RenderListener_clear();
             dx9->addRenderEventListener( evt );
+
+            evt->setClearColor( PixelColor( 1, 0, 0, 0 ) );
             dx9->render();
-
             {
-                Backbuffer backbuffer( dx9 );
-            //    NxU32 * const ptr = backbuffer.getBitPointer();
-            //    Assert::IsTrue( NULL != ptr );
-
-            //    Assert::AreEqual( 0u, ptr[0] );
+                BackbufferHelper backbuffer( dx9 );
+                NxU32 * const ptr = backbuffer.getBitPointer();
+                Assert::IsTrue( NULL != ptr );
+                Assert::AreEqual( evt->getClearColor() & 0xffffff, ptr[10] & 0xffffff );
             }
-		};
+
+            evt->setClearColor( PixelColor( 1, 256, 0, 0 ) );
+            dx9->render();
+            {
+                BackbufferHelper backbuffer( dx9 );
+                NxU32 * const ptr = backbuffer.getBitPointer();
+                Assert::IsTrue( NULL != ptr );
+                Assert::AreEqual( evt->getClearColor() & 0xffffff, ptr[10] & 0xffffff );
+            }
+
+            evt->setClearColor( PixelColor( 1, 0, 128, 127 ) );
+            dx9->render();
+            {
+                BackbufferHelper backbuffer( dx9 );
+                NxU32 * const ptr = backbuffer.getBitPointer();
+                Assert::IsTrue( NULL != ptr );
+                Assert::AreEqual( evt->getClearColor() & 0xffffff, ptr[10] & 0xffffff );
+            }
+        };
 	};
 }
