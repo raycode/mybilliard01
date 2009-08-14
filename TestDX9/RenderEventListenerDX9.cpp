@@ -19,7 +19,7 @@ namespace TestDX9
         static TestContext^ testContextInstance;
 
     private:
-        RenderWin32DX9 * dx9;
+        RenderWin32DX9 * render;
         RenderEventListener * evt;
         RenderListenerSMC * evtSMC;
 
@@ -32,8 +32,8 @@ namespace TestDX9
         [TestInitialize()]
         void MyTestInitialize() {
             evt = evtSMC = new RenderListenerSMC();
-            dx9 = new RenderWin32DX9Imp();
-            dx9->addRenderEventListener( evt );
+            render = new RenderWin32DX9Imp();
+            render->addRenderEventListener( evt );
         };
 
         [TestCleanup()]
@@ -41,7 +41,7 @@ namespace TestDX9
             Assert::IsTrue( evtSMC->isStateCorrectSoFar() );
             Assert::IsTrue( evtSMC->isStateCorrectToFinish() );
             delete evt;
-            delete dx9;
+            delete render;
         };
 
         bool isState( int init, int reset, int update, int display, int lost, int destroy ) {
@@ -66,12 +66,12 @@ namespace TestDX9
         {
             Assert::IsTrue( isState( 0, 0, 0, 0, 0, 0 ) );
 
-            dx9->createDevice( true, 300, 300 );
+            render->createDevice( true, 300, 300 );
             Assert::IsTrue( isState( 1, 1, 0, 0, 0, 0 ) );
             Assert::IsTrue( evtSMC->isStateCorrectSoFar() );
             Assert::IsFalse( evtSMC->isStateCorrectToFinish() );
 
-            dx9->destroyDevice();
+            render->destroyDevice();
             Assert::IsTrue( isState( 1, 1, 0, 0, 1, 1 ) );
         };
 
@@ -80,21 +80,21 @@ namespace TestDX9
         {
             Assert::IsTrue( isState( 0, 0, 0, 0, 0, 0 ) );
 
-            dx9->createDevice( false, 0, 0 );
+            render->createDevice( false, 0, 0 );
             Assert::IsTrue( isState( 1, 1, 0, 0, 0, 0 ) );
             Assert::IsFalse( evtSMC->isStateCorrectToFinish() );
 
-            dx9->render();
+            render->renderOneFrame();
             Assert::IsTrue( isState( 1, 1, 1, 1, 0, 0 ) );
 
-            dx9->render();
+            render->renderOneFrame();
             Assert::IsTrue( isState( 1, 1, 2, 2, 0, 0 ) );
 
-            dx9->render();
+            render->renderOneFrame();
             Assert::IsTrue( isState( 1, 1, 3, 3, 0, 0 ) );
             Assert::IsFalse( evtSMC->isStateCorrectToFinish() );
 
-            dx9->destroyDevice();
+            render->destroyDevice();
             Assert::IsTrue( isState( 1, 1, 3, 3, 1, 1 ) );
         };
 

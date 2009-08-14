@@ -4,20 +4,26 @@ namespace my_render_win32_dx9_imp {
 
 class VertexBufferDX9Imp : IMPLEMENTS_( VertexBufferDX9 ) {
 public: // from VertexBuffer
-    virtual void appendNormal_Array( float * normals_3floatsForEach ) OVERRIDE;
-    virtual void appendDiffuse_Array( NxU32 * colors_3UnsignedIntForEach ) OVERRIDE;
-    virtual void appendSpecular_Array( NxU32 * colors_3UnsignedIntForEach ) OVERRIDE;
-    virtual void appendTexCoord2D_Array( float * texCoords_2floatsForEach ) OVERRIDE;
+    virtual void appendRHW_Array( const float * rhw_onlyW ) OVERRIDE;
+    virtual void appendBlendingWeight_Array( const float * blendingWeights ) OVERRIDE;
+    virtual void appendNormal_Array( const float * normals_3floatsForEach ) OVERRIDE;
+    virtual void appendPixelSize_Array( const float * pixelSizes ) OVERRIDE;
+    virtual void appendDiffuse_Array( const NxU32 * colors_3UnsignedIntForEach ) OVERRIDE;
+    virtual void appendSpecular_Array( const NxU32 * colors_3UnsignedIntForEach ) OVERRIDE;
+    virtual void appendTexCoord2D_Array( const float * texCoords_2floatsForEach ) OVERRIDE;
 
     virtual size_t getNumberOfVertex() OVERRIDE;
+    virtual bool hasRHW() OVERRIDE;
+    virtual size_t getNumberOfBlendingWeights() OVERRIDE;
     virtual bool hasNormal() OVERRIDE;
+    virtual bool hasPixelSize() OVERRIDE;
     virtual bool hasDiffuse() OVERRIDE;
     virtual bool hasSpecular() OVERRIDE;
     virtual size_t getNumberOfTexCoords() OVERRIDE;
 
 public: // from VertexBufferDX9
     virtual size_t getSizeInByte() OVERRIDE;
-    virtual unsigned long getFVF() OVERRIDE;
+    virtual DWORD getFVF() OVERRIDE;
     virtual size_t getSizeInByteForEachVertex() OVERRIDE;
 
     virtual void setVertexBufferDX9( LPDIRECT3DVERTEXBUFFER9 ) OVERRIDE;

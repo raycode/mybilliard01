@@ -19,6 +19,8 @@ public: // from RenderWin32DX9
     virtual bool isBackbufferLockable() OVERRIDE;
 
 public: // from RenderWin32
+    virtual void renderOneFrame() OVERRIDE;
+
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) OVERRIDE;
     virtual void destroyDevice() OVERRIDE;
 
@@ -38,7 +40,6 @@ public: // from RenderWin32
     virtual int getFPS() OVERRIDE;
 
 public: // from Render
-    virtual void render() OVERRIDE;
     virtual void addRenderEventListener( RenderEventListener * eventListener ) OVERRIDE;
 
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE;

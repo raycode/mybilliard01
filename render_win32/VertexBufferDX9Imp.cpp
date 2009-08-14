@@ -50,26 +50,56 @@ size_t VertexBufferDX9Imp::getNumberOfVertex()
     return positions_.size();
 }
 
-void VertexBufferDX9Imp::appendNormal_Array( float * normals )
+void VertexBufferDX9Imp::appendRHW_Array( const float * rhw_onlyW )
+{
+
+}
+
+void VertexBufferDX9Imp::appendBlendingWeight_Array( const float * blendingWeights )
+{
+
+}
+
+void VertexBufferDX9Imp::appendPixelSize_Array( const float * pixelSizes )
+{
+
+}
+
+void VertexBufferDX9Imp::appendNormal_Array( const float * normals )
 {
     Pimpl::store_Array< Normal >( normals_, normals, getNumberOfVertex() );
 }
 
-void VertexBufferDX9Imp::appendDiffuse_Array( NxU32 * diffuses )
+void VertexBufferDX9Imp::appendDiffuse_Array( const NxU32 * diffuses )
 {
     Pimpl::store_Array< Diffuse >( diffuses_, diffuses, getNumberOfVertex() );
 }
 
-void VertexBufferDX9Imp::appendSpecular_Array( NxU32 * speculars )
+void VertexBufferDX9Imp::appendSpecular_Array( const NxU32 * speculars )
 {
     Pimpl::store_Array< Specular >( speculars_, speculars, getNumberOfVertex() );
 }
 
-void VertexBufferDX9Imp::appendTexCoord2D_Array( float * texCoords )
+void VertexBufferDX9Imp::appendTexCoord2D_Array( const float * texCoords )
 {
     TexCoords newTexCoords;
     Pimpl::store_Array< TexCoord2D >( newTexCoords, texCoords, getNumberOfVertex() );
     texCoords_Array_.push_back( newTexCoords );
+}
+
+bool VertexBufferDX9Imp::hasRHW()
+{
+    return false;
+}
+
+size_t VertexBufferDX9Imp::getNumberOfBlendingWeights()
+{
+    return 0;
+}
+
+bool VertexBufferDX9Imp::hasPixelSize()
+{
+    return false;
 }
 
 bool VertexBufferDX9Imp::hasNormal()
@@ -90,7 +120,7 @@ size_t VertexBufferDX9Imp::getNumberOfTexCoords()
     return texCoords_Array_.size();
 }
 
-unsigned long VertexBufferDX9Imp::getFVF()
+DWORD VertexBufferDX9Imp::getFVF()
 {
     unsigned long fvf = D3DFVF_XYZ;
 

@@ -4,6 +4,8 @@ namespace my_render_win32 {
 
 INTERFACE_ RenderWin32 : EXTENDS_INTERFACE_( Render ) {
 public:
+    virtual void renderOneFrame() = 0;
+
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) = 0;
     virtual void destroyDevice() = 0;
 

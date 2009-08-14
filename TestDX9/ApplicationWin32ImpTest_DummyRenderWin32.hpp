@@ -10,7 +10,7 @@ public:
         hWnd_ = hWnd;
     }
 
-    virtual void render() OVERRIDE {
+    virtual void renderOneFrame() OVERRIDE {
         ++renderCounter_;
         if( renderCounter_ <= 10 ) return;
         PostQuitMessage( 0 );

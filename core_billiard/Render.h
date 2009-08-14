@@ -3,7 +3,6 @@ namespace my_render {
 
 INTERFACE_ Render {
 public:
-    virtual void render() = 0;
     virtual void addRenderEventListener( RenderEventListener * eventListener ) = 0;
 
 #define ERenderClear_TARGET            0x00000001l  /* Clear target surface */

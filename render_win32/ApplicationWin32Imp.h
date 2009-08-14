@@ -101,7 +101,7 @@ private: //volatile data
     HACCEL hAccelTable_;
 
     bool bMinimized_, bMaximized_, bSizeInMove_;
-    Render * actualRender_;
+    RenderWin32 * actualRender_;
 
     MY_UNIT_TEST_BACKDOOR;
 };

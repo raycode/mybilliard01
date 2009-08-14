@@ -95,12 +95,12 @@ void ApplicationWin32Imp::destroyWindow() {
 
 bool ApplicationWin32Imp::setRender( Render * render ) {
     render_ = dynamic_cast< RenderWin32 *>( render );
-    const bool bRst = (NULL != render_);
-    if( false == bRst )
+    const bool bAcceptableRender = (NULL != render_);
+    if( false == bAcceptableRender )
         render_ = &nullRenderWin32_;
 
     actualRender_ = render_;
-    return bRst;
+    return bAcceptableRender;
 }
 
 Render * ApplicationWin32Imp::getRender() {
@@ -126,7 +126,7 @@ void ApplicationWin32Imp::setScreenY( int y ) {
 void ApplicationWin32Imp::setMinimized( bool val ) {
     bMinimized_ = val;
 
-    actualRender_ = (val ? &nullRenderWin32_ : (Render*) render_ );
+    actualRender_ = (val ? &nullRenderWin32_ : render_ );
 }
 
 void ApplicationWin32Imp::setMaximized( bool val ) {
@@ -148,7 +148,7 @@ bool ApplicationWin32Imp::isSizeInMove() {
 void ApplicationWin32Imp::setSizeInMove( bool val ) {
     bSizeInMove_ = val;
 
-    actualRender_ = (val ? (Render*)(&nullRenderWin32_) : render_ );
+    actualRender_ = (val ? &nullRenderWin32_ : render_ );
 }
 
 void ApplicationWin32Imp::setScreenWidth( int width ) {
