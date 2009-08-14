@@ -67,30 +67,30 @@ namespace TestDX9
 
             evt->setClearColor( PixelColor( 255, 0, 0, 0 ) );
             dx9->render();
-            //{
-            //    BackbufferHelper backbuffer( factory );
-            //    NxU32 * const ptr = backbuffer.getBitPointer();
-            //    Assert::IsTrue( NULL != ptr );
-            //    Assert::AreEqual( evt->getClearColor() & 0xffffff, ptr[10] & 0xffffff );
-            //}
+            {
+                BackbufferHelper backbuffer( factory );
+                NxU32 * const ptr = backbuffer.getBitPointer();
+                Assert::IsTrue( NULL != ptr );
+                Assert::AreEqual( evt->getClearColor() & 0xffffff, ptr[10] & 0xffffff );
+            }
 
-            //evt->setClearColor( PixelColor( 255, 256, 0, 0 ) );
-            //dx9->render();
-            //{
-            //    BackbufferHelper backbuffer( factory );
-            //    NxU32 * const ptr = backbuffer.getBitPointer();
-            //    Assert::IsTrue( NULL != ptr );
-            //    Assert::AreEqual( evt->getClearColor() & 0xffffff, ptr[10] & 0xffffff );
-            //}
+            evt->setClearColor( PixelColor( 255, 256, 0, 0 ) );
+            dx9->render();
+            {
+                BackbufferHelper backbuffer( factory );
+                NxU32 * const ptr = backbuffer.getBitPointer();
+                Assert::IsTrue( NULL != ptr );
+                Assert::AreEqual( evt->getClearColor() & 0xffffff, ptr[10] & 0xffffff );
+            }
 
-            //evt->setClearColor( PixelColor( 255, 0, 128, 127 ) );
-            //dx9->render();
-            //{
-            //    BackbufferHelper backbuffer( factory );
-            //    NxU32 * const ptr = backbuffer.getBitPointer();
-            //    Assert::IsTrue( NULL != ptr );
-            //    Assert::AreEqual( evt->getClearColor() & 0xffffff, ptr[10] & 0xffffff );
-            //}
+            evt->setClearColor( PixelColor( 255, 0, 128, 127 ) );
+            dx9->render();
+            {
+                BackbufferHelper backbuffer( factory );
+                NxU32 * const ptr = backbuffer.getBitPointer();
+                Assert::IsTrue( NULL != ptr );
+                Assert::AreEqual( evt->getClearColor() & 0xffffff, ptr[10] & 0xffffff );
+            }
         };
 	};
 }
