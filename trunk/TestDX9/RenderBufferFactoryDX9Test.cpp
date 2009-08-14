@@ -82,11 +82,11 @@ namespace TestDX9
         }
 
         [TestMethod]
-        void UploadVertexBufferOntoMemory()
+        void RenderVertexBuffer()
         {
-            VertexBufferDX9Imp * const vb
-                = dynamic_cast< VertexBufferDX9Imp* >( factory->createVertexBuffer_static( 1, positions ) );
-            assertNotNull( vb );
+            //VertexBufferDX9Imp * const vb
+            //    = dynamic_cast< VertexBufferDX9Imp* >( factory->createVertexBuffer_static( 1, positions ) );
+            //assertNotNull( vb );
         }
 
     };
