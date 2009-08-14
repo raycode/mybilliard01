@@ -16,18 +16,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
 		mybilliard01.vsmdi = mybilliard01.vsmdi
-		mybilliard011.vsmdi = mybilliard011.vsmdi
-		mybilliard0110.vsmdi = mybilliard0110.vsmdi
-		mybilliard0111.vsmdi = mybilliard0111.vsmdi
-		mybilliard0112.vsmdi = mybilliard0112.vsmdi
-		mybilliard012.vsmdi = mybilliard012.vsmdi
-		mybilliard013.vsmdi = mybilliard013.vsmdi
-		mybilliard014.vsmdi = mybilliard014.vsmdi
-		mybilliard015.vsmdi = mybilliard015.vsmdi
-		mybilliard016.vsmdi = mybilliard016.vsmdi
-		mybilliard017.vsmdi = mybilliard017.vsmdi
-		mybilliard018.vsmdi = mybilliard018.vsmdi
-		mybilliard019.vsmdi = mybilliard019.vsmdi
 	EndProjectSection
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core_billiard", "core_billiard\core_billiard.vcproj", "{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}"
@@ -45,7 +33,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "render_win32", "render_win3
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = mybilliard0112.vsmdi
+		CategoryFile = mybilliard01.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
