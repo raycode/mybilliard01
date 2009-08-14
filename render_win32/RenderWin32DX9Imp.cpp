@@ -17,7 +17,6 @@ RenderWin32DX9Imp::RenderWin32DX9Imp()
 {
     addRenderEventListener( &nullEventListener_ );
 
-    DXUTCreateState();
     DXUTInit( false, false, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
     DXUTSetCursorSettings( true, true );
     DXUTSetCallbackD3D9DeviceAcceptable( &RenderWin32DX9Imp::IsD3D9DeviceAcceptable, this );
@@ -33,14 +32,12 @@ RenderWin32DX9Imp::RenderWin32DX9Imp()
 RenderWin32DX9Imp::~RenderWin32DX9Imp() {
     if( isDeviceCreated() )
         destroyDevice();
-    DXUTDestroyState();
 }
 
 void RenderWin32DX9Imp::destroyDevice()
 {
     DXUTShutdown();
-    DXUTDestroyState();
-    DXUTCreateState();
+    DXUTResetFrameworkState();
 }
 
 void RenderWin32DX9Imp::render() {
