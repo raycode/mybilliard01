@@ -55,7 +55,7 @@ bool RenderWin32DX9Imp::createDevice( bool bWindowed, int nSuggestedWidth, int n
 }
 
 bool RenderWin32DX9Imp::isDeviceCreated() {
-    return NULL != getD3D9();
+    return NULL != getD3D9Device();
 }
 
 void RenderWin32DX9Imp::setHWND( HWND hWnd ) {
@@ -75,7 +75,7 @@ void RenderWin32DX9Imp::force_displayReset() {
     DXUTCheckForWindowChangingMonitors();
 }
 
-IDirect3DDevice9* RenderWin32DX9Imp::getD3D9() {
+IDirect3DDevice9* RenderWin32DX9Imp::getD3D9Device() {
     return DXUTGetD3D9Device();
 }
 
@@ -89,11 +89,11 @@ void RenderWin32DX9Imp::toggleFullScreen()
 }
 
 void RenderWin32DX9Imp::setCursorPosition( int x, int y ) {
-    getD3D9()->SetCursorPosition( x, y, 0 );
+    getD3D9Device()->SetCursorPosition( x, y, 0 );
 }
 
 void RenderWin32DX9Imp::showCursor( bool val ) {
-    getD3D9()->ShowCursor( val );
+    getD3D9Device()->ShowCursor( val );
 }
 
 RenderBufferFactory * RenderWin32DX9Imp::getBufferFactory() {
@@ -248,15 +248,15 @@ bool RenderWin32DX9Imp::ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSetting
 }
 
 bool RenderWin32DX9Imp::beginScene() {
-    return D3D_OK == getD3D9()->BeginScene();
+    return D3D_OK == getD3D9Device()->BeginScene();
 }
 
 void RenderWin32DX9Imp::endScene() {
-    getD3D9()->EndScene();
+    getD3D9Device()->EndScene();
 }
 
 void RenderWin32DX9Imp::clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) {
-    getD3D9()->Clear( 0, NULL, Flags, Color, Z, Stencil );
+    getD3D9Device()->Clear( 0, NULL, Flags, Color, Z, Stencil );
 }
 
 void RenderWin32DX9Imp::getRenderState( ERenderStateType State, NxU32 * pValue ) {

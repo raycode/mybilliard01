@@ -13,7 +13,7 @@ public:
     ~RenderWin32DX9Imp();
 
 public: // from RenderWin32DX9
-    virtual IDirect3DDevice9 * getD3D9() OVERRIDE;
+    virtual IDirect3DDevice9 * getD3D9Device() OVERRIDE;
 
     virtual void setBackbufferLockable( bool ) OVERRIDE;
     virtual bool isBackbufferLockable() OVERRIDE;

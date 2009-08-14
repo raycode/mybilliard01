@@ -7,6 +7,8 @@ INTERFACE_ RenderBufferFactoryDX9
     , EXTENDS_INTERFACE_( RenderEventListener )
 {
 public:
+    virtual VertexBufferDX9 * downcast( VertexBuffer * ) = 0;
+    virtual IndexBufferDX9 * downcast( IndexBuffer * ) = 0;
 };
 
 

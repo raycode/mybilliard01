@@ -44,7 +44,7 @@ namespace TestDX9
             dx9 = new RenderWin32DX9Imp();
             dx9->setBackbufferLockable( true );
             Assert::IsTrue( dx9->createDevice( true, 30, 30 ) );
-            factory = new RenderBufferFactoryDX9Imp( dx9->getD3D9() );
+            factory = new RenderBufferFactoryDX9Imp( dx9->getD3D9Device() );
         };
 
         [TestCleanup()]

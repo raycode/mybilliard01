@@ -4,8 +4,8 @@ namespace my_render {
 
 INTERFACE_ VertexBuffer {
 public:
-    virtual void appendNormal( float * normals ) = 0;
-    virtual void appendTexCoord( float * texCoords ) = 0;
+    virtual void appendNormal_Array( float * normals_3floatsForEach ) = 0;
+    virtual void appendTexCoord2D_Array( float * texCoords_2floatsForEach ) = 0;
 
     virtual size_t getNumberOfVertex() = 0;
     virtual bool hasNormal() = 0;

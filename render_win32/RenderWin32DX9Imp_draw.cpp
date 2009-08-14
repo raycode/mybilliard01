@@ -3,10 +3,16 @@
 namespace my_render_win32_dx9_imp {
 
 
-void RenderWin32DX9Imp::drawPrimitive_POINTLIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount )
+void RenderWin32DX9Imp::drawPrimitive_POINTLIST( VertexBuffer * vb, NxU32 startVertex, NxU32 primitiveCount )
 {
+    VertexBufferDX9 * const vbDX9 = dynamic_cast< VertexBufferDX9 * >( vb );
+    if( NULL == vbDX9 ) return;
 
+    getD3D9Device()->SetStreamSource( 0, vbDX9->getVertexBufferDX9(), 0, vbDX9->getSizeInByteForEachVertex() );
+    getD3D9Device()->SetFVF( vbDX9->getFVF() );
+    getD3D9Device()->DrawPrimitive( D3DPT_POINTLIST, startVertex, primitiveCount );
 }
+
 void RenderWin32DX9Imp::drawPrimitive_LINELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount )
 {
 
