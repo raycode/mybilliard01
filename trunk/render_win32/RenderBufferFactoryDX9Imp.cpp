@@ -132,7 +132,7 @@ void RenderBufferFactoryDX9Imp::uploadIndexBuffers( const list< IndexBufferDX9Pt
     MY_FOR_EACH( list< IndexBufferDX9Ptr >, iter, among ) {
         IndexBufferDX9 * const indexBuffer = &**iter;
 
-        const size_t sizeInByte = indexBuffer->getNumberOfIndex() * indexBuffer->getNumberOfIndex();
+        const size_t sizeInByte = indexBuffer->getSizeInByte();
         const D3DFORMAT fmt = (( indexBuffer->getNumberOfByteForEach() == 4 ) ? D3DFMT_INDEX32 : D3DFMT_INDEX16 );
 
         LPDIRECT3DINDEXBUFFER9 indexBufferDX9 = NULL;
@@ -150,14 +150,6 @@ void RenderBufferFactoryDX9Imp::uploadIndexBuffers( const list< IndexBufferDX9Pt
 
 IDirect3DDevice9 * RenderBufferFactoryDX9Imp::getD3D9Device() {
     return d3dDevice_;
-}
-
-VertexBufferDX9 * RenderBufferFactoryDX9Imp::downcast( VertexBuffer * ) {
-    return NULL;
-}
-
-IndexBufferDX9 * RenderBufferFactoryDX9Imp::downcast( IndexBuffer * ) {
-    return NULL;
 }
 
 

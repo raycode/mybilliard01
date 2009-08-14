@@ -56,6 +56,7 @@ private:
 
 private:
     struct Pimpl;
+    MY_UNIT_TEST_BACKDOOR;
 };
 
 

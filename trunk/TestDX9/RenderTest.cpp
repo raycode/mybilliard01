@@ -27,18 +27,10 @@ namespace TestDX9
 	public ref class RenderTest
 	{
     private:
-        static TestContext^ testContextInstance;
-
-    private:
         RenderWin32DX9 * dx9;
         RenderBufferFactory * factory;
 
     public: 
-        [ClassInitialize()]
-        static void MyClassInitialize(TestContext^ testContext) {
-            testContextInstance = testContext;
-        };
-
         [TestInitialize()]
         void MyTestInitialize() {
             dx9 = new RenderWin32DX9Imp();
