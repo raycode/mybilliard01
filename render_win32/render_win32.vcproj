@@ -217,6 +217,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\NullRenderBufferFactoryDX9.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderBufferFactoryDX9.h"
 				>
 			</File>
