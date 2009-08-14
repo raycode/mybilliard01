@@ -5,10 +5,14 @@ namespace my_render_win32_dx9_imp {
 class VertexBufferDX9Imp : IMPLEMENTS_( VertexBufferDX9 ) {
 public: // from VertexBuffer
     virtual void appendNormal_Array( float * normals_3floatsForEach ) OVERRIDE;
+    virtual void appendDiffuse_Array( NxU32 * colors_3UnsignedIntForEach ) OVERRIDE;
+    virtual void appendSpecular_Array( NxU32 * colors_3UnsignedIntForEach ) OVERRIDE;
     virtual void appendTexCoord2D_Array( float * texCoords_2floatsForEach ) OVERRIDE;
 
     virtual size_t getNumberOfVertex() OVERRIDE;
     virtual bool hasNormal() OVERRIDE;
+    virtual bool hasDiffuse() OVERRIDE;
+    virtual bool hasSpecular() OVERRIDE;
     virtual size_t getNumberOfTexCoords() OVERRIDE;
 
 public: // from VertexBufferDX9
@@ -41,6 +45,22 @@ private:
     };
     typedef vector< Normal > Normals;
     Normals normals_;
+
+private:
+    struct Diffuse {
+        DWORD val[3];
+        enum { sizeInByte = 3 * sizeof(DWORD) };
+    };
+    typedef vector< Diffuse > Diffuses;
+    Diffuses diffuses_;
+
+private:
+    struct Specular {
+        DWORD val[3];
+        enum { sizeInByte = 3 * sizeof(DWORD) };
+    };
+    typedef vector< Specular > Speculars;
+    Speculars speculars_;
 
 private:
     struct TexCoord2D {
