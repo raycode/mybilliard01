@@ -99,7 +99,7 @@ void ApplicationWin32Imp::mainLoop() {
         if( bGotMsg )
             handleMessage( msg );
         else 
-            actualRender_->render();
+            actualRender_->renderOneFrame();
     }
 }
 

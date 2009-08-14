@@ -14,6 +14,10 @@ namespace TestDX9
         50.0f, 250.0f, 0.5f
     };
 
+    const static NxU32 diffuses[] = {
+        0xffff0000, 0xff00ff00, 0xff00ffff
+    };
+
 	[TestClass]
 	public ref class RenderBufferFactoryDX9Test
 	{
@@ -36,6 +40,22 @@ namespace TestDX9
             delete dx9Imp;
         };
 
+        bool isVertexUploaded( VertexBuffer * vb ) {
+            VertexBufferDX9Imp * const vbImp = dynamic_cast< VertexBufferDX9Imp* >( vb );
+            if( NULL == vbImp ) return false;
+
+            LPDIRECT3DVERTEXBUFFER9 vbDX9 = vbImp->getVertexBufferDX9();
+            if( NULL == vbDX9 ) return false;
+
+            D3DVERTEXBUFFER_DESC desc;
+            vbDX9->GetDesc( &desc );
+            if( vbImp->getFVF() != desc.FVF ) return false;
+            if( (int) D3DPOOL_DEFAULT != (int) desc.Pool ) return false;
+            if( vbImp->getSizeInByte() != desc.Size ) return false;
+
+            return true;
+        }
+
     public:
 		[TestMethod]
 		void FixtureTesting()
@@ -45,33 +65,31 @@ namespace TestDX9
         [TestMethod]
         void CreateVertexBuffer_static()
         {
-            VertexBuffer * const vb = factory->createVertexBuffer_static( 1, positions );
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertNotNull( vb );
-            assertEquals( 1u, vb->getNumberOfVertex() );
+            assertEquals( 3u, vb->getNumberOfVertex() );
             assertFalse( vb->hasNormal() );
             assertFalse( vb->hasDiffuse() );
             assertFalse( vb->hasSpecular() );
             assertEquals( 0u, vb->getNumberOfTexCoords() );
+
+            VertexBufferDX9Imp * const vbImp = dynamic_cast< VertexBufferDX9Imp* >( vb );
+            assertNotNull( vbImp );
+            assertEquals( sizeof(float) * 9 , vbImp->getSizeInByte() );
+            assertEquals( (DWORD) D3DFVF_XYZ, vbImp->getFVF() );
+            assertEquals( sizeof(float) * 3, vbImp->getSizeInByteForEachVertex() );
+
             assertTrue( factory->releaseVertexBuffer( vb ) );
         };
 
         [TestMethod]
         void UploadVertexBufferOntoMemory()
         {
-            VertexBufferDX9Imp * const vb
-                = dynamic_cast< VertexBufferDX9Imp* >( factory->createVertexBuffer_static( 1, positions ) );
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertNotNull( vb );
             
             factory->update( NULL, 0.f );
-
-            LPDIRECT3DVERTEXBUFFER9 vbDX9 = vb->getVertexBufferDX9();
-            assertNotNull( vbDX9 );
-
-            D3DVERTEXBUFFER_DESC desc;
-            vbDX9->GetDesc( &desc );
-            assertEquals( vb->getFVF(), desc.FVF );
-            assertEquals( (int) D3DPOOL_DEFAULT, (int) desc.Pool );
-            assertEquals( vb->getSizeInByte(), desc.Size );
+            assertTrue( isVertexUploaded( vb ) );
 
             assertTrue( factory->releaseVertexBuffer( vb ) );
         }
@@ -79,14 +97,39 @@ namespace TestDX9
         [TestMethod]
         void AppendColor()
         {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertNotNull( vb );
+            VertexBufferDX9Imp * const vbImp = dynamic_cast< VertexBufferDX9Imp* >( vb );
+            assertNotNull( vbImp );
+
+            vb->appendDiffuse_Array( diffuses );
+
+            assertEquals( 3u, vb->getNumberOfVertex() );
+            assertFalse( vb->hasNormal() );
+            assertTrue( vb->hasDiffuse() );
+            assertFalse( vb->hasSpecular() );
+            assertEquals( 0u, vb->getNumberOfTexCoords() );
+
+            factory->update( NULL, 0.f );
+
+            LPDIRECT3DVERTEXBUFFER9 vbDX9 = vbImp->getVertexBufferDX9();
+            assertNotNull( vbDX9 );
+
+            D3DVERTEXBUFFER_DESC desc;
+            vbDX9->GetDesc( &desc );
+            assertEquals( vbImp->getFVF(), desc.FVF );
+            assertEquals( (int) D3DPOOL_DEFAULT, (int) desc.Pool );
+            assertEquals( vbImp->getSizeInByte(), desc.Size );
+
+            assertTrue( factory->releaseVertexBuffer( vb ) );
         }
 
         [TestMethod]
         void RenderVertexBuffer()
         {
-            //VertexBufferDX9Imp * const vb
+            //VertexBufferDX9Imp * const vbImp
             //    = dynamic_cast< VertexBufferDX9Imp* >( factory->createVertexBuffer_static( 1, positions ) );
-            //assertNotNull( vb );
+            //assertNotNull( vbImp );
         }
 
     };

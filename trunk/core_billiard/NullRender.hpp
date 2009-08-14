@@ -4,7 +4,6 @@ namespace my_render {
 
 class NullRender : IMPLEMENTS_( Render ) {
 public:
-    virtual void render() OVERRIDE {}
     virtual void addRenderEventListener( RenderEventListener * eventListener ) OVERRIDE {}
 
     virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE {}

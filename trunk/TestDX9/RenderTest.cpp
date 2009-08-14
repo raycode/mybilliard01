@@ -27,23 +27,23 @@ namespace TestDX9
 	public ref class RenderTest
 	{
     private:
-        RenderWin32DX9 * dx9;
+        RenderWin32DX9 * render;
         RenderBufferFactory * factory;
 
     public: 
         [TestInitialize()]
         void MyTestInitialize() {
-            dx9 = new RenderWin32DX9Imp();
-            dx9->setBackbufferLockable( true );
-            Assert::IsTrue( dx9->createDevice( true, 30, 30 ) );
-            factory = new RenderBufferFactoryDX9Imp( dx9->getD3D9Device() );
+            render = new RenderWin32DX9Imp();
+            render->setBackbufferLockable( true );
+            Assert::IsTrue( render->createDevice( true, 30, 30 ) );
+            factory = new RenderBufferFactoryDX9Imp( render->getD3D9Device() );
         };
 
         [TestCleanup()]
         void MyTestCleanup() {
             delete factory;
-            dx9->destroyDevice();
-            delete dx9;
+            render->destroyDevice();
+            delete render;
         };
 
     public:
@@ -55,10 +55,10 @@ namespace TestDX9
 		void Render_Clear()
 		{
             RenderListener_clear * const evt = new RenderListener_clear();
-            dx9->addRenderEventListener( evt );
+            render->addRenderEventListener( evt );
 
             evt->setClearColor( PixelColor( 255, 0, 0, 0 ) );
-            dx9->render();
+            render->renderOneFrame();
             {
                 BackbufferHelper backbuffer( factory );
                 NxU32 * const ptr = backbuffer.getBitPointer();
@@ -67,7 +67,7 @@ namespace TestDX9
             }
 
             evt->setClearColor( PixelColor( 255, 256, 0, 0 ) );
-            dx9->render();
+            render->renderOneFrame();
             {
                 BackbufferHelper backbuffer( factory );
                 NxU32 * const ptr = backbuffer.getBitPointer();
@@ -76,7 +76,7 @@ namespace TestDX9
             }
 
             evt->setClearColor( PixelColor( 255, 0, 128, 127 ) );
-            dx9->render();
+            render->renderOneFrame();
             {
                 BackbufferHelper backbuffer( factory );
                 NxU32 * const ptr = backbuffer.getBitPointer();

@@ -41,7 +41,7 @@ void RenderWin32DX9Imp::destroyDevice()
     DXUTResetFrameworkState();
 }
 
-void RenderWin32DX9Imp::render() {
+void RenderWin32DX9Imp::renderOneFrame() {
     DXUTRender3DEnvironment();
 }
 
