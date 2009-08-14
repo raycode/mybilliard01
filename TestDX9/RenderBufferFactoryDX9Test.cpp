@@ -20,7 +20,7 @@ namespace TestDX9
     private:
         RenderWin32DX9 * dx9;
         RenderWin32DX9Imp * dx9Imp;
-        RenderBufferFactory * factory;
+        RenderBufferFactoryDX9 * factory;
 
     public: 
         [TestInitialize()]
@@ -55,6 +55,15 @@ namespace TestDX9
             assertEquals( 0u, vb->getNumberOfTexCoords() );
             assertTrue( factory->releaseVertexBuffer( vb ) );
         };
+
+        [TestMethod]
+        void renderVertexBuffer()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 1, positions );
+            assertNotNull( vb );
+            
+            factory->init( NULL );
+        }
 
         [TestMethod]
         void AppendColor()

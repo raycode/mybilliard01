@@ -10,6 +10,6 @@ struct RenderBufferFactoryDX9Imp::TestingBackdoor {
 
 
 struct RenderWin32DX9Imp::TestingBackdoor {
-    ACCESS_0( RenderBufferFactory *, RenderWin32DX9Imp, getBufferFactory );
+    ACCESS_0( RenderBufferFactoryDX9 *, RenderWin32DX9Imp, getBufferFactory );
 };
 
