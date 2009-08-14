@@ -55,6 +55,16 @@ void VertexBufferDX9Imp::appendNormal_Array( float * normals )
     Pimpl::store_Array< Normal >( normals_, normals, getNumberOfVertex() );
 }
 
+void VertexBufferDX9Imp::appendDiffuse_Array( NxU32 * diffuses )
+{
+    Pimpl::store_Array< Diffuse >( diffuses_, diffuses, getNumberOfVertex() );
+}
+
+void VertexBufferDX9Imp::appendSpecular_Array( NxU32 * speculars )
+{
+    Pimpl::store_Array< Specular >( speculars_, speculars, getNumberOfVertex() );
+}
+
 void VertexBufferDX9Imp::appendTexCoord2D_Array( float * texCoords )
 {
     TexCoords newTexCoords;
@@ -67,6 +77,14 @@ bool VertexBufferDX9Imp::hasNormal()
     return normals_.size() != 0;
 }
 
+bool VertexBufferDX9Imp::hasDiffuse() {
+    return diffuses_.size() != 0;
+}
+
+bool VertexBufferDX9Imp::hasSpecular() {
+    return speculars_.size() != 0;
+}
+
 size_t VertexBufferDX9Imp::getNumberOfTexCoords()
 {
     return texCoords_Array_.size();
@@ -77,6 +95,10 @@ unsigned long VertexBufferDX9Imp::getFVF()
     unsigned long fvf = D3DFVF_XYZ;
 
     if( hasNormal() ) fvf |= D3DFVF_NORMAL;
+
+    if( hasDiffuse() ) fvf |= D3DFVF_DIFFUSE;
+
+    if( hasSpecular() ) fvf |= D3DFVF_SPECULAR;
 
     if( getNumberOfTexCoords() >= 1 ) fvf |= D3DFVF_TEX0;
     if( getNumberOfTexCoords() >= 2 ) fvf |= D3DFVF_TEX1;
@@ -100,6 +122,10 @@ size_t VertexBufferDX9Imp::getSizeInByteForEachVertex()
     if( fvf & D3DFVF_XYZ ) sizeFoREach += Position::sizeInByte;
 
     if( fvf & D3DFVF_NORMAL ) sizeFoREach += Normal::sizeInByte;
+
+    if( fvf & D3DFVF_DIFFUSE ) sizeFoREach += Diffuse::sizeInByte;
+
+    if( fvf & D3DFVF_SPECULAR ) sizeFoREach += Specular::sizeInByte;
 
     if( fvf & D3DFVF_TEX0 ) sizeFoREach += TexCoord2D::sizeInByte;
     if( fvf & D3DFVF_TEX1 ) sizeFoREach += TexCoord2D::sizeInByte;
@@ -140,11 +166,15 @@ void VertexBufferDX9Imp::writeOntoDevice( DWORD lockingFlags )
 
     const size_t offset_position = 0;
     const size_t offset_normal = Position::sizeInByte;
-    const size_t offset_tex = offset_normal + Normal::sizeInByte;
+    const size_t offset_diffuse = offset_normal + (hasNormal() ? Normal::sizeInByte : 0);
+    const size_t offset_specular = offset_diffuse + (hasDiffuse() ? Diffuse::sizeInByte : 0);
+    const size_t offset_tex = offset_specular + (hasSpecular() ? Specular::sizeInByte : 0);
 
     const size_t step = getSizeInByteForEachVertex();
     Pimpl::writeOntoDeviceForEach< Position >( vertices, positions_, offset_position, step );
     Pimpl::writeOntoDeviceForEach< Normal >( vertices, normals_, offset_normal, step );
+    Pimpl::writeOntoDeviceForEach< Diffuse >( vertices, diffuses_, offset_diffuse, step );
+    Pimpl::writeOntoDeviceForEach< Specular >( vertices, speculars_, offset_specular, step );
 
     size_t offset_tex_each = 0;
     MY_FOR_EACH( TexCoords_Array, iter, texCoords_Array_ ) {

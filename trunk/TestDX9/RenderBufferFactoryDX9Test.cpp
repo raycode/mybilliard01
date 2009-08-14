@@ -50,6 +50,8 @@ namespace TestDX9
             assertNotNull( vb );
             assertEquals( 1u, vb->getNumberOfVertex() );
             assertFalse( vb->hasNormal() );
+            assertFalse( vb->hasDiffuse() );
+            assertFalse( vb->hasSpecular() );
             assertEquals( 0u, vb->getNumberOfTexCoords() );
             assertTrue( factory->releaseVertexBuffer( vb ) );
         };
