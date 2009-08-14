@@ -96,7 +96,8 @@ private: // static members
     static void CALLBACK s_destroy( void* pUserContext );
 
 private:
-    RenderBufferFactory * getBufferFactory();
+    RenderBufferFactoryDX9 * getBufferFactory();
+    void setBufferFactory( RenderBufferFactoryDX9Ptr );
 
 private:
     RenderEventListener * eventListener_;

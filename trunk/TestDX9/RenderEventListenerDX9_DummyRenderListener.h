@@ -23,11 +23,11 @@ public: // checking state machine
     virtual bool isStateCorrectToFinish() = 0;
 
     virtual void init( RenderBufferFactory * ) OVERRIDE { initSMC(); ++countInit_; }
-    virtual void displayReset( RenderBufferFactory *, int, int, int, int ) OVERRIDE { resetSMC(); ++countReset_; }
-    virtual void display( Render * ) OVERRIDE { displaySMC(); ++countDisplay_; }
+    virtual void displayReset( int, int, int, int ) OVERRIDE { resetSMC(); ++countReset_; }
     virtual void update( RenderBufferFactory *, float ) OVERRIDE { updateSMC(); ++countUpdate_; }
-    virtual void displayLost( RenderBufferFactory * ) OVERRIDE { lostSMC(); ++countLost_; }
-    virtual void destroy( RenderBufferFactory * ) OVERRIDE { destroySMC(); ++countDestroy_; }
+    virtual void display( Render * ) OVERRIDE { displaySMC(); ++countDisplay_; }
+    virtual void displayLost() OVERRIDE { lostSMC(); ++countLost_; }
+    virtual void destroy() OVERRIDE { destroySMC(); ++countDestroy_; }
 
     void FSMError(const char* errorTrans, const char* lastState ) {
         lastErrorState_ = lastState;
