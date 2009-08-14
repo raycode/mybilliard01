@@ -3,6 +3,14 @@
 namespace my_render_win32_dx9_imp {
 
 
+IndexBufferDX9Imp::~IndexBufferDX9Imp() {
+    releaseIndexBufferDX9();
+}
+
+void IndexBufferDX9Imp::releaseIndexBufferDX9() {
+    SAFE_RELEASE( indexBufferDX9_ );
+}
+
 IndexBufferDX9Imp::IndexBufferDX9Imp( size_t numberOfIndex, unsigned int * indexies )
 : indexBufferDX9_( NULL )
 {
@@ -28,21 +36,32 @@ size_t IndexBufferDX9Imp::getNumberOfByteForEach()
     return ( index16_array_.empty() ? 4 : 2 );
 }
 
-void IndexBufferDX9Imp::setIndexBufferDX9( LPDIRECT3DINDEXBUFFER9 ) {
-
+size_t IndexBufferDX9Imp::getSizeInByte() {
+    return getNumberOfIndex() * getNumberOfByteForEach();
 }
 
-void IndexBufferDX9Imp::writeOntoDevice( DWORD lockingFlags ) {
-
-}
-
-void IndexBufferDX9Imp::releaseIndexBufferDX9() {
-
+void IndexBufferDX9Imp::setIndexBufferDX9( LPDIRECT3DINDEXBUFFER9 indexBufferDX9 ) {
+    indexBufferDX9_ = indexBufferDX9;
 }
 
 LPDIRECT3DINDEXBUFFER9 IndexBufferDX9Imp::getIndexBufferDX9() {
     return indexBufferDX9_;
 }
+
+void IndexBufferDX9Imp::writeOntoDevice( DWORD lockingFlags ) {
+    float * indexies;
+    const HRESULT hr = indexBufferDX9_->Lock( 0, getSizeInByte(), (void**) &indexies, lockingFlags );
+    if( FAILED( hr ) ) {
+        DXUT_ERR( L"IndexBufferDX9Imp::writeOntoDevice", hr );
+        return;
+    }
+
+    memcpy( indexies, &(index16_array_[0]), index16_array_.size() * sizeof( Index16_Array::value_type ) );
+    memcpy( indexies, &(index32_array_[0]), index32_array_.size() * sizeof( Index32_Array::value_type ) );
+
+    indexBufferDX9_->Unlock();
+}
+
 
 
 }

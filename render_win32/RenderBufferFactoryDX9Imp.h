@@ -18,10 +18,6 @@ public: // from RenderBufferFactory
     virtual bool releaseIndexBuffer( IndexBuffer *) OVERRIDE;
     virtual bool releaseSurface( Surface * ) OVERRIDE;
 
-public: // from RenderBuferFactoryDX9
-    virtual VertexBufferDX9 * downcast( VertexBuffer * ) OVERRIDE;
-    virtual IndexBufferDX9 * downcast( IndexBuffer * ) OVERRIDE;
-
 public: // from RenderEventListener
     virtual void init( RenderBufferFactory * ) OVERRIDE;
     virtual void displayReset( RenderBufferFactory *, int x, int y, int width, int height ) OVERRIDE;
@@ -75,6 +71,8 @@ private:
 
     typedef list< SurfaceDX9ImpPtr > Surfaces;
     Surfaces surfaces_;
+
+    MY_UNIT_TEST_BACKDOOR;
 };
 
 
