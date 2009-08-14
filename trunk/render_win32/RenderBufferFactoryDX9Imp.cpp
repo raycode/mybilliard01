@@ -5,6 +5,7 @@ namespace my_render_win32_dx9_imp {
 
 RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( IDirect3DDevice9 * d3dDevice )
 : d3dDevice_( d3dDevice )
+, bNeedToUpdate_( false )
 {    
     if( NULL == d3dDevice ) throw exception();
 }
@@ -12,36 +13,42 @@ RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( IDirect3DDevice9 * d3dDevi
 VertexBuffer * RenderBufferFactoryDX9Imp::createVertexBuffer_static( size_t numberOfPosition, const float * positions ) {
     VertexBufferDX9 * const vbo = new VertexBufferDX9Imp( numberOfPosition, positions );
     staticVertices_[ EREADY_QUEUE ].push_back( VertexBufferDX9Ptr( vbo ) );
+    bNeedToUpdate_ = true;
     return vbo;
 }
 
 VertexBuffer * RenderBufferFactoryDX9Imp::createVertexBuffer_dynamic( size_t numberOfPosition, const float * positions ) {
     VertexBufferDX9 * const vbo = new VertexBufferDX9Imp( numberOfPosition, positions );
     dynamicVertices_[ EREADY_QUEUE ].push_back( VertexBufferDX9Ptr( vbo ) );
+    bNeedToUpdate_ = true;
     return vbo;
 }
 
 VertexBuffer * RenderBufferFactoryDX9Imp::createVertexBuffer_stream( size_t numberOfPosition, const float * positions ) {
     VertexBufferDX9 * const vbo = new VertexBufferDX9Imp( numberOfPosition, positions );
     streamVertices_[ EREADY_QUEUE ].push_back( VertexBufferDX9Ptr( vbo ) );
+    bNeedToUpdate_ = true;
     return vbo;
 }
 
 IndexBuffer * RenderBufferFactoryDX9Imp::createIndexBuffer_static( size_t numberOfIndex, const unsigned int * indexies ) {
     IndexBufferDX9 * const ibo = new IndexBufferDX9Imp( numberOfIndex, indexies );
     staticIndexies_[ EREADY_QUEUE ].push_back( IndexBufferDX9Ptr( ibo ) );
+    bNeedToUpdate_ = true;
     return ibo;
 }
 
 IndexBuffer * RenderBufferFactoryDX9Imp::createIndexBuffer_dynamic( size_t numberOfIndex, const unsigned int * indexies ) {
     IndexBufferDX9 * const ibo = new IndexBufferDX9Imp( numberOfIndex, indexies );
     dynamicIndexies_[ EREADY_QUEUE ].push_back( IndexBufferDX9Ptr( ibo ) );
+    bNeedToUpdate_ = true;
     return ibo;
 }
 
 IndexBuffer * RenderBufferFactoryDX9Imp::createIndexBuffer_stream( size_t numberOfIndex, const unsigned int * indexies ) {
     IndexBufferDX9 * const ibo = new IndexBufferDX9Imp( numberOfIndex, indexies );
     streamIndexies_[ EREADY_QUEUE ].push_back( IndexBufferDX9Ptr( ibo ) );
+    bNeedToUpdate_ = true;
     return ibo;
 }
 
@@ -97,6 +104,9 @@ void RenderBufferFactoryDX9Imp::displayReset( int x, int y, int width, int heigh
 
 void RenderBufferFactoryDX9Imp::update( RenderBufferFactory *, float elapsedTime )
 {
+    if( false == bNeedToUpdate_ ) return;
+    bNeedToUpdate_ = false;
+
     uploadStaticBuffers();
     uploadDynamicBuffers();
     uploadSteamBuffers();
