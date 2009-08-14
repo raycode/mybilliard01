@@ -23,13 +23,13 @@ public: // from VertexBufferDX9
     virtual void releaseVertexBufferDX9() OVERRIDE;
 
 public:
-    VertexBufferDX9Imp( size_t numberOfPosition, float * positions_3floatsForEach );
+    VertexBufferDX9Imp( size_t numberOfPosition, const float * positions_3floatsForEach );
     ~VertexBufferDX9Imp();
 
 private:
     struct Position {
         float val[3];
-        enum { size = 3 * sizeof(float) };
+        enum { sizeInByte = 3 * sizeof(float) };
     };
     typedef vector< Position > Positions;
     Positions positions_;
@@ -37,7 +37,7 @@ private:
 private:
     struct Normal {
         float val[3];
-        enum { size = 3 * sizeof(float) };
+        enum { sizeInByte = 3 * sizeof(float) };
     };
     typedef vector< Normal > Normals;
     Normals normals_;
@@ -45,7 +45,7 @@ private:
 private:
     struct TexCoord2D {
         float val[2];
-        enum { size = 2 * sizeof(float) };
+        enum { sizeInByte = 2 * sizeof(float) };
     };
     typedef vector< TexCoord2D > TexCoords;
     typedef vector< TexCoords > TexCoords_Array;

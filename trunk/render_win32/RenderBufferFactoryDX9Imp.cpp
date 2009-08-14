@@ -9,37 +9,37 @@ RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( IDirect3DDevice9 * d3dDevi
     if( NULL == d3dDevice ) throw exception();
 }
 
-VertexBuffer * RenderBufferFactoryDX9Imp::createVertexBuffer_static( size_t numberOfPosition, float * positions ) {
+VertexBuffer * RenderBufferFactoryDX9Imp::createVertexBuffer_static( size_t numberOfPosition, const float * positions ) {
     VertexBufferDX9 * const vbo = new VertexBufferDX9Imp( numberOfPosition, positions );
     staticVertices_.push_back( VertexBufferDX9Ptr( vbo ) );
     return vbo;
 }
 
-VertexBuffer * RenderBufferFactoryDX9Imp::createVertexBuffer_dynamic( size_t numberOfPosition, float * positions ) {
+VertexBuffer * RenderBufferFactoryDX9Imp::createVertexBuffer_dynamic( size_t numberOfPosition, const float * positions ) {
     VertexBufferDX9 * const vbo = new VertexBufferDX9Imp( numberOfPosition, positions );
     dynamicVertices_.push_back( VertexBufferDX9Ptr( vbo ) );
     return vbo;
 }
 
-VertexBuffer * RenderBufferFactoryDX9Imp::createVertexBuffer_stream( size_t numberOfPosition, float * positions ) {
+VertexBuffer * RenderBufferFactoryDX9Imp::createVertexBuffer_stream( size_t numberOfPosition, const float * positions ) {
     VertexBufferDX9 * const vbo = new VertexBufferDX9Imp( numberOfPosition, positions );
     streamVertices_.push_back( VertexBufferDX9Ptr( vbo ) );
     return vbo;
 }
 
-IndexBuffer * RenderBufferFactoryDX9Imp::createIndexBuffer_static( size_t numberOfIndex, unsigned int * indexies ) {
+IndexBuffer * RenderBufferFactoryDX9Imp::createIndexBuffer_static( size_t numberOfIndex, const unsigned int * indexies ) {
     IndexBufferDX9 * const ibo = new IndexBufferDX9Imp( numberOfIndex, indexies );
     staticIndexies_.push_back( IndexBufferDX9Ptr( ibo ) );
     return ibo;
 }
 
-IndexBuffer * RenderBufferFactoryDX9Imp::createIndexBuffer_dynamic( size_t numberOfIndex, unsigned int * indexies ) {
+IndexBuffer * RenderBufferFactoryDX9Imp::createIndexBuffer_dynamic( size_t numberOfIndex, const unsigned int * indexies ) {
     IndexBufferDX9 * const ibo = new IndexBufferDX9Imp( numberOfIndex, indexies );
     dynamicIndexies_.push_back( IndexBufferDX9Ptr( ibo ) );
     return ibo;
 }
 
-IndexBuffer * RenderBufferFactoryDX9Imp::createIndexBuffer_stream( size_t numberOfIndex, unsigned int * indexies ) {
+IndexBuffer * RenderBufferFactoryDX9Imp::createIndexBuffer_stream( size_t numberOfIndex, const unsigned int * indexies ) {
     IndexBufferDX9 * const ibo = new IndexBufferDX9Imp( numberOfIndex, indexies );
     streamIndexies_.push_back( IndexBufferDX9Ptr( ibo ) );
     return ibo;

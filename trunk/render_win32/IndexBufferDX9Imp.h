@@ -17,7 +17,7 @@ public: // from IndexBufferDX9
     virtual void releaseIndexBufferDX9() OVERRIDE;
 
 public:
-    IndexBufferDX9Imp( size_t numberOfIndex, unsigned int * indexies );
+    IndexBufferDX9Imp( size_t numberOfIndex, const unsigned int * indexies );
     ~IndexBufferDX9Imp();
 
 private:

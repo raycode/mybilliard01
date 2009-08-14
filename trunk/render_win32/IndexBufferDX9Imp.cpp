@@ -11,7 +11,7 @@ void IndexBufferDX9Imp::releaseIndexBufferDX9() {
     SAFE_RELEASE( indexBufferDX9_ );
 }
 
-IndexBufferDX9Imp::IndexBufferDX9Imp( size_t numberOfIndex, unsigned int * indexies )
+IndexBufferDX9Imp::IndexBufferDX9Imp( size_t numberOfIndex, const unsigned int * indexies )
 : indexBufferDX9_( NULL )
 {
     if( 0 == numberOfIndex || NULL == indexies ) throw exception();

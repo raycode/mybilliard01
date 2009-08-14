@@ -8,11 +8,12 @@ struct VertexBufferDX9Imp::Pimpl {
     template< typename EachType, typename GroupType, typename StreamType >
     static void store_Array( GroupType & onto, StreamType * from, size_t howMany )
     {
+        const size_t sizeInByte = EachType::sizeInByte;
         for( size_t i = 0; i < howMany; ++i ) {
-            const size_t offset = i * EachType::size;
+            const size_t offset = i * sizeInByte;
 
             EachType tmp;
-            memcpy( &(tmp.val), from + offset, EachType::size );
+            memcpy( &(tmp.val), from + offset, sizeInByte );
 
             onto.push_back( tmp );
         }
@@ -23,7 +24,7 @@ struct VertexBufferDX9Imp::Pimpl {
     {
         size_t loc = 0;
         MY_FOR_EACH( GroupType, iter, src ) {
-            memcpy( buffer + loc + offset, &(iter->val), EachType::size );
+            memcpy( buffer + loc + offset, &(iter->val), EachType::sizeInByte );
             loc += step;
         }
     }
@@ -31,7 +32,7 @@ struct VertexBufferDX9Imp::Pimpl {
 };
 
 
-VertexBufferDX9Imp::VertexBufferDX9Imp( size_t numberOfPosition, float * positions )
+VertexBufferDX9Imp::VertexBufferDX9Imp( size_t numberOfPosition, const float * positions )
 : vertexBufferDX9_( NULL )
 {
     if( 0 == numberOfPosition || NULL == positions ) throw exception();
@@ -96,19 +97,19 @@ size_t VertexBufferDX9Imp::getSizeInByteForEachVertex()
 
     size_t sizeFoREach = 0;
 
-    if( fvf & D3DFVF_XYZ ) sizeFoREach += Position::size;
+    if( fvf & D3DFVF_XYZ ) sizeFoREach += Position::sizeInByte;
 
-    if( fvf & D3DFVF_NORMAL ) sizeFoREach += Normal::size;
+    if( fvf & D3DFVF_NORMAL ) sizeFoREach += Normal::sizeInByte;
 
-    if( fvf & D3DFVF_TEX0 ) sizeFoREach += TexCoord2D::size;
-    if( fvf & D3DFVF_TEX1 ) sizeFoREach += TexCoord2D::size;
-    if( fvf & D3DFVF_TEX2 ) sizeFoREach += TexCoord2D::size;
-    if( fvf & D3DFVF_TEX3 ) sizeFoREach += TexCoord2D::size;
-    if( fvf & D3DFVF_TEX4 ) sizeFoREach += TexCoord2D::size;
-    if( fvf & D3DFVF_TEX5 ) sizeFoREach += TexCoord2D::size;
-    if( fvf & D3DFVF_TEX6 ) sizeFoREach += TexCoord2D::size;
-    if( fvf & D3DFVF_TEX7 ) sizeFoREach += TexCoord2D::size;
-    if( fvf & D3DFVF_TEX8 ) sizeFoREach += TexCoord2D::size;
+    if( fvf & D3DFVF_TEX0 ) sizeFoREach += TexCoord2D::sizeInByte;
+    if( fvf & D3DFVF_TEX1 ) sizeFoREach += TexCoord2D::sizeInByte;
+    if( fvf & D3DFVF_TEX2 ) sizeFoREach += TexCoord2D::sizeInByte;
+    if( fvf & D3DFVF_TEX3 ) sizeFoREach += TexCoord2D::sizeInByte;
+    if( fvf & D3DFVF_TEX4 ) sizeFoREach += TexCoord2D::sizeInByte;
+    if( fvf & D3DFVF_TEX5 ) sizeFoREach += TexCoord2D::sizeInByte;
+    if( fvf & D3DFVF_TEX6 ) sizeFoREach += TexCoord2D::sizeInByte;
+    if( fvf & D3DFVF_TEX7 ) sizeFoREach += TexCoord2D::sizeInByte;
+    if( fvf & D3DFVF_TEX8 ) sizeFoREach += TexCoord2D::sizeInByte;
 
     return sizeFoREach;
 }
@@ -138,8 +139,8 @@ void VertexBufferDX9Imp::writeOntoDevice( DWORD lockingFlags )
     }
 
     const size_t offset_position = 0;
-    const size_t offset_normal = Position::size;
-    const size_t offset_tex = offset_normal + Normal::size;
+    const size_t offset_normal = Position::sizeInByte;
+    const size_t offset_tex = offset_normal + Normal::sizeInByte;
 
     const size_t step = getSizeInByteForEachVertex();
     Pimpl::writeOntoDeviceForEach< Position >( vertices, positions_, offset_position, step );
@@ -148,7 +149,7 @@ void VertexBufferDX9Imp::writeOntoDevice( DWORD lockingFlags )
     size_t offset_tex_each = 0;
     MY_FOR_EACH( TexCoords_Array, iter, texCoords_Array_ ) {
         Pimpl::writeOntoDeviceForEach< TexCoord2D >( vertices, *iter, offset_tex + offset_tex_each, step );
-        offset_tex_each += TexCoord2D::size;
+        offset_tex_each += TexCoord2D::sizeInByte;
     }
 
     vertexBufferDX9_->Unlock();
