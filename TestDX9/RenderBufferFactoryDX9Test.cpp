@@ -18,23 +18,22 @@ namespace TestDX9
 	public ref class RenderBufferFactoryDX9Test
 	{
     private:
-        RenderWin32DX9 * dx9;
         RenderWin32DX9Imp * dx9Imp;
         RenderBufferFactoryDX9 * factory;
 
     public: 
         [TestInitialize()]
         void MyTestInitialize() {
-            dx9 = (dx9Imp) = new RenderWin32DX9Imp();
-            dx9->setBackbufferLockable( true );
-            Assert::IsTrue( dx9->createDevice( true, 30, 30 ) );
+            dx9Imp = new RenderWin32DX9Imp();
+            dx9Imp->setBackbufferLockable( true );
+            Assert::IsTrue( dx9Imp->createDevice( true, 30, 30 ) );
             factory = PRIVATE_METHOD( RenderWin32DX9Imp, getBufferFactory )( dx9Imp );
         };
 
         [TestCleanup()]
         void MyTestCleanup() {
-            dx9->destroyDevice();
-            delete dx9;
+            dx9Imp->destroyDevice();
+            delete dx9Imp;
         };
 
     public:
@@ -57,17 +56,38 @@ namespace TestDX9
         };
 
         [TestMethod]
-        void renderVertexBuffer()
+        void UploadVertexBufferOntoMemory()
         {
-            VertexBuffer * const vb = factory->createVertexBuffer_static( 1, positions );
+            VertexBufferDX9Imp * const vb
+                = dynamic_cast< VertexBufferDX9Imp* >( factory->createVertexBuffer_static( 1, positions ) );
             assertNotNull( vb );
             
-            factory->init( NULL );
+            factory->update( NULL, 0.f );
+
+            LPDIRECT3DVERTEXBUFFER9 vbDX9 = vb->getVertexBufferDX9();
+            assertNotNull( vbDX9 );
+
+            D3DVERTEXBUFFER_DESC desc;
+            vbDX9->GetDesc( &desc );
+            assertEquals( vb->getFVF(), desc.FVF );
+            assertEquals( (int) D3DPOOL_DEFAULT, (int) desc.Pool );
+            assertEquals( vb->getSizeInByte(), desc.Size );
+
+            assertTrue( factory->releaseVertexBuffer( vb ) );
         }
 
         [TestMethod]
         void AppendColor()
         {
         }
+
+        [TestMethod]
+        void UploadVertexBufferOntoMemory()
+        {
+            VertexBufferDX9Imp * const vb
+                = dynamic_cast< VertexBufferDX9Imp* >( factory->createVertexBuffer_static( 1, positions ) );
+            assertNotNull( vb );
+        }
+
     };
 }

@@ -82,6 +82,9 @@ private:
     typedef list< SurfaceDX9ImpPtr > Surfaces;
     Surfaces surfaces_[SIZE_OF_QUEUE];
 
+private:
+    bool bNeedToUpdate_;
+
     MY_UNIT_TEST_BACKDOOR;
 };
 
