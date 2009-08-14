@@ -8,6 +8,12 @@ using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
 namespace TestDX9
 {
+    const static float positions[] = {
+        150.0f,  50.0f, 0.5f,
+        250.0f, 250.0f, 0.5f,
+        50.0f, 250.0f, 0.5f
+    };
+
 	[TestClass]
 	public ref class RenderBufferFactoryDX9Test
 	{
@@ -40,6 +46,17 @@ namespace TestDX9
         [TestMethod]
         void CreateVertexBuffer_static()
         {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 1, positions );
+            assertNotNull( vb );
+            assertEquals( 1u, vb->getNumberOfVertex() );
+            assertFalse( vb->hasNormal() );
+            assertEquals( 0u, vb->getNumberOfTexCoords() );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
         };
+
+        [TestMethod]
+        void AppendColor()
+        {
+        }
     };
 }

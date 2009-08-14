@@ -4,13 +4,13 @@ namespace my_render_win32_dx9_imp {
 
 class RenderBufferFactoryDX9Imp : IMPLEMENTS_( RenderBufferFactoryDX9 ) {
 public: // from RenderBufferFactory
-    virtual VertexBuffer * createVertexBuffer_static( size_t numberOfPosition, float * positions ) OVERRIDE;
-    virtual VertexBuffer * createVertexBuffer_dynamic( size_t numberOfPosition, float * positions ) OVERRIDE;
-    virtual VertexBuffer * createVertexBuffer_stream( size_t numberOfPosition, float * positions ) OVERRIDE;
+    virtual VertexBuffer * createVertexBuffer_static( size_t numberOfPosition, const float * positions ) OVERRIDE;
+    virtual VertexBuffer * createVertexBuffer_dynamic( size_t numberOfPosition, const float * positions ) OVERRIDE;
+    virtual VertexBuffer * createVertexBuffer_stream( size_t numberOfPosition, const float * positions ) OVERRIDE;
 
-    virtual IndexBuffer * createIndexBuffer_static( size_t numberOfIndex, unsigned int * indexies ) OVERRIDE;
-    virtual IndexBuffer * createIndexBuffer_dynamic( size_t numberOfIndex, unsigned int * indexies ) OVERRIDE;
-    virtual IndexBuffer * createIndexBuffer_stream( size_t numberOfIndex, unsigned int * indexies ) OVERRIDE;
+    virtual IndexBuffer * createIndexBuffer_static( size_t numberOfIndex, const unsigned int * indexies ) OVERRIDE;
+    virtual IndexBuffer * createIndexBuffer_dynamic( size_t numberOfIndex, const unsigned int * indexies ) OVERRIDE;
+    virtual IndexBuffer * createIndexBuffer_stream( size_t numberOfIndex, const unsigned int * indexies ) OVERRIDE;
 
     virtual Surface * getBackBuffer( size_t whichBackBuffer ) OVERRIDE;
 

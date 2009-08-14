@@ -4,13 +4,13 @@ namespace my_render {
 
 INTERFACE_ RenderBufferFactory {
 public:
-    virtual VertexBuffer * createVertexBuffer_static( size_t numberOfPosition, float * positions ) = 0; // video memory
-    virtual VertexBuffer * createVertexBuffer_dynamic( size_t numberOfPosition, float * positions ) = 0; // agp memory
-    virtual VertexBuffer * createVertexBuffer_stream( size_t numberOfPosition, float * positions ) = 0; // system memory
+    virtual VertexBuffer * createVertexBuffer_static( size_t numberOfPosition, const float * positions ) = 0; // video memory
+    virtual VertexBuffer * createVertexBuffer_dynamic( size_t numberOfPosition, const float * positions ) = 0; // agp memory
+    virtual VertexBuffer * createVertexBuffer_stream( size_t numberOfPosition, const float * positions ) = 0; // system memory
 
-    virtual IndexBuffer * createIndexBuffer_static( size_t numberOfIndex, unsigned int * indexies ) = 0;
-    virtual IndexBuffer * createIndexBuffer_dynamic( size_t numberOfIndex, unsigned int * indexies ) = 0;
-    virtual IndexBuffer * createIndexBuffer_stream( size_t numberOfIndex, unsigned int * indexies ) = 0;
+    virtual IndexBuffer * createIndexBuffer_static( size_t numberOfIndex, const unsigned int * indexies ) = 0;
+    virtual IndexBuffer * createIndexBuffer_dynamic( size_t numberOfIndex, const unsigned int * indexies ) = 0;
+    virtual IndexBuffer * createIndexBuffer_stream( size_t numberOfIndex, const unsigned int * indexies ) = 0;
 
     virtual Surface * getBackBuffer( size_t whichBackBuffer ) = 0;
 
