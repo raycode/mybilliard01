@@ -14,6 +14,7 @@ namespace my_render_win32_dx9_imp {
 
 RenderWin32DX9Imp::RenderWin32DX9Imp()
 : bBackbufferLockable_( false )
+, bufferFactory_( RenderBufferFactoryDX9Ptr( new NullRenderBufferFactoryDX9() ) )
 {
     addRenderEventListener( &nullEventListener_ );
 
@@ -166,7 +167,7 @@ void RenderWin32DX9Imp::s_destroy( void* pUserContext ) {
     render->eventListener_->destroy( bufferFactory );
     render->bufferFactory_->destroy( bufferFactory );
 
-    render->bufferFactory_ = RenderBufferFactoryDX9Ptr( (RenderBufferFactoryDX9*) NULL );
+    render->bufferFactory_ = RenderBufferFactoryDX9Ptr( new NullRenderBufferFactoryDX9() );
 }
 
 
