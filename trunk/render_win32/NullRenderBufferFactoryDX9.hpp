@@ -8,6 +8,8 @@ class NullRenderBufferFactoryDX9
     , IMPLEMENTS_( RenderBufferFactoryDX9 )
 {
 public:
+    virtual VertexBufferDX9 * downcast( VertexBuffer * ) OVERRIDE { return NULL; }
+    virtual IndexBufferDX9 * downcast( IndexBuffer * ) OVERRIDE { return NULL; }
 };
 
 

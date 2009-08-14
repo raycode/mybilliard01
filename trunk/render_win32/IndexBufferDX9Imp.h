@@ -7,8 +7,14 @@ public: // from IndexBuffer
     virtual size_t getNumberOfIndex() OVERRIDE;
     virtual size_t getNumberOfByteForEach() OVERRIDE; // 2 or 4
 
+public: // from IndexBufferDX9
+    virtual void setIndexBufferDX9( LPDIRECT3DINDEXBUFFER9 ) OVERRIDE;
+    virtual LPDIRECT3DINDEXBUFFER9 getIndexBufferDX9() OVERRIDE;
+
+    virtual void writeOntoDevice( DWORD lockingFlags ) OVERRIDE;
+    virtual void releaseIndexBufferDX9() OVERRIDE;
+
 public:
-    IndexBufferDX9Imp( size_t numberOfIndex, unsigned short * indexies );
     IndexBufferDX9Imp( size_t numberOfIndex, unsigned int * indexies );
 
 private:
@@ -17,6 +23,10 @@ private:
 
     typedef vector< unsigned int > Index32_Array;
     Index32_Array index32_array_;
+
+private:
+    LPDIRECT3DINDEXBUFFER9 indexBufferDX9_;
+
 };
 
 

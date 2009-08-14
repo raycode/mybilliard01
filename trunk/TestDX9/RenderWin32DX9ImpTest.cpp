@@ -89,13 +89,13 @@ namespace TestDX9
         [TestMethod]
         void GetNativeDevice()
         {
-            Assert::IsTrue( NULL == dx9->getD3D9() );
+            Assert::IsTrue( NULL == dx9->getD3D9Device() );
 
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
-            Assert::IsTrue( NULL != dx9->getD3D9() );
+            Assert::IsTrue( NULL != dx9->getD3D9Device() );
 
             dx9->destroyDevice();
-            Assert::IsTrue( NULL == dx9->getD3D9() );
+            Assert::IsTrue( NULL == dx9->getD3D9Device() );
         }
 
         [TestMethod]
@@ -105,15 +105,15 @@ namespace TestDX9
 
             Assert::IsTrue( dx9->createDevice( true, 320, 240 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
-            void * const nativeDevice = dx9->getD3D9();
+            void * const nativeDevice = dx9->getD3D9Device();
 
             Assert::IsTrue( dx9->createDevice( false, 0, 0 ) );
             Assert::IsTrue( dx9->isDeviceCreated() );
-            Assert::IsTrue( dx9->getD3D9() == nativeDevice );
+            Assert::IsTrue( dx9->getD3D9Device() == nativeDevice );
 
             dx9->destroyDevice();
             Assert::IsFalse( dx9->isDeviceCreated() );
-            Assert::IsTrue( NULL == dx9->getD3D9() );
+            Assert::IsTrue( NULL == dx9->getD3D9Device() );
         }
 
         [TestMethod]
