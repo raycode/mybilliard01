@@ -61,49 +61,67 @@ size_t VertexBufferDX9Imp::getNumberOfVertex()
     return storageContainer_array_[ D3DDECLUSAGE_POSITION ][0].v.size();
 }
 
-void VertexBufferDX9Imp::appendTexCoord1D_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendTexCoord1D_Array( const float * source, size_t usageIndex )
 {
+    if( true == isUsageIndexInUse( D3DDECLUSAGE_TEXCOORD, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT1 ) );
+    return true;
 }
 
-void VertexBufferDX9Imp::appendTexCoord2D_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendTexCoord2D_Array( const float * source, size_t usageIndex )
 {
+    if( true == isUsageIndexInUse( D3DDECLUSAGE_TEXCOORD, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT2 ) );
+    return true;
 }
 
-void VertexBufferDX9Imp::appendTexCoord3D_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendTexCoord3D_Array( const float * source, size_t usageIndex )
 {
+    if( true == isUsageIndexInUse( D3DDECLUSAGE_TEXCOORD, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
+    return true;
 }
 
-void VertexBufferDX9Imp::appendTexCoord4D_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendTexCoord4D_Array( const float * source, size_t usageIndex )
 {
+    if( true == isUsageIndexInUse( D3DDECLUSAGE_TEXCOORD, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT4 ) );
+    return true;
 }
 
-void VertexBufferDX9Imp::appendNormal_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendNormal_Array( const float * source, size_t usageIndex )
 {
+    if( true == isUsageIndexInUse( D3DDECLUSAGE_NORMAL, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_NORMAL ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
+    return true;
 }
 
-void VertexBufferDX9Imp::appendBinormal_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendBinormal_Array( const float * source, size_t usageIndex )
 {
+    if( true == isUsageIndexInUse( D3DDECLUSAGE_BINORMAL, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_BINORMAL ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
+    return true;
 }
 
-void VertexBufferDX9Imp::appendTangent_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendTangent_Array( const float * source, size_t usageIndex )
 {
+    if( true == isUsageIndexInUse( D3DDECLUSAGE_TANGENT, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_TANGENT ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
+    return true;
 }
 
-void VertexBufferDX9Imp::appendUV_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendUV_Array( const float * source, size_t usageIndex )
 {
+    if( true == isUsageIndexInUse( D3DDECLUSAGE_TEXCOORD, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
+    return true;
 }
 
-void VertexBufferDX9Imp::appendColor_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendColor_Array( const float * source, size_t usageIndex )
 {
+    if( true == isUsageIndexInUse( D3DDECLUSAGE_COLOR, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_COLOR ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_D3DCOLOR ) );
+    return true;
 }
 
 void VertexBufferDX9Imp::setVertexBufferDX9( LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9 )
@@ -115,6 +133,13 @@ LPDIRECT3DVERTEXBUFFER9 VertexBufferDX9Imp::getVertexBufferDX9() {
     return vertexBufferDX9_;
 }
 
+bool VertexBufferDX9Imp::isUsageIndexInUse( int usage, size_t usageIndex ) {
+    MY_FOR_EACH( StorageContainer_Array, iter, storageContainer_array_[ usage ] ) {
+        if( iter->empty() ) continue;
+        if( iter->getUsageIndex() == usageIndex ) return true;
+    }
+    return false;
+}
 
 void VertexBufferDX9Imp::writeOntoDevice( DWORD lockingFlags )
 {

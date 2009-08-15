@@ -90,6 +90,91 @@ namespace TestDX9
         }
 
         [TestMethod]
+        void CreateVertexBuffer_static_Normal0()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertTrue( vb->appendNormal_Array( positions, 0 ) );
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 * 2, 2 ) );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
+        };
+
+        [TestMethod]
+        void CreateVertexBuffer_static_Normal1()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertTrue( vb->appendNormal_Array( positions, 1 ) );
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 * 2, 2 ) );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
+        };
+
+        [TestMethod]
+        void CreateVertexBuffer_static_TwoNormals()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertTrue( vb->appendNormal_Array( positions, 0 ) );
+            assertTrue( vb->appendNormal_Array( positions, 1 ) );
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 * 3, 3 ) );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
+        };
+
+        [TestMethod]
+        void CreateVertexBuffer_static_TexCoord1D()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertTrue( vb->appendTexCoord1D_Array( positions, 0 ) );
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( float ), 2 ) );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
+        };
+
+        [TestMethod]
+        void CreateVertexBuffer_static_TexCoord2D()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertTrue( vb->appendTexCoord2D_Array( positions, 0 ) );
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( float ) * 2, 2 ) );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
+        };
+
+        [TestMethod]
+        void CreateVertexBuffer_static_TexCoord3D()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertTrue( vb->appendTexCoord3D_Array( positions, 0 ) );
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( float ) * 3, 2 ) );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
+        };
+
+        [TestMethod]
+        void CreateVertexBuffer_static_Color()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertTrue( vb->appendColor_Array( positions, 0 ) );
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( DWORD ), 2 ) );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
+        }
+
+        [TestMethod]
+        void CreateVertexBuffer_static_Normal_TexCoord2_Color()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertTrue( vb->appendNormal_Array( positions, 0 ) );
+            assertTrue( vb->appendTexCoord2D_Array( positions, 0 ) );
+            assertTrue( vb->appendColor_Array( positions, 0 ) );
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 *2 + sizeof(float)*2 + sizeof( DWORD ), 4 ) );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
+        }
+
+        [TestMethod]
+        void CreateVertexBuffer_static_TexCoord2D_DuplicatedUsageOffset()
+        {
+            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
+            assertTrue( vb->appendTexCoord2D_Array( positions, 1 ) );
+            assertFalse( vb->appendTexCoord2D_Array( positions, 1 ) );
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( float ) * 2, 2 /*not 3*/ ) );
+            assertTrue( factory->releaseVertexBuffer( vb ) );
+        };
+
+        [TestMethod]
         void RenderVertexBuffer()
         {
         }
