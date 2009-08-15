@@ -92,14 +92,13 @@ namespace TestDX9
 
         [TestMethod]
         void DefaultWindowTitle() {
-            Assert::IsTrue( app->getScreenTitle() == L"" );
-            Assert::IsTrue( app->getScreenTitle().empty() );
+            assertStrEquals( L"", app->getScreenTitle() );
         }
 
         [TestMethod]
         void WindowTitle() {
             app->setScreenTitle( L"My new title" );
-            Assert::IsTrue( app->getScreenTitle() == L"My new title" );
+            assertStrEquals( L"My new title", app->getScreenTitle() );
         }
 
         [TestMethod]

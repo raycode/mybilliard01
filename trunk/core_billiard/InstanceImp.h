@@ -5,7 +5,7 @@ namespace my_render_imp {
 class InstanceImp : IMPLEMENTS_( Instance ) {
 public: // from Instance
     virtual Base * getInstanceOwner() OVERRIDE;
-    virtual wstring getUrl() OVERRIDE;
+    virtual const wchar_t * getUrl() OVERRIDE;
     virtual Base * getResolvedReferrence() OVERRIDE;
 
 public:

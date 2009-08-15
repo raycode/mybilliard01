@@ -15,7 +15,7 @@ public:
 
     virtual void setVertexShader( VertexShader * ) = 0;
     virtual void setPixelShader( PixelShader * ) = 0;
-    virtual void setEffectShader( EffectShader *, wstring technique, RenderEffectShader * callBack ) = 0;
+    virtual void setEffectShader( EffectShader *, ShaderVariable * technique, RenderEffectShader * callBack ) = 0;
 
     virtual void drawPrimitive_POINTLIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) = 0;
     virtual void drawPrimitive_LINELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) = 0;

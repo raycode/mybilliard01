@@ -3,16 +3,16 @@
 namespace my_render_imp {
 
 
-wstring BaseImp::getID() {
-    return id_;
+const wchar_t * BaseImp::getID() {
+    return id_.c_str();
 }
 
-wstring BaseImp::getName() {
-    return name_;
+const wchar_t * BaseImp::getName() {
+    return name_.c_str();
 }
 
-wstring BaseImp::getURI() {
-    return uri_;
+const wchar_t * BaseImp::getURI() {
+    return uri_.c_str();
 }
 
 void BaseImp::setID( wstring id ) {

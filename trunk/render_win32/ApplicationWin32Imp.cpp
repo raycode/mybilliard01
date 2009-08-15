@@ -196,8 +196,8 @@ int ApplicationWin32Imp::getScreenHeight() {
     return height_;
 }
 
-wstring ApplicationWin32Imp::getScreenTitle() {
-    return title_;
+const wchar_t * ApplicationWin32Imp::getScreenTitle() {
+    return title_.c_str();
 }
 
 

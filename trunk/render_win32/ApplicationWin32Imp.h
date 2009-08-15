@@ -26,7 +26,7 @@ public: // from ApplicationWindow
     virtual int getScreenWidth() OVERRIDE;
     virtual int getScreenHeight() OVERRIDE;
     virtual bool isWindowedMode() OVERRIDE;
-    virtual wstring getScreenTitle() OVERRIDE;
+    virtual const wchar_t * getScreenTitle() OVERRIDE;
 
     virtual void addKeyboardListener( KeyboardEventListener * listener ) OVERRIDE;
     virtual void addMouseListener( MouseEventListener * listener ) OVERRIDE;

@@ -8,7 +8,7 @@ INTERFACE_ PixelShader
 {
 public:
     virtual void setSampler(
-        wstring variableName,
+        ShaderVariable * variable,
         Texture * texture,
         Texture::FilterType magFilter,
         Texture::FilterType minFilter,

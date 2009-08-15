@@ -24,6 +24,7 @@ namespace my_render {
     class EffectShader;
     class ShaderVariableWriter;
     class RenderEffectShader;
+    class ShaderVariable;
 
     class VertexBuffer;
     class IndexBuffer;
@@ -62,6 +63,7 @@ namespace my_render {
     MY_SMART_PTR( IndexBuffer );
     MY_SMART_PTR( Texture );
     MY_SMART_PTR( Shader );
+    MY_SMART_PTR( ShaderVariable );
     MY_SMART_PTR( ShaderVariableWriter );
     MY_SMART_PTR( VertexShader );
     MY_SMART_PTR( PixelShader );
@@ -97,6 +99,7 @@ namespace my_render {
 #include "ShaderVariableWriter.h"
 #include "Texture.h"
 #include "Shader.h"
+#include "ShaderVariable.h"
 #include "VertexShader.h"
 #include "PixelShader.h"
 #include "RenderEffectShader.h"
