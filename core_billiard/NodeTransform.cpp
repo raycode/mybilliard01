@@ -40,9 +40,9 @@ void NodeTransform::setScale( NxVec3 scale ) {
 }
 
 void NodeTransform::setLookAt( NxVec3 lookAt[] ) {
-    lookAt_[ELookAtLook] = lookAt[ELookAtLook];
-    lookAt_[ELookAtEye] = lookAt[ELookAtEye];
-    lookAt_[ELookAtUp] = lookAt[ELookAtUp];
+    //lookAt_[ELookAtLook] = lookAt[ELookAtLook];
+    //lookAt_[ELookAtEye] = lookAt[ELookAtEye];
+    //lookAt_[ELookAtUp] = lookAt[ELookAtUp];
 }
 
 void NodeTransform::setMatrix( NxMat34 mat ) {

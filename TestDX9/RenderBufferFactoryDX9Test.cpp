@@ -49,9 +49,9 @@ namespace TestDX9
 
             D3DVERTEXBUFFER_DESC desc;
             vbDX9->GetDesc( &desc );
-            if( vbImp->getFVF() != desc.FVF ) return false;
+            if( 0 != desc.FVF ) return false;
             if( (int) D3DPOOL_DEFAULT != (int) desc.Pool ) return false;
-            if( vbImp->getSizeInByte() != desc.Size ) return false;
+            if( vbImp->getSizeInByteForTotal() != desc.Size ) return false;
 
             return true;
         }
@@ -68,15 +68,10 @@ namespace TestDX9
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertNotNull( vb );
             assertEquals( 3u, vb->getNumberOfVertex() );
-            assertFalse( vb->hasNormal() );
-            assertFalse( vb->hasDiffuse() );
-            assertFalse( vb->hasSpecular() );
-            assertEquals( 0u, vb->getNumberOfTexCoords() );
 
             VertexBufferDX9Imp * const vbImp = dynamic_cast< VertexBufferDX9Imp* >( vb );
             assertNotNull( vbImp );
-            assertEquals( sizeof(float) * 9 , vbImp->getSizeInByte() );
-            assertEquals( (DWORD) D3DFVF_XYZ, vbImp->getFVF() );
+            assertEquals( sizeof(float) * 9 , vbImp->getSizeInByteForTotal() );
             assertEquals( sizeof(float) * 3, vbImp->getSizeInByteForEachVertex() );
 
             assertTrue( factory->releaseVertexBuffer( vb ) );
@@ -90,36 +85,6 @@ namespace TestDX9
             
             factory->update( NULL, 0.f );
             assertTrue( isVertexUploaded( vb ) );
-
-            assertTrue( factory->releaseVertexBuffer( vb ) );
-        }
-
-        [TestMethod]
-        void AppendColor()
-        {
-            VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
-            assertNotNull( vb );
-            VertexBufferDX9Imp * const vbImp = dynamic_cast< VertexBufferDX9Imp* >( vb );
-            assertNotNull( vbImp );
-
-            vb->appendDiffuse_Array( diffuses );
-
-            assertEquals( 3u, vb->getNumberOfVertex() );
-            assertFalse( vb->hasNormal() );
-            assertTrue( vb->hasDiffuse() );
-            assertFalse( vb->hasSpecular() );
-            assertEquals( 0u, vb->getNumberOfTexCoords() );
-
-            factory->update( NULL, 0.f );
-
-            LPDIRECT3DVERTEXBUFFER9 vbDX9 = vbImp->getVertexBufferDX9();
-            assertNotNull( vbDX9 );
-
-            D3DVERTEXBUFFER_DESC desc;
-            vbDX9->GetDesc( &desc );
-            assertEquals( vbImp->getFVF(), desc.FVF );
-            assertEquals( (int) D3DPOOL_DEFAULT, (int) desc.Pool );
-            assertEquals( vbImp->getSizeInByte(), desc.Size );
 
             assertTrue( factory->releaseVertexBuffer( vb ) );
         }
