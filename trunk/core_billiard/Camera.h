@@ -2,16 +2,10 @@
 namespace my_render {
 
 
-enum ELookAt
-{
-    ELookAtLook,
-    ELookAtEye,
-    ELookAtUp
-};
-
-
 INTERFACE_ Camera : public Base {
 public:
+    virtual void setViewMatrix( const NxMat34 & ) = 0;
+    virtual const NxMat34 & getViewMatrix() = 0;
 
 public: virtual ~Camera() {}
 };

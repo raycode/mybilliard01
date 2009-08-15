@@ -4,6 +4,15 @@ namespace my_render_win32_dx9_imp {
 
 class RenderBufferFactoryDX9Imp : IMPLEMENTS_( RenderBufferFactoryDX9 ) {
 public: // from RenderBufferFactory
+    virtual EffectShader * createEffectShader( wstring filename ) OVERRIDE;
+
+    virtual VertexShader * createVertexShader_1_1( wstring filename, wstring entry ) OVERRIDE;
+    virtual VertexShader * createVertexShader_2_0( wstring filename, wstring entry ) OVERRIDE;
+    virtual VertexShader * createVertexShader_2_0_sw( wstring filename, wstring entry ) OVERRIDE;
+
+    virtual PixelShader * createPixelShader_2_0( wstring filename, wstring entry ) OVERRIDE;
+    virtual PixelShader * createPixelShader_2_sw( wstring filename, wstring entry ) OVERRIDE;
+
     virtual VertexBuffer * createVertexBuffer_static( size_t numberOfPosition, const float * positions ) OVERRIDE;
     virtual VertexBuffer * createVertexBuffer_dynamic( size_t numberOfPosition, const float * positions ) OVERRIDE;
     virtual VertexBuffer * createVertexBuffer_stream( size_t numberOfPosition, const float * positions ) OVERRIDE;
@@ -14,9 +23,15 @@ public: // from RenderBufferFactory
 
     virtual Surface * getBackBuffer( size_t whichBackBuffer ) OVERRIDE;
 
+    virtual Texture * createTexture( wstring filename ) OVERRIDE;
+
+    virtual bool releaseEffectShader( EffectShader *) OVERRIDE;
+    virtual bool releaseVertexShader( VertexShader *) OVERRIDE;
+    virtual bool releasePixelShader( PixelShader *) OVERRIDE;
     virtual bool releaseVertexBuffer( VertexBuffer *) OVERRIDE;
     virtual bool releaseIndexBuffer( IndexBuffer *) OVERRIDE;
     virtual bool releaseSurface( Surface * ) OVERRIDE;
+    virtual bool releaseTexture( Texture * ) OVERRIDE;
 
 public: // from RenderEventListener
     virtual void init( RenderBufferFactory * ) OVERRIDE;

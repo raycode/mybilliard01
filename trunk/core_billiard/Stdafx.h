@@ -15,7 +15,9 @@
 #include <map>
 #include <list>
 #include <algorithm>
-
+#include <cassert>
+#include <memory>
+#include <tuple>
 
 #include "NxPhysics.h"
 #include "NxSimpleTypes.h"

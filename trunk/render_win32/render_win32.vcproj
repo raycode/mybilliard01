@@ -291,6 +291,20 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RenderBufferFactoryDX9Imp_Shader.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\RenderWin32DX9Imp.cpp"
 				>
 				<FileConfiguration

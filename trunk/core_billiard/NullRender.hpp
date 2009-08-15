@@ -10,7 +10,11 @@ public:
     virtual bool beginScene() OVERRIDE { return false; }
     virtual void endScene() OVERRIDE {}
 
-    virtual void drawPrimitive_POINTLIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}
+    virtual void setVertexShader( VertexShader * ) OVERRIDE {}
+    virtual void setPixelShader( PixelShader * ) OVERRIDE {}
+    virtual void setEffectShader( EffectShader *, wstring technique, RenderEffectShader * callBack ) OVERRIDE {}
+
+    virtual void drawPrimitive_POINTLIST( VertexBuffer *, NxU32 startVertex, NxU32 privmitiveCount ) OVERRIDE {}
     virtual void drawPrimitive_LINELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}
     virtual void drawPrimitive_LINESTRIP( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}
     virtual void drawPrimitive_TRIANGLELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE {}

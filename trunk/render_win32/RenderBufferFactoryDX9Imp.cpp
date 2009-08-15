@@ -65,6 +65,26 @@ Surface * RenderBufferFactoryDX9Imp::getBackBuffer( size_t whichBackBuffer ) {
     return newSurface;
 }
 
+Texture * RenderBufferFactoryDX9Imp::createTexture( wstring filename )
+{
+    return NULL;
+}
+
+bool RenderBufferFactoryDX9Imp::releaseEffectShader( EffectShader *)
+{
+    return false;
+}
+
+bool RenderBufferFactoryDX9Imp::releaseVertexShader( VertexShader *)
+{
+    return false;
+}
+
+bool RenderBufferFactoryDX9Imp::releasePixelShader( PixelShader *)
+{
+    return false;
+}
+
 bool RenderBufferFactoryDX9Imp::releaseVertexBuffer( VertexBuffer * vertexBuffer ) {
     for( size_t i = 0; i < SIZE_OF_QUEUE; ++i ) {
         if( true == release( vertexBuffer, staticVertices_[ i ] ) ) return true;
@@ -87,6 +107,10 @@ bool RenderBufferFactoryDX9Imp::releaseSurface( Surface * surface ) {
     for( size_t i = 0; i < SIZE_OF_QUEUE; ++i ) {
         if( true == release( surface, surfaces_[ i ] ) ) return true;
     }
+    return false;
+}
+
+bool RenderBufferFactoryDX9Imp::releaseTexture( Texture * ) {
     return false;
 }
 
@@ -178,23 +202,32 @@ void RenderBufferFactoryDX9Imp::releaseStreamBuffers()
     streamVertices_[ EREADY_QUEUE ].merge( streamVertices_[ EACTIVE_QUEUE ] );
     streamIndexies_[ EREADY_QUEUE ].merge( streamIndexies_[ EACTIVE_QUEUE ] );
 }
+
 void RenderBufferFactoryDX9Imp::uploadVertexBuffers( const list< VertexBufferDX9Ptr > & among, DWORD usage, D3DPOOL pool, DWORD lockingFlags )
 {
     MY_FOR_EACH( list< VertexBufferDX9Ptr >, iter, among ) {
         VertexBufferDX9 * const vertexBuffer = &**iter;
 
-        const size_t sizeInByte = vertexBuffer->getSizeInByte();
-        const unsigned long fvf = vertexBuffer->getFVF();
-
-        LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9 = NULL;
-        const HRESULT hr = getD3D9Device()->CreateVertexBuffer( sizeInByte, usage, fvf, pool, &vertexBufferDX9, NULL );
-        if( FAILED( hr ) )
+        const D3DVERTEXELEMENT9 * const vertexElement = vertexBuffer->getVertexElement();
+        IDirect3DVertexDeclaration9 * vertexDecl = NULL;
+        const HRESULT hr1 = getD3D9Device()->CreateVertexDeclaration( vertexElement, &vertexDecl );
+        if( FAILED( hr1 ) )
         {
-            DXUT_ERR( L"RenderBufferFactoryDX9Imp::uploadVertexBuffers", hr );
+            DXUT_ERR( L"RenderBufferFactoryDX9Imp::uploadVertexBuffers", hr1 );
             continue;
         }
+        vertexBuffer->setVertexDeclarationDX9( vertexDecl );
 
+        const size_t sizeInByte = vertexBuffer->getSizeInByteForTotal();
+        LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9 = NULL;
+        const HRESULT hr2 = getD3D9Device()->CreateVertexBuffer( sizeInByte, usage, 0, pool, &vertexBufferDX9, NULL );
+        if( FAILED( hr2 ) )
+        {
+            DXUT_ERR( L"RenderBufferFactoryDX9Imp::uploadVertexBuffers", hr2 );
+            continue;
+        }
         vertexBuffer->setVertexBufferDX9( vertexBufferDX9 );
+
         vertexBuffer->writeOntoDevice( lockingFlags );
     }
 }

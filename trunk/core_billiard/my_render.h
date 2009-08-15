@@ -17,6 +17,14 @@ namespace my_render {
     class NullRender;
     class NullRenderEventListener;
 
+    class Shader;
+    class Texture;
+    class VertexShader;
+    class PixelShader;
+    class EffectShader;
+    class ShaderVariableWriter;
+    class RenderEffectShader;
+
     class VertexBuffer;
     class IndexBuffer;
     class RenderBufferFactory;
@@ -52,6 +60,13 @@ namespace my_render {
     MY_SMART_PTR( NullRenderEventListener );
     MY_SMART_PTR( VertexBuffer );
     MY_SMART_PTR( IndexBuffer );
+    MY_SMART_PTR( Texture );
+    MY_SMART_PTR( Shader );
+    MY_SMART_PTR( ShaderVariableWriter );
+    MY_SMART_PTR( VertexShader );
+    MY_SMART_PTR( PixelShader );
+    MY_SMART_PTR( RenderEffectShader );
+    MY_SMART_PTR( EffectShader );
     MY_SMART_PTR( RenderBufferFactory );
     MY_SMART_PTR( NullRenderBufferFactory );
     MY_SMART_PTR( Scene );
@@ -78,6 +93,14 @@ namespace my_render {
 #include "IndexBuffer.h"
 #include "RenderBufferFactory.h"
 #include "NullRenderBufferFactory.hpp"
+
+#include "ShaderVariableWriter.h"
+#include "Texture.h"
+#include "Shader.h"
+#include "VertexShader.h"
+#include "PixelShader.h"
+#include "RenderEffectShader.h"
+#include "EffectShader.h"
 
 #include "RenderEventListener.h"
 #include "NullRenderEventListener.hpp"

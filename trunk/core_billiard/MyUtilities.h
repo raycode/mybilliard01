@@ -1,7 +1,5 @@
 #pragma once
 
-#include <cassert>
-
 #include "static_check.h"
 
 

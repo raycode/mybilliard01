@@ -4,175 +4,104 @@ namespace my_render_win32_dx9_imp {
 
 
 struct VertexBufferDX9Imp::Pimpl {
+    static int updateOffset( StorageContainer_Array & group, int offset ) {
 
-    template< typename EachType, typename GroupType, typename StreamType >
-    static void store_Array( GroupType & onto, StreamType * from, size_t howMany )
-    {
-        const size_t sizeInByte = EachType::sizeInByte;
-        for( size_t i = 0; i < howMany; ++i ) {
-            const size_t offset = i * sizeInByte;
+        MY_FOR_EACH_MOD( StorageContainer_Array, iter, group ) {
+            iter->setOffset( offset );
+            offset += (WORD) ( iter->empty() ? 0 : iter->sizeInByteForEach() );
+        }
+        return offset;
+    }
 
-            EachType tmp;
-            memcpy( &(tmp.val), from + offset, sizeInByte );
+    static void writeOntoBuffer( float * buffer, StorageContainer_Array & group, size_t step ) {
 
-            onto.push_back( tmp );
+        MY_FOR_EACH_MOD( StorageContainer_Array, iter, group ) {
+            iter->copyOntoBuffer( buffer, step );
         }
     }
 
-    template < typename EachType, typename GroupType >
-    static void writeOntoDeviceForEach( float * buffer, const GroupType & src, size_t offset, size_t step )
+    template< int Usage_ >
+    static void getVertexDeclaration( StorageContainer_Array * storages, vector< D3DVERTEXELEMENT9 > & vertexElements )
     {
-        size_t loc = 0;
-        MY_FOR_EACH( GroupType, iter, src ) {
-            memcpy( buffer + loc + offset, &(iter->val), EachType::sizeInByte );
-            loc += step;
+        MY_FOR_EACH( StorageContainer_Array, iter, storages[ Usage_ ] ) {
+            if( iter->empty() ) continue;
+
+            D3DVERTEXELEMENT9 tmp;
+            tmp.Stream = 0;
+            tmp.Offset = (WORD) iter->getOffset();
+            tmp.Method = D3DDECLMETHOD_DEFAULT;
+            tmp.Usage = Usage_;
+            tmp.UsageIndex = (BYTE) iter->getUsageIndex();
+
+            vertexElements.push_back( tmp );
         }
     }
 
 };
 
 
-VertexBufferDX9Imp::VertexBufferDX9Imp( size_t numberOfPosition, const float * positions )
+VertexBufferDX9Imp::VertexBufferDX9Imp( size_t howMany, const float * source )
 : vertexBufferDX9_( NULL )
 {
-    if( 0 == numberOfPosition || NULL == positions ) throw exception();
+    if( 0 == howMany || NULL == source ) throw exception();
 
-    Pimpl::store_Array< Position >( positions_, positions, numberOfPosition );
+    storageContainer_array_[ D3DDECLUSAGE_POSITION ].push_back( StorageContainer( source, howMany, 0, D3DDECLTYPE_FLOAT3 ) );
 }
 
-VertexBufferDX9Imp::~VertexBufferDX9Imp() {
+VertexBufferDX9Imp::~VertexBufferDX9Imp()
+{
     releaseVertexBufferDX9();
 }
 
 
 size_t VertexBufferDX9Imp::getNumberOfVertex()
 {
-    return positions_.size();
+    return storageContainer_array_[ D3DDECLUSAGE_POSITION ][0].v.size();
 }
 
-void VertexBufferDX9Imp::appendRHW_Array( const float * rhw_onlyW )
+void VertexBufferDX9Imp::appendTexCoord1D_Array( const float * source, size_t usageIndex )
 {
-
+    storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT1 ) );
 }
 
-void VertexBufferDX9Imp::appendBlendingWeight_Array( const float * blendingWeights )
+void VertexBufferDX9Imp::appendTexCoord2D_Array( const float * source, size_t usageIndex )
 {
-
+    storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT2 ) );
 }
 
-void VertexBufferDX9Imp::appendPixelSize_Array( const float * pixelSizes )
+void VertexBufferDX9Imp::appendTexCoord3D_Array( const float * source, size_t usageIndex )
 {
-
+    storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
 }
 
-void VertexBufferDX9Imp::appendNormal_Array( const float * normals )
+void VertexBufferDX9Imp::appendTexCoord4D_Array( const float * source, size_t usageIndex )
 {
-    Pimpl::store_Array< Normal >( normals_, normals, getNumberOfVertex() );
+    storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT4 ) );
 }
 
-void VertexBufferDX9Imp::appendDiffuse_Array( const NxU32 * diffuses )
+void VertexBufferDX9Imp::appendNormal_Array( const float * source, size_t usageIndex )
 {
-    Pimpl::store_Array< Diffuse >( diffuses_, diffuses, getNumberOfVertex() );
+    storageContainer_array_[ D3DDECLUSAGE_NORMAL ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
 }
 
-void VertexBufferDX9Imp::appendSpecular_Array( const NxU32 * speculars )
+void VertexBufferDX9Imp::appendBinormal_Array( const float * source, size_t usageIndex )
 {
-    Pimpl::store_Array< Specular >( speculars_, speculars, getNumberOfVertex() );
+    storageContainer_array_[ D3DDECLUSAGE_BINORMAL ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
 }
 
-void VertexBufferDX9Imp::appendTexCoord2D_Array( const float * texCoords )
+void VertexBufferDX9Imp::appendTangent_Array( const float * source, size_t usageIndex )
 {
-    TexCoords newTexCoords;
-    Pimpl::store_Array< TexCoord2D >( newTexCoords, texCoords, getNumberOfVertex() );
-    texCoords_Array_.push_back( newTexCoords );
+    storageContainer_array_[ D3DDECLUSAGE_TANGENT ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
 }
 
-bool VertexBufferDX9Imp::hasRHW()
+void VertexBufferDX9Imp::appendUV_Array( const float * source, size_t usageIndex )
 {
-    return false;
+    storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_FLOAT3 ) );
 }
 
-size_t VertexBufferDX9Imp::getNumberOfBlendingWeights()
+void VertexBufferDX9Imp::appendColor_Array( const float * source, size_t usageIndex )
 {
-    return 0;
-}
-
-bool VertexBufferDX9Imp::hasPixelSize()
-{
-    return false;
-}
-
-bool VertexBufferDX9Imp::hasNormal()
-{
-    return normals_.size() != 0;
-}
-
-bool VertexBufferDX9Imp::hasDiffuse() {
-    return diffuses_.size() != 0;
-}
-
-bool VertexBufferDX9Imp::hasSpecular() {
-    return speculars_.size() != 0;
-}
-
-size_t VertexBufferDX9Imp::getNumberOfTexCoords()
-{
-    return texCoords_Array_.size();
-}
-
-DWORD VertexBufferDX9Imp::getFVF()
-{
-    unsigned long fvf = D3DFVF_XYZ;
-
-    if( hasNormal() ) fvf |= D3DFVF_NORMAL;
-
-    if( hasDiffuse() ) fvf |= D3DFVF_DIFFUSE;
-
-    if( hasSpecular() ) fvf |= D3DFVF_SPECULAR;
-
-    if( getNumberOfTexCoords() >= 1 ) fvf |= D3DFVF_TEX0;
-    if( getNumberOfTexCoords() >= 2 ) fvf |= D3DFVF_TEX1;
-    if( getNumberOfTexCoords() >= 3 ) fvf |= D3DFVF_TEX2;
-    if( getNumberOfTexCoords() >= 4 ) fvf |= D3DFVF_TEX3;
-    if( getNumberOfTexCoords() >= 5 ) fvf |= D3DFVF_TEX4;
-    if( getNumberOfTexCoords() >= 6 ) fvf |= D3DFVF_TEX5;
-    if( getNumberOfTexCoords() >= 7 ) fvf |= D3DFVF_TEX6;
-    if( getNumberOfTexCoords() >= 8 ) fvf |= D3DFVF_TEX7;
-    if( getNumberOfTexCoords() >= 9 ) fvf |= D3DFVF_TEX8;
-
-    return fvf;
-}
-
-size_t VertexBufferDX9Imp::getSizeInByteForEachVertex()
-{
-    const unsigned long fvf = getFVF();
-
-    size_t sizeFoREach = 0;
-
-    if( fvf & D3DFVF_XYZ ) sizeFoREach += Position::sizeInByte;
-
-    if( fvf & D3DFVF_NORMAL ) sizeFoREach += Normal::sizeInByte;
-
-    if( fvf & D3DFVF_DIFFUSE ) sizeFoREach += Diffuse::sizeInByte;
-
-    if( fvf & D3DFVF_SPECULAR ) sizeFoREach += Specular::sizeInByte;
-
-    if( fvf & D3DFVF_TEX0 ) sizeFoREach += TexCoord2D::sizeInByte;
-    if( fvf & D3DFVF_TEX1 ) sizeFoREach += TexCoord2D::sizeInByte;
-    if( fvf & D3DFVF_TEX2 ) sizeFoREach += TexCoord2D::sizeInByte;
-    if( fvf & D3DFVF_TEX3 ) sizeFoREach += TexCoord2D::sizeInByte;
-    if( fvf & D3DFVF_TEX4 ) sizeFoREach += TexCoord2D::sizeInByte;
-    if( fvf & D3DFVF_TEX5 ) sizeFoREach += TexCoord2D::sizeInByte;
-    if( fvf & D3DFVF_TEX6 ) sizeFoREach += TexCoord2D::sizeInByte;
-    if( fvf & D3DFVF_TEX7 ) sizeFoREach += TexCoord2D::sizeInByte;
-    if( fvf & D3DFVF_TEX8 ) sizeFoREach += TexCoord2D::sizeInByte;
-
-    return sizeFoREach;
-}
-
-size_t VertexBufferDX9Imp::getSizeInByte()
-{
-    return getSizeInByteForEachVertex() * getNumberOfVertex();
+    storageContainer_array_[ D3DDECLUSAGE_COLOR ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_D3DCOLOR ) );
 }
 
 void VertexBufferDX9Imp::setVertexBufferDX9( LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9 )
@@ -187,38 +116,79 @@ LPDIRECT3DVERTEXBUFFER9 VertexBufferDX9Imp::getVertexBufferDX9() {
 
 void VertexBufferDX9Imp::writeOntoDevice( DWORD lockingFlags )
 {
-    float * vertices;
-    const HRESULT hr = vertexBufferDX9_->Lock( 0, getSizeInByte(), (void**) &vertices, lockingFlags );
+    float * buffer;
+    const HRESULT hr = vertexBufferDX9_->Lock( 0, getSizeInByteForTotal(), (void**) &buffer, lockingFlags );
     if( FAILED( hr ) ) {
         DXUT_ERR( L"VertexBufferDX9Imp::writeOntoDevice", hr );
         return;
     }
 
-    const size_t offset_position = 0;
-    const size_t offset_normal = Position::sizeInByte;
-    const size_t offset_diffuse = offset_normal + (hasNormal() ? Normal::sizeInByte : 0);
-    const size_t offset_specular = offset_diffuse + (hasDiffuse() ? Diffuse::sizeInByte : 0);
-    const size_t offset_tex = offset_specular + (hasSpecular() ? Specular::sizeInByte : 0);
-
-    const size_t step = getSizeInByteForEachVertex();
-    Pimpl::writeOntoDeviceForEach< Position >( vertices, positions_, offset_position, step );
-    Pimpl::writeOntoDeviceForEach< Normal >( vertices, normals_, offset_normal, step );
-    Pimpl::writeOntoDeviceForEach< Diffuse >( vertices, diffuses_, offset_diffuse, step );
-    Pimpl::writeOntoDeviceForEach< Specular >( vertices, speculars_, offset_specular, step );
-
-    size_t offset_tex_each = 0;
-    MY_FOR_EACH( TexCoords_Array, iter, texCoords_Array_ ) {
-        Pimpl::writeOntoDeviceForEach< TexCoord2D >( vertices, *iter, offset_tex + offset_tex_each, step );
-        offset_tex_each += TexCoord2D::sizeInByte;
-    }
+    const size_t step = updateOffset();
+    writeOntoBuffer( buffer, step );
 
     vertexBufferDX9_->Unlock();
+}
+
+size_t VertexBufferDX9Imp::updateOffset()
+{
+    int offset = 0;
+    offset = Pimpl::updateOffset( storageContainer_array_[ D3DDECLUSAGE_POSITION ], offset );
+    offset = Pimpl::updateOffset( storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ], offset );
+    offset = Pimpl::updateOffset( storageContainer_array_[ D3DDECLUSAGE_NORMAL ], offset );
+    offset = Pimpl::updateOffset( storageContainer_array_[ D3DDECLUSAGE_BINORMAL ], offset );
+    offset = Pimpl::updateOffset( storageContainer_array_[ D3DDECLUSAGE_TANGENT ], offset );
+    offset = Pimpl::updateOffset( storageContainer_array_[ D3DDECLUSAGE_COLOR ], offset );
+    return offset;
+}
+
+void VertexBufferDX9Imp::writeOntoBuffer( float * buffer, size_t step )
+{
+    Pimpl::writeOntoBuffer( buffer, storageContainer_array_[ D3DDECLUSAGE_POSITION ], step );
+    Pimpl::writeOntoBuffer( buffer, storageContainer_array_[ D3DDECLUSAGE_TEXCOORD ], step );
+    Pimpl::writeOntoBuffer( buffer, storageContainer_array_[ D3DDECLUSAGE_NORMAL ], step );
+    Pimpl::writeOntoBuffer( buffer, storageContainer_array_[ D3DDECLUSAGE_BINORMAL ], step );
+    Pimpl::writeOntoBuffer( buffer, storageContainer_array_[ D3DDECLUSAGE_TANGENT ], step );
+    Pimpl::writeOntoBuffer( buffer, storageContainer_array_[ D3DDECLUSAGE_COLOR ], step );
 }
 
 void VertexBufferDX9Imp::releaseVertexBufferDX9()
 {
     SAFE_RELEASE( vertexBufferDX9_ );
 }
+
+size_t VertexBufferDX9Imp::getSizeInByteForTotal() {
+    return getSizeInByteForEachVertex() * getNumberOfVertex();
+}
+
+size_t VertexBufferDX9Imp::getSizeInByteForEachVertex() {
+    return updateOffset();
+}
+
+D3DVERTEXELEMENT9 * VertexBufferDX9Imp::getVertexElement() {
+    updateOffset();
+
+    vertexElementDX9_.clear();
+    Pimpl::getVertexDeclaration< D3DDECLUSAGE_POSITION >( storageContainer_array_, vertexElementDX9_ );
+    Pimpl::getVertexDeclaration< D3DDECLUSAGE_TEXCOORD >( storageContainer_array_, vertexElementDX9_ );
+    Pimpl::getVertexDeclaration< D3DDECLUSAGE_NORMAL >( storageContainer_array_, vertexElementDX9_ );
+    Pimpl::getVertexDeclaration< D3DDECLUSAGE_BINORMAL >( storageContainer_array_, vertexElementDX9_ );
+    Pimpl::getVertexDeclaration< D3DDECLUSAGE_TANGENT >( storageContainer_array_, vertexElementDX9_ );
+    Pimpl::getVertexDeclaration< D3DDECLUSAGE_COLOR >( storageContainer_array_, vertexElementDX9_ );
+    
+    D3DVERTEXELEMENT9 endElem = D3DDECL_END();
+    vertexElementDX9_.push_back( endElem );
+
+    return &(vertexElementDX9_[0]);
+}
+
+void VertexBufferDX9Imp::setVertexDeclarationDX9( LPDIRECT3DVERTEXDECLARATION9 vertexDeclarationDX9 ) {
+    vertexDeclarationDX9_ = vertexDeclarationDX9;
+}
+
+LPDIRECT3DVERTEXDECLARATION9 VertexBufferDX9Imp::getVertexDeclarationDX9() {
+    return vertexDeclarationDX9_;
+}
+
 
 
 }
