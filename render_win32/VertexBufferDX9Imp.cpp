@@ -117,7 +117,7 @@ bool VertexBufferDX9Imp::appendUV_Array( const float * source, size_t usageIndex
     return true;
 }
 
-bool VertexBufferDX9Imp::appendColor_Array( const float * source, size_t usageIndex )
+bool VertexBufferDX9Imp::appendColor_Array( const NxU32 * source, size_t usageIndex )
 {
     if( true == isUsageIndexInUse( D3DDECLUSAGE_COLOR, usageIndex ) ) return false;
     storageContainer_array_[ D3DDECLUSAGE_COLOR ].push_back( StorageContainer( source, getNumberOfVertex(), usageIndex, D3DDECLTYPE_D3DCOLOR ) );

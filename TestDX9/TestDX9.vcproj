@@ -262,11 +262,15 @@
 					>
 				</File>
 				<File
-					RelativePath=".\RenderBufferFactoryDX9Test.cpp"
+					RelativePath=".\RenderBufferFactoryDX9Test_Backdoor.hpp"
 					>
 				</File>
 				<File
-					RelativePath=".\RenderBufferFactoryDX9Test_Backdoor.hpp"
+					RelativePath=".\RenderBufferFactoryDX9Test_Effect.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderBufferFactoryDX9Test_VertexBuffer.cpp"
 					>
 				</File>
 				<File

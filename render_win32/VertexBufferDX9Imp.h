@@ -12,7 +12,7 @@ public: // from VertexBuffer
     virtual bool appendBinormal_Array( const float * binormal_3floatsForEach, size_t usageIndex ) OVERRIDE;
     virtual bool appendTangent_Array( const float * tangent_3floatsForEach, size_t usageIndex ) OVERRIDE;
     virtual bool appendUV_Array( const float * ut_2floatsForEach, size_t usageIndex ) OVERRIDE;
-    virtual bool appendColor_Array( const float * color_3floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendColor_Array( const NxU32 * color_3UnsignedIntForEach, size_t usageIndex ) OVERRIDE;
 
     virtual size_t getNumberOfVertex() OVERRIDE;
 
@@ -57,7 +57,7 @@ private:
         typedef vector< Storage > Storage_Array;
         Storage_Array v;
 
-        StorageContainer( const float * src, size_t howMany, size_t usageIndex, D3DDECLTYPE declType )
+        StorageContainer( const void * src, size_t howMany, size_t usageIndex, D3DDECLTYPE declType )
             : usageIndex_( usageIndex )
             , declType_( declType )
             , sizeInByteForEach_( getSizeOfDeclType( declType ) )
@@ -65,7 +65,7 @@ private:
             Storage tmp;
             for( size_t i = 0; i < howMany; ++i ) {
                 const size_t offset = i * sizeInByteForEach();
-                memcpy( &(tmp.val), src + offset, sizeInByteForEach() );
+                memcpy( &(tmp.val), ((char*) src) + offset, sizeInByteForEach() );
                 v.push_back( tmp );
             }
         }

@@ -19,7 +19,7 @@ namespace TestDX9
     };
 
 	[TestClass]
-	public ref class RenderBufferFactoryDX9Test
+	public ref class RenderBufferFactoryDX9Test_VertexBuffer
 	{
     private:
         RenderWin32DX9Imp * dx9Imp;
@@ -148,7 +148,7 @@ namespace TestDX9
         void CreateVertexBuffer_static_Color()
         {
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
-            assertTrue( vb->appendColor_Array( positions, 0 ) );
+            assertTrue( vb->appendColor_Array( diffuses, 0 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( DWORD ), 2 ) );
             assertTrue( factory->releaseVertexBuffer( vb ) );
         }
@@ -159,7 +159,7 @@ namespace TestDX9
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertTrue( vb->appendNormal_Array( positions, 0 ) );
             assertTrue( vb->appendTexCoord2D_Array( positions, 0 ) );
-            assertTrue( vb->appendColor_Array( positions, 0 ) );
+            assertTrue( vb->appendColor_Array( diffuses, 0 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 *2 + sizeof(float)*2 + sizeof( DWORD ), 4 ) );
             assertTrue( factory->releaseVertexBuffer( vb ) );
         }
