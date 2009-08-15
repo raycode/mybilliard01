@@ -39,6 +39,7 @@ namespace MyTestingUtility
     }
 
     inline String^ getString( string str ) {
-        return gcnew String( convertString< wstring >( str ).c_str() );
+        wstring  wcStr = convertString< wstring >( str );
+        return gcnew String( wcStr.c_str() );
     }
 }

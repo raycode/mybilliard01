@@ -365,7 +365,7 @@ void CALLBACK ApplicationWin32Imp::MsgProcSystem_WM_CLOSE( HWND hWnd, UINT uMsg,
         DestroyMenu( hMenu );
 
     DestroyWindow( hWnd );
-    UnregisterClass( getRegisterClassName(), NULL );
+    UnregisterClass( getRegisterClassName().c_str(), NULL );
 }
 
 int CALLBACK ApplicationWin32Imp::MsgProcSystem_WM_SYSCOMMAND( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )

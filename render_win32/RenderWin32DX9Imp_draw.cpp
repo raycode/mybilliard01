@@ -9,6 +9,13 @@ void RenderWin32DX9Imp::setEffectShader( EffectShader * effect, ShaderVariable *
     ShaderVariableDX9 * const techDX9 = static_cast< ShaderVariableDX9 * >( technique );
 
     effectDX9->setTechnique( techDX9 );
+
+    const size_t nPass = effectDX9->begin();
+    for( size_t i = 0; i < nPass; ++i ) {
+        effectDX9->pass( i );
+        callBack->render( this, i );
+    }
+    effectDX9->end();
 }
 
 void RenderWin32DX9Imp::setVertexShader( VertexShader * ) 

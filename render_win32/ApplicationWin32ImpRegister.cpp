@@ -23,6 +23,8 @@ bool ApplicationWin32Imp::MyRegisterClass(HINSTANCE hInstance)
     if( hIcon == NULL ) // If the icon is NULL, then use the first one found in the exe
         hIcon = ExtractIcon( hInstance, szExePath, 0 );
 
+    const wstring className = getRegisterClassName();
+
     WNDCLASSEX wcex;
 
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -36,7 +38,7 @@ bool ApplicationWin32Imp::MyRegisterClass(HINSTANCE hInstance)
     wcex.hCursor		= LoadCursor(NULL, IDC_ARROW);
     wcex.hbrBackground  = ( HBRUSH )GetStockObject( BLACK_BRUSH );
     wcex.lpszMenuName	= NULL;
-    wcex.lpszClassName	= getRegisterClassName();
+    wcex.lpszClassName	= className.c_str();
     wcex.hIconSm		= NULL;
 
     const ATOM rst = RegisterClassEx(&wcex);
@@ -62,7 +64,7 @@ bool ApplicationWin32Imp::MyRegisterClass(HINSTANCE hInstance)
 //        create and display the main program window.
 //
 HWND ApplicationWin32Imp::InitInstance(HINSTANCE hInstance, int nCmdShow, 
-                                       const wchar_t * szTitle, int x, int y, int width, int height)
+                                       wstring szTitle, int x, int y, int width, int height)
 {
     HMENU hMenu = NULL;
 
@@ -70,7 +72,7 @@ HWND ApplicationWin32Imp::InitInstance(HINSTANCE hInstance, int nCmdShow,
     SetRect( &rc, 0, 0, width, height );
     AdjustWindowRect( &rc, WS_OVERLAPPEDWINDOW, ( hMenu != NULL ) );
 
-    HWND hWnd = CreateWindow(getRegisterClassName(), szTitle, WS_OVERLAPPEDWINDOW,
+    HWND hWnd = CreateWindow(getRegisterClassName().c_str(), szTitle.c_str(), WS_OVERLAPPEDWINDOW,
         x, y, width, height, NULL, NULL, hInstance, NULL);
 
     if (!hWnd)

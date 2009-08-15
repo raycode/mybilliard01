@@ -10,16 +10,15 @@ ApplicationWin32Imp::ApplicationWin32Imp()
 , width_( 640 ), height_( 480 )
 , bWindowedMode_( true )
 , bPaused_( false )
-, render_( NULL )
 , hWnd_( NULL )
 , bMinimized_( false )
 , bMaximized_( false )
 , bSizeInMove_( false )
 {
-    setRender( &nullRenderWin32_ );
-    addKeyboardListener( &nullKeyboardListener_ );
-    addMouseListener( &nullMouseListener_ );
-    addWin32MessageListener( &nullWin32MessageListener_ );
+    render_ = &nullRenderWin32_;
+    keyboardListener_ = &nullKeyboardListener_;
+    mouseListener_ = &nullMouseListener_;
+    win32MessageListener_ = &nullWin32MessageListener_;
 
     if( NULL != g_app_ )
         throw exception();
@@ -54,7 +53,7 @@ HWND ApplicationWin32Imp::getHWND() {
     return hWnd_;
 }
 
-const wchar_t * ApplicationWin32Imp::getRegisterClassName() {
+wstring ApplicationWin32Imp::getRegisterClassName() {
     return L"ApplicationWin32ImpClass";
 }
 
@@ -75,7 +74,7 @@ bool ApplicationWin32Imp::createWindow()
     const int y = getScreenY();
     const int width = getScreenWidth();
     const int height = getScreenHeight();
-    hWnd_ = InitInstance( hInstance_, SW_SHOW, title_.c_str(), x, y, width, height );
+    hWnd_ = InitInstance( hInstance_, SW_SHOW, getScreenTitle(), x, y, width, height );
 
     return NULL != hWnd_;
 }
@@ -89,7 +88,7 @@ void ApplicationWin32Imp::destroyWindow() {
     DestroyWindow( hWnd_ );
     hWnd_ = NULL;
 
-    UnregisterClass( getRegisterClassName(), hInstance_ );
+    UnregisterClass( getRegisterClassName().c_str(), hInstance_ );
 }
 
 
@@ -196,8 +195,8 @@ int ApplicationWin32Imp::getScreenHeight() {
     return height_;
 }
 
-const wchar_t * ApplicationWin32Imp::getScreenTitle() {
-    return title_.c_str();
+wstring ApplicationWin32Imp::getScreenTitle() {
+    return title_;
 }
 
 

@@ -3,9 +3,9 @@
 namespace my_render_win32_dx9_imp {
 
 
-const wchar_t * ShaderVariableDX9Imp::getVariableName()
+wstring ShaderVariableDX9Imp::getVariableName()
 {
-    return name_.c_str();
+    return name_;
 }
 
 D3DXHANDLE ShaderVariableDX9Imp::getHandleDX9()

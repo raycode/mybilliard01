@@ -22,7 +22,8 @@ bool SceneImp::load( wstring filename, Factory * factory ) {
 
     dae_ = DAEPtr( new DAE() );
 
-    collada_ = dae_->open( convertString< string >( filename ).c_str() );
+    string szFilename = convertString< string >( filename );
+    collada_ = dae_->open( szFilename.c_str() );
     if( NULL == collada_ )
         return false;
 
@@ -54,7 +55,7 @@ void SceneImp::loadUpAxis( domCOLLADA * collada ) {
     upAxis_ = upAxis->getValue();
 }
 
-const wchar_t * SceneImp::getCurrentVisualSceneID() {
+wstring SceneImp::getCurrentVisualSceneID() {
     return currentScene_->getID();
 }
 
@@ -131,7 +132,7 @@ void SceneImp::loadLibraryGeometriesArray() {
 }
 
 void SceneImp::appendNodes( Node * node ) {
-    if( NULL != node->getParent() && NULL != node->getID() )
+    if( NULL != node->getParent() && false == node->getID().empty() )
         nodes_.insert( Nodes::value_type( node->getID(), node ) );
 
     if( node->getFirstChild() )
@@ -149,32 +150,25 @@ void SceneImp::loadLibraryScene() {
     // TODO: handle instance_physics
 }
 
-vector< const wchar_t * > SceneImp::getVisualSceneIDs() {
-    visualSceneIDs_.clear();
+vector< wstring > SceneImp::getVisualSceneIDs() {
+    vector< wstring > visualSceneIDs;
     domLibrary_visual_scenes_Array vscenes = collada_->getLibrary_visual_scenes_array();
     for( size_t i = 0; i < vscenes.getCount(); ++i ) {
         domLibrary_visual_scenes * const vscene = vscenes[ i ];
         if( NULL == vscene ) continue;
-        visualSceneIDs_.push_back( convertString( vscene->getId() ) );
+        visualSceneIDs.push_back( convertString( vscene->getId() ) );
     }
-
-    vector< const wchar_t * > id_array;
-    MY_FOR_EACH( vector< wstring >, iter, visualSceneIDs_ ) {
-        id_array.push_back( iter->c_str() );
-    }
-
-    return id_array;
+    return visualSceneIDs;
 }
 
-const wchar_t * SceneImp::getDefaultVisualSceneID() {
+wstring SceneImp::getDefaultVisualSceneID() {
     domInstanceWithExtraRef ivscene = collada_->getScene()->getInstance_visual_scene();
     if( NULL == ivscene ) return L"";
 
     domVisual_scene * const vscene = daeDowncast< domVisual_scene >( ivscene->getUrl().getElement() );
     if( NULL == vscene ) return L"";
 
-    defaultVisualSceneID_ = convertString( vscene->getId() );
-    return defaultVisualSceneID_.c_str();
+    return convertString( vscene->getId() );
 }
 
 Node * SceneImp::getNode( wstring nodeID ) {

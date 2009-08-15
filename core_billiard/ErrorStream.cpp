@@ -4,7 +4,8 @@ namespace my_phys_x {
 
 NxAssertResponse ErrorStream::reportAssertViolation(const char* message, const char* file, int line)
 {
-    switch (MessageBox(0, convertString< wstring >( string( message ) ).c_str(),
+    wstring msg = convertString< wstring >( string( message ) );
+    switch (MessageBox(0, msg.c_str(),
         L"AssertViolation.", MB_ABORTRETRYIGNORE))
     {
     case IDRETRY:

@@ -25,6 +25,10 @@ public: // from EffectShaderDX9
 
     virtual bool setTechnique( ShaderVariable * variable ) OVERRIDE;
 
+    virtual size_t begin() OVERRIDE;
+    virtual void end() OVERRIDE;
+    virtual void pass( size_t whichPass ) OVERRIDE;
+
 public:
     EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice );
 
