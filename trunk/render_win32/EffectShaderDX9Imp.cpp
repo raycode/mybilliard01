@@ -52,7 +52,8 @@ bool EffectShaderDX9Imp::setFloatArray( ShaderVariable * variable, const float *
 bool EffectShaderDX9Imp::setString( ShaderVariable * variable, wstring newValue )
 {
     ShaderVariableDX9 * const varDX9 = (ShaderVariableDX9 *) variable;
-    const HRESULT hr = effect_->SetString( varDX9->getHandleDX9(), convertString( newValue ).c_str() );
+    string szNewValue = convertString( newValue );
+    const HRESULT hr = effect_->SetString( varDX9->getHandleDX9(), szNewValue.c_str() );
     return S_OK == hr;
 }
 
@@ -121,13 +122,37 @@ HRESULT EffectShaderDX9Imp::createEffectFromFile( wstring filename )
 
 D3DXHANDLE EffectShaderDX9Imp::getParameterByName( wstring name )
 {
-    return effect_->GetParameterByName( 0, convertString( name ).c_str() );
+    string szName = convertString( name );
+    return effect_->GetParameterByName( 0, szName.c_str() );
 }
 
 D3DXHANDLE EffectShaderDX9Imp::getTechniqueByName( wstring name )
 {
-    return effect_->GetTechniqueByName( convertString( name ).c_str() );
+    string szName = convertString( name );
+    return effect_->GetTechniqueByName( szName.c_str() );
 }
+
+size_t EffectShaderDX9Imp::begin()
+{
+    UINT count;
+    const HRESULT hr = effect_->Begin( &count, 0 );
+    if( FAILED( hr ) ) {
+        DXUT_ERR( L"EffectShaderDX9Imp::begin", hr );
+        return 0;
+    }
+    return count;
+}
+
+void EffectShaderDX9Imp::end()
+{
+    effect_->End();
+}
+
+void EffectShaderDX9Imp::pass( size_t whichPass )
+{
+    effect_->BeginPass( whichPass );
+}
+
 
 
 }

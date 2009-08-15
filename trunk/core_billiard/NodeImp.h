@@ -8,7 +8,7 @@ public: // from Node
     virtual Node * getNextSibling() OVERRIDE;
     virtual Node * getFirstChild() OVERRIDE;
     virtual size_t getNbChild() OVERRIDE;
-    virtual const wchar_t * getSID() OVERRIDE;
+    virtual wstring getSID() OVERRIDE;
 
     virtual void update( float time ) OVERRIDE;
     virtual void render( Render * render ) OVERRIDE;

@@ -4,9 +4,9 @@ namespace my_render_imp {
 
 class GeometryMeshPrimitiveImp : IMPLEMENTS_( GeometryMeshPrimitive ) {
 public: // from GeometryMeshPrimitive
-    virtual const wchar_t * getName() OVERRIDE;
+    virtual wstring getName() OVERRIDE;
     virtual size_t getTriangleCount() OVERRIDE;
-    virtual const wchar_t * getMaterialName() OVERRIDE;
+    virtual wstring getMaterialName() OVERRIDE;
 
     virtual void draw( Render * render );
 

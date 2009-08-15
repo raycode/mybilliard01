@@ -7,8 +7,8 @@ Node * NodeImp::getParent() {
     return parent_;
 }
 
-const wchar_t * NodeImp::getSID() {
-    return sid_.c_str();
+wstring NodeImp::getSID() {
+    return sid_;
 }
 
 Node * NodeImp::getNextSibling() {

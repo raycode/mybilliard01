@@ -7,8 +7,8 @@ Base * InstanceImp::getInstanceOwner() {
     return instanceOwner_;
 }
 
-const wchar_t * InstanceImp::getUrl() {
-    return url_.c_str();
+wstring InstanceImp::getUrl() {
+    return url_;
 }
 
 Base * InstanceImp::getResolvedReferrence() {

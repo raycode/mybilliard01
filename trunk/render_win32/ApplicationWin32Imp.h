@@ -26,7 +26,7 @@ public: // from ApplicationWindow
     virtual int getScreenWidth() OVERRIDE;
     virtual int getScreenHeight() OVERRIDE;
     virtual bool isWindowedMode() OVERRIDE;
-    virtual const wchar_t * getScreenTitle() OVERRIDE;
+    virtual wstring getScreenTitle() OVERRIDE;
 
     virtual void addKeyboardListener( KeyboardEventListener * listener ) OVERRIDE;
     virtual void addMouseListener( MouseEventListener * listener ) OVERRIDE;
@@ -55,8 +55,8 @@ private: // creating window
 
     static void handleMessage( MSG & msg );
     static bool MyRegisterClass(HINSTANCE hInstance);
-    static HWND InitInstance(HINSTANCE hInstance, int nCmdShow, const wchar_t * szTitle, int x, int y, int width, int height);
-    static const wchar_t * getRegisterClassName();
+    static HWND InitInstance(HINSTANCE hInstance, int nCmdShow, wstring szTitle, int x, int y, int width, int height);
+    static wstring getRegisterClassName();
 
 private: // message proc
     static ApplicationWin32Imp * g_app_;
