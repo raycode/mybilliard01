@@ -54,7 +54,7 @@ void SceneImp::loadUpAxis( domCOLLADA * collada ) {
     upAxis_ = upAxis->getValue();
 }
 
-wstring SceneImp::getCurrentVisualSceneID() {
+const wchar_t * SceneImp::getCurrentVisualSceneID() {
     return currentScene_->getID();
 }
 
@@ -131,7 +131,7 @@ void SceneImp::loadLibraryGeometriesArray() {
 }
 
 void SceneImp::appendNodes( Node * node ) {
-    if( NULL != node->getParent() && false == node->getID().empty() )
+    if( NULL != node->getParent() && NULL != node->getID() )
         nodes_.insert( Nodes::value_type( node->getID(), node ) );
 
     if( node->getFirstChild() )
@@ -149,25 +149,32 @@ void SceneImp::loadLibraryScene() {
     // TODO: handle instance_physics
 }
 
-vector< wstring > SceneImp::getVisualSceneIDs() {
-    vector< wstring > rst;
+vector< const wchar_t * > SceneImp::getVisualSceneIDs() {
+    visualSceneIDs_.clear();
     domLibrary_visual_scenes_Array vscenes = collada_->getLibrary_visual_scenes_array();
     for( size_t i = 0; i < vscenes.getCount(); ++i ) {
         domLibrary_visual_scenes * const vscene = vscenes[ i ];
         if( NULL == vscene ) continue;
-        rst.push_back( convertString( vscene->getId() ) );
+        visualSceneIDs_.push_back( convertString( vscene->getId() ) );
     }
-    return rst;
+
+    vector< const wchar_t * > id_array;
+    MY_FOR_EACH( vector< wstring >, iter, visualSceneIDs_ ) {
+        id_array.push_back( iter->c_str() );
+    }
+
+    return id_array;
 }
 
-wstring SceneImp::getDefaultVisualSceneID() {
+const wchar_t * SceneImp::getDefaultVisualSceneID() {
     domInstanceWithExtraRef ivscene = collada_->getScene()->getInstance_visual_scene();
     if( NULL == ivscene ) return L"";
 
     domVisual_scene * const vscene = daeDowncast< domVisual_scene >( ivscene->getUrl().getElement() );
     if( NULL == vscene ) return L"";
 
-    return convertString( vscene->getId() );
+    defaultVisualSceneID_ = convertString( vscene->getId() );
+    return defaultVisualSceneID_.c_str();
 }
 
 Node * SceneImp::getNode( wstring nodeID ) {

@@ -77,6 +77,10 @@ namespace Loki {}
 #define IMPLEMENTS_( INTERFACE_NAME ) public virtual INTERFACE_NAME
 #define EXTENDS_INTERFACE_( INTERFACE_NAME ) public virtual INTERFACE_NAME
 
+// sometimes we need to use static_cast rather than dynamic_cast for performance reason.
+#define EXTENDS_INTERFACE_STATIC_( INTERFACE_NAME ) public INTERFACE_NAME
+// but there shouldn't be any case to down cast to implementation level.
+//#define IMPLEMENTS_STATIC_( INTERFACE_NAME ) public INTERFACE_NAME
 
 
 #define MY_UNIT_TEST_BACKDOOR public: struct TestingBackdoor; private: struct __NothingButForSemicolon__

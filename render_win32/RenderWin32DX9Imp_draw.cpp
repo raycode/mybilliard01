@@ -3,6 +3,14 @@
 namespace my_render_win32_dx9_imp {
 
 
+void RenderWin32DX9Imp::setEffectShader( EffectShader * effect, ShaderVariable * technique, RenderEffectShader * callBack )
+{
+    EffectShaderDX9 * const effectDX9 = static_cast< EffectShaderDX9 * >( effect );
+    ShaderVariableDX9 * const techDX9 = static_cast< ShaderVariableDX9 * >( technique );
+
+    effectDX9->setTechnique( techDX9 );
+}
+
 void RenderWin32DX9Imp::setVertexShader( VertexShader * ) 
 {
 
@@ -13,16 +21,10 @@ void RenderWin32DX9Imp::setPixelShader( PixelShader * )
 
 }
 
-void RenderWin32DX9Imp::setEffectShader( EffectShader *, wstring technique, RenderEffectShader * callBack )
-{
-
-}
-
 
 void RenderWin32DX9Imp::drawPrimitive_POINTLIST( VertexBuffer * vb, NxU32 startVertex, NxU32 primitiveCount )
 {
-    VertexBufferDX9 * const vbDX9 = dynamic_cast< VertexBufferDX9 * >( vb );
-    if( NULL == vbDX9 ) return;
+    VertexBufferDX9 * const vbDX9 = static_cast< VertexBufferDX9 * >( vb );
 
     getD3D9Device()->SetStreamSource( 0, vbDX9->getVertexBufferDX9(), 0, vbDX9->getSizeInByteForEachVertex() );
     getD3D9Device()->SetVertexDeclaration( vbDX9->getVertexDeclarationDX9() );

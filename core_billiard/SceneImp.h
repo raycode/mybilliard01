@@ -9,10 +9,10 @@ public: // from Scene
     virtual void update() OVERRIDE;
     virtual void render( Render * ) OVERRIDE;
 
-    virtual vector< wstring > getVisualSceneIDs() OVERRIDE;
-    virtual wstring getDefaultVisualSceneID() OVERRIDE;
+    virtual vector< const wchar_t * > getVisualSceneIDs() OVERRIDE;
+    virtual const wchar_t * getDefaultVisualSceneID() OVERRIDE;
 
-    virtual wstring getCurrentVisualSceneID() OVERRIDE;
+    virtual const wchar_t * getCurrentVisualSceneID() OVERRIDE;
     virtual bool setCurrentVisualScene( wstring sceneID ) OVERRIDE;
 
 public:
@@ -64,6 +64,8 @@ private: // runtime database
     Nodes nodes_;
 
     domUpAxisType upAxis_;
+    wstring defaultVisualSceneID_;
+    vector< wstring > visualSceneIDs_;
 
 private:
     Node * currentScene_;

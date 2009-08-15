@@ -209,6 +209,10 @@
 			Name="my_render_win32_dx9"
 			>
 			<File
+				RelativePath=".\EffectShaderDX9.h"
+				>
+			</File>
+			<File
 				RelativePath=".\IndexBufferDX9.h"
 				>
 			</File>
@@ -243,6 +247,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ShaderVariableDX9.h"
+				>
+			</File>
+			<File
 				RelativePath=".\VertexBufferDX9.h"
 				>
 			</File>
@@ -250,6 +258,24 @@
 		<Filter
 			Name="my_render_win32_dx9_imp"
 			>
+			<File
+				RelativePath=".\EffectShaderDX9Imp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\EffectShaderDX9Imp.h"
+				>
+			</File>
 			<File
 				RelativePath=".\IndexBufferDX9Imp.cpp"
 				>
@@ -335,6 +361,24 @@
 						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\ShaderVariableDX9Imp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
+						PrecompiledHeaderThrough="DXUT.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\ShaderVariableDX9Imp.h"
+				>
 			</File>
 			<File
 				RelativePath=".\SurfaceDX9Imp.cpp"

@@ -3,16 +3,16 @@
 namespace my_render_imp {
 
 
-wstring GeometryMeshPrimitiveImp::getName() {
-    return name_;
+const wchar_t * GeometryMeshPrimitiveImp::getName() {
+    return name_.c_str();
 }
 
 size_t GeometryMeshPrimitiveImp::getTriangleCount() {
     return numTriangles_;
 }
 
-wstring GeometryMeshPrimitiveImp::getMaterialName() {
-    return materialName_;
+const wchar_t * GeometryMeshPrimitiveImp::getMaterialName() {
+    return materialName_.c_str();
 }
 
 void GeometryMeshPrimitiveImp::setName( wstring name ) {

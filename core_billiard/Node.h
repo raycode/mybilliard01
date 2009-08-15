@@ -7,7 +7,7 @@ public:
     virtual Node * getNextSibling() = 0;
     virtual Node * getFirstChild() = 0;
     virtual size_t getNbChild() = 0;
-    virtual wstring getSID() = 0;
+    virtual const wchar_t * getSID() = 0;
 
     virtual void update( float time ) = 0;
     virtual void render( Render * render ) = 0;
