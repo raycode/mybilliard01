@@ -40,7 +40,17 @@ namespace TestDX9
             delete dx9Imp;
         };
 
-        bool isVertexUploaded( VertexBuffer * vb ) {
+        static bool isSizeCorrect( VertexBuffer * vb, size_t nVertex, size_t sizeEachVertex, size_t nElements ) {
+            VertexBufferDX9Imp * const vbImp = dynamic_cast< VertexBufferDX9Imp* >( vb );
+            if( NULL == vbImp ) return false;
+            if( nVertex != vbImp->getNumberOfVertex() ) return false;
+            if( sizeEachVertex != vbImp->getSizeInByteForEachVertex() ) return false;
+            if( nVertex * sizeEachVertex != vbImp->getSizeInByteForTotal() ) return false;
+            if( D3DDECLTYPE_UNUSED != vbImp->getVertexElement()[ nElements ].Type ) return false;
+            return true;
+        }
+
+        static bool isVertexUploaded( VertexBuffer * vb ) {
             VertexBufferDX9Imp * const vbImp = dynamic_cast< VertexBufferDX9Imp* >( vb );
             if( NULL == vbImp ) return false;
 
@@ -66,14 +76,7 @@ namespace TestDX9
         void CreateVertexBuffer_static()
         {
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
-            assertNotNull( vb );
-            assertEquals( 3u, vb->getNumberOfVertex() );
-
-            VertexBufferDX9Imp * const vbImp = dynamic_cast< VertexBufferDX9Imp* >( vb );
-            assertNotNull( vbImp );
-            assertEquals( sizeof(float) * 9 , vbImp->getSizeInByteForTotal() );
-            assertEquals( sizeof(float) * 3, vbImp->getSizeInByteForEachVertex() );
-
+            assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3, 1 ) );
             assertTrue( factory->releaseVertexBuffer( vb ) );
         };
 
@@ -81,20 +84,14 @@ namespace TestDX9
         void UploadVertexBufferOntoMemory()
         {
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
-            assertNotNull( vb );
-            
             factory->update( NULL, 0.f );
             assertTrue( isVertexUploaded( vb ) );
-
             assertTrue( factory->releaseVertexBuffer( vb ) );
         }
 
         [TestMethod]
         void RenderVertexBuffer()
         {
-            //VertexBufferDX9Imp * const vbImp
-            //    = dynamic_cast< VertexBufferDX9Imp* >( factory->createVertexBuffer_static( 1, positions ) );
-            //assertNotNull( vbImp );
         }
 
     };

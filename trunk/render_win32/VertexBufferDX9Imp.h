@@ -24,12 +24,13 @@ public: // from VertexBufferDX9
 
     virtual void setVertexDeclarationDX9( LPDIRECT3DVERTEXDECLARATION9 ) OVERRIDE;
     virtual LPDIRECT3DVERTEXDECLARATION9 getVertexDeclarationDX9() OVERRIDE;
+    virtual void releaseVertexDeclarationDX9() OVERRIDE;
 
     virtual void setVertexBufferDX9( LPDIRECT3DVERTEXBUFFER9 ) OVERRIDE;
     virtual LPDIRECT3DVERTEXBUFFER9 getVertexBufferDX9() OVERRIDE;
+    virtual void releaseVertexBufferDX9() OVERRIDE;
 
     virtual void writeOntoDevice( DWORD lockingFlags ) OVERRIDE;
-    virtual void releaseVertexBufferDX9() OVERRIDE;
 
 public:
     VertexBufferDX9Imp( size_t numberOfPosition, const float * positions_3floatsForEach );
@@ -40,7 +41,6 @@ private:
     void writeOntoBuffer( float * buffer, size_t step );
 
 private:
-
     struct Storage {
         unsigned int val[4];
     };
