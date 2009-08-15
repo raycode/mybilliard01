@@ -42,6 +42,7 @@ struct VertexBufferDX9Imp::Pimpl {
 
 VertexBufferDX9Imp::VertexBufferDX9Imp( size_t howMany, const float * source )
 : vertexBufferDX9_( NULL )
+, vertexDeclarationDX9_( NULL )
 {
     if( 0 == howMany || NULL == source ) throw exception();
 
@@ -51,6 +52,7 @@ VertexBufferDX9Imp::VertexBufferDX9Imp( size_t howMany, const float * source )
 VertexBufferDX9Imp::~VertexBufferDX9Imp()
 {
     releaseVertexBufferDX9();
+    releaseVertexDeclarationDX9();
 }
 
 
@@ -155,6 +157,12 @@ void VertexBufferDX9Imp::releaseVertexBufferDX9()
 {
     SAFE_RELEASE( vertexBufferDX9_ );
 }
+
+void VertexBufferDX9Imp::releaseVertexDeclarationDX9()
+{
+    SAFE_RELEASE( vertexDeclarationDX9_ );
+}
+
 
 size_t VertexBufferDX9Imp::getSizeInByteForTotal() {
     return getSizeInByteForEachVertex() * getNumberOfVertex();
