@@ -4,15 +4,15 @@ namespace my_render_win32_dx9_imp {
 
 class VertexBufferDX9Imp : IMPLEMENTS_( VertexBufferDX9 ) {
 public: // from VertexBuffer
-    virtual void appendTexCoord1D_Array( const float * texCoords_1floatsForEach, size_t usageIndex ) OVERRIDE;
-    virtual void appendTexCoord2D_Array( const float * texCoords_2floatsForEach, size_t usageIndex ) OVERRIDE;
-    virtual void appendTexCoord3D_Array( const float * texCoords_3floatsForEach, size_t usageIndex ) OVERRIDE;
-    virtual void appendTexCoord4D_Array( const float * texCoords_4floatsForEach, size_t usageIndex ) OVERRIDE;
-    virtual void appendNormal_Array( const float * normals_3floatsForEach, size_t usageIndex ) OVERRIDE;
-    virtual void appendBinormal_Array( const float * binormal_3floatsForEach, size_t usageIndex ) OVERRIDE;
-    virtual void appendTangent_Array( const float * tangent_3floatsForEach, size_t usageIndex ) OVERRIDE;
-    virtual void appendUV_Array( const float * ut_2floatsForEach, size_t usageIndex ) OVERRIDE;
-    virtual void appendColor_Array( const float * color_3floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendTexCoord1D_Array( const float * texCoords_1floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendTexCoord2D_Array( const float * texCoords_2floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendTexCoord3D_Array( const float * texCoords_3floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendTexCoord4D_Array( const float * texCoords_4floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendNormal_Array( const float * normals_3floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendBinormal_Array( const float * binormal_3floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendTangent_Array( const float * tangent_3floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendUV_Array( const float * ut_2floatsForEach, size_t usageIndex ) OVERRIDE;
+    virtual bool appendColor_Array( const float * color_3floatsForEach, size_t usageIndex ) OVERRIDE;
 
     virtual size_t getNumberOfVertex() OVERRIDE;
 
@@ -37,6 +37,7 @@ public:
     ~VertexBufferDX9Imp();
 
 private:
+    bool isUsageIndexInUse( int usage, size_t usageIndex );
     size_t updateOffset();
     void writeOntoBuffer( float * buffer, size_t step );
 
@@ -97,8 +98,9 @@ private:
         }
     };
 
+    enum { NumberOfStorageContainers = 16 };
     typedef vector< StorageContainer > StorageContainer_Array;
-    StorageContainer_Array storageContainer_array_[16];
+    StorageContainer_Array storageContainer_array_[ NumberOfStorageContainers ];
 
 
 private:
