@@ -2,8 +2,10 @@
 namespace my_render {
 
 
-INTERFACE_ EffectShader : EXTENDS_INTERFACE_( Shader ) {
-public:
+MY_INTERFACE EffectShader : EXTENDS_INTERFACE_( Shader ) {
+
+    virtual ShaderVariable * createTechniqueVariable( wstring name ) = 0;
+
     virtual bool setFloat( ShaderVariable * variable, float ) = 0;
     virtual bool setFloatArray( ShaderVariable * variable, const float *, size_t siz ) = 0;
     virtual bool setString( ShaderVariable * variable, wstring newValue ) = 0;
@@ -14,7 +16,6 @@ public:
 
     virtual bool isValidTechnique( ShaderVariable * techName ) = 0;
 
-public: virtual ~EffectShader() {}
 };
 
 

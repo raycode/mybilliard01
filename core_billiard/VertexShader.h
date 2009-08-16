@@ -2,13 +2,11 @@
 namespace my_render {
 
 
-INTERFACE_ VertexShader
+MY_INTERFACE VertexShader
     : EXTENDS_INTERFACE_( Shader )
     , EXTENDS_INTERFACE_( ShaderVariableWriter )
 {
-public:
 
-public: virtual ~VertexShader() {}
 };
 
 

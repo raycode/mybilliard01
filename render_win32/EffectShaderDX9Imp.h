@@ -19,7 +19,7 @@ public: // from Shader
     virtual bool releaseShaderVariable( ShaderVariable * ) OVERRIDE;
 
 public: // from EffectShaderDX9
-    virtual HRESULT createEffectFromFile( wstring filename ) OVERRIDE;
+    virtual bool createEffectFromFile( wstring filename ) OVERRIDE;
 
     virtual ShaderVariable * createTechniqueVariable( wstring name ) OVERRIDE;
 

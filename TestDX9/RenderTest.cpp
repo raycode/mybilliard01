@@ -6,14 +6,15 @@ using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
 
-class RenderListener_clear : public NullRenderEventListener {
+class RenderListener_clear : public RenderEventListenerNull {
 public:
     void setClearColor( NxU32 clearColor ) { clearColor_ = clearColor; }
     NxU32 getClearColor() const { return clearColor_; }
 
 public:
     virtual void display( Render * render ) OVERRIDE {
-        render->clear( ERenderClear_TARGET, clearColor_, 1.f, 0 );
+        render->setClearBackBuffer( clearColor_ );
+        render->clear();
     }
 
 private:

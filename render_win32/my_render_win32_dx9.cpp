@@ -3,7 +3,7 @@
 namespace my_render_win32_dx9 {
 
 #ifdef DEBUG
-    NullRenderBufferFactoryDX9 nullRenderBufferFactoryDX9__;
+    RenderBufferFactoryDX9Null nullRenderBufferFactoryDX9__;
 #endif
 
 }

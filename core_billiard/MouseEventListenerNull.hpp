@@ -2,8 +2,8 @@
 namespace my_render {
 
 
-class NullMouseEventListener : IMPLEMENTS_( MouseEventListener ) {
-public:
+NULL_OBJECT( MouseEventListener ) {
+
     virtual void onMouseEvent(
         int xPos,
         int yPos,

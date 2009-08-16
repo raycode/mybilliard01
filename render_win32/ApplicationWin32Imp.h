@@ -90,10 +90,10 @@ private:
     MouseEventListener * mouseListener_;
     Win32MessageListener * win32MessageListener_;
 
-    NullRenderWin32 nullRenderWin32_;
-    NullKeyboardEventListener nullKeyboardListener_;
-    NullMouseEventListener nullMouseListener_;
-    NullWin32MessageListener nullWin32MessageListener_;
+    RenderWin32Null nullRenderWin32_;
+    KeyboardEventListenerNull nullKeyboardListener_;
+    MouseEventListenerNull nullMouseListener_;
+    Win32MessageListenerNull nullWin32MessageListener_;
 
 private: //volatile data
     HINSTANCE hInstance_;

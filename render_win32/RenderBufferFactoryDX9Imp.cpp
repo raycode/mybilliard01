@@ -3,7 +3,7 @@
 namespace my_render_win32_dx9_imp {
 
 
-RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( IDirect3DDevice9 * d3dDevice )
+RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevice )
 : d3dDevice_( d3dDevice )
 , bNeedToUpdate_( false )
 {    
@@ -70,9 +70,9 @@ Texture * RenderBufferFactoryDX9Imp::createTexture( wstring filename )
     return NULL;
 }
 
-bool RenderBufferFactoryDX9Imp::releaseEffectShader( EffectShader *)
+bool RenderBufferFactoryDX9Imp::releaseEffectShader( EffectShader * effectShader )
 {
-    return false;
+    return release( effectShader, effectShaders_ );
 }
 
 bool RenderBufferFactoryDX9Imp::releaseVertexShader( VertexShader *)
@@ -87,25 +87,25 @@ bool RenderBufferFactoryDX9Imp::releasePixelShader( PixelShader *)
 
 bool RenderBufferFactoryDX9Imp::releaseVertexBuffer( VertexBuffer * vertexBuffer ) {
     for( size_t i = 0; i < SIZE_OF_QUEUE; ++i ) {
-        if( true == release( vertexBuffer, staticVertices_[ i ] ) ) return true;
-        if( true == release( vertexBuffer, dynamicVertices_[ i ] ) ) return true;
-        if( true == release( vertexBuffer, streamVertices_[ i ] ) ) return true;
+        if( release( vertexBuffer, staticVertices_[ i ] ) ) return true;
+        if( release( vertexBuffer, dynamicVertices_[ i ] ) ) return true;
+        if( release( vertexBuffer, streamVertices_[ i ] ) ) return true;
     }
     return false;
 }
 
 bool RenderBufferFactoryDX9Imp::releaseIndexBuffer( IndexBuffer * indexBuffer ) {
     for( size_t i = 0; i < SIZE_OF_QUEUE; ++i ) {
-        if( true == release( indexBuffer, staticIndexies_[ i ] ) ) return true;
-        if( true == release( indexBuffer, dynamicIndexies_[ i ] ) ) return true;
-        if( true == release( indexBuffer, streamIndexies_[ i ] ) ) return true;
+        if( release( indexBuffer, staticIndexies_[ i ] ) ) return true;
+        if( release( indexBuffer, dynamicIndexies_[ i ] ) ) return true;
+        if( release( indexBuffer, streamIndexies_[ i ] ) ) return true;
     }
     return false;
 }
 
 bool RenderBufferFactoryDX9Imp::releaseSurface( Surface * surface ) {
     for( size_t i = 0; i < SIZE_OF_QUEUE; ++i ) {
-        if( true == release( surface, surfaces_[ i ] ) ) return true;
+        if( release( surface, surfaces_[ i ] ) ) return true;
     }
     return false;
 }
@@ -178,8 +178,12 @@ void RenderBufferFactoryDX9Imp::uploadSteamBuffers()
 
 void RenderBufferFactoryDX9Imp::releaseStaticBuffers()
 {
-    MY_FOR_EACH( StaticVertices, iter, staticVertices_[ EACTIVE_QUEUE ] ) (&**iter)->releaseVertexBufferDX9();
-    MY_FOR_EACH( StaticIndexies, iter, staticIndexies_[ EACTIVE_QUEUE ] ) (&**iter)->releaseIndexBufferDX9();
+    MY_FOR_EACH( StaticVertices, iter, staticVertices_[ EACTIVE_QUEUE ] ) {
+        (&**iter)->releaseVertexBufferDX9();
+        (&**iter)->releaseVertexDeclarationDX9();
+    }
+    MY_FOR_EACH( StaticIndexies, iter, staticIndexies_[ EACTIVE_QUEUE ] )
+        (&**iter)->releaseIndexBufferDX9();
 
     staticVertices_[ EREADY_QUEUE ].merge( staticVertices_[ EACTIVE_QUEUE ] );
     staticIndexies_[ EREADY_QUEUE ].merge( staticIndexies_[ EACTIVE_QUEUE ] );
@@ -187,8 +191,12 @@ void RenderBufferFactoryDX9Imp::releaseStaticBuffers()
 
 void RenderBufferFactoryDX9Imp::releaseDynamicBuffers()
 {
-    MY_FOR_EACH( DynamicVertices, iter, dynamicVertices_[ EACTIVE_QUEUE ] ) (&**iter)->releaseVertexBufferDX9();
-    MY_FOR_EACH( DynamicIndexies, iter, dynamicIndexies_[ EACTIVE_QUEUE ] ) (&**iter)->releaseIndexBufferDX9();
+    MY_FOR_EACH( DynamicVertices, iter, dynamicVertices_[ EACTIVE_QUEUE ] ) {
+        (&**iter)->releaseVertexBufferDX9();
+        (&**iter)->releaseVertexDeclarationDX9();
+    }
+    MY_FOR_EACH( DynamicIndexies, iter, dynamicIndexies_[ EACTIVE_QUEUE ] )
+        (&**iter)->releaseIndexBufferDX9();
 
     dynamicVertices_[ EREADY_QUEUE ].merge( dynamicVertices_[ EACTIVE_QUEUE ] );
     dynamicIndexies_[ EREADY_QUEUE ].merge( dynamicIndexies_[ EACTIVE_QUEUE ] );
@@ -196,8 +204,12 @@ void RenderBufferFactoryDX9Imp::releaseDynamicBuffers()
 
 void RenderBufferFactoryDX9Imp::releaseStreamBuffers()
 {
-    MY_FOR_EACH( StreamVertices, iter, streamVertices_[ EACTIVE_QUEUE ] ) (&**iter)->releaseVertexBufferDX9();
-    MY_FOR_EACH( StreamIndexies, iter, streamIndexies_[ EACTIVE_QUEUE ] ) (&**iter)->releaseIndexBufferDX9();
+    MY_FOR_EACH( StreamVertices, iter, streamVertices_[ EACTIVE_QUEUE ] ) {
+        (&**iter)->releaseVertexBufferDX9();
+        (&**iter)->releaseVertexDeclarationDX9();
+    }
+    MY_FOR_EACH( StreamIndexies, iter, streamIndexies_[ EACTIVE_QUEUE ] )
+        (&**iter)->releaseIndexBufferDX9();
 
     streamVertices_[ EREADY_QUEUE ].merge( streamVertices_[ EACTIVE_QUEUE ] );
     streamIndexies_[ EREADY_QUEUE ].merge( streamIndexies_[ EACTIVE_QUEUE ] );
@@ -253,7 +265,7 @@ void RenderBufferFactoryDX9Imp::uploadIndexBuffers( const list< IndexBufferDX9Pt
     }
 }
 
-IDirect3DDevice9 * RenderBufferFactoryDX9Imp::getD3D9Device() {
+LPDIRECT3DDEVICE9 RenderBufferFactoryDX9Imp::getD3D9Device() {
     return d3dDevice_;
 }
 

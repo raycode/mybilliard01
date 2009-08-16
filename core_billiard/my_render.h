@@ -7,15 +7,14 @@ namespace my_render {
     class ApplicationWindow;
     class MouseEventListener;
     class KeyboardEventListener;
-    class NullMouseEventListener;
-    class NullKeyboardEventListener;
 
     class SurfaceLockedRect;
     class Surface;
     class Render;
     class RenderEventListener;
-    class NullRender;
-    class NullRenderEventListener;
+
+    class RenderState;
+    class RenderState_Wireframe;
 
     class Shader;
     class Texture;
@@ -29,7 +28,6 @@ namespace my_render {
     class VertexBuffer;
     class IndexBuffer;
     class RenderBufferFactory;
-    class NullRenderBufferFactory;
 
     class Scene;
 
@@ -51,14 +49,11 @@ namespace my_render {
     MY_SMART_PTR( ApplicationWindow );
     MY_SMART_PTR( MouseEventListener );
     MY_SMART_PTR( KeyboardEventListener );
-    MY_SMART_PTR( NullMouseEventListener );
-    MY_SMART_PTR( NullKeyboardEventListener );
     MY_SMART_PTR( SurfaceLockedRect );
     MY_SMART_PTR( Surface );
     MY_SMART_PTR( Render );
+    MY_SMART_PTR( RenderState );
     MY_SMART_PTR( RenderEventListener );
-    MY_SMART_PTR( NullRender );
-    MY_SMART_PTR( NullRenderEventListener );
     MY_SMART_PTR( VertexBuffer );
     MY_SMART_PTR( IndexBuffer );
     MY_SMART_PTR( Texture );
@@ -70,7 +65,6 @@ namespace my_render {
     MY_SMART_PTR( RenderEffectShader );
     MY_SMART_PTR( EffectShader );
     MY_SMART_PTR( RenderBufferFactory );
-    MY_SMART_PTR( NullRenderBufferFactory );
     MY_SMART_PTR( Scene );
     MY_SMART_PTR( Base );
     MY_SMART_PTR( Node );
@@ -88,13 +82,13 @@ namespace my_render {
 #include "ApplicationWindow.h"
 #include "MouseEventListener.h"
 #include "KeyboardEventListener.h"
-#include "NullMouseEventListener.hpp"
-#include "NullKeyboardEventListener.hpp"
+#include "MouseEventListenerNull.hpp"
+#include "KeyboardEventListenerNull.hpp"
 
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "RenderBufferFactory.h"
-#include "NullRenderBufferFactory.hpp"
+#include "RenderBufferFactoryNull.hpp"
 
 #include "ShaderVariableWriter.h"
 #include "Texture.h"
@@ -105,18 +99,22 @@ namespace my_render {
 #include "RenderEffectShader.h"
 #include "EffectShader.h"
 
+#include "RenderState_Wireframe.h"
+#include "RenderState_WireframeNull.hpp"
+#include "RenderState.h"
+#include "RenderStateNull.hpp"
+
 #include "RenderEventListener.h"
-#include "NullRenderEventListener.hpp"
+#include "RenderEventListenerNull.hpp"
 #include "SurfaceLockedRect.h"
 #include "Surface.h"
 #include "Render.h"
-#include "NullRender.hpp"
+#include "RenderNull.hpp"
 #include "Scene.h"
 
 #include "Base.h"
 #include "Node.h"
 #include "Camera.h"
-#include "Pause.h"
 
 #include "Factory.h"
 #include "NodeFactory.h"

@@ -99,7 +99,7 @@ bool EffectShaderDX9Imp::isValidTechnique( ShaderVariable * variable )
     return true;
 }
 
-HRESULT EffectShaderDX9Imp::createEffectFromFile( wstring filename )
+bool EffectShaderDX9Imp::createEffectFromFile( wstring filename )
 {
     filename_ = filename;
 
@@ -109,15 +109,15 @@ HRESULT EffectShaderDX9Imp::createEffectFromFile( wstring filename )
     if( NULL != error ) {
         DXUT_ERR( (wchar_t*) error->GetBufferPointer(), hr );
         SAFE_RELEASE( error );
-        return hr;
+        return false;
     }
 
     if( FAILED( hr ) ) {
         DXUT_ERR( L"EffectShaderDX9Imp::createEffectFromFile", hr );
-        return hr;
+        return false;
     }
 
-    return S_OK;
+    return true;
 }
 
 D3DXHANDLE EffectShaderDX9Imp::getParameterByName( wstring name )

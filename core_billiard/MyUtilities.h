@@ -73,7 +73,8 @@ namespace Loki {}
 
 #pragma warning ( disable : 4250 )
 
-#define INTERFACE_ class
+#define NULL_OBJECT( INTERFACE_NAME ) struct INTERFACE_NAME##Null : public virtual INTERFACE_NAME 
+#define MY_INTERFACE struct
 #define IMPLEMENTS_( INTERFACE_NAME ) public virtual INTERFACE_NAME
 #define EXTENDS_INTERFACE_( INTERFACE_NAME ) public virtual INTERFACE_NAME
 

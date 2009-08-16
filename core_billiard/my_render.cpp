@@ -3,11 +3,13 @@
 namespace my_render {
 
 #ifdef DEBUG
-    NullRender nullRender__;
-    NullKeyboardEventListener nullKeyboardEventListener__;
-    NullMouseEventListener nullMouseEventListener__;
-    NullRenderEventListener nullRenderEventListener__;
-    NullRenderBufferFactory nullRenderBufferFactory__; 
+    RenderNull nullRender__;
+    KeyboardEventListenerNull nullKeyboardEventListener__;
+    MouseEventListenerNull nullMouseEventListener__;
+    RenderEventListenerNull nullRenderEventListener__;
+    RenderBufferFactoryNull nullRenderBufferFactory__; 
+    RenderStateNull nullRenderState__; 
+    RenderState_WireframeNull nullRenderState_Wireframe__; 
 #endif
 
 }

@@ -2,12 +2,12 @@
 namespace my_render {
 
 
-INTERFACE_ Shader {
-public:
+MY_INTERFACE Shader {
+    virtual ~Shader() {}
+
     virtual ShaderVariable * createVariable( wstring name ) = 0;
     virtual bool releaseShaderVariable( ShaderVariable * ) = 0;
 
-public: virtual ~Shader() {}
 };
 
 

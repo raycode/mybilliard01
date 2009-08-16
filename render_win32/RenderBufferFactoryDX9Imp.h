@@ -42,10 +42,10 @@ public: // from RenderEventListener
     virtual void destroy() OVERRIDE;
 
 public:
-    RenderBufferFactoryDX9Imp( IDirect3DDevice9 * d3dDevice );
+    RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevice );
 
 private:
-    IDirect3DDevice9 * getD3D9Device();
+    LPDIRECT3DDEVICE9 getD3D9Device();
 
 private: // upload
     void uploadVertexBuffers( const list< VertexBufferDX9Ptr > & among, DWORD usage, D3DPOOL pool, DWORD lockingFlags );
@@ -71,7 +71,7 @@ private: // release
     }
 
 private:
-    IDirect3DDevice9 * const d3dDevice_;
+    LPDIRECT3DDEVICE9 d3dDevice_;
 
 private:
     enum { EREADY_QUEUE = 0, EACTIVE_QUEUE, SIZE_OF_QUEUE };
@@ -96,6 +96,9 @@ private:
 
     typedef list< SurfaceDX9ImpPtr > Surfaces;
     Surfaces surfaces_[SIZE_OF_QUEUE];
+
+    typedef list< EffectShaderPtr > EffectShaders;
+    EffectShaders effectShaders_;
 
 private:
     bool bNeedToUpdate_;

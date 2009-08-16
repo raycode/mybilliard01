@@ -13,7 +13,7 @@ public:
     ~RenderWin32DX9Imp();
 
 public: // from RenderWin32DX9
-    virtual IDirect3DDevice9 * getD3D9Device() OVERRIDE;
+    virtual LPDIRECT3DDEVICE9 getD3D9Device() OVERRIDE;
 
     virtual void setBackbufferLockable( bool ) OVERRIDE;
     virtual bool isBackbufferLockable() OVERRIDE;
@@ -42,13 +42,18 @@ public: // from RenderWin32
 public: // from Render
     virtual void addRenderEventListener( RenderEventListener * eventListener ) OVERRIDE;
 
-    virtual void clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) OVERRIDE;
+    virtual void setClearBackBuffer( NxU32 Color ) OVERRIDE;
+    virtual void setClearZBuffer( float z ) OVERRIDE;
+    virtual void setClearStencil( NxU32 stencil ) OVERRIDE;
+    virtual void clear() OVERRIDE;
+
     virtual bool beginScene() OVERRIDE;
     virtual void endScene() OVERRIDE;
 
     virtual void setVertexShader( VertexShader * ) OVERRIDE;
     virtual void setPixelShader( PixelShader * ) OVERRIDE;
-    virtual void setEffectShader( EffectShader *, ShaderVariable * technique, RenderEffectShader * callBack ) OVERRIDE;
+
+    virtual void renderWithEffectShader( EffectShader *, ShaderVariable * technique, RenderEffectShader * callBack ) OVERRIDE;
 
     virtual void drawPrimitive_POINTLIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE;
     virtual void drawPrimitive_LINELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE;
@@ -87,8 +92,8 @@ public: // from Render
         int baseVertexIndex, NxU32 minIndex,
         NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE;
 
-    virtual void getRenderState( ERenderStateType State, NxU32 * pValue ) OVERRIDE;
-    virtual void setRenderState( ERenderStateType State, NxU32 Value ) OVERRIDE;
+    virtual const RenderState * getRenderState() const OVERRIDE;
+    virtual RenderState * setRenderState() OVERRIDE;
 
 private: // static members
     static bool CALLBACK IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext );
@@ -100,15 +105,31 @@ private: // static members
     static void CALLBACK s_displayLost( void* pUserContext );
     static void CALLBACK s_destroy( void* pUserContext );
 
-private:
+private: // buffer factory
     RenderBufferFactoryDX9 * getBufferFactory();
     void setBufferFactory( RenderBufferFactoryDX9Ptr );
 
+private: // render state
+    virtual void setRenderState( RenderStatePtr );
+
+private: // draw
+    void drawPrimitive( D3DPRIMITIVETYPE primitiveType, VertexBuffer * vb, NxU32 startVertex, NxU32 primitiveCount );
+    void drawIndexedPrimitive( D3DPRIMITIVETYPE primitiveType, VertexBuffer * vb, IndexBuffer * ib,
+        int baseVertexIndex, NxU32 minIndex, NxU32 startIndex, NxU32 primitiveCount );
+
+private: // clear
+    int clearFlag_;
+    NxU32 clearColor_;
+    float clearZ_;
+    NxU32 clearStencil_;
+
 private:
     RenderEventListener * eventListener_;
-    NullRenderEventListener nullEventListener_;
+    RenderEventListenerNull nullEventListener_;
 
     RenderBufferFactoryDX9Ptr bufferFactory_;
+
+    RenderStatePtr renderState_;
 
 private: // D3D9 device option
     bool bBackbufferLockable_;

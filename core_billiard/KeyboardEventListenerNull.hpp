@@ -2,8 +2,8 @@
 namespace my_render {
 
 
-class NullKeyboardEventListener : IMPLEMENTS_( KeyboardEventListener ) {
-public:
+NULL_OBJECT( KeyboardEventListener ) {
+
     virtual void keyDown( unsigned int key, bool bAlt )  OVERRIDE {}
     virtual void keyUp( unsigned int key, bool bAlt ) OVERRIDE {}
 };

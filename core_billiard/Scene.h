@@ -1,8 +1,10 @@
 #pragma once
 namespace my_render {
 
-INTERFACE_ Scene {
-public:
+
+MY_INTERFACE Scene {
+    virtual ~Scene() {}
+
     virtual bool load( wstring filename, Factory * factory ) = 0;
 
     virtual void update() = 0;
@@ -14,7 +16,6 @@ public:
     virtual wstring getCurrentVisualSceneID() = 0;
     virtual bool setCurrentVisualScene( wstring sceneID ) = 0;
 
-public: virtual ~Scene() {}
 };
 
 }

@@ -14,9 +14,10 @@ namespace my_render_win32_dx9_imp {
 
 RenderWin32DX9Imp::RenderWin32DX9Imp()
 : bBackbufferLockable_( false )
-, bufferFactory_( RenderBufferFactoryDX9Ptr( new NullRenderBufferFactoryDX9() ) )
+, bufferFactory_( RenderBufferFactoryDX9Ptr( new RenderBufferFactoryDX9Null() ) )
+, renderState_( RenderStatePtr( new RenderStateNull() ) )
 {
-    addRenderEventListener( &nullEventListener_ );
+    eventListener_ =  &nullEventListener_;
 
     DXUTInit( false, false, NULL ); // Parse the command line, show msgboxes on error, no extra command line params
     DXUTSetCursorSettings( true, true );
@@ -101,10 +102,7 @@ RenderBufferFactoryDX9 * RenderWin32DX9Imp::getBufferFactory() {
 }
 
 void RenderWin32DX9Imp::setBufferFactory( RenderBufferFactoryDX9Ptr factory ) {
-    if( NULL == factory )
-        bufferFactory_ = RenderBufferFactoryDX9Ptr( new NullRenderBufferFactoryDX9() );
-    else
-        bufferFactory_ = factory;
+    bufferFactory_ = factory;
 }
 
 void RenderWin32DX9Imp::setBackbufferLockable( bool val ) {
@@ -117,7 +115,7 @@ bool RenderWin32DX9Imp::isBackbufferLockable() {
 
 
 void RenderWin32DX9Imp::addRenderEventListener( RenderEventListener * eventListener ) {
-    eventListener_ = eventListener;
+    eventListener_ = ( ( NULL == eventListener ) ? &nullEventListener_ : eventListener );
 }
 
 HRESULT RenderWin32DX9Imp::s_init( IDirect3DDevice9* pd3dDevice, const D3DSURFACE_DESC* pBackBufferSurfaceDesc, void* pUserContext ) {
@@ -125,6 +123,7 @@ HRESULT RenderWin32DX9Imp::s_init( IDirect3DDevice9* pd3dDevice, const D3DSURFAC
 
     RenderWin32DX9Imp * const render = (RenderWin32DX9Imp*) pUserContext;
     render->setBufferFactory( RenderBufferFactoryDX9Ptr( new RenderBufferFactoryDX9Imp( pd3dDevice ) ) );
+    render->setRenderState( RenderStatePtr( new RenderStateDX9Imp( pd3dDevice ) ) );
 
     render->eventListener_->init( render->getBufferFactory() );
     render->getBufferFactory()->init( NULL );
@@ -171,7 +170,8 @@ void RenderWin32DX9Imp::s_destroy( void* pUserContext ) {
     render->eventListener_->destroy();
     render->getBufferFactory()->destroy();
 
-    render->setBufferFactory( RenderBufferFactoryDX9Ptr( (RenderBufferFactoryDX9 *) NULL ) );
+    render->setRenderState( RenderStatePtr( new RenderStateNull() ) );
+    render->setBufferFactory( RenderBufferFactoryDX9Ptr( new RenderBufferFactoryDX9Null() ) );
 }
 
 
@@ -259,16 +259,39 @@ void RenderWin32DX9Imp::endScene() {
     getD3D9Device()->EndScene();
 }
 
-void RenderWin32DX9Imp::clear( int Flags, NxU32 Color, float Z, NxU32 Stencil ) {
-    getD3D9Device()->Clear( 0, NULL, Flags, Color, Z, Stencil );
+void RenderWin32DX9Imp::setClearBackBuffer( NxU32 Color ) {
+    clearFlag_ |= D3DCLEAR_TARGET;
+    clearColor_ = Color;
 }
 
-void RenderWin32DX9Imp::getRenderState( ERenderStateType State, NxU32 * pValue ) {
-
+void RenderWin32DX9Imp::setClearZBuffer( float z ) {
+    clearFlag_ |= D3DCLEAR_ZBUFFER;
+    clearZ_ = z;
 }
 
-void RenderWin32DX9Imp::setRenderState( ERenderStateType State, NxU32 Value ) {
+void RenderWin32DX9Imp::setClearStencil( NxU32 stencil ) {
+    clearFlag_ |= D3DCLEAR_STENCIL;
+    clearStencil_ = stencil;
+}
 
+void RenderWin32DX9Imp::clear() {
+    getD3D9Device()->Clear( 0, NULL, clearFlag_, clearColor_, clearZ_, clearStencil_ );
+    clearFlag_ = NULL;
+}
+
+void RenderWin32DX9Imp::setRenderState( RenderStatePtr renderState )
+{
+    renderState_ = renderState;
+}
+
+const RenderState * RenderWin32DX9Imp::getRenderState() const
+{
+    return &*renderState_;
+}
+
+RenderState * RenderWin32DX9Imp::setRenderState()
+{
+    return &*renderState_;
 }
 
 }

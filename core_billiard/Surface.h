@@ -2,8 +2,8 @@
 namespace my_render {
 
 
-INTERFACE_ Surface {
-public:
+MY_INTERFACE Surface {
+    virtual ~Surface() {}
     
 #define SurfaceLock_READONLY           0x00000010L
 #define SurfaceLock_DISCARD            0x00002000L
@@ -19,7 +19,6 @@ public:
 
     virtual void unlockRect( SurfaceLockedRect * ) = 0;
 
-public: virtual ~Surface() {}
 };
 
 
