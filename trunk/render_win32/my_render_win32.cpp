@@ -2,8 +2,8 @@
 namespace my_render_win32 {
 
 #ifdef DEBUG
-    NullWin32MessageListener nullWin32MessageListener__;
-    NullRenderWin32 nullRenderWin32__;
+    Win32MessageListenerNull nullWin32MessageListener__;
+    RenderWin32Null nullRenderWin32__;
 #endif
 
 }

@@ -2,8 +2,8 @@
 namespace my_render {
 
 
-class NullRenderBufferFactory : IMPLEMENTS_( RenderBufferFactory ) {
-public:
+NULL_OBJECT( RenderBufferFactory ) {
+
     virtual EffectShader * createEffectShader( wstring filename ) OVERRIDE { return NULL; }
 
     virtual VertexShader * createVertexShader_1_1( wstring filename, wstring entry ) OVERRIDE { return NULL; }
@@ -25,7 +25,7 @@ public:
 
     virtual Texture * createTexture( wstring filename ) OVERRIDE { return NULL; }
 
-public: // release
+    // release
     virtual bool releaseEffectShader( EffectShader *) OVERRIDE { return false; }
     virtual bool releaseVertexShader( VertexShader *) OVERRIDE { return false; }
     virtual bool releasePixelShader( PixelShader *) OVERRIDE { return false; }

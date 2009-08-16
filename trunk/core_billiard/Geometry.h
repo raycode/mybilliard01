@@ -2,11 +2,10 @@
 namespace my_render {
 
 
-INTERFACE_ Geometry : EXTENDS_INTERFACE_( Base ) {
-public:
+MY_INTERFACE Geometry : EXTENDS_INTERFACE_( Base ) {
+
     virtual void draw( Render * render ) = 0;
 
-public: virtual ~Geometry() {}
 };
 
 

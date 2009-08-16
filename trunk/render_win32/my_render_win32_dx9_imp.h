@@ -27,6 +27,9 @@ namespace my_render_win32_dx9_imp {
     class RenderBufferFactoryDX9Imp;
     class RenderWin32DX9Imp;
 
+    class RenderStateDX9Imp;
+    class RenderState_WireframeDX9Imp;
+
     MY_SMART_PTR( SurfaceDX9Imp );
     MY_SMART_PTR( SurfaceLockedRectDX9Imp );
 
@@ -37,6 +40,9 @@ namespace my_render_win32_dx9_imp {
 
     MY_SMART_PTR( RenderBufferFactoryDX9Imp );
     MY_SMART_PTR( RenderWin32DX9Imp );
+
+    MY_SMART_PTR( RenderStateDX9Imp );
+    MY_SMART_PTR( RenderState_WireframeDX9Imp );
 }
 
 #include "SurfaceLockedRectDX9Imp.h"
@@ -50,3 +56,5 @@ namespace my_render_win32_dx9_imp {
 #include "RenderBufferFactoryDX9Imp.h"
 #include "RenderWin32DX9Imp.h"
 
+#include "RenderStateDX9Imp.h"
+#include "RenderState_WireframeDX9Imp.h"

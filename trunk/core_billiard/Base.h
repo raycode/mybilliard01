@@ -2,13 +2,13 @@
 namespace my_render {
 
 
-INTERFACE_ Base {
-public:
+MY_INTERFACE Base {
+    virtual ~Base() {}
+
     virtual wstring getID() = 0;
     virtual wstring getName() = 0;
     virtual wstring getURI() = 0;
 
-public: virtual ~Base() {}
 };
 
 

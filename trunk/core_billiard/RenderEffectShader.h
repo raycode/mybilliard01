@@ -2,11 +2,11 @@
 namespace my_render {
 
 
-INTERFACE_ RenderEffectShader {
-public:
-    virtual void render( Render *, size_t pass ) = 0;
+MY_INTERFACE RenderEffectShader {
+    virtual ~RenderEffectShader() {}
 
-public: virtual ~RenderEffectShader() {}
+    virtual void display( Render *, size_t pass ) = 0;
+
 };
 
 

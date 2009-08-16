@@ -126,6 +126,7 @@ bool VertexBufferDX9Imp::appendColor_Array( const NxU32 * source, size_t usageIn
 
 void VertexBufferDX9Imp::setVertexBufferDX9( LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9 )
 {
+    releaseVertexBufferDX9();
     vertexBufferDX9_ = vertexBufferDX9;
 }
 
@@ -215,6 +216,7 @@ D3DVERTEXELEMENT9 * VertexBufferDX9Imp::getVertexElement() {
 }
 
 void VertexBufferDX9Imp::setVertexDeclarationDX9( LPDIRECT3DVERTEXDECLARATION9 vertexDeclarationDX9 ) {
+    releaseVertexDeclarationDX9();
     vertexDeclarationDX9_ = vertexDeclarationDX9;
 }
 

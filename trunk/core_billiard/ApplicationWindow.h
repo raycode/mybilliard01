@@ -2,8 +2,9 @@
 namespace my_render {
 
 
-INTERFACE_ ApplicationWindow {
-public:
+MY_INTERFACE ApplicationWindow {
+    virtual ~ApplicationWindow() {}
+
     virtual void start() = 0;
 
     virtual bool setRender( Render * ) = 0;
@@ -23,11 +24,10 @@ public:
     virtual bool isWindowedMode() = 0;
     virtual wstring getScreenTitle() = 0;
 
-public: // listener
+    // listener
     virtual void addKeyboardListener( KeyboardEventListener * listener ) = 0;
     virtual void addMouseListener( MouseEventListener * listener ) = 0;
 
-public: virtual ~ApplicationWindow() {}
 };
 
 

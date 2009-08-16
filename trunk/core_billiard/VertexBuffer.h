@@ -2,8 +2,9 @@
 namespace my_render {
 
 
-INTERFACE_ VertexBuffer {
-public:
+MY_INTERFACE VertexBuffer {
+    virtual ~VertexBuffer() {}
+
     virtual bool appendTexCoord1D_Array( const float * texCoords_1floatsForEach, size_t usageIndex ) = 0;
     virtual bool appendTexCoord2D_Array( const float * texCoords_2floatsForEach, size_t usageIndex ) = 0;
     virtual bool appendTexCoord3D_Array( const float * texCoords_3floatsForEach, size_t usageIndex ) = 0;
@@ -16,7 +17,6 @@ public:
 
     virtual size_t getNumberOfVertex() = 0;
 
-public: virtual ~VertexBuffer() {}
 };
 
 

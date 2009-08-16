@@ -2,8 +2,8 @@
 namespace my_render {
 
 
-class NullRenderEventListener : IMPLEMENTS_( RenderEventListener ) {
-public:
+NULL_OBJECT( RenderEventListener ) {
+
     virtual void init( RenderBufferFactory * ) OVERRIDE {}
     virtual void displayReset( int x, int y, int width, int height ) OVERRIDE {}
     virtual void update( RenderBufferFactory *, float elapsedTime ) OVERRIDE {}

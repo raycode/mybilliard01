@@ -2,8 +2,9 @@
 namespace my_render {
 
 
-INTERFACE_ MouseEventListener {
-public:
+MY_INTERFACE MouseEventListener {
+    virtual ~MouseEventListener() {}
+
     virtual void onMouseEvent(
         int xPos,
         int yPos,
@@ -14,7 +15,6 @@ public:
         bool bSideButton2, 
         int nMouseWheelDelta ) = 0;
 
-public: virtual ~MouseEventListener() {}
 };
 
 

@@ -2,9 +2,8 @@
 namespace my_render_win32_dx9 {
 
 
-INTERFACE_ ShaderVariableDX9 : EXTENDS_INTERFACE_STATIC_( ShaderVariable )
-{
-public:
+MY_INTERFACE ShaderVariableDX9 : EXTENDS_INTERFACE_STATIC_( ShaderVariable ) {
+
     virtual D3DXHANDLE getHandleDX9() = 0;
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 
-class DummyRenderWin32_ApplicationWin32Imp : IMPLEMENTS_( NullRenderWin32 ) {
+class DummyRenderWin32_ApplicationWin32Imp : public RenderWin32Null {
 public:
     DummyRenderWin32_ApplicationWin32Imp()
         : renderCounter_(0)

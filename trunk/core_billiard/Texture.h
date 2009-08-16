@@ -2,12 +2,12 @@
 namespace my_render {
 
 
-INTERFACE_ Texture {
-public:
+MY_INTERFACE Texture {
+    virtual ~Texture() {}
+
     enum FilterType {
     };
 
-public: virtual ~Texture() {}
 };
 
 

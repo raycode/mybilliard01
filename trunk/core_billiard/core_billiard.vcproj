@@ -1701,18 +1701,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\NullRender.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\NullRenderBufferFactory.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\NullRenderEventListener.hpp"
-						>
-					</File>
-					<File
 						RelativePath=".\Render.h"
 						>
 					</File>
@@ -1732,6 +1720,18 @@
 						RelativePath=".\SurfaceLockedRect.h"
 						>
 					</File>
+					<Filter
+						Name="RenderState"
+						>
+						<File
+							RelativePath=".\RenderState.h"
+							>
+						</File>
+						<File
+							RelativePath=".\RenderState_Wireframe.h"
+							>
+						</File>
+					</Filter>
 				</Filter>
 				<Filter
 					Name="2. Scene"
@@ -1754,14 +1754,6 @@
 					</File>
 					<File
 						RelativePath=".\MouseEventListener.h"
-						>
-					</File>
-					<File
-						RelativePath=".\NullKeyboardEventListener.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\NullMouseEventListener.hpp"
 						>
 					</File>
 				</Filter>
@@ -1833,10 +1825,6 @@
 					RelativePath=".\Camera.h"
 					>
 				</File>
-				<File
-					RelativePath=".\Pause.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="9. Precompiled"
@@ -1849,6 +1837,38 @@
 					RelativePath=".\my_render.h"
 					>
 				</File>
+				<Filter
+					Name="NullObjects"
+					>
+					<File
+						RelativePath=".\KeyboardEventListenerNull.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MouseEventListenerNull.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderBufferFactoryNull.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderEventListenerNull.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderNull.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_WireframeNull.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderStateNull.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="3. Node"

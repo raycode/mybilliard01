@@ -2,8 +2,8 @@
 namespace my_render_win32_dx9 {
 
 
-INTERFACE_ VertexBufferDX9 : EXTENDS_INTERFACE_STATIC_( VertexBuffer ) {
-public:
+MY_INTERFACE VertexBufferDX9 : EXTENDS_INTERFACE_STATIC_( VertexBuffer ) {
+
     virtual size_t getSizeInByteForTotal() = 0;
     virtual size_t getSizeInByteForEachVertex() = 0;
 

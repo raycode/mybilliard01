@@ -1,8 +1,9 @@
 #pragma once
 namespace my_render {
 
-INTERFACE_ Node : EXTENDS_INTERFACE_( Base ) {
-public:
+
+MY_INTERFACE Node : EXTENDS_INTERFACE_( Base ) {
+
     virtual Node * getParent() = 0;
     virtual Node * getNextSibling() = 0;
     virtual Node * getFirstChild() = 0;
@@ -12,7 +13,6 @@ public:
     virtual void update( float time ) = 0;
     virtual void render( Render * render ) = 0;
 
-public: virtual ~Node() {}
 };
 
 }

@@ -2,8 +2,8 @@
 namespace my_render_win32 {
 
 
-class NullRenderWin32 : public NullRender, IMPLEMENTS_( RenderWin32 ) {
-public:
+NULL_OBJECT( RenderWin32 ), public RenderNull {
+
     virtual void renderOneFrame() OVERRIDE {}
 
     virtual bool createDevice( bool bWindowed, int nSuggestedWidth, int nSuggestedHeight ) OVERRIDE { return false; }
