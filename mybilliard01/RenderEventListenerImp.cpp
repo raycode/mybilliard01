@@ -3,9 +3,9 @@
 
 
 const static float positions[] = {
-    150.0f,  50.0f, 0.5f,
-    250.0f, 250.0f, 0.5f,
-    50.0f, 250.0f, 0.5f
+    0.5f, 0.2f, 0.5f,
+    0.8f, 0.8f, 0.5f,
+    0.3f, 0.8f, 0.5f
 };
 
 const static NxU32 diffuses[] = {
@@ -30,53 +30,37 @@ void RenderEventListenerImp::init( RenderBufferFactory * factory )
     assert( effect_->isValidTechnique( tech_ ) );
 
     vb_ = factory->createVertexBuffer_static( 3, positions );
-    //vb_->appendNormal_Array( positions, 0 );
-    //vb_->appendColor_Array( diffuses, 0 );
+    vb_->appendColor_Array( diffuses, 0 );
 
-    //wvp_ = effect_->createVariable( L"g_mWorldViewProjection" );
-    //world_ = effect_->createVariable( L"g_mWorld" );
-    //time_ = effect_->createVariable( L"g_fTime" );
-
-    //D3DXVECTOR3 vecEye( 0.0f, 0.0f, -5.0f );
-    //D3DXVECTOR3 vecAt ( 0.0f, 0.0f, -0.0f );
-    //camera_.SetViewParams( &vecEye, &vecAt );
+    wvp_ = effect_->createVariable( L"g_mWorldViewProjection" );
 }
 
 void RenderEventListenerImp::displayReset( int x, int y, int width, int height )
 {
-    //float fAspectRatio = width / ( float ) height;
-    //camera_.SetProjParams( D3DX_PI / 4, fAspectRatio, 0.1f, 1000.0f );
-    //camera_.SetWindow( width, height );
 }
 
 void RenderEventListenerImp::update( RenderBufferFactory *, float elapsedTime )
 {
-    //D3DXMATRIXA16 mWorld;
-    //D3DXMATRIXA16 mView;
-    //D3DXMATRIXA16 mProj;
-    //D3DXMATRIXA16 mWorldViewProjection;
+    D3DXMATRIX wvp;
 
-    //mWorld = *camera_.GetWorldMatrix();
-    //mProj = *camera_.GetProjMatrix();
-    //mView = *camera_.GetViewMatrix();
-
-    //effect_->setFloatArray( wvp_, (float*) &mWorldViewProjection, 16 );
-    //effect_->setFloatArray( world_, (float*) &mWorld, 16 );
-    //effect_->setFloat( time_, elapsedTime );
+    effect_->setFloatArray( wvp_, wvp, 16 );
 }
 
 void RenderEventListenerImp::display( Render * render ) {
     render->clear_Color_Z( PixelColor( 0, 45, 50, 170 ), 1.0f );
-    //if( false == render->beginScene() ) return;
+    if( false == render->beginScene() ) return;
 
-    //render->setRenderState()->setWireframe()->setSolid();
-    //render->renderWithEffectShader( effect_, tech_, this );
-    //
-    //render->endScene();
+    DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"My Testing" ); // These events are to help PIX identify
+    render->setRenderState()->setWireframe()->setSolid();
+    render->setRenderState()->setCull()->setNone();
+    render->renderWithEffectShader( effect_, tech_, this );
+    DXUT_EndPerfEvent();
+
+    render->endScene();
 }
 
 void RenderEventListenerImp::display( Render * render, size_t pass ) {
-    //render->drawPrimitive_TRIANGLELIST( vb_, 0, 1 );
+    render->drawPrimitive_TRIANGLELIST( vb_, 0, 1 );
 }
 
 void RenderEventListenerImp::displayLost()

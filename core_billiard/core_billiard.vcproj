@@ -1728,6 +1728,10 @@
 							>
 						</File>
 						<File
+							RelativePath=".\RenderState_Cull.h"
+							>
+						</File>
+						<File
 							RelativePath=".\RenderState_Wireframe.h"
 							>
 						</File>
@@ -1858,6 +1862,10 @@
 					</File>
 					<File
 						RelativePath=".\RenderNull.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_CullNull.h"
 						>
 					</File>
 					<File

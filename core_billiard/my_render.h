@@ -15,6 +15,7 @@ namespace my_render {
 
     class RenderState;
     class RenderState_Wireframe;
+    class RenderState_Cull;
 
     class Shader;
     class Texture;
@@ -101,6 +102,8 @@ namespace my_render {
 
 #include "RenderState_Wireframe.h"
 #include "RenderState_WireframeNull.hpp"
+#include "RenderState_Cull.h"
+#include "RenderState_CullNull.h"
 #include "RenderState.h"
 #include "RenderStateNull.hpp"
 

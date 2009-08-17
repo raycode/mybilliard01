@@ -62,10 +62,10 @@ namespace TestDX9
 
         [TestMethod]
         void DefaultScreenXY() {
-            Assert::IsTrue( app->getScreenX() >= 0 );
-            Assert::IsTrue( app->getScreenY() >= 0 );
-            Assert::IsTrue( app->getScreenX() <= 3000 );
-            Assert::IsTrue( app->getScreenY() <= 2000 );
+            assertTrue( app->getScreenX() >= 0 );
+            assertTrue( app->getScreenY() >= 0 );
+            assertTrue( app->getScreenX() <= 3000 );
+            assertTrue( app->getScreenY() <= 2000 );
         }
 
         [TestMethod]
@@ -73,15 +73,15 @@ namespace TestDX9
             app->setScreenX( 123 );
             app->setScreenY( 32 );
 
-            Assert::IsTrue( app->getScreenX() == 123 );
-            Assert::IsTrue( app->getScreenY() >= 32 );
+            assertTrue( app->getScreenX() == 123 );
+            assertTrue( app->getScreenY() >= 32 );
         }
 
         [TestMethod]
         void DefaultWindowedMode() {
             RenderWin32Null nullRender;
             Assert::IsFalse( nullRender.isDeviceCreated() );
-            Assert::IsTrue( app->isWindowedMode() );
+            assertTrue( app->isWindowedMode() );
         }
 
         [TestMethod]
@@ -104,28 +104,28 @@ namespace TestDX9
         [TestMethod]
         void SetRender() {
             Render * const defaultRender = app->getRender();
-            Assert::IsTrue( NULL != defaultRender );
+            assertTrue( NULL != defaultRender );
 
             RenderNull nullRender;
             Assert::IsFalse( app->setRender( &nullRender ) );
-            Assert::IsTrue( app->getRender() != &nullRender );
-            Assert::IsTrue( app->getRender() == defaultRender );
+            assertTrue( app->getRender() != &nullRender );
+            assertTrue( app->getRender() == defaultRender );
 
             RenderWin32Null nullRenderWin32;
-            Assert::IsTrue( app->setRender( &nullRenderWin32 ) );
-            Assert::IsTrue( app->getRender() == &nullRenderWin32 );
+            assertTrue( app->setRender( &nullRenderWin32 ) );
+            assertTrue( app->getRender() == &nullRenderWin32 );
         }
 
         [TestMethod]
         void DefaultGetHWND() {
-            Assert::IsTrue( app->getHWND() == NULL );
+            assertTrue( app->getHWND() == NULL );
         }
 
         [TestMethod]
         void CreateAndDestroyWindow1() {
             Assert::IsFalse( PRIVATE_METHOD( isWindowCreated )( appImp ) );
-            Assert::IsTrue( PRIVATE_METHOD( createWindow )( appImp ) );
-            Assert::IsTrue( PRIVATE_METHOD( isWindowCreated )( appImp ) );
+            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( isWindowCreated )( appImp ) );
             PRIVATE_METHOD( destroyWindow )( appImp );
             Assert::IsFalse( PRIVATE_METHOD( isWindowCreated )( appImp ) );
         }
@@ -134,12 +134,12 @@ namespace TestDX9
         void CreateAndDestroyWindow2() {
             PRIVATE_METHOD( destroyWindow )( appImp ); // before creation
 
-            Assert::IsTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
             const HWND hWnd = app->getHWND();
-            Assert::IsTrue( hWnd != NULL );
+            assertTrue( hWnd != NULL );
 
             Assert::IsFalse( PRIVATE_METHOD( createWindow )( appImp ) ); // double creation
-            Assert::IsTrue( hWnd == app->getHWND() );
+            assertTrue( hWnd == app->getHWND() );
 
             PRIVATE_METHOD( destroyWindow )( appImp );
         }
@@ -150,7 +150,7 @@ namespace TestDX9
             Assert::AreEqual( 640, app->getScreenWidth() );
             Assert::AreEqual( 480, app->getScreenHeight() );
 
-            Assert::IsTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
 
             // after creation
             Assert::AreEqual( 640, app->getScreenWidth() );
@@ -180,7 +180,7 @@ namespace TestDX9
             Assert::AreEqual( 11, app->getScreenX() );
             Assert::AreEqual( 12, app->getScreenY() );
 
-            Assert::IsTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
 
             // after creation
             Assert::AreEqual( 11, app->getScreenX() );
@@ -207,7 +207,7 @@ namespace TestDX9
             // before creation
             Assert::AreEqual( getString( app->getScreenTitle() ), getString( longTitle ) );
 
-            Assert::IsTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
 
             // after creation
             Assert::AreEqual( getString( app->getScreenTitle() ), getString( longTitle ) );
@@ -227,7 +227,7 @@ namespace TestDX9
         void MainLoop() {
             DummyRenderWin32_ApplicationWin32Imp dummyRender;
             app->setRender( &dummyRender );
-            Assert::IsTrue( &dummyRender == app->getRender() );
+            assertTrue( &dummyRender == app->getRender() );
 
             PRIVATE_METHOD( createWindow )( appImp );
             PRIVATE_METHOD( mainLoop )( appImp );
@@ -249,7 +249,7 @@ namespace TestDX9
             keyListener.appendExpectingKey( VK_RIGHT, true, false );
             PRIVATE_METHOD( MsgProcKeyboard )( appImp, NULL, WM_KEYDOWN, VK_RIGHT, 0 );
 
-            Assert::IsTrue( keyListener.isAllKeyRecieved() );
+            assertTrue( keyListener.isAllKeyRecieved() );
         }
 
         [TestMethod]
