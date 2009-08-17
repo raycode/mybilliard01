@@ -2,7 +2,7 @@
 namespace my_render {
 
 
-MY_INTERFACE EffectShader : EXTENDS_INTERFACE_( Shader ) {
+MY_INTERFACE EffectShader : EXTENDS_INTERFACE( Shader ) {
 
     virtual ShaderVariable * createTechniqueVariable( wstring name ) = 0;
 

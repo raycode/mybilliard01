@@ -1,6 +1,6 @@
 #pragma once
 
-class DummyEventListener_RenderWin32DX9Imp : IMPLEMENTS_( RenderEventListener ) {
+class DummyEventListener_RenderWin32DX9Imp : IMPLEMENTS_INTERFACE( RenderEventListener ) {
 public: // checking state machine
     DummyEventListener_RenderWin32DX9Imp()
         : lastErrorState_( NULL )

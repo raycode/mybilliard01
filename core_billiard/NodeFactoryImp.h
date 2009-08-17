@@ -1,7 +1,7 @@
 #pragma once
 namespace my_render_imp {
 
-class NodeFactoryImp : IMPLEMENTS_( NodeFactory ) {
+class NodeFactoryImp : IMPLEMENTS_INTERFACE( NodeFactory ) {
 public: // from NodeFactory
     virtual Node * createVisualScene( domVisual_sceneRef ) OVERRIDE;
     virtual Node * find( wstring id ) OVERRIDE;

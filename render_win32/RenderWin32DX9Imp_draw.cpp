@@ -5,7 +5,7 @@ namespace my_render_win32_dx9_imp {
 
 void RenderWin32DX9Imp::renderWithEffectShader( EffectShader * effect, ShaderVariable * technique, RenderEffectShader * callBack )
 {
-    assert( effect && technique && callBack );
+    assert( NULL != effect && NULL != technique && NULL != callBack );
 
     EffectShaderDX9 * const effectDX9 = static_cast< EffectShaderDX9 * >( effect );
     ShaderVariableDX9 * const techDX9 = static_cast< ShaderVariableDX9 * >( technique );
@@ -14,8 +14,9 @@ void RenderWin32DX9Imp::renderWithEffectShader( EffectShader * effect, ShaderVar
 
     const size_t nPass = effectDX9->begin();
     for( size_t i = 0; i < nPass; ++i ) {
-        effectDX9->pass( i );
+        effectDX9->beginPass( i );
         callBack->display( this, i );
+        effectDX9->endPass();
     }
     effectDX9->end();
 }

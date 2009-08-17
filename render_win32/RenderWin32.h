@@ -2,7 +2,7 @@
 namespace my_render_win32 {
 
 
-MY_INTERFACE RenderWin32 : EXTENDS_INTERFACE_( Render ) {
+MY_INTERFACE RenderWin32 : EXTENDS_INTERFACE( Render ) {
 
     virtual void renderOneFrame() = 0;
 

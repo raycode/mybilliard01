@@ -22,15 +22,12 @@ using namespace my_render_win32_imp;
 using namespace my_render_win32_dx9_imp;
 
 
-class RenderErrorListenerImp;
 class RenderEventListenerImp;
 class InputListenerImp;
 
-MY_SMART_PTR( RenderErrorListenerImp );
 MY_SMART_PTR( RenderEventListenerImp );
 MY_SMART_PTR( InputListenerImp );
 
-#include "RenderErrorListenerImp.h"
 #include "RenderEventListenerImp.h"
 #include "InputListenerImp.h"
 #include "ConstString.h"

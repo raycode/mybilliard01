@@ -16,7 +16,7 @@ PixelColor::PixelColor( NxU32 argb )
 PixelColor::PixelColor( int a, int r, int g, int b )
 {
     setA( (Color256) a );
-    setR( (Color256) b );
+    setR( (Color256) r );
     setG( (Color256) g );
     setB( (Color256) b );
 }
@@ -24,7 +24,7 @@ PixelColor::PixelColor( int a, int r, int g, int b )
 PixelColor::PixelColor( unsigned int a, unsigned int r, unsigned int g, unsigned int b )
 {
     setA( (Color256) a );
-    setR( (Color256) b );
+    setR( (Color256) r );
     setG( (Color256) g );
     setB( (Color256) b );
 }
@@ -32,7 +32,7 @@ PixelColor::PixelColor( unsigned int a, unsigned int r, unsigned int g, unsigned
 PixelColor::PixelColor( Color256 a, Color256 r, Color256 g, Color256 b )
 {
     setA( (Color256) a );
-    setR( (Color256) b );
+    setR( (Color256) r );
     setG( (Color256) g );
     setB( (Color256) b );
 }

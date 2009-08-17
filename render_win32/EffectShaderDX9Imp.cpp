@@ -3,25 +3,75 @@
 namespace my_render_win32_dx9_imp {
 
 
-EffectShaderDX9Imp::EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice )
+EffectShaderDX9Imp::EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice, wstring filename )
 : d3dDevice_( d3dDevice )
+, filename_( filename )
 , effect_( NULL )
 {
 }
 
+EffectShaderDX9Imp::~EffectShaderDX9Imp() {
+    releaseResource();
+}
+
+bool EffectShaderDX9Imp::acquireResource()
+{
+    releaseResource();
+    ID3DXBuffer * error = NULL;
+    const HRESULT hr = D3DXCreateEffectFromFile( d3dDevice_, filename_.c_str(), NULL, NULL, 0, NULL, &effect_, &error );
+
+    if( NULL != error ) {
+        DXUT_ERR( (wchar_t*) error->GetBufferPointer(), hr );
+        SAFE_RELEASE( error );
+        return false;
+    }
+
+    if( FAILED( hr ) ) {
+        DXUT_ERR( L"EffectShaderDX9Imp::acquireResource", hr );
+        return false;
+    }
+
+    MY_FOR_EACH( ShaderVariables, iter, shaderVariables_ ) {
+        (*iter)->setEffect( effect_ );
+        (*iter)->acquireResource();
+    }
+
+    return true;
+}
+
+void EffectShaderDX9Imp::releaseResource()
+{
+    MY_FOR_EACH( ShaderVariables, iter, shaderVariables_ ) {
+        (*iter)->releaseResource();
+    }
+
+    SAFE_RELEASE( effect_ );
+}
+
+
 ShaderVariable * EffectShaderDX9Imp::createVariable( wstring name )
 {
-    D3DXHANDLE newHandle = getParameterByName( name );
-    ShaderVariableDX9 * const newVariable = new ShaderVariableDX9Imp( name, newHandle );
-    shaderVariables_.push_back( ShaderVariablePtr( newVariable ) );
+    ShaderVariableEffectDX9 * const newVariable
+        = new ShaderVariableEffectDX9Imp( name, ShaderVariableEffectDX9Imp::ETYPE_PARAM );
+    shaderVariables_.push_back( ShaderVariableEffectDX9Ptr( newVariable ) );
+
+    if( NULL != effect_ ) {
+        newVariable->setEffect( effect_ );
+        newVariable->acquireResource();
+    }
     return newVariable;
 }
 
 ShaderVariable * EffectShaderDX9Imp::createTechniqueVariable( wstring name )
 {
-    D3DXHANDLE newHandle = getTechniqueByName( name );
-    ShaderVariableDX9 * const newVariable = new ShaderVariableDX9Imp( name, newHandle );
-    shaderVariables_.push_back( ShaderVariablePtr( newVariable ) );
+    ShaderVariableEffectDX9 * const newVariable
+        = new ShaderVariableEffectDX9Imp( name, ShaderVariableEffectDX9Imp::ETYPE_TECHNIQUE );
+    shaderVariables_.push_back( ShaderVariableEffectDX9Ptr( newVariable ) );
+
+    if( NULL != effect_ ) {
+        newVariable->setEffect( effect_ );
+        newVariable->acquireResource();
+    }
     return newVariable;
 }
 
@@ -29,6 +79,7 @@ bool EffectShaderDX9Imp::releaseShaderVariable( ShaderVariable * variable )
 {
     MY_FOR_EACH( ShaderVariables, iter, shaderVariables_ ) {
         if( variable != &**iter ) continue;
+        (*iter)->releaseResource();
         shaderVariables_.erase( iter );
         return true;
     }
@@ -99,39 +150,6 @@ bool EffectShaderDX9Imp::isValidTechnique( ShaderVariable * variable )
     return true;
 }
 
-bool EffectShaderDX9Imp::createEffectFromFile( wstring filename )
-{
-    filename_ = filename;
-
-    ID3DXBuffer * error = NULL;
-    const HRESULT hr = D3DXCreateEffectFromFile( d3dDevice_, filename_.c_str(), NULL, NULL, 0, NULL, &effect_, &error );
-
-    if( NULL != error ) {
-        DXUT_ERR( (wchar_t*) error->GetBufferPointer(), hr );
-        SAFE_RELEASE( error );
-        return false;
-    }
-
-    if( FAILED( hr ) ) {
-        DXUT_ERR( L"EffectShaderDX9Imp::createEffectFromFile", hr );
-        return false;
-    }
-
-    return true;
-}
-
-D3DXHANDLE EffectShaderDX9Imp::getParameterByName( wstring name )
-{
-    string szName = convertString( name );
-    return effect_->GetParameterByName( 0, szName.c_str() );
-}
-
-D3DXHANDLE EffectShaderDX9Imp::getTechniqueByName( wstring name )
-{
-    string szName = convertString( name );
-    return effect_->GetTechniqueByName( szName.c_str() );
-}
-
 size_t EffectShaderDX9Imp::begin()
 {
     UINT count;
@@ -148,9 +166,14 @@ void EffectShaderDX9Imp::end()
     effect_->End();
 }
 
-void EffectShaderDX9Imp::pass( size_t whichPass )
+void EffectShaderDX9Imp::beginPass( size_t whichPass )
 {
     effect_->BeginPass( whichPass );
+}
+
+void EffectShaderDX9Imp::endPass()
+{
+    effect_->EndPass();
 }
 
 

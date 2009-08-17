@@ -5,13 +5,13 @@ namespace my_render_win32_dx9_imp {
 
 EffectShader * RenderBufferFactoryDX9Imp::createEffectShader( wstring filename )
 {
-    EffectShaderDX9 * const newEffect = new EffectShaderDX9Imp( getD3D9Device() );
+    EffectShaderDX9 * const newEffect = new EffectShaderDX9Imp( getD3D9Device(), filename );
     if( NULL == newEffect ) return NULL;
 
-    const bool bCreated = newEffect->createEffectFromFile( filename );
-    if( false == bCreated ) return NULL;
+    const bool bAcquired = newEffect->acquireResource();
+    if( false == bAcquired ) return NULL;
 
-    effectShaders_.push_back( EffectShaderDX9Ptr( newEffect ) );
+    pushBackToActiveQueue( E_EFFECT_SHADERS, newEffect );
     return newEffect;
 }
 
@@ -39,6 +39,7 @@ PixelShader * RenderBufferFactoryDX9Imp::createPixelShader_2_sw( wstring filenam
 {
     return NULL;
 }
+
 
 
 }

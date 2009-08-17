@@ -22,7 +22,7 @@ MY_INTERFACE ApplicationWindow {
     virtual int getScreenWidth() = 0;
     virtual int getScreenHeight() = 0;
     virtual bool isWindowedMode() = 0;
-    virtual wstring getScreenTitle() = 0;
+    virtual const wchar_t * getScreenTitle() = 0;
 
     // listener
     virtual void addKeyboardListener( KeyboardEventListener * listener ) = 0;

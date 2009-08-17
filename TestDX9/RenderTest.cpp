@@ -13,8 +13,7 @@ public:
 
 public:
     virtual void display( Render * render ) OVERRIDE {
-        render->setClearBackBuffer( clearColor_ );
-        render->clear();
+        render->clear_Color( clearColor_ );
     }
 
 private:

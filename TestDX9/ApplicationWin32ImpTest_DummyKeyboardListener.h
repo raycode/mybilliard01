@@ -1,7 +1,7 @@
 #pragma once
 
 
-class DummyKeyboardListener_ApplicationWin32Imp : IMPLEMENTS_( KeyboardEventListener ) {
+class DummyKeyboardListener_ApplicationWin32Imp : IMPLEMENTS_INTERFACE( KeyboardEventListener ) {
 private:
 
     class EachKey {

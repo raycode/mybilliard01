@@ -129,9 +129,10 @@ void RenderEventListenerImp::displayDXUT() {
     // Update the effect's variables.  Instead of using strings, it would 
     // be more efficient to cache a handle to the parameter by calling 
     // ID3DXEffect::GetParameterByName
-    V( effect9_->SetMatrix( "g_mWorldViewProjection", &mWorldViewProjection ) );
-    V( effect9_->SetMatrix( "g_mWorld", &mWorld ) );
-    //V( g_pEffect9->SetFloat( "g_fTime", ( float )fTime ) );
+    effect_->setFloatArray( wvp_, (float*) &mWorldViewProjection, 16 );
+    effect_->setFloatArray( world_, (float*) &mWorld, 16 );
+    effect_->setFloat( time_, elapsedTime );
+
 
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"HUD / Stats" ); // These events are to help PIX identify what the code is doing
     displayDXUTText();

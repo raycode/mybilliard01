@@ -23,6 +23,7 @@ RenderWin32DX9Imp::RenderWin32DX9Imp()
     DXUTSetCursorSettings( true, true );
     DXUTSetCallbackD3D9DeviceAcceptable( &RenderWin32DX9Imp::IsD3D9DeviceAcceptable, this );
     DXUTSetCallbackDeviceChanging( &RenderWin32DX9Imp::ModifyDeviceSettings, this );
+    //DXUTSetCallbackMsgProc( ApplicationWin32Imp::MsgProc );
 
     DXUTSetCallbackD3D9DeviceCreated( &RenderWin32DX9Imp::s_init, this );
     DXUTSetCallbackD3D9DeviceReset( &RenderWin32DX9Imp::s_displayReset, this );
@@ -259,25 +260,36 @@ void RenderWin32DX9Imp::endScene() {
     getD3D9Device()->EndScene();
 }
 
-void RenderWin32DX9Imp::setClearBackBuffer( NxU32 Color ) {
-    clearFlag_ |= D3DCLEAR_TARGET;
-    clearColor_ = Color;
+void RenderWin32DX9Imp::clear_Color( NxU32 Color )
+{
+    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_TARGET, Color, 0.f, 0 );
 }
 
-void RenderWin32DX9Imp::setClearZBuffer( float z ) {
-    clearFlag_ |= D3DCLEAR_ZBUFFER;
-    clearZ_ = z;
+void RenderWin32DX9Imp::clear_Z( float z )
+{
+    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_ZBUFFER, 0, z, 0 );
 }
 
-void RenderWin32DX9Imp::setClearStencil( NxU32 stencil ) {
-    clearFlag_ |= D3DCLEAR_STENCIL;
-    clearStencil_ = stencil;
+void RenderWin32DX9Imp::clear_Stencil( NxU32 stencil )
+{
+    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_STENCIL, 0, 0.f, stencil );
 }
 
-void RenderWin32DX9Imp::clear() {
-    getD3D9Device()->Clear( 0, NULL, clearFlag_, clearColor_, clearZ_, clearStencil_ );
-    clearFlag_ = NULL;
+void RenderWin32DX9Imp::clear_Color_Z( NxU32 color, float z )
+{
+    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, z, 0 );
 }
+
+void RenderWin32DX9Imp::clear_Z_Stencil( float z, NxU32 stencil )
+{
+    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, 0, z, stencil );
+}
+
+void RenderWin32DX9Imp::clear_Color_Z_Stencil( NxU32 Color, float z, NxU32 stencil )
+{
+    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER | D3DCLEAR_STENCIL, Color, z, stencil );
+}
+
 
 void RenderWin32DX9Imp::setRenderState( RenderStatePtr renderState )
 {

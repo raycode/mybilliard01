@@ -4,7 +4,7 @@ namespace my_render_imp {
 
 // template policy style for sub-factories is possible
 // but I don't want to expose implementations on a header file.
-class FactoryImp : IMPLEMENTS_( Factory ), IMPLEMENTS_( InstanceResolver ) {
+class FactoryImp : IMPLEMENTS_INTERFACE( Factory ), IMPLEMENTS_INTERFACE( InstanceResolver ) {
 public: // from Factory
     virtual Node * createVisualScene( domVisual_sceneRef ) OVERRIDE;
     virtual Geometry * createGeometry( domGeometryRef ) OVERRIDE;

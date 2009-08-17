@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class GeometryMeshImp : IMPLEMENTS_( GeometryMesh ) {
+class GeometryMeshImp : IMPLEMENTS_INTERFACE( GeometryMesh ) {
 public: // from GeometryMesh
     virtual void draw( Render * render ) OVERRIDE;
 

@@ -22,7 +22,7 @@ namespace my_render_win32_dx9_imp {
     class VertexBufferDX9Imp;
     class IndexBufferDX9Imp;
     class EffectShaderDX9Imp;
-    class ShaderVariableDX9Imp;
+    class ShaderVariableEffectDX9Imp;
 
     class RenderBufferFactoryDX9Imp;
     class RenderWin32DX9Imp;
@@ -36,7 +36,7 @@ namespace my_render_win32_dx9_imp {
     MY_SMART_PTR( VertexBufferDX9Imp );
     MY_SMART_PTR( IndexBufferDX9Imp );
     MY_SMART_PTR( EffectShaderDX9Imp );
-    MY_SMART_PTR( ShaderVariableDX9Imp );
+    MY_SMART_PTR( ShaderVariableEffectDX9Imp );
 
     MY_SMART_PTR( RenderBufferFactoryDX9Imp );
     MY_SMART_PTR( RenderWin32DX9Imp );
@@ -51,7 +51,7 @@ namespace my_render_win32_dx9_imp {
 #include "VertexBufferDX9Imp.h"
 #include "IndexBufferDX9Imp.h"
 #include "EffectShaderDX9Imp.h"
-#include "ShaderVariableDX9Imp.h"
+#include "ShaderVariableEffectDX9Imp.h"
 
 #include "RenderBufferFactoryDX9Imp.h"
 #include "RenderWin32DX9Imp.h"

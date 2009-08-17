@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class GeometryFactoryImp : IMPLEMENTS_( GeometryFactory ) {
+class GeometryFactoryImp : IMPLEMENTS_INTERFACE( GeometryFactory ) {
 public: // from GeometryFactory
     virtual Geometry * createGeometry( domGeometryRef ) OVERRIDE;
     virtual Geometry * find( wstring id ) OVERRIDE;

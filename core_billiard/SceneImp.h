@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class SceneImp : IMPLEMENTS_( Scene ) {
+class SceneImp : IMPLEMENTS_INTERFACE( Scene ) {
 public: // from Scene
     virtual bool load( wstring filename, Factory * factory ) OVERRIDE;
 

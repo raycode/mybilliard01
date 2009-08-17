@@ -2,9 +2,9 @@
 
 
 class InputListenerImp
-    : IMPLEMENTS_( KeyboardEventListener )
-    , IMPLEMENTS_( MouseEventListener )
-    , IMPLEMENTS_( Win32MessageListener )
+    : IMPLEMENTS_INTERFACE( KeyboardEventListener )
+    , IMPLEMENTS_INTERFACE( MouseEventListener )
+    , IMPLEMENTS_INTERFACE( Win32MessageListener )
 {
 public: // from KeyboardEventListener
     virtual void keyDown( unsigned int key, bool bAlt );
@@ -26,9 +26,6 @@ public: // from Win32MessageListener
 
 public:
     InputListenerImp( RenderEventListenerImp * renderListener );
-
-private: // DXUT
-    bool MsgProcDXUT( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 private:
     RenderEventListenerImp * renderListener_;

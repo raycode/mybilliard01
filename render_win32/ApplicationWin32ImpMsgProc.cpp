@@ -1,6 +1,8 @@
 #include "my_render_win32_imp.h"
 namespace my_render_win32_imp {
 
+#pragma warning ( disable : 4127 )
+static const bool ApplicationWin32Imp_DEBUG_MSG_PROC = false;
 
 #define MY_RENDER_MIN_WINDOW_SIZE_X 200
 #define MY_RENDER_MIN_WINDOW_SIZE_Y 200
@@ -107,82 +109,100 @@ LRESULT CALLBACK ApplicationWin32Imp::MsgProcSystem(HWND hWnd, UINT uMsg, WPARAM
     switch( uMsg )
     {
     case WM_PAINT:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_PAINT\n");
         break;
 
     case WM_SIZE:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_SIZE\n");
         MsgProcSystem_WM_SIZE( hWnd, uMsg, wParam, lParam );
         break;
 
     case WM_GETMINMAXINFO:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_GETMINMAXINFO\n");
         MsgProcSystem_WM_GETMINMAXINFO( hWnd, uMsg, wParam, lParam );
         break;
 
     case WM_ENTERSIZEMOVE:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_ENTERSIZEMOVE\n");
         // Halt frame movement while the app is sizing or moving
         MsgProcSystem_WM_ENTERSIZEMOVE( hWnd, uMsg, wParam, lParam );
         break;
 
     case WM_EXITSIZEMOVE:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_EXITSIZEMOVE\n");
         MsgProcSystem_WM_EXITSIZEMOVE( hWnd, uMsg, wParam, lParam );
         break;
 
     case WM_MOUSEMOVE:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_MOUSEMOVE\n");
         MsgProcSystem_WM_MOUSEMOVE( hWnd, uMsg, wParam, lParam );
         break;
 
     case WM_SETCURSOR:
-        if( MsgProcSystem_WM_SETCURSOR( hWnd, uMsg, wParam, lParam ) )
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_SETCURSOR\n");
+        if( false == MsgProcSystem_WM_SETCURSOR( hWnd, uMsg, wParam, lParam ) )
             return true;
         break;
 
     case WM_ACTIVATEAPP:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_ACTIVATEAPP\n");
         MsgProcSystem_WM_ACTIVATEAPP( hWnd, uMsg, wParam, lParam );
         break;
 
     case WM_ENTERMENULOOP:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_ENTERMENULOOP\n");
         // Pause the app when menus are displayed
         break;
 
     case WM_EXITMENULOOP:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_EXITMENULOOP\n");
         break;
 
     case WM_MENUCHAR:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_MENUCHAR\n");
         // A menu is active and the user presses a key that does not correspond to any mnemonic or accelerator key
         // So just ignore and don't beep
         return MAKELRESULT( 0, MNC_CLOSE );
         break;
 
     case WM_NCHITTEST:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_NCHITTEST\n");
         // Prevent the user from selecting the menu in full screen mode
         if( !g_app_->isWindowedMode() )
             return HTCLIENT;
         break;
 
     case WM_POWERBROADCAST:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_POWERBROADCAST\n");
         if( MsgProcSystem_WM_POWERBROADCAST( hWnd, uMsg, wParam, lParam ) )
             return true;
         break;
 
     case WM_SYSCOMMAND:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_SYSCOMMAND\n");
         // Prevent moving/sizing in full screen mode
         if( 0 == MsgProcSystem_WM_SYSCOMMAND( hWnd, uMsg, wParam, lParam ) )
             return 0;
         break;
 
     case WM_SYSKEYDOWN:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_SYSKEYDOWN\n");
         if( 0 == MsgProcSystem_WM_SYSKEYDOWN( hWnd, uMsg, wParam, lParam ) )
             return 0;
         break;
 
     case WM_KEYDOWN:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_KEYDOWN\n");
         MsgProcSystem_WM_KEYDOWN( hWnd, uMsg, wParam, lParam );
         break;
 
     case WM_CLOSE:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_CLOSE\n");
         MsgProcSystem_WM_CLOSE( hWnd, uMsg, wParam, lParam );
         return 0;
 
     case WM_DESTROY:
+        if( ApplicationWin32Imp_DEBUG_MSG_PROC ) OutputDebugStr( L"MsgProcSystem::WM_DESTROY\n");
         PostQuitMessage( 0 );
         break;
     }
@@ -268,28 +288,30 @@ void CALLBACK ApplicationWin32Imp::MsgProcSystem_WM_EXITSIZEMOVE( HWND hWnd, UIN
 
 void CALLBACK ApplicationWin32Imp::MsgProcSystem_WM_MOUSEMOVE( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-    if( false == g_app_->isWindowedMode() )
-    {
-        POINT ptCursor;
-        GetCursorPos( &ptCursor );
-        g_app_->render_->setCursorPosition( ptCursor.x, ptCursor.y );
-    }
+    if( g_app_->isWindowedMode() ) return;
+
+    POINT ptCursor;
+    GetCursorPos( &ptCursor );
+    g_app_->render_->setCursorPosition( ptCursor.x, ptCursor.y );
 }
 
 bool CALLBACK ApplicationWin32Imp::MsgProcSystem_WM_SETCURSOR( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-    if( false == g_app_->isWindowedMode() )
-    {
-        g_app_->render_->showCursor( true );
-        return true; // prevent Windows from setting cursor to window class cursor
-    }
-    return false;
+    if( g_app_->isWindowedMode() ) return true;
+
+    g_app_->render_->showCursor( true );
+    return false; // prevent Windows from setting cursor to window class cursor
 }
 
 void CALLBACK ApplicationWin32Imp::MsgProcSystem_WM_ACTIVATEAPP( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-    // Enable controller rumble & input when activating app
-    //DXUTEnableXInput( true );
+    if( ! g_app_->isActive() ) 
+    {
+        g_app_->setActive( true );
+    } else
+    {
+        g_app_->setActive( false );
+    }
 }
 
 bool CALLBACK ApplicationWin32Imp::MsgProcSystem_WM_POWERBROADCAST( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
@@ -365,7 +387,7 @@ void CALLBACK ApplicationWin32Imp::MsgProcSystem_WM_CLOSE( HWND hWnd, UINT uMsg,
         DestroyMenu( hMenu );
 
     DestroyWindow( hWnd );
-    UnregisterClass( getRegisterClassName().c_str(), NULL );
+    UnregisterClass( g_app_->getRegisterClassName(), NULL );
 }
 
 int CALLBACK ApplicationWin32Imp::MsgProcSystem_WM_SYSCOMMAND( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )

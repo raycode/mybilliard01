@@ -23,11 +23,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
 
     RenderEventListenerImp * renderEvent = new RenderEventListenerImp();
-    RenderErrorListener * renderError = new RenderErrorListenerImp();
 
     RenderWin32DX9 * render = new RenderWin32DX9Imp();
-    render->addEventListener( renderEvent );
-    render->addErrorListener( renderError );
+    render->addRenderEventListener( renderEvent );
 
 
     InputListenerImp * inputListener = new InputListenerImp( renderEvent );
@@ -46,7 +44,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     delete app;
     delete inputListener;
     delete render;
-    delete renderError;
     delete renderEvent;
 
     return 0;

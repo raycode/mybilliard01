@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class InstanceImp : IMPLEMENTS_( Instance ) {
+class InstanceImp : IMPLEMENTS_INTERFACE( Instance ) {
 public: // from Instance
     virtual Base * getInstanceOwner() OVERRIDE;
     virtual wstring getUrl() OVERRIDE;

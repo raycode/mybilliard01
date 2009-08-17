@@ -7,7 +7,7 @@ namespace my_render_win32_imp {
 //==================================================
 
 
-class ApplicationWin32Imp : IMPLEMENTS_( ApplicationWin32 ) {
+class ApplicationWin32Imp : IMPLEMENTS_INTERFACE( ApplicationWin32 ) {
 public: // from ApplicationWindow
     virtual void start() OVERRIDE; // main loop
 
@@ -26,7 +26,7 @@ public: // from ApplicationWindow
     virtual int getScreenWidth() OVERRIDE;
     virtual int getScreenHeight() OVERRIDE;
     virtual bool isWindowedMode() OVERRIDE;
-    virtual wstring getScreenTitle() OVERRIDE;
+    virtual const wchar_t * getScreenTitle() OVERRIDE;
 
     virtual void addKeyboardListener( KeyboardEventListener * listener ) OVERRIDE;
     virtual void addMouseListener( MouseEventListener * listener ) OVERRIDE;
@@ -34,6 +34,7 @@ public: // from ApplicationWindow
 public: // from ApplicationWin32
     virtual void addWin32MessageListener( Win32MessageListener * listener ) OVERRIDE;
     virtual HWND getHWND() OVERRIDE;
+    virtual const wchar_t * getRegisterClassName() OVERRIDE;
 
 public:
     ApplicationWin32Imp();
@@ -46,6 +47,8 @@ public: // window manage
     bool isMinimized();
     bool isMaximized();
     bool isSizeInMove();
+    bool isActive();
+    void setActive( bool );
 
 private: // creating window
     bool createWindow();
@@ -54,9 +57,8 @@ private: // creating window
     void mainLoop();
 
     static void handleMessage( MSG & msg );
-    static bool MyRegisterClass(HINSTANCE hInstance);
-    static HWND InitInstance(HINSTANCE hInstance, int nCmdShow, wstring szTitle, int x, int y, int width, int height);
-    static wstring getRegisterClassName();
+    bool MyRegisterClass(HINSTANCE hInstance);
+    HWND InitInstance(HINSTANCE hInstance, int nCmdShow, int x, int y, int width, int height);
 
 private: // message proc
     static ApplicationWin32Imp * g_app_;
@@ -100,7 +102,7 @@ private: //volatile data
     HWND hWnd_;
     HACCEL hAccelTable_;
 
-    bool bMinimized_, bMaximized_, bSizeInMove_;
+    bool bMinimized_, bMaximized_, bSizeInMove_, bActive_;
     RenderWin32 * actualRender_;
 
     MY_UNIT_TEST_BACKDOOR;

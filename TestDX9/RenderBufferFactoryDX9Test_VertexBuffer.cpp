@@ -45,8 +45,8 @@ namespace TestDX9
             if( NULL == vbImp ) return false;
             if( nVertex != vbImp->getNumberOfVertex() ) return false;
             if( sizeEachVertex != vbImp->getSizeInByteForEachVertex() ) return false;
-            if( nVertex * sizeEachVertex != vbImp->getSizeInByteForTotal() ) return false;
-            if( D3DDECLTYPE_UNUSED != vbImp->getVertexElement()[ nElements ].Type ) return false;
+            if( nVertex * sizeEachVertex != PRIVATE_METHOD( VertexBufferDX9Imp, getSizeInByteForTotal)( vbImp ) ) return false;
+            if( D3DDECLTYPE_UNUSED != PRIVATE_METHOD( VertexBufferDX9Imp, getVertexElement )( vbImp )[ nElements ].Type ) return false;
             return true;
         }
 
@@ -61,7 +61,7 @@ namespace TestDX9
             vbDX9->GetDesc( &desc );
             if( 0 != desc.FVF ) return false;
             if( (int) D3DPOOL_DEFAULT != (int) desc.Pool ) return false;
-            if( vbImp->getSizeInByteForTotal() != desc.Size ) return false;
+            if( PRIVATE_METHOD( VertexBufferDX9Imp, getSizeInByteForTotal)( vbImp ) != desc.Size ) return false;
 
             return true;
         }
@@ -77,7 +77,7 @@ namespace TestDX9
         {
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3, 1 ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         };
 
         [TestMethod]
@@ -86,7 +86,7 @@ namespace TestDX9
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             factory->update( NULL, 0.f );
             assertTrue( isVertexUploaded( vb ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         }
 
         [TestMethod]
@@ -95,7 +95,7 @@ namespace TestDX9
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertTrue( vb->appendNormal_Array( positions, 0 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 * 2, 2 ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         };
 
         [TestMethod]
@@ -104,7 +104,7 @@ namespace TestDX9
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertTrue( vb->appendNormal_Array( positions, 1 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 * 2, 2 ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         };
 
         [TestMethod]
@@ -114,7 +114,7 @@ namespace TestDX9
             assertTrue( vb->appendNormal_Array( positions, 0 ) );
             assertTrue( vb->appendNormal_Array( positions, 1 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 * 3, 3 ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         };
 
         [TestMethod]
@@ -123,7 +123,7 @@ namespace TestDX9
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertTrue( vb->appendTexCoord1D_Array( positions, 0 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( float ), 2 ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         };
 
         [TestMethod]
@@ -132,7 +132,7 @@ namespace TestDX9
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertTrue( vb->appendTexCoord2D_Array( positions, 0 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( float ) * 2, 2 ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         };
 
         [TestMethod]
@@ -141,7 +141,7 @@ namespace TestDX9
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertTrue( vb->appendTexCoord3D_Array( positions, 0 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( float ) * 3, 2 ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         };
 
         [TestMethod]
@@ -150,7 +150,7 @@ namespace TestDX9
             VertexBuffer * const vb = factory->createVertexBuffer_static( 3, positions );
             assertTrue( vb->appendColor_Array( diffuses, 0 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( DWORD ), 2 ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         }
 
         [TestMethod]
@@ -161,7 +161,7 @@ namespace TestDX9
             assertTrue( vb->appendTexCoord2D_Array( positions, 0 ) );
             assertTrue( vb->appendColor_Array( diffuses, 0 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 *2 + sizeof(float)*2 + sizeof( DWORD ), 4 ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         }
 
         [TestMethod]
@@ -171,7 +171,7 @@ namespace TestDX9
             assertTrue( vb->appendTexCoord2D_Array( positions, 1 ) );
             assertFalse( vb->appendTexCoord2D_Array( positions, 1 ) );
             assertTrue( isSizeCorrect( vb, 3, sizeof(float) * 3 + sizeof( float ) * 2, 2 /*not 3*/ ) );
-            assertTrue( factory->releaseVertexBuffer( vb ) );
+            assertTrue( factory->destroyVertexBuffer( vb ) );
         };
 
         [TestMethod]
