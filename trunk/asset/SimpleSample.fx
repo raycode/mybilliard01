@@ -42,7 +42,6 @@ struct VS_OUTPUT
 {
     float4 Position   : POSITION;   // vertex position 
     float4 Diffuse    : COLOR0;     // vertex diffuse color (note that COLOR0 is clamped from 0..1)
-    float2 TextureUV  : TEXCOORD0;  // vertex texture coords 
 };
 
 
@@ -50,26 +49,12 @@ struct VS_OUTPUT
 // This shader computes standard transform and lighting
 //--------------------------------------------------------------------------------------
 VS_OUTPUT RenderSceneVS( float4 vPos : POSITION, 
-                         float3 vNormal : NORMAL,
-                         float2 vTexCoord0 : TEXCOORD0 )
+                         float4 vDiffuse : COLOR0 )
 {
     VS_OUTPUT Output;
-    float3 vNormalWorldSpace;
-    
-    // Transform the position from object space to homogeneous projection space
-    Output.Position = mul(vPos, g_mWorldViewProjection);
-    
-    // Transform the normal from object space to world space    
-    vNormalWorldSpace = normalize(mul(vNormal, (float3x3)g_mWorld)); // normal (world space)
-
-    // Calc diffuse color    
-    Output.Diffuse.rgb = g_MaterialDiffuseColor * g_LightDiffuse * max(0,dot(vNormalWorldSpace, g_LightDir)) + 
-                         g_MaterialAmbientColor;   
+    Output.Position = vPos;
+    Output.Diffuse.rgb = vDiffuse.rgb;
     Output.Diffuse.a = 1.0f; 
-    
-    // Just copy the texture coordinate through
-    Output.TextureUV = vTexCoord0; 
-    
     return Output;    
 }
 
@@ -91,8 +76,7 @@ PS_OUTPUT RenderScenePS( VS_OUTPUT In )
 { 
     PS_OUTPUT Output;
 
-    // Lookup mesh texture and modulate it with diffuse
-    Output.RGBColor = tex2D(MeshTextureSampler, In.TextureUV) * In.Diffuse;
+    Output.RGBColor = In.Diffuse;
 
     return Output;
 }

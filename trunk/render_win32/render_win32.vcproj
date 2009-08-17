@@ -247,6 +247,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\RenderState_CullDX9.h"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderState_WireframeDX9.h"
 				>
 			</File>
@@ -371,6 +375,14 @@
 						PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\RenderState_CullDX9Imp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\RenderState_CullDX9Imp.h"
+				>
 			</File>
 			<File
 				RelativePath=".\RenderState_WireframeDX9Imp.cpp"

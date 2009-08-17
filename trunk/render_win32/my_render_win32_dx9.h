@@ -19,6 +19,7 @@ namespace my_render_win32_dx9 {
 
     class RenderStateDX9;
     class RenderState_WireframeDX9;
+    class RenderState_CullDX9;
 
     MY_SMART_PTR( ReleasableResourceDX9 );
     MY_SMART_PTR( VertexBufferDX9 );
@@ -31,6 +32,7 @@ namespace my_render_win32_dx9 {
 
     MY_SMART_PTR( RenderStateDX9 );
     MY_SMART_PTR( RenderState_WireframeDX9 );
+    MY_SMART_PTR( RenderState_CullDX9 );
 }
 
 #include "ReleasableResourceDX9.h"
@@ -46,3 +48,4 @@ namespace my_render_win32_dx9 {
 
 #include "RenderStateDX9.h"
 #include "RenderState_WireframeDX9.h"
+#include "RenderState_CullDX9.h"
