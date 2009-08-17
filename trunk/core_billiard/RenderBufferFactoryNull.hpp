@@ -25,14 +25,14 @@ NULL_OBJECT( RenderBufferFactory ) {
 
     virtual Texture * createTexture( wstring filename ) OVERRIDE { return NULL; }
 
-    // release
-    virtual bool releaseEffectShader( EffectShader *) OVERRIDE { return false; }
-    virtual bool releaseVertexShader( VertexShader *) OVERRIDE { return false; }
-    virtual bool releasePixelShader( PixelShader *) OVERRIDE { return false; }
-    virtual bool releaseVertexBuffer( VertexBuffer *) OVERRIDE { return false; }
-    virtual bool releaseIndexBuffer( IndexBuffer *) OVERRIDE { return false; }
-    virtual bool releaseSurface( Surface * ) OVERRIDE { return false; }
-    virtual bool releaseTexture( Texture * ) OVERRIDE { return false; }
+    // destroy
+    virtual bool destroyEffectShader( EffectShader *) OVERRIDE { return false; }
+    virtual bool destroyVertexShader( VertexShader *) OVERRIDE { return false; }
+    virtual bool destroyPixelShader( PixelShader *) OVERRIDE { return false; }
+    virtual bool destroyVertexBuffer( VertexBuffer *) OVERRIDE { return false; }
+    virtual bool destroyIndexBuffer( IndexBuffer *) OVERRIDE { return false; }
+    virtual bool destroySurface( Surface * ) OVERRIDE { return false; }
+    virtual bool destroyTexture( Texture * ) OVERRIDE { return false; }
 
 };
 

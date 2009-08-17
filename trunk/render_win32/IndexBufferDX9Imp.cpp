@@ -3,16 +3,12 @@
 namespace my_render_win32_dx9_imp {
 
 
-IndexBufferDX9Imp::~IndexBufferDX9Imp() {
-    releaseIndexBufferDX9();
-}
-
-void IndexBufferDX9Imp::releaseIndexBufferDX9() {
-    SAFE_RELEASE( indexBufferDX9_ );
-}
-
-IndexBufferDX9Imp::IndexBufferDX9Imp( size_t numberOfIndex, const unsigned int * indexies )
-: indexBufferDX9_( NULL )
+IndexBufferDX9Imp::IndexBufferDX9Imp( LPDIRECT3DDEVICE9 d3d9Device , size_t numberOfIndex, const unsigned int * indexies, DWORD usage, D3DPOOL pool, DWORD lockingFlags  )
+    : d3d9Device_( d3d9Device )
+    , usage_( usage )
+    , pool_( pool )
+    , lockingFlags_( lockingFlags )
+    , indexBufferDX9_( NULL )
 {
     if( 0 == numberOfIndex || NULL == indexies ) throw exception();
 
@@ -24,6 +20,35 @@ IndexBufferDX9Imp::IndexBufferDX9Imp( size_t numberOfIndex, const unsigned int *
         index32_array_ = Index32_Array( indexies, indexies + numberOfIndex );
 
     assert( getNumberOfIndex() == numberOfIndex );
+}
+
+IndexBufferDX9Imp::~IndexBufferDX9Imp() {
+    releaseResource();
+}
+
+bool IndexBufferDX9Imp::acquireResource()
+{
+    releaseResource();
+
+    const D3DFORMAT fmt = (( getNumberOfByteForEach() == 4 ) ? D3DFMT_INDEX32 : D3DFMT_INDEX16 );
+
+    const HRESULT hr = getD3D9Device()->CreateIndexBuffer( getSizeInByte(), usage_, fmt, pool_, &indexBufferDX9_, NULL );
+    if( FAILED( hr ) )
+    {
+        DXUT_ERR( L"RenderBufferFactoryDX9Imp::uploadIndexBuffers", hr );
+        return false;
+    }
+
+    writeOntoDevice( lockingFlags_ );
+    return true;
+}
+
+void IndexBufferDX9Imp::releaseResource() {
+    SAFE_RELEASE( indexBufferDX9_ );
+}
+
+LPDIRECT3DDEVICE9 IndexBufferDX9Imp::getD3D9Device() {
+    return d3d9Device_;
 }
 
 size_t IndexBufferDX9Imp::getNumberOfIndex()
@@ -40,10 +65,6 @@ size_t IndexBufferDX9Imp::getSizeInByte() {
     return getNumberOfIndex() * getNumberOfByteForEach();
 }
 
-void IndexBufferDX9Imp::setIndexBufferDX9( LPDIRECT3DINDEXBUFFER9 indexBufferDX9 ) {
-    indexBufferDX9_ = indexBufferDX9;
-}
-
 LPDIRECT3DINDEXBUFFER9 IndexBufferDX9Imp::getIndexBufferDX9() {
     return indexBufferDX9_;
 }
@@ -56,8 +77,8 @@ void IndexBufferDX9Imp::writeOntoDevice( DWORD lockingFlags ) {
         return;
     }
 
-    memcpy( indexies, &(index16_array_[0]), index16_array_.size() * sizeof( Index16_Array::value_type ) );
-    memcpy( indexies, &(index32_array_[0]), index32_array_.size() * sizeof( Index32_Array::value_type ) );
+    memcpy( indexies, (BYTE*) &(index16_array_[0]), index16_array_.size() * sizeof( Index16_Array::value_type ) );
+    memcpy( indexies, (BYTE*) &(index32_array_[0]), index32_array_.size() * sizeof( Index32_Array::value_type ) );
 
     indexBufferDX9_->Unlock();
 }

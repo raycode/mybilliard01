@@ -3,8 +3,8 @@ namespace my_render {
 
 
 MY_INTERFACE PixelShader
-    : EXTENDS_INTERFACE_( Shader )
-    , EXTENDS_INTERFACE_( ShaderVariableWriter )
+    : EXTENDS_INTERFACE( Shader )
+    , EXTENDS_INTERFACE( ShaderVariableWriter )
 {
 
     virtual void setSampler(

@@ -17,6 +17,18 @@ SurfaceDX9Imp::~SurfaceDX9Imp()
     dx9Surface_->Release();
 }
 
+bool SurfaceDX9Imp::acquireResource()
+{
+    releaseResource();
+    return false;
+}
+
+void SurfaceDX9Imp::releaseResource()
+{
+
+}
+
+
 
 SurfaceLockedRect * SurfaceDX9Imp::lockRect( int left, int top, int right, int bottom, int flag )
 {
@@ -28,6 +40,7 @@ SurfaceLockedRect * SurfaceDX9Imp::lockRect( int left, int top, int right, int b
 
     D3DLOCKED_RECT dxLockedRect;
     const HRESULT hr = dx9Surface_->LockRect( &dxLockedRect, rect, flag );
+    SAFE_DELETE( rect );
     if( FAILED( hr ) ) {
         DXUT_ERR( L"SurfaceDX9Imp::lockRect", hr );
        return NULL;

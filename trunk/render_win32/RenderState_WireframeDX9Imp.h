@@ -2,7 +2,7 @@
 namespace my_render_win32_dx9_imp {
 
 
-class RenderState_WireframeDX9Imp : IMPLEMENTS_( RenderState_WireframeDX9 ) {
+class RenderState_WireframeDX9Imp : IMPLEMENTS_INTERFACE( RenderState_WireframeDX9 ) {
 public: // from RenderState_Wireframe
     virtual void setSolid() OVERRIDE;
     virtual void setWired() OVERRIDE;

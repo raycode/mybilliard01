@@ -306,6 +306,7 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"
@@ -316,23 +317,6 @@
 			</File>
 			<File
 				RelativePath=".\my_app.h"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderErrorListenerImp.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="StdAfx.h"
-						PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\RenderErrorListenerImp.h"
 				>
 			</File>
 			<File
@@ -357,6 +341,7 @@
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
+					ExcludedFromBuild="true"
 					>
 					<Tool
 						Name="VCCLCompilerTool"

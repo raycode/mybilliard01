@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class NodeImp : public BaseImp, IMPLEMENTS_( Node ) {
+class NodeImp : public BaseImp, IMPLEMENTS_INTERFACE( Node ) {
 public: // from Node
     virtual Node * getParent() OVERRIDE;
     virtual Node * getNextSibling() OVERRIDE;

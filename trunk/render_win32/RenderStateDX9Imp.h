@@ -2,7 +2,7 @@
 namespace my_render_win32_dx9_imp {
 
 
-class RenderStateDX9Imp : IMPLEMENTS_( RenderStateDX9 ) {
+class RenderStateDX9Imp : IMPLEMENTS_INTERFACE( RenderStateDX9 ) {
 public: // from RenderState
     virtual const RenderState_Wireframe * getWireframe() const OVERRIDE;
     virtual RenderState_Wireframe * setWireframe() OVERRIDE;

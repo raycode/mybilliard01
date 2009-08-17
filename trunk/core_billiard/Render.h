@@ -7,10 +7,12 @@ MY_INTERFACE Render {
 
     virtual void addRenderEventListener( RenderEventListener * eventListener ) = 0;
 
-    virtual void setClearBackBuffer( NxU32 Color ) = 0;
-    virtual void setClearZBuffer( float z ) = 0;
-    virtual void setClearStencil( NxU32 stencil ) = 0;
-    virtual void clear() = 0;
+    virtual void clear_Color( NxU32 Color ) = 0;
+    virtual void clear_Z( float z ) = 0;
+    virtual void clear_Stencil( NxU32 stencil ) = 0;
+    virtual void clear_Color_Z( NxU32 color, float z ) = 0;
+    virtual void clear_Z_Stencil( float z, NxU32 stencil ) = 0;
+    virtual void clear_Color_Z_Stencil( NxU32 Color, float z, NxU32 stencil ) = 0;
 
     virtual bool beginScene() = 0;
     virtual void endScene() = 0;

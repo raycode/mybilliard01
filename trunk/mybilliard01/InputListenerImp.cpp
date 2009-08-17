@@ -28,8 +28,8 @@ void InputListenerImp::onMouseEvent(
 }
 
 bool InputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
-    if( false == MsgProcDXUT( hWnd, uMsg, wParam, lParam ) )
-        return false;
+    //if( false == MsgProcDXUT( hWnd, uMsg, wParam, lParam ) )
+    //    return false;
 
     // add more here
 

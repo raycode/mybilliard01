@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class BaseImp : IMPLEMENTS_( Base ) {
+class BaseImp : IMPLEMENTS_INTERFACE( Base ) {
 public: // from Base
     virtual wstring getID() OVERRIDE;
     virtual wstring getName() OVERRIDE;

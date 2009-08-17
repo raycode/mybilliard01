@@ -21,7 +21,7 @@ public:
     }
 
     ~BackbufferHelper() {
-        factory_->releaseSurface( backBuffer_ );        
+        factory_->destroySurface( backBuffer_ );        
     }
 
 private:

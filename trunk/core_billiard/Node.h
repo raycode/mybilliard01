@@ -2,7 +2,7 @@
 namespace my_render {
 
 
-MY_INTERFACE Node : EXTENDS_INTERFACE_( Base ) {
+MY_INTERFACE Node : EXTENDS_INTERFACE( Base ) {
 
     virtual Node * getParent() = 0;
     virtual Node * getNextSibling() = 0;

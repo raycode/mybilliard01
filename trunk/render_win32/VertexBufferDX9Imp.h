@@ -2,7 +2,7 @@
 namespace my_render_win32_dx9_imp {
 
 
-class VertexBufferDX9Imp : IMPLEMENTS_( VertexBufferDX9 ) {
+class VertexBufferDX9Imp : IMPLEMENTS_INTERFACE( VertexBufferDX9 ) {
 public: // from VertexBuffer
     virtual bool appendTexCoord1D_Array( const float * texCoords_1floatsForEach, size_t usageIndex ) OVERRIDE;
     virtual bool appendTexCoord2D_Array( const float * texCoords_2floatsForEach, size_t usageIndex ) OVERRIDE;
@@ -17,29 +17,29 @@ public: // from VertexBuffer
     virtual size_t getNumberOfVertex() OVERRIDE;
 
 public: // from VertexBufferDX9
-    virtual size_t getSizeInByteForTotal() OVERRIDE;
     virtual size_t getSizeInByteForEachVertex() OVERRIDE;
-
-    virtual D3DVERTEXELEMENT9 * getVertexElement() OVERRIDE;
-
-    virtual void setVertexDeclarationDX9( LPDIRECT3DVERTEXDECLARATION9 ) OVERRIDE;
     virtual LPDIRECT3DVERTEXDECLARATION9 getVertexDeclarationDX9() OVERRIDE;
-    virtual void releaseVertexDeclarationDX9() OVERRIDE;
-
-    virtual void setVertexBufferDX9( LPDIRECT3DVERTEXBUFFER9 ) OVERRIDE;
     virtual LPDIRECT3DVERTEXBUFFER9 getVertexBufferDX9() OVERRIDE;
-    virtual void releaseVertexBufferDX9() OVERRIDE;
 
-    virtual void writeOntoDevice( DWORD lockingFlags ) OVERRIDE;
+public: // from ReleasableResource
+    virtual bool acquireResource() OVERRIDE;
+    virtual void releaseResource() OVERRIDE;
 
 public:
-    VertexBufferDX9Imp( size_t numberOfPosition, const float * positions_3floatsForEach );
+    VertexBufferDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t numberOfPosition, const float * positions_3floatsForEach, DWORD usage, D3DPOOL pool, DWORD lockingFlags  );
     ~VertexBufferDX9Imp();
 
 private:
-    bool isUsageIndexInUse( int usage, size_t usageIndex );
+    size_t getSizeInByteForTotal();
+
+    D3DVERTEXELEMENT9 * getVertexElement();
+    void writeOntoDevice( DWORD lockingFlags );
+
     size_t updateOffset();
     void writeOntoBuffer( float * buffer, size_t step );
+    bool isUsageIndexInUse( int usage, size_t usageIndex );
+
+    LPDIRECT3DDEVICE9 getD3D9Device();
 
 private:
     struct Storage {
@@ -65,12 +65,14 @@ private:
             Storage tmp;
             for( size_t i = 0; i < howMany; ++i ) {
                 const size_t offset = i * sizeInByteForEach();
-                memcpy( &(tmp.val), ((char*) src) + offset, sizeInByteForEach() );
+                memcpy( (BYTE*) &(tmp.val), ((BYTE*) src) + offset, sizeInByteForEach() );
                 v.push_back( tmp );
             }
         }
 
         size_t sizeInByteForEach() const { return sizeInByteForEach_; }
+
+        D3DDECLTYPE getDeclarationType() const { return declType_; }
 
         size_t getUsageIndex() const { return usageIndex_; }
 
@@ -83,7 +85,7 @@ private:
         void copyOntoBuffer( float * buffer, size_t step ) {
             size_t loc = 0;
             MY_FOR_EACH( Storage_Array, iter, v ) {
-                memcpy( buffer + loc + getOffset(), &(iter->val), sizeInByteForEach() );
+                memcpy( ((BYTE*) buffer) + loc + getOffset(), (BYTE*)&(iter->val), sizeInByteForEach() );
                 loc += step;
             }
         }
@@ -104,9 +106,15 @@ private:
 
 
 private:
-    LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9_;
-    LPDIRECT3DVERTEXDECLARATION9 vertexDeclarationDX9_;
+    LPDIRECT3DDEVICE9 d3d9Device_;
+    DWORD usage_;
+    D3DPOOL pool_;
+    DWORD lockingFlags_;
     vector< D3DVERTEXELEMENT9 > vertexElementDX9_;
+
+private:
+    LPDIRECT3DVERTEXDECLARATION9 vertexDeclarationDX9_;
+    LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9_;
 
 private:
     struct Pimpl;

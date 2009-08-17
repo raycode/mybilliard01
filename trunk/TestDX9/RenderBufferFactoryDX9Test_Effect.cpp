@@ -7,60 +7,6 @@ using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
 
-const static float positions[] = {
-    150.0f,  50.0f, 0.5f,
-    250.0f, 250.0f, 0.5f,
-    50.0f, 250.0f, 0.5f
-};
-
-const static NxU32 diffuses[] = {
-    0xffff0000, 0xff00ff00, 0xff00ffff
-};
-
-
-class VertexRenderingListener : public RenderEventListenerNull {
-public:
-    static wstring getFilename() {
-        return getDeployedFilename( L"asset\\SimpleSample.fx" );
-    }
-
-    virtual void init( RenderBufferFactory * factory ) OVERRIDE {
-        effect_ = factory->createEffectShader( getFilename() );
-        tech_ = effect_->createTechniqueVariable( L"RenderScene" );
-        vb_ = factory->createVertexBuffer_static( 3, positions );
-        vb_->appendNormal_Array( positions, 0 );
-        vb_->appendColor_Array( diffuses, 0 );
-        effectRender_ = new EffectRenderListener( vb_ );
-    }
-
-    virtual void display( Render * render ) OVERRIDE {
-        render->setRenderState()->setWireframe()->setSolid();
-        render->beginScene();
-        render->renderWithEffectShader( effect_, tech_, effectRender_ );
-        render->endScene();
-    }
-
-
-    class EffectRenderListener : public RenderEffectShader {
-    public:
-        EffectRenderListener( VertexBuffer * vb )
-            : vb_( vb )
-        {}
-
-        virtual void display( Render * render, size_t pass ) OVERRIDE {
-            render->drawPrimitive_TRIANGLELIST( vb_, 0, 1 );
-        }
-
-    private:
-        VertexBuffer * vb_;
-    };
-
-private:
-    EffectRenderListener * effectRender_;
-    EffectShader * effect_;
-    ShaderVariable * tech_;
-    VertexBuffer * vb_;
-};
 
 namespace TestDX9
 {
@@ -106,7 +52,7 @@ namespace TestDX9
  
             EffectShader * const effect = factory->createEffectShader( getFilename() );
             assertNotNull( effect );
-            assertTrue( factory->releaseEffectShader( effect ) );
+            assertTrue( factory->destroyEffectShader( effect ) );
 		};
 
         [TestMethod]
@@ -125,7 +71,7 @@ namespace TestDX9
             assertEquals( 1u, effectDX9->begin() );
             effectDX9->end();
 
-            assertTrue( factory->releaseEffectShader( effectDX9 ) );
+            assertTrue( factory->destroyEffectShader( effectDX9 ) );
         }
 
         [TestMethod]

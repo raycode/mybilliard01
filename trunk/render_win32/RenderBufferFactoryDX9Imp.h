@@ -2,7 +2,7 @@
 namespace my_render_win32_dx9_imp {
 
 
-class RenderBufferFactoryDX9Imp : IMPLEMENTS_( RenderBufferFactoryDX9 ) {
+class RenderBufferFactoryDX9Imp : IMPLEMENTS_INTERFACE( RenderBufferFactoryDX9 ) {
 public: // from RenderBufferFactory
     virtual EffectShader * createEffectShader( wstring filename ) OVERRIDE;
 
@@ -25,13 +25,13 @@ public: // from RenderBufferFactory
 
     virtual Texture * createTexture( wstring filename ) OVERRIDE;
 
-    virtual bool releaseEffectShader( EffectShader *) OVERRIDE;
-    virtual bool releaseVertexShader( VertexShader *) OVERRIDE;
-    virtual bool releasePixelShader( PixelShader *) OVERRIDE;
-    virtual bool releaseVertexBuffer( VertexBuffer *) OVERRIDE;
-    virtual bool releaseIndexBuffer( IndexBuffer *) OVERRIDE;
-    virtual bool releaseSurface( Surface * ) OVERRIDE;
-    virtual bool releaseTexture( Texture * ) OVERRIDE;
+    virtual bool destroyEffectShader( EffectShader *) OVERRIDE;
+    virtual bool destroyVertexShader( VertexShader *) OVERRIDE;
+    virtual bool destroyPixelShader( PixelShader *) OVERRIDE;
+    virtual bool destroyVertexBuffer( VertexBuffer *) OVERRIDE;
+    virtual bool destroyIndexBuffer( IndexBuffer *) OVERRIDE;
+    virtual bool destroySurface( Surface * ) OVERRIDE;
+    virtual bool destroyTexture( Texture * ) OVERRIDE;
 
 public: // from RenderEventListener
     virtual void init( RenderBufferFactory * ) OVERRIDE;
@@ -47,60 +47,26 @@ public:
 private:
     LPDIRECT3DDEVICE9 getD3D9Device();
 
-private: // upload
-    void uploadVertexBuffers( const list< VertexBufferDX9Ptr > & among, DWORD usage, D3DPOOL pool, DWORD lockingFlags );
-    void uploadIndexBuffers( const list< IndexBufferDX9Ptr > & among, DWORD usage, D3DPOOL pool, DWORD lockingFlags );
+private: // resource manage
+    void pushBackToReadyQueue( int resourceType, ReleasableResourceDX9 * newResource );
+    void pushBackToActiveQueue( int resourceType, ReleasableResourceDX9 * newResource );
+    bool destroy( ReleasableResourceDX9 * victim );
+    void destroyAll();
+    void acquireResources();
+    void releaseByResourceType( int resourceType );
 
-    void uploadStaticBuffers();
-    void uploadDynamicBuffers();
-    void uploadSteamBuffers();
-
-private: // release
-    void releaseStaticBuffers();
-    void releaseDynamicBuffers();
-    void releaseStreamBuffers();
-
-    template < typename ElementType, typename EachType >
-    static bool release( ElementType resource, typename EachType & among ) {
-        MY_FOR_EACH( typename EachType, iter, among ) {
-            if( resource != &**iter ) continue;
-            among.erase( iter );
-            return true;
-        }
-        return false;
-    }
 
 private:
     LPDIRECT3DDEVICE9 d3dDevice_;
 
 private:
-    enum { EREADY_QUEUE = 0, EACTIVE_QUEUE, SIZE_OF_QUEUE };
-
-    typedef list< VertexBufferDX9Ptr > StaticVertices;
-    StaticVertices staticVertices_[SIZE_OF_QUEUE];
-
-    typedef list< VertexBufferDX9Ptr > DynamicVertices;
-    DynamicVertices dynamicVertices_[SIZE_OF_QUEUE];
-
-    typedef list< VertexBufferDX9Ptr > StreamVertices;
-    StreamVertices streamVertices_[SIZE_OF_QUEUE];
-
-    typedef list< IndexBufferDX9Ptr > StaticIndexies;
-    StaticIndexies staticIndexies_[SIZE_OF_QUEUE];
-
-    typedef list< IndexBufferDX9Ptr > DynamicIndexies;
-    DynamicIndexies dynamicIndexies_[SIZE_OF_QUEUE];
-
-    typedef list< IndexBufferDX9Ptr > StreamIndexies;
-    StreamIndexies streamIndexies_[SIZE_OF_QUEUE];
-
-    typedef list< SurfaceDX9ImpPtr > Surfaces;
-    Surfaces surfaces_[SIZE_OF_QUEUE];
-
-    typedef list< EffectShaderPtr > EffectShaders;
-    EffectShaders effectShaders_;
-
-private:
+    enum { E_STATIC_VERTICES, E_DYNAMIC_VERTICES, E_STREAM_VERTICES,
+           E_STATIC_INDICES, E_DYNAMIC_INDICES, E_STREAM_INDICES,
+           E_EFFECT_SHADERS, E_VERTEX_SHADERS, E_PIXEL_SHADERS,
+           E_SURFACES, E_TEXTURE, SIZE_OF_RESOURCETYPES };
+    enum { EREADY_QUEUE, EACTIVE_QUEUE, SIZE_OF_QUEUE };
+    typedef list< ReleasableResourceDX9Ptr > ReleasableResources;
+    ReleasableResources resources_[ SIZE_OF_RESOURCETYPES ][ SIZE_OF_QUEUE ];
     bool bNeedToUpdate_;
 
     MY_UNIT_TEST_BACKDOOR;

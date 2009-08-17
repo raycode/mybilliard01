@@ -14,6 +14,7 @@ ApplicationWin32Imp::ApplicationWin32Imp()
 , bMinimized_( false )
 , bMaximized_( false )
 , bSizeInMove_( false )
+, bActive_( false )
 {
     render_ = &nullRenderWin32_;
     keyboardListener_ = &nullKeyboardListener_;
@@ -53,7 +54,7 @@ HWND ApplicationWin32Imp::getHWND() {
     return hWnd_;
 }
 
-wstring ApplicationWin32Imp::getRegisterClassName() {
+const wchar_t * ApplicationWin32Imp::getRegisterClassName() {
     return L"ApplicationWin32ImpClass";
 }
 
@@ -74,7 +75,7 @@ bool ApplicationWin32Imp::createWindow()
     const int y = getScreenY();
     const int width = getScreenWidth();
     const int height = getScreenHeight();
-    hWnd_ = InitInstance( hInstance_, SW_SHOW, getScreenTitle(), x, y, width, height );
+    hWnd_ = InitInstance( hInstance_, SW_SHOW, x, y, width, height );
 
     return NULL != hWnd_;
 }
@@ -88,7 +89,7 @@ void ApplicationWin32Imp::destroyWindow() {
     DestroyWindow( hWnd_ );
     hWnd_ = NULL;
 
-    UnregisterClass( getRegisterClassName().c_str(), hInstance_ );
+    UnregisterClass( getRegisterClassName(), hInstance_ );
 }
 
 
@@ -150,6 +151,14 @@ void ApplicationWin32Imp::setSizeInMove( bool val ) {
     actualRender_ = (val ? &nullRenderWin32_ : render_ );
 }
 
+bool ApplicationWin32Imp::isActive() {
+    return bActive_;
+}
+
+void ApplicationWin32Imp::setActive( bool val ) {
+    bActive_ = val;
+}
+
 void ApplicationWin32Imp::setScreenWidth( int width ) {
     width_ = width;
 }
@@ -195,8 +204,8 @@ int ApplicationWin32Imp::getScreenHeight() {
     return height_;
 }
 
-wstring ApplicationWin32Imp::getScreenTitle() {
-    return title_;
+const wchar_t * ApplicationWin32Imp::getScreenTitle() {
+    return title_.c_str();
 }
 
 

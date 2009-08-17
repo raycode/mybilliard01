@@ -34,14 +34,14 @@ MY_INTERFACE RenderBufferFactory {
     // Font
     // Sprite
 
-    // release
-    virtual bool releaseEffectShader( EffectShader *) = 0;
-    virtual bool releaseVertexShader( VertexShader *) = 0;
-    virtual bool releasePixelShader( PixelShader *) = 0;
-    virtual bool releaseVertexBuffer( VertexBuffer *) = 0;
-    virtual bool releaseIndexBuffer( IndexBuffer *) = 0;
-    virtual bool releaseSurface( Surface * ) = 0;
-    virtual bool releaseTexture( Texture * ) = 0;
+    // destroy
+    virtual bool destroyEffectShader( EffectShader *) = 0;
+    virtual bool destroyVertexShader( VertexShader *) = 0;
+    virtual bool destroyPixelShader( PixelShader *) = 0;
+    virtual bool destroyVertexBuffer( VertexBuffer *) = 0;
+    virtual bool destroyIndexBuffer( IndexBuffer *) = 0;
+    virtual bool destroySurface( Surface * ) = 0;
+    virtual bool destroyTexture( Texture * ) = 0;
 
 };
 

@@ -2,7 +2,7 @@
 namespace my_render_imp {
 
 
-class GeometryMeshPrimitiveImp : IMPLEMENTS_( GeometryMeshPrimitive ) {
+class GeometryMeshPrimitiveImp : IMPLEMENTS_INTERFACE( GeometryMeshPrimitive ) {
 public: // from GeometryMeshPrimitive
     virtual wstring getName() OVERRIDE;
     virtual size_t getTriangleCount() OVERRIDE;

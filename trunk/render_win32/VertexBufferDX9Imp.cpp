@@ -29,6 +29,7 @@ struct VertexBufferDX9Imp::Pimpl {
             D3DVERTEXELEMENT9 tmp;
             tmp.Stream = 0;
             tmp.Offset = (WORD) iter->getOffset();
+            tmp.Type = (BYTE) iter->getDeclarationType();
             tmp.Method = D3DDECLMETHOD_DEFAULT;
             tmp.Usage = Usage_;
             tmp.UsageIndex = (BYTE) iter->getUsageIndex();
@@ -40,8 +41,12 @@ struct VertexBufferDX9Imp::Pimpl {
 };
 
 
-VertexBufferDX9Imp::VertexBufferDX9Imp( size_t howMany, const float * source )
-: vertexBufferDX9_( NULL )
+VertexBufferDX9Imp::VertexBufferDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t howMany, const float * source, DWORD usage, D3DPOOL pool, DWORD lockingFlags )
+: d3d9Device_( d3d9Device )
+, usage_( usage )
+, pool_( pool )
+, lockingFlags_( lockingFlags )
+, vertexBufferDX9_( NULL )
 , vertexDeclarationDX9_( NULL )
 {
     if( 0 == howMany || NULL == source ) throw exception();
@@ -49,12 +54,51 @@ VertexBufferDX9Imp::VertexBufferDX9Imp( size_t howMany, const float * source )
     storageContainer_array_[ D3DDECLUSAGE_POSITION ].push_back( StorageContainer( source, howMany, 0, D3DDECLTYPE_FLOAT3 ) );
 }
 
-VertexBufferDX9Imp::~VertexBufferDX9Imp()
-{
-    releaseVertexBufferDX9();
-    releaseVertexDeclarationDX9();
+VertexBufferDX9Imp::~VertexBufferDX9Imp() {
+    releaseResource();
 }
 
+bool VertexBufferDX9Imp::acquireResource()
+{
+    releaseResource();
+    const HRESULT hr1 = getD3D9Device()->CreateVertexDeclaration( getVertexElement(), &vertexDeclarationDX9_ );
+    if( FAILED( hr1 ) )
+    {
+        DXUT_ERR( L"RenderBufferFactoryDX9Imp::uploadVertexBuffers", hr1 );
+        return false;
+    }
+
+    const HRESULT hr2 = getD3D9Device()->CreateVertexBuffer( getSizeInByteForTotal(), usage_, 0, pool_, &vertexBufferDX9_, NULL );
+    if( FAILED( hr2 ) )
+    {
+        DXUT_ERR( L"RenderBufferFactoryDX9Imp::uploadVertexBuffers", hr2 );
+        SAFE_RELEASE( vertexDeclarationDX9_ );
+        return false;
+    }
+
+    writeOntoDevice( lockingFlags_ );
+    return true;
+}
+
+void VertexBufferDX9Imp::releaseResource()
+{
+    SAFE_RELEASE( vertexBufferDX9_ );
+    SAFE_RELEASE( vertexDeclarationDX9_ );
+}
+
+LPDIRECT3DDEVICE9 VertexBufferDX9Imp::getD3D9Device() {
+    return d3d9Device_;
+}
+
+LPDIRECT3DVERTEXDECLARATION9 VertexBufferDX9Imp::getVertexDeclarationDX9()
+{
+    return vertexDeclarationDX9_;
+}
+
+LPDIRECT3DVERTEXBUFFER9 VertexBufferDX9Imp::getVertexBufferDX9()
+{
+    return vertexBufferDX9_;
+}
 
 size_t VertexBufferDX9Imp::getNumberOfVertex()
 {
@@ -124,16 +168,6 @@ bool VertexBufferDX9Imp::appendColor_Array( const NxU32 * source, size_t usageIn
     return true;
 }
 
-void VertexBufferDX9Imp::setVertexBufferDX9( LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9 )
-{
-    releaseVertexBufferDX9();
-    vertexBufferDX9_ = vertexBufferDX9;
-}
-
-LPDIRECT3DVERTEXBUFFER9 VertexBufferDX9Imp::getVertexBufferDX9() {
-    return vertexBufferDX9_;
-}
-
 bool VertexBufferDX9Imp::isUsageIndexInUse( int usage, size_t usageIndex ) {
     MY_FOR_EACH( StorageContainer_Array, iter, storageContainer_array_[ usage ] ) {
         if( iter->empty() ) continue;
@@ -179,17 +213,6 @@ void VertexBufferDX9Imp::writeOntoBuffer( float * buffer, size_t step )
     Pimpl::writeOntoBuffer( buffer, storageContainer_array_[ D3DDECLUSAGE_COLOR ], step );
 }
 
-void VertexBufferDX9Imp::releaseVertexBufferDX9()
-{
-    SAFE_RELEASE( vertexBufferDX9_ );
-}
-
-void VertexBufferDX9Imp::releaseVertexDeclarationDX9()
-{
-    SAFE_RELEASE( vertexDeclarationDX9_ );
-}
-
-
 size_t VertexBufferDX9Imp::getSizeInByteForTotal() {
     return getSizeInByteForEachVertex() * getNumberOfVertex();
 }
@@ -213,15 +236,6 @@ D3DVERTEXELEMENT9 * VertexBufferDX9Imp::getVertexElement() {
     vertexElementDX9_.push_back( endElem );
 
     return &(vertexElementDX9_[0]);
-}
-
-void VertexBufferDX9Imp::setVertexDeclarationDX9( LPDIRECT3DVERTEXDECLARATION9 vertexDeclarationDX9 ) {
-    releaseVertexDeclarationDX9();
-    vertexDeclarationDX9_ = vertexDeclarationDX9;
-}
-
-LPDIRECT3DVERTEXDECLARATION9 VertexBufferDX9Imp::getVertexDeclarationDX9() {
-    return vertexDeclarationDX9_;
 }
 
 

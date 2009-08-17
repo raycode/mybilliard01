@@ -75,11 +75,11 @@ namespace Loki {}
 
 #define NULL_OBJECT( INTERFACE_NAME ) struct INTERFACE_NAME##Null : public virtual INTERFACE_NAME 
 #define MY_INTERFACE struct
-#define IMPLEMENTS_( INTERFACE_NAME ) public virtual INTERFACE_NAME
-#define EXTENDS_INTERFACE_( INTERFACE_NAME ) public virtual INTERFACE_NAME
+#define IMPLEMENTS_INTERFACE( INTERFACE_NAME ) public virtual INTERFACE_NAME
+#define EXTENDS_INTERFACE( INTERFACE_NAME ) public virtual INTERFACE_NAME
 
 // sometimes we need to use static_cast rather than dynamic_cast for performance reason.
-#define EXTENDS_INTERFACE_STATIC_( INTERFACE_NAME ) public INTERFACE_NAME
+#define STATIC_EXTENDS_INTERFACE( INTERFACE_NAME ) public INTERFACE_NAME
 // but there shouldn't be any case to down cast to implementation level.
 //#define IMPLEMENTS_STATIC_( INTERFACE_NAME ) public INTERFACE_NAME
 
