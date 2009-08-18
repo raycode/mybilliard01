@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "my_phys_x.h"
-namespace my_phys_x {
+#include "my_phys.h"
+namespace my_phys {
 
 NxAssertResponse ErrorStream::reportAssertViolation(const char* message, const char* file, int line)
 {

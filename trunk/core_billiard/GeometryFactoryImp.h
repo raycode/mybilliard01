@@ -6,50 +6,34 @@ class GeometryFactoryImp : IMPLEMENTS_INTERFACE( GeometryFactory ) {
 public: // from GeometryFactory
     virtual Geometry * createGeometry( domGeometryRef ) OVERRIDE;
     virtual Geometry * find( wstring id ) OVERRIDE;
-    virtual void release( Geometry * ) OVERRIDE;
+    virtual bool destroyGeometry( Geometry * ) OVERRIDE;
 
 public:
     GeometryFactoryImp( InstanceResolver * instanceResolver );
 
-private: // read geometry
-    GeometryMeshImp * createMesh( domMeshRef );
-    void * createConvexMesh( domConvex_meshRef );
-    void * createSpline( domSplineRef );
+private: // create geometry
+    bool readGeometryMesh( GeometryMesh *, domMeshRef );
+    bool readGeometryConvexMesh( GeometryMesh *, domConvex_meshRef );
+    bool readGeometrySpline( GeometryMesh *, domSplineRef );
 
-private: // read mesh
-    GeometryMeshPrimitiveImp * createPrimitive_polygons( domPolygonsRef );
-    GeometryMeshPrimitiveImp * createPrimitive_polylist( domPolylistRef );
-    GeometryMeshPrimitiveImp * createPrimitive_triangles( domTrianglesRef );
-    GeometryMeshPrimitiveImp * createPrimitive_trifans( domTrifansRef );
-    GeometryMeshPrimitiveImp * createPrimitive_tristrips( domTristripsRef );
-    GeometryMeshPrimitiveImp * createPrimitive_lines( domLinesRef );
-    GeometryMeshPrimitiveImp * createPrimitive_linestrips( domLinestripsRef );
-
-    bool SetVertexData(GeometryMeshInput& offset, GeometryMeshImp * newMesh, domListOfUInts &values, size_t i);
-
-private:
-    InstanceResolver * instanceResolver_;
+    bool readGeometryMeshPrimitiveVertices( GeometryMeshPrimitiveImp *, const domInputLocalOffset_Array &, const domP_Array &);
 
 private: // create geometry
-    GeometryImp * createGeometry( wstring id, wstring name, wstring uri );
-    void releaseGeometry( Geometry * );
+    Geometry * createGeometry( wstring id, wstring name, wstring uri );
+    bool isAlreadyCreated( wstring id );
 
-    typedef list< GeometryImpPtr > CreatedObjects;
-    CreatedObjects createdObjects_;
-
-private: // create mesh
-    GeometryMeshImp * createGeometryMesh();
-    void releaseGeometryMesh( GeometryMesh * );
-
-    typedef list< GeometryMeshImpPtr > Meshs;
-    Meshs meshs_;
-
-private: // create primitive
+private: // create geometry mesh primitive
     GeometryMeshPrimitiveImp * createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName, int primitiveTypeID );
-    void releaseGeometryMeshPrimitive( GeometryMeshPrimitive * ptr );
+    bool destroyGeometryMeshPrimitive( GeometryMeshPrimitive * prim );
 
-    typedef list< GeometryMeshPrimitiveImpPtr > Primitives;
+private:
+    typedef list< GeometryPtr > Geometries;
+    Geometries geometries_;
+
+    typedef list< GeometryMeshPrimitivePtr > Primitives;
     Primitives primitives_;
+
+    InstanceResolver * const instanceResolver_;
 
 private: // Pimpl idiom without any member variables.
     struct Pimpl;

@@ -13,23 +13,23 @@ const static NxU32 diffuses[] = {
 };
 
 
-static wstring getFilename() {
-    return ( L"..\\asset\\SimpleSample.fx" );
-}
-
 RenderEventListenerImp::RenderEventListenerImp()
+: scene_( new SceneImp() )
 {
+    scene_->load( L"..\\asset\\1ball1box.dae" );
 }
 
-void RenderEventListenerImp::init( RenderBufferFactory * factory )
+void RenderEventListenerImp::init( RenderBufferFactory * renderFactory )
 {
-    effect_ = factory->createEffectShader( getFilename() );
+    scene_->setRenderFactory( renderFactory );
+
+    effect_ = renderFactory->createEffectShader( L"..\\asset\\SimpleSample.fx" );
     assert( effect_ );
 
     tech_ = effect_->createTechniqueVariable( L"RenderScene" );
     assert( effect_->isValidTechnique( tech_ ) );
 
-    vb_ = factory->createVertexBuffer_static( 3, positions );
+    vb_ = renderFactory->createVertexBuffer_static( 3, positions );
     vb_->appendColor_Array( diffuses, 0 );
 
     wvp_ = effect_->createVariable( L"g_mWorldViewProjection" );
@@ -39,11 +39,8 @@ void RenderEventListenerImp::displayReset( int x, int y, int width, int height )
 {
 }
 
-void RenderEventListenerImp::update( RenderBufferFactory *, float elapsedTime )
-{
-    D3DXMATRIX wvp;
-
-    effect_->setFloatArray( wvp_, wvp, 16 );
+void RenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime ) {
+    scene_->update( elapsedTime );
 }
 
 void RenderEventListenerImp::display( Render * render ) {
@@ -51,9 +48,10 @@ void RenderEventListenerImp::display( Render * render ) {
     if( false == render->beginScene() ) return;
 
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"My Testing" ); // These events are to help PIX identify
-    render->setRenderState()->setWireframe()->setSolid();
+    render->setRenderState()->setWireframe()->setWired();
     render->setRenderState()->setCull()->setNone();
     render->renderWithEffectShader( effect_, tech_, this );
+    scene_->display( render );
     DXUT_EndPerfEvent();
 
     render->endScene();

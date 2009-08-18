@@ -52,7 +52,7 @@ inline void QueryPerformanceFrequency(LARGE_INTEGER *lpFrequency){
 
 #endif // defined(LINUX)
 
-namespace my_phys_x {
+namespace my_phys {
 
     float getCurrentTime();
 	float getElapsedTime();

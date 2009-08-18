@@ -5,7 +5,7 @@ namespace my_render {
 MY_INTERFACE RenderState_Cull {
     virtual ~RenderState_Cull() {}
 
-    virtual void setNone() = 0;
+    virtual void setNone() PURE;
 
 };
 

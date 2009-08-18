@@ -52,7 +52,8 @@ VS_OUTPUT RenderSceneVS( float4 vPos : POSITION,
                          float4 vDiffuse : COLOR0 )
 {
     VS_OUTPUT Output;
-    Output.Position = vPos;
+    Output.Position = mul(vPos, g_mWorldViewProjection);
+
     Output.Diffuse.rgb = vDiffuse.rgb;
     Output.Diffuse.a = 1.0f; 
     return Output;    

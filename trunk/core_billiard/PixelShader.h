@@ -12,7 +12,7 @@ MY_INTERFACE PixelShader
         Texture * texture,
         Texture::FilterType magFilter,
         Texture::FilterType minFilter,
-        Texture::FilterType mapFilter ) = 0;
+        Texture::FilterType mapFilter ) PURE;
 
 };
 

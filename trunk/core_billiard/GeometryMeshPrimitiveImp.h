@@ -8,14 +8,14 @@ public: // from GeometryMeshPrimitive
     virtual size_t getTriangleCount() OVERRIDE;
     virtual wstring getMaterialName() OVERRIDE;
 
-    virtual void draw( Render * render );
+    virtual void display( Render * render ) OVERRIDE;
+
+    virtual void buildDeviceBuffer( RenderBufferFactory * ) OVERRIDE;
 
 public:
     GeometryMeshPrimitiveImp();
 
-    void updateVertexIndexBuffers( Render * render );
-
-    size_t getNumVertex();
+    size_t getNumberOfVertex();
 
 public: // set
     void setName( wstring name );
@@ -23,57 +23,38 @@ public: // set
     void setMaterialName( wstring materialName );
     void setRenderingPrimitiveType( int primitiveTypeID );
 
-public: // set
+public: // append vertex information
     void appendPosition( NxVec3 );
-    void appendNormal( NxVec3 );
-    void appendBinormal( NxVec3 );
-    void appendTangent( NxVec3 );
-    void appendColor( NxVec3 );
-    void appendIndex( VertexIndex );
+    void appendNormal( NxVec3, size_t whichSet );
+    void appendBinormal( NxVec3, size_t whichSet );
+    void appendTangent( NxVec3, size_t whichSet );
+    void appendColor( NxVec3, size_t whichSet );
+    void appendTexCoord2D( NxReal u, NxReal v, size_t whichSet );
 
-public: // set
-    struct Tex2D {
-        NxReal u, v;
-    };
-    void appendTexCoord( Tex2D, size_t index );
+private: // display by draw type
+    void display_TRIANGLEFAN( Render * );
+    void display_TRIANGLESTRIP( Render * );
+    void display_LINESTRIP( Render * );
+    void display_TRIANGLELIST( Render * );
+    void display_LINELIST( Render * );
+
+    typedef void (GeometryMeshPrimitiveImp::*Display_pointer)( Render * );
+    Display_pointer display_pointer_;
 
 private: // from GeometryMeshPrimitive
     wstring name_, materialName_;
     size_t numTriangles_;
 
-private: // position
-    typedef vector< NxVec3 > Positions;
-    Positions positions_;
+private:
+    enum ESEMANTIC_TYPE { ETYPE_POSITION, ETYPE_NORMAL, ETYPE_BINORMAL, ETYPE_TANGENT, ETYPE_COLOR, ETYPE_TEXCOORD_2D, SIZE_OF_ETYPE };
 
-private: // normal
-    typedef vector< NxVec3 > Normals;
-    Normals normals_;
-
-private: // binormal
-    typedef vector< NxVec3 > Binormals;
-    Binormals binormals_;
-
-private: // tangent
-    typedef vector< NxVec3 > Tangents;
-    Tangents tangents_;
-
-private: // color
-    typedef vector< NxVec3 > Colors;
-    Colors colors_;
-
-private: // texture
-    typedef vector< Tex2D > Tex2Ds;
-    typedef vector< Tex2Ds > MultiTex2Ds;
-    MultiTex2Ds multiTex2Ds_;
-
-private: // index
-    typedef vector< VertexIndex > VertexIndex_Array;
-    VertexIndex_Array vertexIndex_Array_;
+    typedef vector< NxVec3 > Semantic;
+    typedef vector< Semantic > SemanticSet;
+    SemanticSet semanticSet_[ SIZE_OF_ETYPE ];
 
 private: // for rendering
     int primitiveTypeID_;
     VertexBuffer * vertexBuffer_;
-    IndexBuffer * indexBuffer_;
 };
 
 

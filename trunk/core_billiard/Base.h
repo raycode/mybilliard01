@@ -5,9 +5,9 @@ namespace my_render {
 MY_INTERFACE Base {
     virtual ~Base() {}
 
-    virtual wstring getID() = 0;
-    virtual wstring getName() = 0;
-    virtual wstring getURI() = 0;
+    virtual wstring getID() PURE;
+    virtual wstring getName() PURE;
+    virtual wstring getURI() PURE;
 
 };
 

@@ -4,57 +4,48 @@ namespace my_render_imp {
 
 
 GeometryMeshInput::GeometryMeshInput( domInputLocalOffset_Array inputs )
-: inputs_( inputs )
-, positions_( NULL )
-, normals_( NULL )
-, binormals_( NULL )
-, tangents_( NULL )
-, colors_( NULL )
 {
-    // inputs with offsets
-    for( size_t i = 0; i < inputs.getCount(); ++i )
-    {
-        domInputLocalOffsetRef input = inputs[ i ];
-        if( NULL == input ) continue;
+    MY_FOR_EACH_COLLADA( domInputLocalOffset, input, inputs ) {
 
-        domSource * const source = getSource( input );
+        domSource * const source = getSourceFromInput( *input );
         if( NULL == source ) continue;
 
-        const int offset  = (size_t) input->getOffset();
-        const wstring semantic = convertString( input->getSemantic() );
+        const wstring semantic = convertString( (*input)->getSemantic() );
+        const int offset  = (size_t) (*input)->getOffset();
+        const int set = (size_t) (*input)->getSet();
         domListOfFloats data = source->getFloat_array()->getValue();
 
         if( semantic == L"VERTEX" ) {
-            position_offset_ = offset;
-            positions_ = & data;
+            storeEachSemantic( ETYPE_POSITION, offset, set, data );
 
         } else if( semantic == L"NORMAL" ) {
-            normal_offset_ = offset;
-            normals_ = & data;
+            storeEachSemantic( ETYPE_NORMAL, offset, set, data );
 
         } else if( semantic == L"BINORMAL" ) {
-            binormal_offset_ = offset;
-            binormals_ = & data;
+            storeEachSemantic( ETYPE_BINORMAL, offset, set, data );
 
         } else if( semantic == L"TANGENT" ) {
-            tangent_offset_ = offset;
-            tangents_ = & data;
+            storeEachSemantic( ETYPE_TANGENT, offset, set, data );
 
         } else if( semantic == L"COLOR" ) {
-            color_offset_ = offset;
-            colors_ = & data;
+            storeEachSemantic( ETYPE_COLOR, offset, set, data );
 
         } else if( semantic == L"TEXCOORD" ) {
-            texture_offset_Array_.push_back( offset );
-            textures_Array_.push_back( & data );
+            storeEachSemantic( ETYPE_TEXCOORD, offset, set, data );
         }
     }
 }
 
-domSource * GeometryMeshInput::getSource( domInputLocalOffsetRef input )
+void GeometryMeshInput::storeEachSemantic( ESEMANTIC_TYPE semantic, size_t offset, size_t set, const domListOfFloats & data )
 {
-    const wstring semantic = convertString( input->getSemantic() );
+    offset_array_[ semantic ].resize( std::max( set +1, offset_array_[ semantic ].size() ) );
+    source_array_[ semantic ].resize( std::max( set +1, source_array_[ semantic ].size() ) );
+    offset_array_[ semantic ][ set ] = offset;
+    source_array_[ semantic ][ set ] = data;
+}
 
+domSource * GeometryMeshInput::getSourceFromInput( domInputLocalOffsetRef input )
+{
     domElement * candidate = input->getSource().getElement();
     if( NULL == candidate ) return NULL;
 
@@ -66,94 +57,87 @@ domSource * GeometryMeshInput::getSource( domInputLocalOffsetRef input )
     return daeDowncast< domSource >( candidate );
 }
 
-void GeometryMeshInput::setIndexies( domListOfUInts indexies ) {
-    indexies_ = indexies;
+void GeometryMeshInput::setNewIndices( const domListOfUInts & indexies ) {
+    indices = indexies;
     currentPosition_ = 0;
 }
 
-size_t GeometryMeshInput::getMaxOffset() {
-    int max_offset = max( max( max( max(
-        position_offset_,
-        normal_offset_ ),
-        binormal_offset_ ),
-        tangent_offset_ ),
-        color_offset_ );
-
-    MY_FOR_EACH( vector< int >, iter, texture_offset_Array_ ) {
-        max_offset = std::max( max_offset, *iter );
+size_t GeometryMeshInput::getStepOfOffset() {
+    size_t sumOfOffset = 0;
+    for( size_t i = 0; i < SIZE_OF_ETYPE; ++i ) {
+        sumOfOffset += offset_array_[ i ].size();
     }
-
-    return (size_t) max_offset;
+    return sumOfOffset;
 }
 
-bool GeometryMeshInput::hasNext() {
-    const size_t totalNumValues = indexies_.getCount();
-    const size_t totalNumOffsets = getMaxOffset() + 1;
-    const size_t nextPosition = currentPosition_ + totalNumOffsets;
-    return totalNumValues >= nextPosition + totalNumOffsets;
+bool GeometryMeshInput::hasVertex() {
+    const size_t totalNumValues = indices.getCount();
+    const size_t endOfPosition = currentPosition_ + getStepOfOffset();
+    return totalNumValues >= endOfPosition;
 }
 
-void GeometryMeshInput::getNext() {
-    const size_t totalNumOffsets = getMaxOffset() + 1;
-    currentPosition_ = currentPosition_ + totalNumOffsets;
+void GeometryMeshInput::moveToNextVertex() {
+    currentPosition_ = currentPosition_ + getStepOfOffset();
 }
 
-bool GeometryMeshInput::hasNormal() {
-    return NULL != normals_;
+size_t GeometryMeshInput::getNumberOfNormalSet() {
+    return source_array_[ ETYPE_NORMAL ].size();
+}
+size_t GeometryMeshInput::getNumberOfBiNormalSet() {
+    return source_array_[ ETYPE_BINORMAL ].size();
+}
+size_t GeometryMeshInput::getNumberOfTangentSet() {
+    return source_array_[ ETYPE_TANGENT ].size();
+}
+size_t GeometryMeshInput::getNumberOfColorSet() {
+    return source_array_[ ETYPE_COLOR ].size();
+}
+size_t GeometryMeshInput::getNumberOfTexCoord2DSet() {
+    return source_array_[ ETYPE_TEXCOORD ].size();
 }
 
-bool GeometryMeshInput::hasBinormal() {
-    return NULL != binormals_;
+size_t GeometryMeshInput::getCurrentIndex( ESEMANTIC_TYPE semanticType, size_t whichSet ) {
+    return (size_t) indices[ currentPosition_ + offset_array_[ semanticType ][ whichSet ] ];
 }
 
-bool GeometryMeshInput::hasTangent() {
-    return NULL != tangents_;
-}
-
-bool GeometryMeshInput::hasColor() {
-    return NULL != colors_;
-}
-
-size_t GeometryMeshInput::getCurrentIndex( size_t offset ) {
-    return (size_t) indexies_[ currentPosition_ + offset ];
+domFloat * GeometryMeshInput::getCurrentSource( ESEMANTIC_TYPE semanticType, size_t whichSet, size_t numberOfUnit ) {
+    return &(source_array_[ semanticType ][ whichSet ][ getCurrentIndex( semanticType, whichSet ) * numberOfUnit ]);
 }
 
 NxVec3 GeometryMeshInput::getVertex() {
-    domFloat * const ptr = &((*positions_)[ getCurrentIndex( position_offset_ ) * 3 ]);
-    return NxVec3( (NxReal) *ptr, (NxReal) *(ptr+1), (NxReal) *(ptr+2) );
+    const size_t whichSet = 0;
+    domFloat * const src = getCurrentSource( ETYPE_POSITION, whichSet, 3 );
+    return NxVec3( (NxReal) *src, (NxReal) *(src+1), (NxReal) *(src+2) );
 }
 
-NxVec3 GeometryMeshInput::getNormal() {
-    domFloat * const ptr = &((*normals_)[ getCurrentIndex( normal_offset_ ) * 3 ]);
-    return NxVec3( (NxReal) *ptr, (NxReal) *(ptr+1), (NxReal) *(ptr+2) );
+NxVec3 GeometryMeshInput::getNormal( size_t whichSet ) {
+    domFloat * const src = getCurrentSource( ETYPE_NORMAL, whichSet, 3 );
+    return NxVec3( (NxReal) *src, (NxReal) *(src+1), (NxReal) *(src+2) );
 }
 
-GeometryMeshPrimitiveImp::Tex2D GeometryMeshInput::getTexCoord( size_t index ) {
-    domFloat * const ptr = &((*(textures_Array_[ index ]))[ getCurrentIndex( texture_offset_Array_[ index ] ) * 2 ] ) ;
-    GeometryMeshPrimitiveImp::Tex2D uv;
-    uv.u = (NxReal) (*ptr);
-    uv.v = (NxReal) (*(ptr+1));
-    return uv;
+NxVec3 GeometryMeshInput::getBinormal( size_t whichSet ) {
+    domFloat * const src = getCurrentSource( ETYPE_BINORMAL, whichSet, 3 );
+    return NxVec3( (NxReal) *src, (NxReal) *(src+1), (NxReal) *(src+2) );
 }
 
-size_t GeometryMeshInput::getNumTexture() {
-    return textures_Array_.size();
+NxVec3 GeometryMeshInput::getTangent( size_t whichSet ) {
+    domFloat * const src = getCurrentSource( ETYPE_TANGENT, whichSet, 3 );
+    return NxVec3( (NxReal) *src, (NxReal) *(src+1), (NxReal) *(src+2) );
 }
 
-NxVec3 GeometryMeshInput::getBinormal() {
-    domFloat * const ptr = &((*binormals_)[ getCurrentIndex( binormal_offset_ ) * 3 ]);
-    return NxVec3( (NxReal) *ptr, (NxReal) *(ptr+1), (NxReal) *(ptr+2) );
+NxVec3 GeometryMeshInput::getColor( size_t whichSet ) {
+    domFloat * const src = getCurrentSource( ETYPE_COLOR, whichSet, 3 );
+    return NxVec3( (NxReal) *src, (NxReal) *(src+1), (NxReal) *(src+2) );
 }
 
-NxVec3 GeometryMeshInput::getTangent() {
-    domFloat * const ptr = &((*tangents_)[ getCurrentIndex( tangent_offset_ ) * 3 ]);
-    return NxVec3( (NxReal) *ptr, (NxReal) *(ptr+1), (NxReal) *(ptr+2) );
+NxReal GeometryMeshInput::getTexCoord2D_U( size_t whichSet ) {
+    domFloat * const src = getCurrentSource( ETYPE_TEXCOORD, whichSet, 2 );
+    return (NxReal) (*src);
 }
 
-NxVec3 GeometryMeshInput::getColor() {
-    domFloat * const ptr = &((*colors_)[ getCurrentIndex( color_offset_ ) * 3 ]);
-    return NxVec3( (NxReal) *ptr, (NxReal) *(ptr+1), (NxReal) *(ptr+2) );
+NxReal GeometryMeshInput::getTexCoord2D_V( size_t whichSet ) {
+    domFloat * const src = getCurrentSource( ETYPE_TEXCOORD, whichSet, 2 );
+    return (NxReal) (*(src+1));
 }
-
 
 }

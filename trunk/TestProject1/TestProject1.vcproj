@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="TestProject1"
+	Name="TestCollada"
 	ProjectTypes="{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}"
 	ProjectGUID="{A14E08A5-D318-4C5C-B1B4-9CD28B1BA8AF}"
 	RootNamespace="TestProject1"
@@ -44,7 +44,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;;&quot;$(SolutionDir)/core_billiard/Tools/NxuStream2&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/DXUT/Core&quot;;&quot;$(SolutionDir)/DXUT/Optional&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;;&quot;$(SolutionDir)/core_billiard/Tools/NxuStream2&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				RuntimeLibrary="3"
 				EnableEnhancedInstructionSet="0"
@@ -67,7 +67,7 @@
 				Name="VCLinkerTool"
 				IgnoreImportLibrary="false"
 				UseLibraryDependencyInputs="false"
-				AdditionalDependencies="User32.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCharacter.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCooking.lib&quot; &quot;$(SolutionDir)/PhysX/lib/PhysXLoader.lib&quot; $(NOINHERIT)"
+				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCharacter.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCooking.lib&quot; &quot;$(SolutionDir)/PhysX/lib/PhysXLoader.lib&quot;"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
 				DelayLoadDLLs=""
@@ -214,12 +214,15 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MyColladaLoaderTest.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\MyPhysXTest.cpp"
 				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\MyTestingUtility.hpp"

@@ -1071,7 +1071,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\my_phys_x.h"
+				RelativePath=".\my_phys.h"
 				>
 			</File>
 			<File
@@ -1697,6 +1697,10 @@
 					Name="3. Render"
 					>
 					<File
+						RelativePath=".\Animatable.h"
+						>
+					</File>
+					<File
 						RelativePath=".\IndexBuffer.h"
 						>
 					</File>
@@ -1718,6 +1722,10 @@
 					</File>
 					<File
 						RelativePath=".\SurfaceLockedRect.h"
+						>
+					</File>
+					<File
+						RelativePath=".\Visible.h"
 						>
 					</File>
 					<Filter
@@ -1810,7 +1818,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\Factory.h"
+					RelativePath=".\ColladaFactory.h"
 					>
 				</File>
 				<File
@@ -1964,7 +1972,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\FactoryImp.cpp"
+					RelativePath=".\ColladaFactoryImp.cpp"
 					>
 					<FileConfiguration
 						Name="Debug|Win32"
@@ -1977,7 +1985,7 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\FactoryImp.h"
+					RelativePath=".\ColladaFactoryImp.h"
 					>
 				</File>
 				<File
@@ -2087,6 +2095,10 @@
 				</File>
 				<File
 					RelativePath=".\GeometryFactoryImp.h"
+					>
+				</File>
+				<File
+					RelativePath=".\GeometryFactoryImp_readPrimitive.cpp"
 					>
 				</File>
 				<File

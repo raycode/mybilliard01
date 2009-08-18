@@ -12,12 +12,12 @@ MY_INTERFACE Surface {
 #define SurfaceLock_DONOTWAIT          0x00004000L                  
 #define SurfaceLock_NO_DIRTY_UPDATE    0x00008000L
 
-    virtual SurfaceLockedRect * lockRect( int left, int top, int right, int bottom, int flag ) = 0;
-    virtual SurfaceLockedRect * lockRect( int flag ) = 0;
+    virtual SurfaceLockedRect * lockRect( int left, int top, int right, int bottom, int flag ) PURE;
+    virtual SurfaceLockedRect * lockRect( int flag ) PURE;
 
-    virtual bool isLocked() = 0;
+    virtual bool isLocked() PURE;
 
-    virtual void unlockRect( SurfaceLockedRect * ) = 0;
+    virtual void unlockRect( SurfaceLockedRect * ) PURE;
 
 };
 

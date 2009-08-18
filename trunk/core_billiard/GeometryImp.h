@@ -4,23 +4,15 @@ namespace my_render_imp {
 
 class GeometryImp : public BaseImp, IMPLEMENTS_INTERFACE( Geometry ) {
 public:
-    virtual void draw( Render * render ) OVERRIDE;
+    virtual void display( Render * render ) OVERRIDE;
+
+    virtual GeometryMesh * getMesh() OVERRIDE;
 
 public:
     GeometryImp();
 
-public: // set
-    void setMesh( GeometryMesh * newMesh );
-    void setConvexMesh() {}
-    void setSpline() {}
-
-public: // get
-    GeometryMesh * getMesh();
-    void getConvexMesh() {}
-    void getSpline() {}
-
 private:
-    GeometryMesh * mesh_;
+    GeometryMeshPtr mesh_;
 };
 
 

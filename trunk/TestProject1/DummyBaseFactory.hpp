@@ -1,9 +1,9 @@
 #pragma once
 
-class DummyBaseFactory : IMPLEMENTS_( Factory ) {
+class DummyBaseFactory : IMPLEMENTS_INTERFACE( ColladaFactory ) {
 public:
-    virtual Node * createVisualScene( domVisual_sceneRef ) { return NULL; }
-    virtual Geometry * createGeometry( domGeometryRef ) { return NULL; }
+    virtual Node * createVisualScene( domVisual_sceneRef ) OVERRIDE { return NULL; }
+    virtual Geometry * createGeometry( domGeometryRef ) OVERRIDE { return NULL; }
 
-    virtual void release( Base * ) {}
+    virtual bool destroy( Base * ) OVERRIDE {}
 };

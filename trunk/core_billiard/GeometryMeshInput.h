@@ -5,48 +5,48 @@ namespace my_render_imp {
 class GeometryMeshInput {
 public:
     GeometryMeshInput( domInputLocalOffset_Array inputs );
+    void setNewIndices( const domListOfUInts & );
 
-    void setIndexies( domListOfUInts );
+    bool hasVertex();
+    void moveToNextVertex();
 
-    bool hasNext();
-    void getNext();
-
-    bool hasNormal();
-    bool hasBinormal();
-    bool hasTangent();
-    bool hasColor();
+    size_t getNumberOfNormalSet();
+    size_t getNumberOfBiNormalSet();
+    size_t getNumberOfTangentSet();
+    size_t getNumberOfColorSet();
+    size_t getNumberOfTexCoord2DSet();
 
     NxVec3 getVertex();
-    NxVec3 getNormal();
-    NxVec3 getBinormal();
-    NxVec3 getTangent();
-    NxVec3 getColor();
-
-    size_t getNumTexture();
-    GeometryMeshPrimitiveImp::Tex2D getTexCoord( size_t index );
+    NxVec3 getNormal( size_t whichSet );
+    NxVec3 getBinormal( size_t whichSet );
+    NxVec3 getTangent( size_t whichSet );
+    NxVec3 getColor( size_t whichSet );
+    NxReal getTexCoord2D_U( size_t whichSet );
+    NxReal getTexCoord2D_V( size_t whichSet );
 
 private:
-    domSource * getSource( domInputLocalOffsetRef input );
-    size_t getMaxOffset();
-    size_t getCurrentIndex( size_t offset );
+    enum ESEMANTIC_TYPE { ETYPE_POSITION, ETYPE_NORMAL, ETYPE_BINORMAL, ETYPE_TANGENT, ETYPE_COLOR, ETYPE_TEXCOORD, SIZE_OF_ETYPE };
 
-    domInputLocalOffset_Array inputs_;
-    domListOfUInts indexies_;
+    void storeEachSemantic( ESEMANTIC_TYPE semanticType, size_t offset, size_t set, const domListOfFloats & data );
+
+    size_t getCurrentIndex( ESEMANTIC_TYPE semanticType, size_t whichSet );
+    domFloat * getCurrentSource( ESEMANTIC_TYPE semanticType, size_t whichSet, size_t numberOfUnit );
+
+private:
+    domSource * getSourceFromInput( domInputLocalOffsetRef input );
+    size_t getStepOfOffset();
+
+private:
+    domListOfUInts indices;
     size_t currentPosition_;
 
-    int position_offset_;
-    int normal_offset_;
-    int binormal_offset_;
-    int tangent_offset_;
-    int color_offset_;
-    vector< int > texture_offset_Array_;
+private:
+    typedef vector< int > Offset_Array;
+    Offset_Array offset_array_[ SIZE_OF_ETYPE ];
 
-    domListOfFloats * positions_;
-    domListOfFloats * normals_;
-    domListOfFloats * binormals_;
-    domListOfFloats * tangents_;
-    domListOfFloats * colors_;
-    vector< domListOfFloats * > textures_Array_;
+    typedef vector< domListOfFloats > Floats_Array;
+    Floats_Array source_array_[ SIZE_OF_ETYPE ];
+
 };
 
 
