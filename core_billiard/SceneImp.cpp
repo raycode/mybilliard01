@@ -166,8 +166,10 @@ void SceneImp::loadLibraryScene() {
 
 vector< wstring > SceneImp::getVisualSceneIDs() {
     vector< wstring > visualSceneIDs;
-    MY_FOR_EACH_COLLADA( domLibrary_visual_scenes, vscene, collada_->getLibrary_visual_scenes_array() ) {
-        visualSceneIDs.push_back( convertString( (*vscene)->getId() ) );
+    MY_FOR_EACH_COLLADA( domLibrary_visual_scenes, vscenes, collada_->getLibrary_visual_scenes_array() ) {
+        MY_FOR_EACH_COLLADA( domVisual_scene, vscene, (*vscenes)->getVisual_scene_array() ) {
+            visualSceneIDs.push_back( convertString( (*vscene)->getId() ) );
+        }
     }
     return visualSceneIDs;
 }

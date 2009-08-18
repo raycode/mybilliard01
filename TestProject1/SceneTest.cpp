@@ -10,20 +10,16 @@ public ref class SceneTest
 {
 private:
     static TestContext^ testContext_;
-
-private:
-    Scene * scene;
+    SceneImp * scene;
 
 public: 
     [ClassInitialize()]
-    static void MyClassInitialize(TestContext^ testContext)
-    {
+    static void MyClassInitialize(TestContext^ testContext) {
         testContext_ = testContext;
     };
 
     [TestInitialize()]
-    void MyTestInitialize()
-    {
+    void MyTestInitialize() {
         setCurrentDirectory( testContext_ );
         scene = new SceneImp();
     };
@@ -39,7 +35,7 @@ public:
 
 public:
     [TestMethod]
-    void ConstructorScene() {
+    void ConstructScene() {
         assertTrue( NULL != scene );
     }
 
@@ -49,11 +45,13 @@ public:
         assertTrue( succeed1 );
     }
 
+    [TestMethod]
     void loadCollada_wrongfile() {
         const bool fail1 = scene->load( L"NoFile.dae" );
         assertFalse( fail1 );
     }
 
+    [TestMethod]
     void loadCollada_severalTimes() {
         const bool succeed1 = scene->load( getFilename() );
         assertTrue( succeed1 );
@@ -68,4 +66,19 @@ public:
         assertFalse( fail1 );
     }
 
+    [TestMethod]
+    void VisualSceneID() {
+        assertTrue( scene->load( getFilename() ) );
+
+        vector< wstring > id_array = scene->getVisualSceneIDs();
+        assertEquals( 1u, id_array.size() );
+        assertStrEquals( L"RootNode", id_array[0] );
+    }
+
+    [TestMethod]
+    void DefaultVisualSceneID() {
+        assertTrue( scene->load( getFilename() ) );
+        assertTrue( scene->hasDefaultVisualSceneID() );
+        assertStrEquals( L"RootNode", scene->getDefaultVisualSceneID() );
+    }
 };
