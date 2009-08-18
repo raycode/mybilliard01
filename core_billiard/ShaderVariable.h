@@ -5,7 +5,7 @@ namespace my_render {
 MY_INTERFACE ShaderVariable {
     virtual ~ShaderVariable() {}
     
-    virtual wstring getVariableName() = 0;
+    virtual wstring getVariableName() PURE;
 
 };
 

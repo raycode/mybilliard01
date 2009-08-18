@@ -27,6 +27,16 @@ void NodeImp::setSID( wstring sid ) {
     sid_ = sid;
 }
 
+bool NodeImp::hasParent() {
+    return NULL != getParent();
+}
+bool NodeImp::hasNextSibling() {
+    return NULL != getNextSibling();
+}
+bool NodeImp::hasFirstChild() {
+    return NULL != getFirstChild();
+}
+
 void NodeImp::setParent( NodeImp * parent ) {
     parent_ = parent;
 }
@@ -61,22 +71,22 @@ void NodeImp::update( float time ) {
     }
 }
 
-void NodeImp::render( Render * render ) {
+void NodeImp::display( Render * render ) {
     {
         renderInstanceGeometries( render );
     }
 
     if( firstChildren_ )
-        firstChildren_->render( render );
+        firstChildren_->display( render );
     if( nextSibling_ )
-        nextSibling_->render( render );
+        nextSibling_->display( render );
 }
 
 void NodeImp::renderInstanceGeometries( Render * render ) {
-    MY_FOR_EACH( Instances, iter, instanceGeometries_ ) {
-        Instance * const igeo = *iter;
-        Geometry * const geo = renderDowncast< Geometry >( igeo->getResolvedReferrence() );
-        geo->draw( render );
+    MY_FOR_EACH( Instances, igeo, instanceGeometries_ ) {
+        Geometry * const geo = renderDowncast< Geometry >( (*igeo)->getResolvedReferrence() );
+        if( NULL == geo ) continue;
+        geo->display( render );
     }
 }
 

@@ -13,7 +13,7 @@ MY_INTERFACE MouseEventListener {
         bool bMiddleButton, 
         bool bSideButton1, 
         bool bSideButton2, 
-        int nMouseWheelDelta ) = 0;
+        int nMouseWheelDelta ) PURE;
 
 };
 

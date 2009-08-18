@@ -9,7 +9,7 @@
 #include "NXU_ColladaImport.h"
 #include "MediaPath.h"
 
-namespace my_phys_x {
+namespace my_phys {
     using namespace std;
     using namespace my_utility;
 

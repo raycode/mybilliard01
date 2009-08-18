@@ -10,8 +10,12 @@ public: // from Node
     virtual size_t getNbChild() OVERRIDE;
     virtual wstring getSID() OVERRIDE;
 
+    virtual bool hasParent() OVERRIDE;
+    virtual bool hasNextSibling() OVERRIDE;
+    virtual bool hasFirstChild() OVERRIDE;
+
     virtual void update( float time ) OVERRIDE;
-    virtual void render( Render * render ) OVERRIDE;
+    virtual void display( Render * render ) OVERRIDE;
 
 public:
     NodeImp();

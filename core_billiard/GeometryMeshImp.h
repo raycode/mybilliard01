@@ -4,15 +4,14 @@ namespace my_render_imp {
 
 class GeometryMeshImp : IMPLEMENTS_INTERFACE( GeometryMesh ) {
 public: // from GeometryMesh
-    virtual void draw( Render * render ) OVERRIDE;
+    virtual void display( Render * render ) OVERRIDE;
 
-public: // primitive
-    void appendPrimitive( GeometryMeshPrimitiveImp * primitive );
-    size_t getNumPrimitives();
-    GeometryMeshPrimitiveImp * getPrimitive( size_t index );
+    virtual void appendPrimitive( GeometryMeshPrimitive * primitive ) OVERRIDE;
+    virtual size_t getNumberOfPrimitives() OVERRIDE;
+    virtual GeometryMeshPrimitive * getPrimitive( size_t index ) OVERRIDE;
 
 private:
-    typedef vector< GeometryMeshPrimitiveImp * > Primitives;
+    typedef vector< GeometryMeshPrimitive * > Primitives;
     Primitives primitives_;
 };
 

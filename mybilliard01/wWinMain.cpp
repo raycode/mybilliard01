@@ -21,7 +21,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
 
-
     RenderEventListenerImp * renderEvent = new RenderEventListenerImp();
 
     RenderWin32DX9 * render = new RenderWin32DX9Imp();

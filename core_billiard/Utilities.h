@@ -7,7 +7,7 @@
 #include <shlwapi.h>
 #endif
 
-namespace my_phys_x {
+namespace my_phys {
 
 #if defined(__CELLOS_LV2__)
 #define __forceinline inline __attribute__((always_inline))

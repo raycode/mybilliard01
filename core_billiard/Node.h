@@ -4,14 +4,18 @@ namespace my_render {
 
 MY_INTERFACE Node : EXTENDS_INTERFACE( Base ) {
 
-    virtual Node * getParent() = 0;
-    virtual Node * getNextSibling() = 0;
-    virtual Node * getFirstChild() = 0;
-    virtual size_t getNbChild() = 0;
-    virtual wstring getSID() = 0;
+    virtual Node * getParent() PURE;
+    virtual Node * getNextSibling() PURE;
+    virtual Node * getFirstChild() PURE;
+    virtual size_t getNbChild() PURE;
+    virtual wstring getSID() PURE;
 
-    virtual void update( float time ) = 0;
-    virtual void render( Render * render ) = 0;
+    virtual bool hasParent() PURE;
+    virtual bool hasNextSibling() PURE;
+    virtual bool hasFirstChild() PURE;
+
+    virtual void update( float elapsedTime ) PURE;
+    virtual void display( Render * render ) PURE;
 
 };
 

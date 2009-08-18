@@ -4,7 +4,8 @@ namespace my_render {
 
 MY_INTERFACE Geometry : EXTENDS_INTERFACE( Base ) {
 
-    virtual void draw( Render * render ) = 0;
+    virtual void display( Render * render ) PURE;
+    virtual GeometryMesh * getMesh() PURE;
 
 };
 

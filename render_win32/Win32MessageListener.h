@@ -11,7 +11,7 @@ MY_INTERFACE Win32MessageListener {
     virtual ~Win32MessageListener() {}
 
     // return false when it need to stop default MsgProc.
-    virtual bool MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) = 0;
+    virtual bool MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) PURE;
 
 };
 

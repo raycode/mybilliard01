@@ -8,7 +8,7 @@
 
 
 #include "NxPhysics.h"
-namespace my_phys_x {
+namespace my_phys {
 
 class PerfRenderer
 {

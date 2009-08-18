@@ -15,16 +15,14 @@ public: // from RenderEventListener
 public:
     RenderEventListenerImp();
 
-public: // DXUT
-    CModelViewerCamera          camera_;               // A model viewing camera
+private: // collada
+    ScenePtr scene_;
 
-private:
+private: // render
     EffectShader * effect_;
     ShaderVariable * tech_, * wvp_, * world_, * time_;
     VertexBuffer * vb_;
 
-private: // Collada scene object
-    ScenePtr scene_;
 };
 
 

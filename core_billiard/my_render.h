@@ -36,7 +36,7 @@ namespace my_render {
     class Node;
     class Camera;
 
-    class Factory;
+    class ColladaFactory;
     class NodeFactory;
     class GeometryFactory;
     class Instance;
@@ -70,7 +70,7 @@ namespace my_render {
     MY_SMART_PTR( Base );
     MY_SMART_PTR( Node );
     MY_SMART_PTR( Camera );
-    MY_SMART_PTR( Factory );
+    MY_SMART_PTR( ColladaFactory );
     MY_SMART_PTR( NodeFactory );
     MY_SMART_PTR( GeometryFactory );
     MY_SMART_PTR( Instance );
@@ -119,7 +119,7 @@ namespace my_render {
 #include "Node.h"
 #include "Camera.h"
 
-#include "Factory.h"
+#include "ColladaFactory.h"
 #include "NodeFactory.h"
 #include "GeometryFactory.h"
 #include "Instance.h"

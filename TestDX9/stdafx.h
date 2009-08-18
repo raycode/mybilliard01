@@ -23,11 +23,3 @@ using namespace MyTestingUtility;
 #include "BackbufferHelper.hpp"
 
 
-#define assertTrue( obj ) { Assert::IsTrue( obj ); }
-#define assertFalse( obj ) { Assert::IsFalse( obj ); }
-#define assertEquals( expect, actual ) { Assert::AreEqual( expect, actual ); }
-#define assertStrEquals( expect, actual ) { Assert::AreEqual( getString( expect ), getString( actual ) ); }
-#define assertNull( obj ) { Assert::IsTrue( NULL == obj ); }
-#define assertNotNull( obj ) { Assert::IsTrue( NULL != obj ); }
-#define fail { Assert::Fail(); }
-

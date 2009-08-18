@@ -13,7 +13,6 @@ private:
 
 private:
     Scene * scene;
-    Factory * baseFactory;
 
 public: 
     [ClassInitialize()]
@@ -25,14 +24,12 @@ public:
     [TestInitialize()]
     void MyTestInitialize()
     {
-        scene = new SceneImp();
-        baseFactory = new DummyBaseFactory();
         setCurrentDirectory( testContext_ );
+        scene = new SceneImp();
     };
 
     [TestCleanup()]
     void MyTestCleanup() {
-        delete baseFactory;
         delete scene;
     };
 
@@ -43,48 +40,32 @@ public:
 public:
     [TestMethod]
     void ConstructorScene() {
-        Assert::IsTrue( NULL != scene );
+        assertTrue( NULL != scene );
     }
 
     [TestMethod]
     void loadCollada() {
-        const bool succeed1 = scene->load( getFilename(), baseFactory );
-        Assert::IsTrue( succeed1 );
-
-        const bool succeed2 = scene->load( L"./" + getFilename(), baseFactory );
-        Assert::IsTrue( succeed2 );
-
-        const bool succeed3 = scene->load( L".\\" + getFilename(), baseFactory );
-        Assert::IsTrue( succeed3 );
-
-        const bool fail1 = scene->load( L"NoFile.dae", baseFactory );
-        Assert::IsFalse( fail1 );
+        const bool succeed1 = scene->load( getFilename() );
+        assertTrue( succeed1 );
     }
 
-    [TestMethod]
-    void setRender() {
-        Render * const render = new RenderD3D9Imp();
-        scene->setRender( render );
-        Assert::IsTrue( render == scene->getRender() );
+    void loadCollada_wrongfile() {
+        const bool fail1 = scene->load( L"NoFile.dae" );
+        assertFalse( fail1 );
     }
 
-    [TestMethod]
-    void setRenderUpAxis_LoadFirst() {
-        scene->load( getFilename(), baseFactory );
+    void loadCollada_severalTimes() {
+        const bool succeed1 = scene->load( getFilename() );
+        assertTrue( succeed1 );
 
-        Render * const render = new RenderD3D9Imp();
-        scene->setRender( render );
+        const bool succeed2 = scene->load( L"./" + getFilename() );
+        assertTrue( succeed2 );
 
-        Assert::IsTrue( UPAXISTYPE_Y_UP == render->getUpAxis() );
+        const bool succeed3 = scene->load( L".\\" + getFilename() );
+        assertTrue( succeed3 );
+
+        const bool fail1 = scene->load( L"NoFile.dae" );
+        assertFalse( fail1 );
     }
 
-    [TestMethod]
-    void setRenderUpAxis_SetFirst() {
-        Render * const render = new RenderD3D9Imp();
-        scene->setRender( render );
-
-        scene->load( getFilename(), baseFactory );
-
-        Assert::IsTrue( UPAXISTYPE_Y_UP == render->getUpAxis() );
-    }
 };

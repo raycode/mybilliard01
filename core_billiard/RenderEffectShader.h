@@ -5,7 +5,7 @@ namespace my_render {
 MY_INTERFACE RenderEffectShader {
     virtual ~RenderEffectShader() {}
 
-    virtual void display( Render *, size_t pass ) = 0;
+    virtual void display( Render *, size_t pass ) PURE;
 
 };
 

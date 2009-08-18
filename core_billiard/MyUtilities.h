@@ -4,11 +4,17 @@
 
 
 
-#define MY_FOR_EACH( STL_TYPE, VAR_ITER, STL_CONTAINNER ) \
-    for( STL_TYPE::const_iterator VAR_ITER = STL_CONTAINNER.begin(); VAR_ITER != STL_CONTAINNER.end(); ++VAR_ITER )
+#define MY_FOR_EACH( CONTAINER_TYPE, ITERATOR, CONTAINER ) \
+    for( CONTAINER_TYPE::const_iterator ITERATOR = CONTAINER.begin(); ITERATOR != CONTAINER.end(); ++ITERATOR )
 
-#define MY_FOR_EACH_MOD( STL_TYPE, VAR_ITER, STL_CONTAINNER ) \
-    for( STL_TYPE::iterator VAR_ITER = STL_CONTAINNER.begin(); VAR_ITER != STL_CONTAINNER.end(); ++VAR_ITER )
+#define MY_FOR_EACH_MOD( CONTAINER_TYPE, ITERATOR, CONTAINER ) \
+    for( CONTAINER_TYPE::iterator ITERATOR = CONTAINER.begin(); ITERATOR != CONTAINER.end(); ++ITERATOR )
+
+#define MY_FOR_EACH_COLLADA( VALUE_TYPE, ITERATOR, CONTAINER ) \
+    VALUE_TYPE##_Array colladaContainer_##ITERATOR = CONTAINER; \
+    vector< VALUE_TYPE##Ref > STL_##ITERATOR( &(colladaContainer_##ITERATOR[ 0 ]), &(colladaContainer_##ITERATOR[ 0 ]) + colladaContainer_##ITERATOR.getCount() ); \
+    for( vector< VALUE_TYPE##Ref >::iterator ITERATOR = STL_##ITERATOR.begin(); ITERATOR != STL_##ITERATOR.end() && NULL != *ITERATOR; ++ITERATOR )
+
 
 
 namespace my_utility {
@@ -24,6 +30,26 @@ inline std::wstring convertString( std::string input ) {
 }
 
 inline std::string convertString( std::wstring input ) {
+    return convertString< std::string, std::wstring >( input );
+}
+
+inline std::wstring convertString( char * input ) {
+    if( NULL == input ) return L"";
+    return convertString< std::wstring, std::string >( input );
+}
+
+inline std::string convertString( wchar_t * input ) {
+    if( NULL == input ) return "";
+    return convertString< std::string, std::wstring >( input );
+}
+
+inline std::wstring convertString( const char * input ) {
+    if( NULL == input ) return L"";
+    return convertString< std::wstring, std::string >( input );
+}
+
+inline std::string convertString( const wchar_t * input ) {
+    if( NULL == input ) return "";
     return convertString< std::string, std::wstring >( input );
 }
 

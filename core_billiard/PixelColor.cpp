@@ -13,6 +13,14 @@ PixelColor::PixelColor( NxU32 argb )
     setARGB( argb );
 }
 
+PixelColor::PixelColor( NxVec3 rgb )
+{
+    setA( 0 );
+    setR( (Color256)( rgb.x * 256 ) );
+    setG( (Color256)( rgb.y * 256 ) );
+    setB( (Color256)( rgb.z * 256 ) );
+}
+
 PixelColor::PixelColor( int a, int r, int g, int b )
 {
     setA( (Color256) a );

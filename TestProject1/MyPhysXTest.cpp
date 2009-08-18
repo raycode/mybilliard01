@@ -43,40 +43,40 @@ public:
 
     [TestMethod]
     void FindAssetFile() {
-        const wstring filename = getDeployedFilename( ConstString::colladaPhysXFilename() );
-        Assert::IsTrue( isFileExist( filename ), getString( filename ) + " is not found." );
+        const wstring filename = getDeployedFilename( L"asset\\1ball1box.physx.dae" );
+        assertTrue( isFileExist( filename ) );
 
         wchar_t LoadFilename[512];
         wchar_t * const found = FindMediaFile( filename.c_str(), LoadFilename );
 
-        Assert::IsTrue( NULL != found );
-        Assert::IsTrue( isFileExist( found ), getString( found ) + " is not found." );
+        assertTrue( NULL != found );
+        assertTrue( isFileExist( found ) );
     }
 
     [TestMethod]
     void LoadColladaFile()
     {
-        const wstring filename = getDeployedFilename( ConstString::colladaPhysXFilename() );
+        const wstring filename = getDeployedFilename( L"asset\\1ball1box.physx.dae" );
 
         MyPhysX phys;
         const bool bLoad = phys.loadColladaFile( filename, &userNotify );
-        Assert::IsTrue( bLoad );
-        Assert::AreEqual( 2u, phys.countActors() );
+        assertTrue( bLoad );
+        assertEquals( 2u, phys.countActors() );
     }
 
     [TestMethod]
     void CheckActorNames()
     {
         MyPhysX phys;
-        phys.loadColladaFile( getDeployedFilename( ConstString::colladaPhysXFilename() ) );
+        phys.loadColladaFile( getDeployedFilename( L"asset\\1ball1box.physx.dae" ) );
 
         array< String^ >^ namesOfActors = { L"Sphere01", L"Box01" };
         for( size_t i = 0; i < (size_t) namesOfActors->Length; ++i )
         {
             NxActor * const actor = phys.getActor( i );
 
-            Assert::IsTrue( actor != NULL );
-            Assert::AreEqual( namesOfActors[ i ], getString( actor->getName() ) );
+            assertTrue( actor != NULL );
+            assertEquals( namesOfActors[ i ], getString( actor->getName() ) );
         }
     }
 
@@ -84,15 +84,15 @@ public:
     void CheckSkinWidth()
     {
         MyPhysX phys;
-        phys.loadColladaFile( getDeployedFilename( ConstString::colladaPhysXFilename() ) );
+        phys.loadColladaFile( getDeployedFilename( L"asset\\1ball1box.physx.dae" ) );
 
         for( size_t i = 0; i < (size_t) phys.countActors(); ++i )
         {
             NxActor * const actor = phys.getActor( i );
             NxU32 nShapes = actor->getNbShapes();
 
-            Assert::IsTrue( 1 <= nShapes );
-            Assert::AreEqual( 0.00025, (Double) actor->getShapes()[ 0 ]->getSkinWidth(), 0.00002 );
+            assertTrue( 1 <= nShapes );
+            assertFloatEquals( 0.00025, (Double) actor->getShapes()[ 0 ]->getSkinWidth(), 0.00002 );
         }
     };
 };

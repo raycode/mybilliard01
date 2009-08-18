@@ -22,13 +22,13 @@ namespace my_render_imp {
     class GeometryMeshPrimitiveImp;
 
     class InstanceImp;
-    class FactoryImp;
+    class ColladaFactoryImp;
 
     MY_SMART_PTR( NodeImp );
     MY_SMART_PTR( GeometryImp );
     MY_SMART_PTR( PixelColor );
     MY_SMART_PTR( InstanceImp );
-    MY_SMART_PTR( FactoryImp );
+    MY_SMART_PTR( ColladaFactoryImp );
     MY_SMART_PTR( NodeFactoryImp );
     MY_SMART_PTR( GeometryFactoryImp );
     MY_SMART_PTR( NodeAnimation );
@@ -43,7 +43,9 @@ namespace my_render_imp {
     }
 }
 
-#include "SceneImp.h"
+#include "ColladaFactoryImp.h"
+#include "NodeFactoryImp.h"
+#include "InstanceImp.h"
 
 #include "BaseImp.h"
 #include "PixelColor.h"
@@ -58,6 +60,5 @@ namespace my_render_imp {
 #include "GeometryMeshPrimitiveImp.h"
 #include "GeometryMeshInput.h"
 
-#include "FactoryImp.h"
-#include "NodeFactoryImp.h"
-#include "InstanceImp.h"
+#include "SceneImp.h"
+

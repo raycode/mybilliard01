@@ -1,5 +1,5 @@
 #pragma once
-namespace my_phys_x {
+namespace my_phys {
 
 class MyPhysX {
 public:

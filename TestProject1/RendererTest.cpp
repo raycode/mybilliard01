@@ -25,7 +25,7 @@ public:
     [TestInitialize()]
     void MyTestInitialize()
     {
-        render = new RenderD3D9Imp();
+        render = new RenderWin32DX9Imp();
         setCurrentDirectory( testContext_ );
     };
 
@@ -38,27 +38,9 @@ public:
 	[TestMethod]
 	void ConstructRenderer()
 	{
-        Assert::IsTrue( NULL != render );
+        assertTrue( NULL != render );
 	};
 
-    [TestMethod]
-    void WidthHeight() {
-        render->setScreenWidth( 30 );
-        Assert::AreEqual( 30, render->getScreenWidth() );
-
-        render->setScreenHeight( 20 );
-        Assert::AreEqual( 20, render->getScreenHeight() );
-    }
-
-    [TestMethod]
-    void UpAxis() {
-        domUpAxisType axises[] = { UPAXISTYPE_X_UP, UPAXISTYPE_Y_UP, UPAXISTYPE_Z_UP };
-
-        for each( domUpAxisType axis in axises ) {
-            render->setUpAxis( axis );
-            Assert::AreEqual( (int) axis, (int) render->getUpAxis() );
-        }
-    }
 };
 
 //}
