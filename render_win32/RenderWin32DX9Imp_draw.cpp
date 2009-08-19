@@ -14,7 +14,8 @@ void RenderWin32DX9Imp::renderWithEffectShader( EffectShader * effect, ShaderVar
 
     const size_t nPass = effectDX9->begin();
     for( size_t i = 0; i < nPass; ++i ) {
-        effectDX9->beginPass( i );
+        if( false == effectDX9->beginPass( i ) ) continue;
+
         callBack->display( this, i );
         effectDX9->endPass();
     }

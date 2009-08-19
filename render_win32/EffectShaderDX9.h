@@ -9,7 +9,7 @@ MY_INTERFACE EffectShaderDX9 : STATIC_EXTENDS_INTERFACE( EffectShader ), EXTENDS
     virtual size_t begin() PURE;
     virtual void end() PURE;
 
-    virtual void beginPass( size_t whichPass ) PURE;
+    virtual bool beginPass( size_t whichPass ) PURE;
     virtual void endPass() PURE;
 };
 

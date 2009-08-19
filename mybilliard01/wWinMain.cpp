@@ -21,7 +21,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
 
-    RenderEventListenerImp * renderEvent = new RenderEventListenerImp( L"..\\asset\\1ball1box.dae", L"..\\asset\\1ball1box.physx.dae" );
+    RenderEventListenerImp * renderEvent = new RenderEventListenerImp( L"..\\asset\\1ball1box.triangles.dae", L"..\\asset\\1ball1box.physx.xml" );
 
     RenderWin32DX9 * render = new RenderWin32DX9Imp();
     render->addRenderEventListener( renderEvent );

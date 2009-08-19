@@ -16,7 +16,6 @@ float3 g_LightDir;                  // Light's direction in world space
 float4 g_LightDiffuse;              // Light's diffuse color
 texture g_MeshTexture;              // Color texture for mesh
 
-float    g_fTime;                   // App's time in seconds
 float4x4 g_mWorld;                  // World matrix for object
 float4x4 g_mWorldViewProjection;    // World * View * Projection matrix
 
@@ -49,12 +48,12 @@ struct VS_OUTPUT
 // This shader computes standard transform and lighting
 //--------------------------------------------------------------------------------------
 VS_OUTPUT RenderSceneVS( float4 vPos : POSITION, 
-                         float4 vDiffuse : COLOR0 )
+                         float4 vNormal : NORMAL0 )
 {
     VS_OUTPUT Output;
     Output.Position = mul(vPos, g_mWorldViewProjection);
 
-    Output.Diffuse.rgb = vDiffuse.rgb;
+    Output.Diffuse.rgb = vNormal.xyz;
     Output.Diffuse.a = 1.0f; 
     return Output;    
 }

@@ -11,7 +11,7 @@ struct GeometryFactoryImp::Pimpl {
         const size_t numTriangle = (size_t) primitive->getCount();
         const wstring materialName = convertString( primitive->getMaterial() );
 
-        return myThis->createGeometryMeshPrimitive( name, numTriangle, materialName, domPolygons::ID() );
+        return myThis->createGeometryMeshPrimitive( name, numTriangle, materialName, DomType_::ID() );
     }
 
     template< typename DomType_ >

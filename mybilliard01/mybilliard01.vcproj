@@ -302,20 +302,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\InputListenerImpDXUT.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="StdAfx.h"
-						PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
 				RelativePath=".\my_app.h"
 				>
 			</File>
@@ -335,20 +321,6 @@
 			<File
 				RelativePath=".\RenderEventListenerImp.h"
 				>
-			</File>
-			<File
-				RelativePath=".\RenderEventListenerImpDXUT.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					ExcludedFromBuild="true"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="StdAfx.h"
-						PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-					/>
-				</FileConfiguration>
 			</File>
 			<File
 				RelativePath=".\wWinMain.cpp"

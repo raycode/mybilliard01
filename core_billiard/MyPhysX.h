@@ -1,13 +1,13 @@
 #pragma once
 namespace my_phys {
 
+
 class MyPhysX {
 public:
-    MyPhysX( NxUserOutputStream * userOutputStream = NULL );
+    MyPhysX();
     ~MyPhysX();
 
-    bool loadColladaFile( wstring filename, NXU_userNotify * userNotify );
-    bool loadColladaFile( wstring filename ) { return loadColladaFile( filename, NULL ); }
+    bool loadXMLFile( wstring filename );
 
     size_t getNumberOfActors() const;
     NxActor * getActor( size_t index );
@@ -16,10 +16,19 @@ public:
     void fetchResult();
     bool isSimulationDone();
 
+    NxActor * addCameraActor( NxMat34 globalPose );
+
 private:
-    NxPhysicsSDK*	physicsSDK_;
-    NxScene*		scene_;
-    PerfRenderer    perfRenderer_;
+    friend class MyUserSceneNotify;
+
+private:
+    NxPhysicsSDK * physicsSDK_;
+    NxScene * scene_;
+    PerfRenderer perfRenderer_;
+
+    typedef list< NxActor * > Actors;
+    Actors actors_;
 };
+
 
 }
