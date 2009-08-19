@@ -4,21 +4,16 @@ namespace my_render_imp {
 
 class InstanceImp : IMPLEMENTS_INTERFACE( Instance ) {
 public: // from Instance
-    virtual Base * getInstanceOwner() OVERRIDE;
-    virtual wstring getUrl() OVERRIDE;
-    virtual Base * getResolvedReferrence() OVERRIDE;
+    virtual wstring getURL() OVERRIDE;
+    virtual Base * getResolvedReference() OVERRIDE;
 
 public:
-    InstanceImp( InstanceResolver * resolver );
-
-    void setInstanceOwner( Base * owner );
-    void setUrl( wstring url );
+    InstanceImp( InstanceResolver * resolver, wstring url );
 
 private:
     InstanceResolver * resolver_;
-
-    Base * instanceOwner_;
     wstring url_;
+    Base * resolvedReference_;
 };
 
 

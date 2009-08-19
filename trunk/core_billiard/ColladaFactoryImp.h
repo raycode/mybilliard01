@@ -10,9 +10,10 @@ public: // from ColladaFactory
     virtual bool destroy( Base * ) OVERRIDE;
 
 public: // from InstanceResolver
-    virtual Base * resolveInstanceUrl( wstring id ) OVERRIDE;
-    virtual Instance * createInstance( wstring url, Base * owner ) OVERRIDE;
+    virtual Instance * createInstance( wstring url ) OVERRIDE;
     virtual bool destroyInstance( Instance * ) OVERRIDE;
+
+    virtual Base * resolveInstanceURL( wstring id ) OVERRIDE;
 
 public:
     ColladaFactoryImp();
@@ -27,6 +28,8 @@ private: // instances
 private: // sub-factories
     NodeFactoryPtr nodeFactory_;
     GeometryFactoryPtr geometryFactory_;
+
+    MY_UNIT_TEST_BACKDOOR;
 };
 
 

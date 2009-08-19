@@ -110,7 +110,7 @@ namespace Loki {}
 //#define IMPLEMENTS_STATIC_( INTERFACE_NAME ) public INTERFACE_NAME
 
 
-#define MY_UNIT_TEST_BACKDOOR public: struct TestingBackdoor; private: struct __NothingButForSemicolon__
+#define MY_UNIT_TEST_BACKDOOR public: struct TestingBackdoor; private: struct __Semicolon_Is_Missing__
 
 
 

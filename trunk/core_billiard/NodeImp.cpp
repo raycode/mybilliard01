@@ -84,7 +84,7 @@ void NodeImp::display( Render * render ) {
 
 void NodeImp::renderInstanceGeometries( Render * render ) {
     MY_FOR_EACH( Instances, igeo, instanceGeometries_ ) {
-        Geometry * const geo = renderDowncast< Geometry >( (*igeo)->getResolvedReferrence() );
+        Geometry * const geo = renderDowncast< Geometry >( (*igeo)->getResolvedReference() );
         if( NULL == geo ) continue;
         geo->display( render );
     }

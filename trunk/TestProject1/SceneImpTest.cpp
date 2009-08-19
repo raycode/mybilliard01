@@ -15,7 +15,7 @@ struct DummyNode_forDisplayTest : public NodeNull {
 };
 
 [TestClass]
-public ref class SceneTest
+public ref class SceneImpTest
 {
 private:
     static TestContext^ testContext_;

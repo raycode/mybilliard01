@@ -31,10 +31,8 @@ bool ColladaFactoryImp::destroy( Base * obj ) {
     return false;
 }
 
-Instance * ColladaFactoryImp::createInstance( wstring url, Base * owner ) {
-    InstanceImp * const instance = new InstanceImp( this );
-    instance->setUrl( url );
-    instance->setInstanceOwner( owner );
+Instance * ColladaFactoryImp::createInstance( wstring url ) {
+    InstanceImp * const instance = new InstanceImp( this, url );
     instances_.push_back( InstanceImpPtr( instance ) );
     return instance;
 }
@@ -53,7 +51,7 @@ wstring ColladaFactoryImp::refineURL( wstring url ) {
     return url;
 }
 
-Base * ColladaFactoryImp::resolveInstanceUrl( wstring url )
+Base * ColladaFactoryImp::resolveInstanceURL( wstring url )
 {
     const wstring refinedURL = refineURL( url );
 #define IF_FIND_RETURN( FACTORY, URL ) { Base * const base = FACTORY->find( URL ); if( base ) return base; }

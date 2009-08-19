@@ -5,10 +5,10 @@ namespace my_render {
 MY_INTERFACE InstanceResolver {
     virtual ~InstanceResolver() {}
 
-    virtual Instance * createInstance( wstring url, Base * owner ) PURE;
+    virtual Instance * createInstance( wstring url ) PURE;
     virtual bool destroyInstance( Instance * ) PURE;
 
-    virtual Base * resolveInstanceUrl( wstring id ) PURE;
+    virtual Base * resolveInstanceURL( wstring id ) PURE;
 
 };
 
