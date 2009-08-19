@@ -19,11 +19,16 @@ public: // from Scene
     virtual wstring getCurrentVisualSceneID() OVERRIDE;
     virtual bool setCurrentVisualScene( wstring sceneID ) OVERRIDE;
 
+    virtual Node * getVisualScene( wstring id ) OVERRIDE;
+    virtual Node * getNode( wstring nodeID ) OVERRIDE;
+    virtual Geometry * getGeometryByID( wstring id ) OVERRIDE;
+    virtual Geometry * getGeometryByName( wstring name ) OVERRIDE;
+
 public:
     SceneImp();
 
 private: // load
-    void loadUpAxis( domCOLLADA * collada );
+    bool loadUpAxis( domCOLLADA * collada );
     void loadLibraryImagesArray();
     void loadLibraryEffectsArray();
     void loadLibraryMaterialsArray();
@@ -34,19 +39,12 @@ private: // load
 
     void loadNodesFromVisualScene( Node * node );
 
-private:
-    void setDefaults();
+    void setDefaultsAfterLoad();
 
 private:
-    void SceneImp::updateDevice();
-
-private: // retrieve data
+    void updateDevice();
+    void unload();
     daeElement * idLookup( wstring id );
-    Node * getVisualScene( wstring id );
-    Node * getNode( wstring nodeID );
-
-    Geometry * getGeometryByID( wstring id );
-    Geometry * getGeometryByName( wstring name );
 
 private: // dae file
     void storeFilename( wstring filename );
@@ -63,6 +61,7 @@ private:
 
     ColladaFactoryImp defaultFactory_;
     RenderBufferFactoryNull nullRenderFactory_;
+    NodeNull nullNode_;
 
 private: // runtime database
     typedef map< wstring, Node * > VisualScenes;
@@ -86,6 +85,7 @@ private:
     Node * currentScene_;
     Camera * currentCamera_;
 
+    MY_UNIT_TEST_BACKDOOR;
 };
 
 

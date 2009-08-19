@@ -116,7 +116,9 @@ namespace my_render {
 #include "Scene.h"
 
 #include "Base.h"
+#include "BaseNull.hpp"
 #include "Node.h"
+#include "NodeNull.hpp"
 #include "Camera.h"
 
 #include "ColladaFactory.h"

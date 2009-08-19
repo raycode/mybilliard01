@@ -5,11 +5,12 @@ namespace my_render_imp {
 
 SceneImp::SceneImp()
     : collada_( NULL )
-    , currentScene_( NULL )
+    , currentCamera_( NULL )
 {
     dae_ = DAEPtr( new DAE() );
     colladaFactory_ = & defaultFactory_;
-    renderFactory_ = &nullRenderFactory_;
+    renderFactory_ = & nullRenderFactory_;
+    currentScene_ = & nullNode_;
 }
 
 
@@ -30,8 +31,15 @@ void SceneImp::setRenderFactory( RenderBufferFactory * renderFactory ) {
     updateDevice();
 }
 
-bool SceneImp::load( wstring filename ) {
+void SceneImp::unload() {
     dae_ = DAEPtr( new DAE() );
+    visualScenes_.clear();
+    nodes_.clear();
+    geometries_.clear();
+}
+
+bool SceneImp::load( wstring filename ) {
+    unload();
 
     string szFilename = convertString< string >( filename );
     collada_ = dae_->open( szFilename.c_str() );
@@ -40,7 +48,6 @@ bool SceneImp::load( wstring filename ) {
     storeFilename( filename );
 
     loadUpAxis( collada_ );
-
     loadLibraryImagesArray();
     loadLibraryEffectsArray();
     loadLibraryMaterialsArray();
@@ -48,8 +55,7 @@ bool SceneImp::load( wstring filename ) {
     loadLibraryGeometriesArray();
     loadLibraryVisualScenesArray();
     loadLibraryScene();
-
-    setDefaults();
+    setDefaultsAfterLoad();
 
     updateDevice();
     return true;
@@ -66,7 +72,7 @@ void SceneImp::updateDevice() {
     }
 }
 
-void SceneImp::setDefaults() {
+void SceneImp::setDefaultsAfterLoad() {
     setCurrentVisualScene( getDefaultVisualSceneID() );
 }
 
@@ -75,11 +81,14 @@ void SceneImp::storeFilename( wstring filename ) {
     pathname_ = getPathnameOnly( filename );
 }
 
-void SceneImp::loadUpAxis( domCOLLADA * collada ) {
+bool SceneImp::loadUpAxis( domCOLLADA * collada ) {
+    if( NULL == collada ) return false;
+    if( NULL == collada->getAsset() ) return false;
     const domAsset::domUp_axis * const upAxis = collada->getAsset()->getUp_axis();
-    if( NULL == upAxis ) return;
+    if( NULL == upAxis ) return false;
 
     upAxis_ = upAxis->getValue();
+    return true;
 }
 
 wstring SceneImp::getCurrentVisualSceneID() {
@@ -217,16 +226,27 @@ Geometry * SceneImp::getGeometryByName( wstring name ) {
 
 wstring SceneImp::getFilenameOnly( wstring fullFilename ) {
     const size_t posOfBackslash = fullFilename.find_last_of( '\\' );
+    const bool bFoundBackslash = (wstring::npos != posOfBackslash);
+
     const size_t posOfSlash = fullFilename.find_last_of( '/' );
-    const size_t pos = std::max( posOfBackslash, posOfSlash );
-    if( 0 == pos )
+    const bool bFoundSlash = (wstring::npos != posOfSlash);
+
+    if( false == bFoundBackslash && false == bFoundSlash )
         return fullFilename;
+
+    size_t pos = 0;
+    if( bFoundSlash && bFoundBackslash )
+        pos = std::max( posOfBackslash, posOfSlash );
+    else if( bFoundSlash )
+        pos = posOfSlash;
+    else pos = posOfBackslash;
+
     return wstring( fullFilename.c_str() + pos +1, fullFilename.c_str() + fullFilename.length() );
 }
 
 wstring SceneImp::getPathnameOnly( wstring fullFilename ) {
     const size_t pos = fullFilename.length() - getFilenameOnly( fullFilename ).length();
-    return wstring( fullFilename.c_str(), fullFilename.c_str() + pos );
+    return wstring( fullFilename.c_str(), fullFilename.c_str() + std::max( pos, 1u ) -1u );
 }
 
 
