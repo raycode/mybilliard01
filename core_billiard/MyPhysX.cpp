@@ -21,30 +21,24 @@ MyPhysX::MyPhysX( NxUserOutputStream * userOutputStream )
 
 MyPhysX::~MyPhysX()
 {
-    if( NULL == physicsSDK_ )
-        return;
+    if( NULL == physicsSDK_ ) return;
 
-    if( NULL != scene_ )
-        physicsSDK_->releaseScene(*scene_);
-
+    if( NULL != scene_ ) physicsSDK_->releaseScene(*scene_);
     NxReleasePhysicsSDK(physicsSDK_);
 }
 
 bool MyPhysX::loadColladaFile( wstring filename, NXU_userNotify * userNotify ) {
     wchar_t LoadFilename[512];
     FindMediaFile( filename.c_str(), LoadFilename);
-    const string fn = convertString< string >( wstring( LoadFilename ) );
-
-    NXU::NxuPhysicsCollection * const collection = NXU::loadCollection( fn.c_str(), NXU::FT_COLLADA );
-    if( NULL == collection )
-        return false;
-
+    NXU::NxuPhysicsCollection * const collection
+        = NXU::loadCollection( convertString( LoadFilename ).c_str(), NXU::FT_COLLADA );
+    if( NULL == collection ) return false;
     const bool success = NXU::instantiateCollection( collection, *physicsSDK_, scene_, NULL, userNotify );
     NXU::releaseCollection( collection );
     return success;
 }
 
-size_t MyPhysX::countActors() const {
+size_t MyPhysX::getNumberOfActors() const {
     return scene_->getNbActors();
 }
 
@@ -52,5 +46,17 @@ NxActor * MyPhysX::getActor( size_t index ) {
     return scene_->getActors()[ index ];
 }
 
+void MyPhysX::simulate( float elapsedTime ) {
+    scene_->simulate( elapsedTime );
+    scene_->flushStream();
+}
+
+void MyPhysX::fetchResult() {
+    scene_->fetchResults( NX_RIGID_BODY_FINISHED, true );
+}
+
+bool MyPhysX::isSimulationDone() {
+    return scene_->checkResults( NX_RIGID_BODY_FINISHED, false );
+}
 
 }

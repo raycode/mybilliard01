@@ -13,6 +13,9 @@ namespace my_phys {
     using namespace std;
     using namespace my_utility;
 
+    class MyPhysX;
+
+    MY_SMART_PTR( MyPhysX );
 }
 
 #include "MyPhysX.h"

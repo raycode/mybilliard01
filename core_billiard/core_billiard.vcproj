@@ -1060,7 +1060,7 @@
 			</Filter>
 		</Filter>
 		<Filter
-			Name="my_phyys_x"
+			Name="my_phys"
 			>
 			<File
 				RelativePath=".\ErrorStream.cpp"
@@ -1929,6 +1929,22 @@
 					RelativePath=".\Camera.h"
 					>
 				</File>
+				<File
+					RelativePath=".\CameraCommon.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraFactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraOrthographic.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraPerspective.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -2071,23 +2087,6 @@
 					RelativePath=".\NodeImp.h"
 					>
 				</File>
-				<File
-					RelativePath=".\NodeTransform.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							PrecompiledHeaderThrough="StdAfx.h"
-							PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\NodeTransform.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="4. Geometry"
@@ -2179,6 +2178,50 @@
 				</File>
 				<File
 					RelativePath=".\GeometryMeshPrimitiveImp.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="5. Camera"
+				>
+				<File
+					RelativePath=".\CameraCommonImp.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraCommonImp.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraFactoryImp.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraFactoryImp.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraImp.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraImp.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraOrthographicImp.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraOrthographicImp.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraPerspectiveImp.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraPerspectiveImp.h"
 					>
 				</File>
 			</Filter>

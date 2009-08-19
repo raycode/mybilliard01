@@ -61,7 +61,7 @@ public:
         MyPhysX phys;
         const bool bLoad = phys.loadColladaFile( filename, &userNotify );
         assertTrue( bLoad );
-        assertEquals( 2u, phys.countActors() );
+        assertEquals( 2u, phys.getNumberOfActors() );
     }
 
     [TestMethod]
@@ -86,7 +86,7 @@ public:
         MyPhysX phys;
         phys.loadColladaFile( getDeployedFilename( L"asset\\1ball1box.physx.dae" ) );
 
-        for( size_t i = 0; i < (size_t) phys.countActors(); ++i )
+        for( size_t i = 0; i < (size_t) phys.getNumberOfActors(); ++i )
         {
             NxActor * const actor = phys.getActor( i );
             NxU32 nShapes = actor->getNbShapes();

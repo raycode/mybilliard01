@@ -6,6 +6,7 @@ namespace my_render_imp {
 ColladaFactoryImp::ColladaFactoryImp()
 : nodeFactory_( new NodeFactoryImp( this ) )
 , geometryFactory_( new GeometryFactoryImp( this ) )
+, cameraFactory_( new CameraFactoryImp( this ) )
 {
 }
 
@@ -21,6 +22,13 @@ Geometry * ColladaFactoryImp::createGeometry( domGeometryRef geo ) {
     if( found ) return NULL;
 
     return geometryFactory_->createGeometry( geo );
+}
+
+Camera * ColladaFactoryImp::createCamera( domCameraRef camera ) {
+    Camera * const found = cameraFactory_->find( convertString( camera->getId() ) );
+    if( found ) return NULL;
+
+    return cameraFactory_->createCamera( camera );
 }
 
 bool ColladaFactoryImp::destroy( Base * obj ) {

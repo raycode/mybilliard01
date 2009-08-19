@@ -54,6 +54,7 @@ bool SceneImp::load( wstring filename ) {
 
     loadUpAxis( collada_ );
     loadLibraryImagesArray();
+    loadLibraryCameraArray();
     loadLibraryEffectsArray();
     loadLibraryMaterialsArray();
     loadLibraryAnimationsArray();
@@ -115,6 +116,21 @@ daeElementRef SceneImp::idLookup( wstring id )
 
 void SceneImp::loadLibraryImagesArray() {
     // TODO
+}
+
+void SceneImp::loadLibraryCameraArray() {
+    MY_FOR_EACH_COLLADA( domLibrary_cameras, cameras, collada_->getLibrary_cameras_array() ) {
+        MY_FOR_EACH_COLLADA( domCamera, camera, (*cameras)->getCamera_array() ) {
+
+            const wstring newCameraID = convertString( (*camera)->getId() );
+            if( newCameraID.empty() ) continue;
+
+            Camera * const newCamera = colladaFactory_->createCamera( *camera );
+            if( NULL == newCamera ) continue;
+
+            cameras_.push_back( newCamera );
+        }
+    }
 }
 
 void SceneImp::loadLibraryEffectsArray() {
@@ -226,6 +242,25 @@ Geometry * SceneImp::getGeometryByID( wstring id ) {
 Geometry * SceneImp::getGeometryByName( wstring name ) {
     MY_FOR_EACH( Geometries, iter, geometries_ )
         if( name == (*iter)->getName() ) return &**iter;
+    return NULL;
+}
+
+Camera * SceneImp::getCameraByID( wstring id )
+{
+    return NULL;
+}
+Camera * SceneImp::getCameraByName( wstring name )
+{
+    return NULL;
+}
+
+size_t SceneImp::getNumberOfCamera()
+{
+    return 0;
+}
+
+Camera * SceneImp::getCameraByIndex( size_t index )
+{
     return NULL;
 }
 

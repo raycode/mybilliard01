@@ -8,6 +8,7 @@ public: // from Scene
     virtual void setRenderFactory( RenderBufferFactory * renderFactory ) OVERRIDE;
 
     virtual bool load( wstring filename ) OVERRIDE;
+    virtual void unload() OVERRIDE;
 
     virtual void update( float elapsedTime ) OVERRIDE;
     virtual void display( Render * ) OVERRIDE;
@@ -24,6 +25,11 @@ public: // from Scene
     virtual Geometry * getGeometryByID( wstring id ) OVERRIDE;
     virtual Geometry * getGeometryByName( wstring name ) OVERRIDE;
 
+    virtual size_t getNumberOfCamera() OVERRIDE;
+    virtual Camera * getCameraByID( wstring id ) OVERRIDE;
+    virtual Camera * getCameraByName( wstring name ) OVERRIDE;
+    virtual Camera * getCameraByIndex( size_t index ) OVERRIDE;
+
 public:
     SceneImp();
     ~SceneImp();
@@ -31,6 +37,7 @@ public:
 private: // load
     bool loadUpAxis( domCOLLADARef collada );
     void loadLibraryImagesArray();
+    void loadLibraryCameraArray();
     void loadLibraryEffectsArray();
     void loadLibraryMaterialsArray();
     void loadLibraryAnimationsArray();
@@ -44,7 +51,6 @@ private: // load
 
 private:
     void updateDevice();
-    void unload();
     daeElementRef idLookup( wstring id );
 
 private: // dae file
@@ -73,6 +79,9 @@ private: // runtime database
 
     typedef vector< Geometry * > Geometries;
     Geometries geometries_;
+
+    typedef vector< Camera * > Cameras;
+    Cameras cameras_;
 
     // effect
 

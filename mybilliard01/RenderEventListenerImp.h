@@ -17,12 +17,26 @@ public:
 
 private: // collada
     ScenePtr scene_;
+    MyPhysXPtr phys_;
 
 private: // render
     EffectShader * effect_;
     ShaderVariable * tech_, * wvp_, * world_, * time_;
-    VertexBuffer * vb_;
 
+private: // render effect
+
+    struct GeometryUnderEffect {
+        GeometryUnderEffect( Node * node )
+            : node_( node )
+        {}
+
+        Node * node_;
+        float worldMatrix_[16];
+    };
+
+    typedef list< GeometryUnderEffect > ToRender;
+    ToRender toRender_;
+    ToRender::const_iterator iter_;
 };
 
 

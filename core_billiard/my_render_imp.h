@@ -12,7 +12,6 @@ namespace my_render_imp {
 
     class NodeImp;
     class NodeAnimation;
-    class NodeTransform;
     class NodeFactoryImp;
 
     class GeometryImp;
@@ -20,6 +19,11 @@ namespace my_render_imp {
     class GeometryMeshInput;
     class GeometryFactoryImp;
     class GeometryMeshPrimitiveImp;
+
+    class CameraImp;
+    class CameraFactoryImp;
+    class CameraPerspectiveImp;
+    class CameraOrthographicImp;
 
     class InstanceImp;
     class ColladaFactoryImp;
@@ -32,10 +36,13 @@ namespace my_render_imp {
     MY_SMART_PTR( NodeFactoryImp );
     MY_SMART_PTR( GeometryFactoryImp );
     MY_SMART_PTR( NodeAnimation );
-    MY_SMART_PTR( NodeTransform );
     MY_SMART_PTR( GeometryMeshImp );
     MY_SMART_PTR( GeometryMeshInput );
     MY_SMART_PTR( GeometryMeshPrimitiveImp );
+    MY_SMART_PTR( CameraImp );
+    MY_SMART_PTR( CameraFactoryImp );
+    MY_SMART_PTR( CameraPerspectiveImp );
+    MY_SMART_PTR( CameraOrthographicImp );
 
     template< typename T > 
     inline T* renderDowncast( Base * abstractObject ) {
@@ -52,7 +59,6 @@ namespace my_render_imp {
 
 #include "NodeImp.h"
 #include "NodeAnimation.h"
-#include "NodeTransform.h"
 
 #include "GeometryFactoryImp.h"
 #include "GeometryImp.h"
@@ -61,4 +67,10 @@ namespace my_render_imp {
 #include "GeometryMeshInput.h"
 
 #include "SceneImp.h"
+
+#include "CameraImp.h"
+#include "CameraFactoryImp.h"
+#include "CameraCommonImp.h"
+#include "CameraPerspectiveImp.h"
+#include "CameraOrthographicImp.h"
 

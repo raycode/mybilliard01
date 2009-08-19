@@ -46,6 +46,9 @@ namespace my_render {
     class GeometryMesh;
     class GeometryMeshPrimitive;
 
+    class CameraFactory;
+    class CameraPerspective;
+    class CameraOrthographic;
 
     MY_SMART_PTR( ApplicationWindow );
     MY_SMART_PTR( MouseEventListener );
@@ -78,6 +81,9 @@ namespace my_render {
     MY_SMART_PTR( Geometry );
     MY_SMART_PTR( GeometryMesh );
     MY_SMART_PTR( GeometryMeshPrimitive );
+    MY_SMART_PTR( CameraFactory );
+    MY_SMART_PTR( CameraPerspective );
+    MY_SMART_PTR( CameraOrthographic );
 }
 
 #include "ApplicationWindow.h"
@@ -130,3 +136,8 @@ namespace my_render {
 #include "Geometry.h"
 #include "GeometryMesh.h"
 #include "GeometryMeshPrimitive.h"
+
+#include "CameraCommon.h"
+#include "CameraFactory.h"
+#include "CameraPerspective.h"
+#include "CameraOrthographic.h"
