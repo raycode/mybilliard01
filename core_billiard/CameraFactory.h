@@ -9,6 +9,8 @@ MY_INTERFACE CameraFactory {
     virtual Camera * find( wstring id ) PURE;
     virtual bool destroyCamera( Camera * ) PURE;
 
+    virtual Camera * getDefaultCamera() PURE;
+
 };
 
 

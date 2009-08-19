@@ -9,6 +9,7 @@ RenderEventListenerImp::RenderEventListenerImp( wstring sceneFile, wstring physX
 {
     scene_->load( sceneFile );
     phys_->loadColladaFile( physX_File );
+    //phys_->addCameraActor( L"MyGlobalCamera" );
     // scene_->getCemeraByIndex( 0 );
 }
 
@@ -23,6 +24,13 @@ void RenderEventListenerImp::init( RenderBufferFactory * renderFactory )
     assert( effect_->isValidTechnique( tech_ ) );
 
     wvp_ = effect_->createVariable( L"g_mWorldViewProjection" );
+
+    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
+        NxActor * const actor = phys_->getActor( i );
+        const wstring name = convertString( actor->getName() );
+        Node * const node = scene_->getNode( name );
+        actor->userData = node;
+    }
 }
 
 void RenderEventListenerImp::displayReset( int x, int y, int width, int height )
@@ -33,8 +41,7 @@ void RenderEventListenerImp::update( RenderBufferFactory * renderFactory, float 
     toRender_.clear();
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
-        const wstring name = convertString( actor->getName() );
-        Node * const node = scene_->getNode( name );
+        Node * const node = (Node *) (actor->userData);
         if( NULL == node ) continue;
 
         toRender_.push_back( node );

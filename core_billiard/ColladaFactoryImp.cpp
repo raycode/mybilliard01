@@ -39,6 +39,11 @@ bool ColladaFactoryImp::destroy( Base * obj ) {
     return false;
 }
 
+Camera * ColladaFactoryImp::getDefaultCamera()
+{
+    return cameraFactory_->getDefaultCamera();
+}
+
 Instance * ColladaFactoryImp::createInstance( wstring url ) {
     InstanceImp * const instance = new InstanceImp( this, url );
     instances_.push_back( InstanceImpPtr( instance ) );

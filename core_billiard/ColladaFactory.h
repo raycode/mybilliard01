@@ -11,6 +11,7 @@ MY_INTERFACE ColladaFactory {
 
     virtual bool destroy( Base * ) PURE;
 
+    virtual Camera * getDefaultCamera() PURE;
 };
 
 }

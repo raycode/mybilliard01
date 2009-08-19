@@ -5,7 +5,7 @@ namespace my_render_imp {
 
 CameraPerspectiveImp::CameraPerspectiveImp() 
 {
-    y_fov_ = 36.0f;
+    x_fov_ = y_fov_ = 36.0f;
 }
 
 float	CameraPerspectiveImp::getXFov()	{ return x_fov_;	 }

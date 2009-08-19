@@ -10,6 +10,8 @@ public: // from ColladaFactory
 
     virtual bool destroy( Base * ) OVERRIDE;
 
+    virtual Camera * getDefaultCamera() OVERRIDE;
+
 public: // from InstanceResolver
     virtual Instance * createInstance( wstring url ) OVERRIDE;
     virtual bool destroyInstance( Instance * ) OVERRIDE;
