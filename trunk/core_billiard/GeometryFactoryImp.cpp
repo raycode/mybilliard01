@@ -14,9 +14,9 @@ Geometry * GeometryFactoryImp::createGeometry( domGeometryRef geo ) {
     const wstring uri = convertString( geo->getDocumentURI()->getURI() );
     if( isAlreadyCreated( id ) ) return NULL;
 
-    domMesh * const mesh = geo->getMesh();
+    domMeshRef const mesh = geo->getMesh();
     domConvex_mesh * const convexMesh = geo->getConvex_mesh();
-    domSpline * const spline = geo->getSpline();
+    domSplineRef const spline = geo->getSpline();
     if( ! ( mesh || convexMesh || spline ) ) return NULL;
 
     Geometry * const newGeo = createGeometry( id, name, uri );

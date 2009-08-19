@@ -97,7 +97,7 @@ void NodeFactoryImp::readNodeTranforms( NodeImp * newNode, domNodeRef node ) {
     }	
 }
 
-NodeTransformPtr NodeFactoryImp::readNodeTranform( domElement * content ) {
+NodeTransformPtr NodeFactoryImp::readNodeTranform( daeElementRef content ) {
     const wstring typeName = convertString( content->getTypeName() );
     const NodeTransformType type = NodeTransform::getType( typeName );
     if( ENodeTransformUnknown == type ) return NodeTransformPtr( (NodeTransform *) NULL );
@@ -133,7 +133,7 @@ NodeTransformPtr NodeFactoryImp::readNodeTranform( domElement * content ) {
     return transform;
 }
 
-bool NodeFactoryImp::readNodeTransformRotate( NodeTransform * transform, domElement * content )
+bool NodeFactoryImp::readNodeTransformRotate( NodeTransform * transform, daeElementRef content )
 {
     domRotateRef rotateArray = daeDowncast< domRotate >( content ) ;
     if( NULL == rotateArray ) return false;
@@ -152,7 +152,7 @@ bool NodeFactoryImp::readNodeTransformRotate( NodeTransform * transform, domElem
     return true;
 }
 
-bool NodeFactoryImp::readNodeTransformTranslate( NodeTransform * transform, domElement * content )
+bool NodeFactoryImp::readNodeTransformTranslate( NodeTransform * transform, daeElementRef content )
 {
     domTranslateRef translateArray = daeDowncast< domTranslate >( content );
     if( NULL == translateArray ) return false;
@@ -171,7 +171,7 @@ bool NodeFactoryImp::readNodeTransformTranslate( NodeTransform * transform, domE
     return true;
 }
 
-bool NodeFactoryImp::readNodeTransformScale( NodeTransform * transform, domElement * content )
+bool NodeFactoryImp::readNodeTransformScale( NodeTransform * transform, daeElementRef content )
 {
     domScaleRef scaleArray = daeDowncast< domScale >( content );
     if( NULL == scaleArray ) return false;
@@ -189,7 +189,7 @@ bool NodeFactoryImp::readNodeTransformScale( NodeTransform * transform, domEleme
     return true;
 }
 
-bool NodeFactoryImp::readNodeTransformLookAt( NodeTransform * transform, domElement * content )
+bool NodeFactoryImp::readNodeTransformLookAt( NodeTransform * transform, daeElementRef content )
 {
     // load rotation
     domLookatRef lookatArray = daeDowncast< domLookat >( content );
@@ -216,7 +216,7 @@ bool NodeFactoryImp::readNodeTransformLookAt( NodeTransform * transform, domElem
     return true;
 }
 
-bool NodeFactoryImp::readNodeTransformMatrix( NodeTransform * transform, domElement * content )
+bool NodeFactoryImp::readNodeTransformMatrix( NodeTransform * transform, daeElementRef content )
 {
     // beware, collada spec is column major
     domMatrixRef matrixArray = daeDowncast< domMatrix >( content );

@@ -33,7 +33,7 @@ private:
     domFloat * getCurrentSource( ESEMANTIC_TYPE semanticType, size_t whichSet, size_t numberOfUnit );
 
 private:
-    domSource * getSourceFromInput( domInputLocalOffsetRef input );
+    domSourceRef getSourceFromInput( domInputLocalOffsetRef input );
     size_t getStepOfOffset();
 
 private:

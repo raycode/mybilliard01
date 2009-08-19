@@ -7,7 +7,7 @@ GeometryMeshInput::GeometryMeshInput( domInputLocalOffset_Array inputs )
 {
     MY_FOR_EACH_COLLADA( domInputLocalOffset, input, inputs ) {
 
-        domSource * const source = getSourceFromInput( *input );
+        domSourceRef const source = getSourceFromInput( *input );
         if( NULL == source ) continue;
 
         const wstring semantic = convertString( (*input)->getSemantic() );
@@ -44,13 +44,13 @@ void GeometryMeshInput::storeEachSemantic( ESEMANTIC_TYPE semantic, size_t offse
     source_array_[ semantic ][ set ] = data;
 }
 
-domSource * GeometryMeshInput::getSourceFromInput( domInputLocalOffsetRef input )
+domSourceRef GeometryMeshInput::getSourceFromInput( domInputLocalOffsetRef input )
 {
-    domElement * candidate = input->getSource().getElement();
+    daeElementRef candidate = input->getSource().getElement();
     if( NULL == candidate ) return NULL;
 
     if( candidate->typeID() == domVertices::ID() ) {
-        domVertices * const vertice = daeDowncast< domVertices >( candidate );
+        domVerticesRef const vertice = daeDowncast< domVertices >( candidate );
         candidate = vertice->getInput_array()[0]->getSource().getElement();
     }
 

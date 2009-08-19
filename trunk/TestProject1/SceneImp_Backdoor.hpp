@@ -10,7 +10,7 @@ struct SceneImp::TestingBackdoor
     PRIVATE_MEMBER( RenderBufferFactory *, SceneImp, renderFactory_ );
     PRIVATE_MEMBER( Node *, SceneImp, currentScene_ );
     PRIVATE_MEMBER( DAEPtr, SceneImp, dae_ );
-    PRIVATE_MEMBER( domCOLLADA *, SceneImp, collada_ );
+    PRIVATE_MEMBER( domCOLLADARef, SceneImp, collada_ );
     PRIVATE_MEMBER( Camera *, SceneImp, currentCamera_ );
 };
 

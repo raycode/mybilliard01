@@ -1833,10 +1833,6 @@
 			<Filter
 				Name="7. Others"
 				>
-				<File
-					RelativePath=".\Camera.h"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="9. Precompiled"
@@ -1923,6 +1919,14 @@
 				</File>
 				<File
 					RelativePath=".\RenderStateNull.hpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="5. Camera"
+				>
+				<File
+					RelativePath=".\Camera.h"
 					>
 				</File>
 			</Filter>

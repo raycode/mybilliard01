@@ -21,6 +21,14 @@ PixelColor::PixelColor( NxVec3 rgb )
     setB( (Color256)( rgb.z * 256 ) );
 }
 
+PixelColor::PixelColor( float a, float r, float g, float b )
+{
+    setA( (Color256)( a * 256 ) );
+    setR( (Color256)( r * 256 ) );
+    setG( (Color256)( g * 256 ) );
+    setB( (Color256)( b * 256 ) );
+}
+
 PixelColor::PixelColor( int a, int r, int g, int b )
 {
     setA( (Color256) a );
