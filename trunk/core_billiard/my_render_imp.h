@@ -68,9 +68,9 @@ namespace my_render_imp {
 
 #include "SceneImp.h"
 
-#include "CameraImp.h"
-#include "CameraFactoryImp.h"
 #include "CameraCommonImp.h"
 #include "CameraPerspectiveImp.h"
 #include "CameraOrthographicImp.h"
+#include "CameraImp.h"
+#include "CameraFactoryImp.h"
 

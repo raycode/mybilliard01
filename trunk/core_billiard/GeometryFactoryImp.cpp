@@ -72,11 +72,11 @@ bool GeometryFactoryImp::destroyGeometry( Geometry * ptr ) {
 }
 
 bool GeometryFactoryImp::readGeometryConvexMesh( GeometryMesh *, domConvex_meshRef ) {
-    return NULL;
+    return false;
 }
 
 bool GeometryFactoryImp::readGeometrySpline( GeometryMesh *, domSplineRef ) {
-    return NULL;
+    return false;
 }
 
 GeometryMeshPrimitiveImp * GeometryFactoryImp::createGeometryMeshPrimitive( wstring name, size_t triangleCount, wstring materialName, int primitiveTypeID )

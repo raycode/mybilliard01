@@ -2,23 +2,14 @@
 #include "my_app.h"
 
 
-const static float positions[] = {
-    0.5f, 0.2f, 0.5f,
-    0.8f, 0.8f, 0.5f,
-    0.3f, 0.8f, 0.5f
-};
-
-const static NxU32 diffuses[] = {
-    0xffff0000, 0xff00ff00, 0xff00ffff
-};
-
-
-RenderEventListenerImp::RenderEventListenerImp()
+RenderEventListenerImp::RenderEventListenerImp( wstring sceneFile, wstring physX_File )
 : scene_( new SceneImp() )
 , phys_( new MyPhysX() )
+, camera_( NULL )
 {
-    scene_->load( L"..\\asset\\1ball1box.dae" );
-    phys_->loadColladaFile( L"..\\asset\\1ball1box.physx.dae");
+    scene_->load( sceneFile );
+    phys_->loadColladaFile( physX_File );
+    // scene_->getCemeraByIndex( 0 );
 }
 
 void RenderEventListenerImp::init( RenderBufferFactory * renderFactory )
@@ -35,8 +26,7 @@ void RenderEventListenerImp::init( RenderBufferFactory * renderFactory )
 }
 
 void RenderEventListenerImp::displayReset( int x, int y, int width, int height )
-{
-}
+{}
 
 void RenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime ) {
     phys_->simulate( elapsedTime );

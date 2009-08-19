@@ -4,24 +4,29 @@ namespace my_render_imp {
 
 
 CameraImp::CameraImp() 
-: perspectiveCamera_( NULL )
-, orthographicCamera_( NULL )
+: isPerspective_( true )
 {
 }
 
 bool CameraImp::isPerspective() {
-    return NULL != getPerspectiveCamera();
+    return isPerspective_;
 }
 
 bool CameraImp::isOrthographic() {
-    return NULL != getOrthographicCamera();
+    return false == isPerspective();
 }
 
 CameraPerspective * CameraImp::getPerspectiveCamera() {
-    return perspectiveCamera_;
+    return & perspectiveCamera_;
 }
+
 CameraOrthographic * CameraImp::getOrthographicCamera() {
-    return orthographicCamera_;
+    return & orthographicCamera_;
 }
+
+void CameraImp::setAsPerspective( bool val ) {
+    isPerspective_ = val;
+}
+
 
 }

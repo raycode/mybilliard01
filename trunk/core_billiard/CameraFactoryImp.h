@@ -30,7 +30,6 @@ private:
 private:
     typedef list< CameraPtr > Cameras;
     Cameras cameras_;
-
 };
 
 

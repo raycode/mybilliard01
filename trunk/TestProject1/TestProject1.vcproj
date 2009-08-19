@@ -225,6 +225,10 @@
 				Name="Collada"
 				>
 				<File
+					RelativePath=".\CameraTest.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ColladaFactoryImpTest.cpp"
 					>
 				</File>
@@ -255,13 +259,6 @@
 				<File
 					RelativePath=".\MyPhysXTest.cpp"
 					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-						/>
-					</FileConfiguration>
 				</File>
 			</Filter>
 		</Filter>
