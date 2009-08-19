@@ -241,7 +241,7 @@ bool NodeFactoryImp::readNodeTransformMatrix( NodeTransform * transform, domElem
 void NodeFactoryImp::readNodeInstanceGeometries( NodeImp * newNode, domNodeRef node ) {
     MY_FOR_EACH_COLLADA( domInstance_geometry, igeo, node->getInstance_geometry_array() ) {
         const wstring url = convertString( (*igeo)->getUrl().originalStr() );
-        Instance * const instance = instanceResolver_->createInstance( url, newNode );
+        Instance * const instance = instanceResolver_->createInstance( url );
         if( NULL == instance ) continue;
 
         newNode->appendInstanceGeometry( instance );

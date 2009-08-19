@@ -213,6 +213,10 @@
 				Name="Backdoors"
 				>
 				<File
+					RelativePath=".\ColladaFactoryImp_Backdoor.hpp"
+					>
+				</File>
+				<File
 					RelativePath=".\SceneImp_Backdoor.hpp"
 					>
 				</File>
@@ -220,6 +224,10 @@
 			<Filter
 				Name="Collada"
 				>
+				<File
+					RelativePath=".\ColladaFactoryImpTest.cpp"
+					>
+				</File>
 				<File
 					RelativePath=".\DummyBaseFactory.hpp"
 					>
@@ -237,7 +245,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\SceneTest.cpp"
+					RelativePath=".\SceneImpTest.cpp"
 					>
 				</File>
 			</Filter>
