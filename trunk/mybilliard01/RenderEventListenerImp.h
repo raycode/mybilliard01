@@ -15,16 +15,27 @@ public: // from RenderEventListener
 public:
     RenderEventListenerImp( wstring sceneFile, wstring physX_File );
 
+private: // init
+    void initEffect( RenderBufferFactory * renderFactory );
+    void connectPhysicsToGraphics();
+
+private: // update
+    void updateObjects();
+
 private: // collada
     ScenePtr scene_;
     MyPhysXPtr phys_;
 
+private: // window
+    float width_, height_;
+
 private: // camera
-    Camera * camera_;
+    NxActor * camera_;
+    float y;
 
 private: // effect
     EffectShader * effect_;
-    ShaderVariable * tech_, * wvp_, * world_, * time_;
+    ShaderVariable * tech_, * wvp_, * world_;
 
 private: // render effect
 
@@ -34,7 +45,8 @@ private: // render effect
         {}
 
         Node * node_;
-        float worldMatrix_[16];
+        float matWorld_[16];
+        float matWVP_[16];
     };
 
     typedef list< GeometryUnderEffect > ToRender;

@@ -124,23 +124,23 @@ void GeometryMeshPrimitiveImp::buildDeviceBuffer( RenderBufferFactory * renderFa
 }
 
 void GeometryMeshPrimitiveImp::display_TRIANGLEFAN( Render * render ) {
-    render->drawPrimitive_TRIANGLEFAN( vertexBuffer_, 0, getNumberOfVertex() );
+    render->drawPrimitive_TRIANGLEFAN( vertexBuffer_, 0, getNumberOfVertex() - 2 );
 }
 
 void GeometryMeshPrimitiveImp::display_TRIANGLESTRIP( Render * render ) {
-    render->drawPrimitive_TRIANGLESTRIP( vertexBuffer_, 0, getNumberOfVertex() );
+    render->drawPrimitive_TRIANGLESTRIP( vertexBuffer_, 0, getNumberOfVertex() - 2 );
 }
 
 void GeometryMeshPrimitiveImp::display_LINESTRIP( Render * render ) {
-    render->drawPrimitive_LINESTRIP( vertexBuffer_, 0, getNumberOfVertex() );
+    render->drawPrimitive_LINESTRIP( vertexBuffer_, 0, getNumberOfVertex() - 1 );
 }
 
 void GeometryMeshPrimitiveImp::display_TRIANGLELIST( Render * render ) {
-    render->drawPrimitive_TRIANGLELIST( vertexBuffer_, 0, getNumberOfVertex() );
+    render->drawPrimitive_TRIANGLELIST( vertexBuffer_, 0, getNumberOfVertex() /3 );
 }
 
 void GeometryMeshPrimitiveImp::display_LINELIST( Render * render ) {
-    render->drawPrimitive_LINELIST( vertexBuffer_, 0, getNumberOfVertex() );
+    render->drawPrimitive_LINELIST( vertexBuffer_, 0, getNumberOfVertex() / 2 );
 }
 
 

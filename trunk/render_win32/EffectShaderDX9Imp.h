@@ -26,7 +26,7 @@ public: // from EffectShaderDX9
     virtual size_t begin() OVERRIDE;
     virtual void end() OVERRIDE;
 
-    virtual void beginPass( size_t whichPass ) OVERRIDE;
+    virtual bool beginPass( size_t whichPass ) OVERRIDE;
     virtual void endPass() OVERRIDE;
 
 public: // from ReleasableResource

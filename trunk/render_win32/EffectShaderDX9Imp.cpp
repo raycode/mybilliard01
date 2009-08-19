@@ -166,9 +166,9 @@ void EffectShaderDX9Imp::end()
     effect_->End();
 }
 
-void EffectShaderDX9Imp::beginPass( size_t whichPass )
+bool EffectShaderDX9Imp::beginPass( size_t whichPass )
 {
-    effect_->BeginPass( whichPass );
+    return S_OK == effect_->BeginPass( whichPass );
 }
 
 void EffectShaderDX9Imp::endPass()

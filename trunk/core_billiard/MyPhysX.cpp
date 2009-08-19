@@ -2,40 +2,56 @@
 #include "my_phys.h"
 namespace my_phys {
 
-MyPhysX::MyPhysX( NxUserOutputStream * userOutputStream )
+
+MyPhysX::MyPhysX()
 {
     // Initialize PhysicsSDK
     NxPhysicsSDKDesc desc;
     NxSDKCreateError errorCode = NXCE_NO_ERROR;
-    physicsSDK_ = NxCreatePhysicsSDK(NX_PHYSICS_SDK_VERSION, NULL, userOutputStream, desc, &errorCode);
-    if( NULL == physicsSDK_ ) 
-        throw exception();
+    physicsSDK_ = NxCreatePhysicsSDK(NX_PHYSICS_SDK_VERSION, NULL, NULL, desc, &errorCode);
+    if( NULL == physicsSDK_ ) throw exception();
 
     // Create a scene
     NxSceneDesc sceneDesc;
     sceneDesc.gravity = NxVec3(0.0f, -9.81f, 0.0f);
     scene_ = physicsSDK_->createScene(sceneDesc);
-    if( NULL == scene_ ) 
-        throw exception();
+    if( NULL == scene_ ) throw exception();
 }
 
 MyPhysX::~MyPhysX()
 {
-    if( NULL == physicsSDK_ ) return;
+    if(physicsSDK_ != NULL)
+    {
+        if(scene_ != NULL) 
+        {
+            physicsSDK_->releaseScene(*scene_);
+            scene_ = NULL;
+        }
 
-    if( NULL != scene_ ) physicsSDK_->releaseScene(*scene_);
-    NxReleasePhysicsSDK(physicsSDK_);
+        NXU::releasePersistentMemory();
+        NxReleasePhysicsSDK(physicsSDK_);
+        physicsSDK_ = NULL;
+    }
 }
 
-bool MyPhysX::loadColladaFile( wstring filename, NXU_userNotify * userNotify ) {
+bool MyPhysX::loadXMLFile( wstring filename ) {
     wchar_t LoadFilename[512];
     FindMediaFile( filename.c_str(), LoadFilename);
-    NXU::NxuPhysicsCollection * const collection
-        = NXU::loadCollection( convertString( LoadFilename ).c_str(), NXU::FT_COLLADA );
-    if( NULL == collection ) return false;
-    const bool success = NXU::instantiateCollection( collection, *physicsSDK_, scene_, NULL, userNotify );
-    NXU::releaseCollection( collection );
-    return success;
+
+    NXU::setEndianMode(isProcessorBigEndian());
+    NXU::NxuPhysicsCollection *c = NXU::loadCollection( convertString( LoadFilename ).c_str(), NXU::FT_XML );
+    if ( c )
+    {
+        NXU::instantiateCollection(c, *physicsSDK_, scene_, 0, NULL );
+        NXU::releaseCollection(c);
+    }
+    else
+    {
+        //printf("Error: Unable to find the input file for this sample: %s\n", buff);
+        return false;
+    }
+
+    return true;
 }
 
 size_t MyPhysX::getNumberOfActors() const {
@@ -58,5 +74,23 @@ void MyPhysX::fetchResult() {
 bool MyPhysX::isSimulationDone() {
     return scene_->checkResults( NX_RIGID_BODY_FINISHED, false );
 }
+
+NxActor * MyPhysX::addCameraActor( NxMat34 globalPose ) {
+
+    NxSphereShapeDesc shapeDesc;
+    shapeDesc.radius = 0.1f;
+    shapeDesc.skinWidth = 0.0001f;
+
+    NxActorDesc actorDesc;
+    actorDesc.shapes.pushBack( & shapeDesc );
+    actorDesc.globalPose = globalPose;
+    actorDesc.userData = NULL;
+    actorDesc.name = "Camera"; // be careful for const char * pointer.
+
+    NxActor * const newCamera = scene_->createActor( actorDesc );
+    actors_.push_back( newCamera );
+    return newCamera;
+}
+
 
 }

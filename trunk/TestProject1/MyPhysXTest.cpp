@@ -59,7 +59,7 @@ public:
         const wstring filename = getDeployedFilename( L"asset\\1ball1box.physx.dae" );
 
         MyPhysX phys;
-        const bool bLoad = phys.loadColladaFile( filename, &userNotify );
+        const bool bLoad = phys.loadXMLFile( filename, &userNotify );
         assertTrue( bLoad );
         assertEquals( 2u, phys.getNumberOfActors() );
     }
@@ -68,7 +68,7 @@ public:
     void CheckActorNames()
     {
         MyPhysX phys;
-        phys.loadColladaFile( getDeployedFilename( L"asset\\1ball1box.physx.dae" ) );
+        phys.loadXMLFile( getDeployedFilename( L"asset\\1ball1box.physx.dae" ) );
 
         array< String^ >^ namesOfActors = { L"Sphere01", L"Box01" };
         for( size_t i = 0; i < (size_t) namesOfActors->Length; ++i )
@@ -84,7 +84,7 @@ public:
     void CheckSkinWidth()
     {
         MyPhysX phys;
-        phys.loadColladaFile( getDeployedFilename( L"asset\\1ball1box.physx.dae" ) );
+        phys.loadXMLFile( getDeployedFilename( L"asset\\1ball1box.physx.dae" ) );
 
         for( size_t i = 0; i < (size_t) phys.getNumberOfActors(); ++i )
         {

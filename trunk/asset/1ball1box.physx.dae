@@ -184,7 +184,7 @@
 		<physics_scene id="SceneInstances-Physics">
 			<instance_physics_model	url="#Scene0-PhysicsInstance"/>
 			<technique_common>
-				<gravity>0	0 -9.81000042</gravity>
+				<gravity>0	-9.81000042 0</gravity>
 			</technique_common>
 		</physics_scene>
 	</library_physics_scenes>
