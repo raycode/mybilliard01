@@ -1831,7 +1831,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="8. Others"
+				Name="7. Others"
 				>
 				<File
 					RelativePath=".\Camera.h"
@@ -1849,42 +1849,6 @@
 					RelativePath=".\my_render.h"
 					>
 				</File>
-				<Filter
-					Name="NullObjects"
-					>
-					<File
-						RelativePath=".\KeyboardEventListenerNull.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\MouseEventListenerNull.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderBufferFactoryNull.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderEventListenerNull.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderNull.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderState_CullNull.h"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderState_WireframeNull.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderStateNull.hpp"
-						>
-					</File>
-				</Filter>
 			</Filter>
 			<Filter
 				Name="3. Node"
@@ -1915,6 +1879,50 @@
 				</File>
 				<File
 					RelativePath=".\GeometryMeshPrimitive.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="8. NullObjects"
+				>
+				<File
+					RelativePath=".\BaseNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\KeyboardEventListenerNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MouseEventListenerNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NodeNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderBufferFactoryNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderEventListenerNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderState_CullNull.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderState_WireframeNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderStateNull.hpp"
 					>
 				</File>
 			</Filter>

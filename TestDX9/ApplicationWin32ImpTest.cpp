@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "ApplicationWin32ImpTest_Backdoor.hpp"
+#include "ApplicationWin32Imp_Backdoor.hpp"
 #include "ApplicationWin32ImpTest_DummyRenderWin32.hpp"
 #include "ApplicationWin32ImpTest_DummyKeyboardListener.h"
 
@@ -123,25 +123,25 @@ namespace TestDX9
 
         [TestMethod]
         void CreateAndDestroyWindow1() {
-            Assert::IsFalse( PRIVATE_METHOD( isWindowCreated )( appImp ) );
-            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
-            assertTrue( PRIVATE_METHOD( isWindowCreated )( appImp ) );
-            PRIVATE_METHOD( destroyWindow )( appImp );
-            Assert::IsFalse( PRIVATE_METHOD( isWindowCreated )( appImp ) );
+            Assert::IsFalse( PRIVATE_METHOD( ApplicationWin32Imp, isWindowCreated )( appImp ) );
+            assertTrue( PRIVATE_METHOD( ApplicationWin32Imp, createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( ApplicationWin32Imp, isWindowCreated )( appImp ) );
+            PRIVATE_METHOD( ApplicationWin32Imp, destroyWindow )( appImp );
+            Assert::IsFalse( PRIVATE_METHOD( ApplicationWin32Imp, isWindowCreated )( appImp ) );
         }
 
         [TestMethod]
         void CreateAndDestroyWindow2() {
-            PRIVATE_METHOD( destroyWindow )( appImp ); // before creation
+            PRIVATE_METHOD( ApplicationWin32Imp, destroyWindow )( appImp ); // before creation
 
-            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( ApplicationWin32Imp, createWindow )( appImp ) );
             const HWND hWnd = app->getHWND();
             assertTrue( hWnd != NULL );
 
-            Assert::IsFalse( PRIVATE_METHOD( createWindow )( appImp ) ); // double creation
+            Assert::IsFalse( PRIVATE_METHOD( ApplicationWin32Imp, createWindow )( appImp ) ); // double creation
             assertTrue( hWnd == app->getHWND() );
 
-            PRIVATE_METHOD( destroyWindow )( appImp );
+            PRIVATE_METHOD( ApplicationWin32Imp, destroyWindow )( appImp );
         }
 
         [TestMethod]
@@ -150,7 +150,7 @@ namespace TestDX9
             Assert::AreEqual( 640, app->getScreenWidth() );
             Assert::AreEqual( 480, app->getScreenHeight() );
 
-            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( ApplicationWin32Imp, createWindow )( appImp ) );
 
             // after creation
             Assert::AreEqual( 640, app->getScreenWidth() );
@@ -164,7 +164,7 @@ namespace TestDX9
             Assert::AreEqual( 640, width );
             Assert::AreEqual( 480, height );
 
-            PRIVATE_METHOD( destroyWindow )( appImp );
+            PRIVATE_METHOD( ApplicationWin32Imp, destroyWindow )( appImp );
 
             // after destroy
             Assert::AreEqual( 640, app->getScreenWidth() );
@@ -180,7 +180,7 @@ namespace TestDX9
             Assert::AreEqual( 11, app->getScreenX() );
             Assert::AreEqual( 12, app->getScreenY() );
 
-            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( ApplicationWin32Imp, createWindow )( appImp ) );
 
             // after creation
             Assert::AreEqual( 11, app->getScreenX() );
@@ -192,7 +192,7 @@ namespace TestDX9
             Assert::AreEqual( 11, rt.left );
             Assert::AreEqual( 12, rt.top );
 
-            PRIVATE_METHOD( destroyWindow )( appImp );
+            PRIVATE_METHOD( ApplicationWin32Imp, destroyWindow )( appImp );
 
             // after destroy
             Assert::AreEqual( 11, app->getScreenX() );
@@ -207,7 +207,7 @@ namespace TestDX9
             // before creation
             Assert::AreEqual( getString( app->getScreenTitle() ), getString( longTitle ) );
 
-            assertTrue( PRIVATE_METHOD( createWindow )( appImp ) );
+            assertTrue( PRIVATE_METHOD( ApplicationWin32Imp, createWindow )( appImp ) );
 
             // after creation
             Assert::AreEqual( getString( app->getScreenTitle() ), getString( longTitle ) );
@@ -217,7 +217,7 @@ namespace TestDX9
             GetWindowText( appImp->getHWND(), szTmp, 256 );
             Assert::AreEqual( getString( longTitle ), getString( szTmp ) );
 
-            PRIVATE_METHOD( destroyWindow )( appImp );
+            PRIVATE_METHOD( ApplicationWin32Imp, destroyWindow )( appImp );
 
             // after destroy
             Assert::AreEqual( getString( app->getScreenTitle() ), getString( longTitle ) );
@@ -229,9 +229,9 @@ namespace TestDX9
             app->setRender( &dummyRender );
             assertTrue( &dummyRender == app->getRender() );
 
-            PRIVATE_METHOD( createWindow )( appImp );
-            PRIVATE_METHOD( mainLoop )( appImp );
-            PRIVATE_METHOD( destroyWindow )( appImp );
+            PRIVATE_METHOD( ApplicationWin32Imp, createWindow )( appImp );
+            PRIVATE_METHOD( ApplicationWin32Imp, mainLoop )( appImp );
+            PRIVATE_METHOD( ApplicationWin32Imp, destroyWindow )( appImp );
         }
 
         [TestMethod, Timeout(10000)]
@@ -247,7 +247,7 @@ namespace TestDX9
             app->addKeyboardListener( &keyListener );
 
             keyListener.appendExpectingKey( VK_RIGHT, true, false );
-            PRIVATE_METHOD( MsgProcKeyboard )( appImp, NULL, WM_KEYDOWN, VK_RIGHT, 0 );
+            PRIVATE_METHOD( ApplicationWin32Imp, MsgProcKeyboard )( appImp, NULL, WM_KEYDOWN, VK_RIGHT, 0 );
 
             assertTrue( keyListener.isAllKeyRecieved() );
         }

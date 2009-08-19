@@ -54,3 +54,14 @@ namespace MyTestingUtility
 #define assertNotNull( obj ) { Assert::IsTrue( NULL != obj ); }
 #define fail { Assert::Fail(); }
 
+
+#define PRIVATE_METHOD( CLASS_NAME, methodName ) CLASS_NAME::TestingBackdoor::methodName
+//#define PRIVATE_MEMBER( CLASS_NAME, methodName ) CLASS_NAME::TestingBackdoor::methodName
+
+#define PRIVATE_METHOD_0( returnType, CLASS_NAME, methodName ) static returnType methodName( CLASS_NAME * obj ) { return obj->methodName(); }
+#define PRIVATE_METHOD_4( returnType, CLASS_NAME, methodName, arg0, arg1, arg2, arg3 ) static returnType methodName( CLASS_NAME * obj, arg0 a0, arg1 a1, arg2 a2, arg3 a3 ) { return obj->methodName( a0, a1, a2, a3 ); }
+
+#define PRIVATE_METHOD_0_VOID( CLASS_NAME, methodName ) static void methodName( CLASS_NAME * obj ) { obj->methodName(); }
+#define PRIVATE_METHOD_1_VOID( CLASS_NAME, methodName, arg0 ) static void methodName( CLASS_NAME * obj, arg0 a0 ) { obj->methodName( a0 ); } 
+
+#define PRIVATE_MEMBER( memberType, CLASS_NAME, memberName ) static memberType & memberName( CLASS_NAME * obj ) { return obj->memberName; }

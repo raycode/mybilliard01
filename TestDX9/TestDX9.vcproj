@@ -206,10 +206,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\ApplicationWin32ImpTest_Backdoor.hpp"
-					>
-				</File>
-				<File
 					RelativePath=".\ApplicationWin32ImpTest_DummyKeyboardListener.cpp"
 					>
 				</File>
@@ -262,10 +258,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\RenderBufferFactoryDX9Test_Backdoor.hpp"
-					>
-				</File>
-				<File
 					RelativePath=".\RenderBufferFactoryDX9Test_Effect.cpp"
 					>
 				</File>
@@ -275,6 +267,18 @@
 				</File>
 				<File
 					RelativePath=".\RenderTest.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Backdoors"
+				>
+				<File
+					RelativePath=".\ApplicationWin32Imp_Backdoor.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderBufferFactoryDX9Imp_Backdoor.hpp"
 					>
 				</File>
 			</Filter>

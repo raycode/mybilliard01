@@ -20,6 +20,11 @@ MY_INTERFACE Scene {
     virtual wstring getCurrentVisualSceneID() PURE;
     virtual bool setCurrentVisualScene( wstring sceneID ) PURE;
 
+    virtual Node * getVisualScene( wstring id ) PURE;
+    virtual Node * getNode( wstring nodeID ) PURE;
+    virtual Geometry * getGeometryByID( wstring id ) PURE;
+    virtual Geometry * getGeometryByName( wstring name ) PURE;
+
 };
 
 }

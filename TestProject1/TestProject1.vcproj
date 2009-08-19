@@ -209,41 +209,53 @@
 			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
-			<File
-				RelativePath=".\DummyBaseFactory.hpp"
+			<Filter
+				Name="Backdoors"
 				>
-			</File>
-			<File
-				RelativePath=".\MyPhysXTest.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
+				<File
+					RelativePath=".\SceneImp_Backdoor.hpp"
 					>
-					<Tool
-						Name="VCCLCompilerTool"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\MyTestingUtility.hpp"
+				</File>
+			</Filter>
+			<Filter
+				Name="Collada"
 				>
-			</File>
-			<File
-				RelativePath=".\NodeTest.cpp"
+				<File
+					RelativePath=".\DummyBaseFactory.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NodeTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RendererTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderMatrixTest.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SceneTest.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="Phys"
 				>
-			</File>
-			<File
-				RelativePath=".\RendererTest.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\RenderMatrixTest.cpp"
-				>
-			</File>
-			<File
-				RelativePath=".\SceneTest.cpp"
-				>
-			</File>
+				<File
+					RelativePath=".\MyPhysXTest.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Global"
@@ -252,6 +264,10 @@
 			>
 			<File
 				RelativePath=".\AssemblyInfo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyTestingUtility.hpp"
 				>
 			</File>
 			<File
