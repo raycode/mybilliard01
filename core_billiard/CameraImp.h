@@ -13,9 +13,12 @@ public: // from Camera
 public:
     CameraImp();
 
+    void setAsPerspective( bool );
+
 private:
-    CameraPerspective * perspectiveCamera_;
-    CameraOrthographic * orthographicCamera_;
+    bool isPerspective_;
+    CameraPerspectiveImp perspectiveCamera_;
+    CameraOrthographicImp orthographicCamera_;
 };
 
 

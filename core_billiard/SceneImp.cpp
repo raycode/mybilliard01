@@ -245,23 +245,25 @@ Geometry * SceneImp::getGeometryByName( wstring name ) {
     return NULL;
 }
 
-Camera * SceneImp::getCameraByID( wstring id )
-{
+Camera * SceneImp::getCameraByID( wstring id ) {
+    MY_FOR_EACH( Cameras, iter, cameras_ )
+        if( id == (*iter)->getID() ) return *iter;
     return NULL;
 }
-Camera * SceneImp::getCameraByName( wstring name )
-{
+Camera * SceneImp::getCameraByName( wstring name ) {
+    MY_FOR_EACH( Cameras, iter, cameras_ )
+        if( name == (*iter)->getName() ) return &**iter;
     return NULL;
 }
 
 size_t SceneImp::getNumberOfCamera()
 {
-    return 0;
+    return cameras_.size();
 }
 
 Camera * SceneImp::getCameraByIndex( size_t index )
 {
-    return NULL;
+    return cameras_.at( index );
 }
 
 wstring SceneImp::getFilenameOnly( wstring fullFilename ) {

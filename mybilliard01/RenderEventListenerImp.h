@@ -13,13 +13,16 @@ public: // from RenderEventListener
     virtual void destroy() OVERRIDE;
 
 public:
-    RenderEventListenerImp();
+    RenderEventListenerImp( wstring sceneFile, wstring physX_File );
 
 private: // collada
     ScenePtr scene_;
     MyPhysXPtr phys_;
 
-private: // render
+private: // camera
+    Camera * camera_;
+
+private: // effect
     EffectShader * effect_;
     ShaderVariable * tech_, * wvp_, * world_, * time_;
 
