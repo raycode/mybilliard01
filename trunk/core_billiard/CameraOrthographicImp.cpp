@@ -5,6 +5,7 @@ namespace my_render_imp {
 
 CameraOrthographicImp::CameraOrthographicImp()
 {
+    x_mag_ = y_mag_ = 50.f;
 }
 
 float	CameraOrthographicImp::getXMag()	{ return x_mag_;	 }

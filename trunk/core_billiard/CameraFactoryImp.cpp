@@ -46,6 +46,8 @@ bool CameraFactoryImp::readCameraPerspective( CameraImp * newCamera, domPerspect
     if( perspective->getZnear() ) newPerspectiveCamera->setZNear( (float) perspective->getZnear()->getValue() );
     if( perspective->getZfar() ) newPerspectiveCamera->setZFar( (float) perspective->getZfar()->getValue() );
     if( perspective->getAspect_ratio() ) newPerspectiveCamera->setAspect( (float) perspective->getAspect_ratio()->getValue() );
+
+    if( newPerspectiveCamera->getZNear() < 1.f) newPerspectiveCamera->setZNear( 1.f );
     return true;
 }
 
@@ -61,6 +63,8 @@ bool CameraFactoryImp::readCameraOrthographic( CameraImp * newCamera, domOrthogr
     if( orthographic->getZnear() ) newOrthographicCamera->setZNear( (float) orthographic->getZnear()->getValue() );
     if( orthographic->getZfar() ) newOrthographicCamera->setZFar( (float) orthographic->getZfar()->getValue() );
     if( orthographic->getAspect_ratio() ) newOrthographicCamera->setAspect( (float) orthographic->getAspect_ratio()->getValue() );
+
+    if( newOrthographicCamera->getZNear() < 1.f) newOrthographicCamera->setZNear( 1.f );
     return true;
 }
 
@@ -99,6 +103,10 @@ CameraImp * CameraFactoryImp::createCamera( wstring id, wstring name, wstring ur
     newCamera->setURI( uri );
 
     return newCamera;
+}
+
+Camera * CameraFactoryImp::getDefaultCamera() {
+    return & defaultCamera_;
 }
 
 

@@ -80,6 +80,14 @@ void SceneImp::updateDevice() {
 
 void SceneImp::setDefaultsAfterLoad() {
     setCurrentVisualScene( getDefaultVisualSceneID() );
+
+    addDefaultCameraWhenThereIsNoCamera();
+}
+
+void SceneImp::addDefaultCameraWhenThereIsNoCamera() {
+    if( 0 != getNumberOfCamera() ) return;
+
+    cameras_.push_back( colladaFactory_->getDefaultCamera() );
 }
 
 void SceneImp::storeFilename( wstring filename ) {

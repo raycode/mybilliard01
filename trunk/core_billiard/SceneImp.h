@@ -47,7 +47,9 @@ private: // load
 
     void loadNodesFromVisualScene( Node * node );
 
+private: // default
     void setDefaultsAfterLoad();
+    void addDefaultCameraWhenThereIsNoCamera();
 
 private:
     void updateDevice();

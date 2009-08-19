@@ -8,6 +8,8 @@ public: // from CameraFactory
     virtual Camera * find( wstring id ) OVERRIDE;
     virtual bool destroyCamera( Camera * ) OVERRIDE;
 
+    virtual Camera * getDefaultCamera() OVERRIDE;
+
 public:
     CameraFactoryImp( InstanceResolver * instanceResolver );
 
@@ -30,6 +32,8 @@ private:
 private:
     typedef list< CameraPtr > Cameras;
     Cameras cameras_;
+
+    CameraImp defaultCamera_;
 };
 
 
