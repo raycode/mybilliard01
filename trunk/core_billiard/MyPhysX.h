@@ -9,8 +9,12 @@ public:
     bool loadColladaFile( wstring filename, NXU_userNotify * userNotify );
     bool loadColladaFile( wstring filename ) { return loadColladaFile( filename, NULL ); }
 
-    size_t countActors() const;
+    size_t getNumberOfActors() const;
     NxActor * getActor( size_t index );
+
+    void simulate( float elapsedTime );
+    void fetchResult();
+    bool isSimulationDone();
 
 private:
     NxPhysicsSDK*	physicsSDK_;

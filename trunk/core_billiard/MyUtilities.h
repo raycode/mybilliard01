@@ -12,7 +12,8 @@
 
 #define MY_FOR_EACH_COLLADA( VALUE_TYPE, ITERATOR, CONTAINER ) \
     VALUE_TYPE##_Array colladaContainer_##ITERATOR = CONTAINER; \
-    vector< VALUE_TYPE##Ref > STL_##ITERATOR( &(colladaContainer_##ITERATOR[ 0 ]), &(colladaContainer_##ITERATOR[ 0 ]) + colladaContainer_##ITERATOR.getCount() ); \
+    vector< VALUE_TYPE##Ref > STL_##ITERATOR; \
+    if( colladaContainer_##ITERATOR.getCount() > 0 ) STL_##ITERATOR = vector< VALUE_TYPE##Ref >( &(colladaContainer_##ITERATOR[ 0 ]), &(colladaContainer_##ITERATOR[ 0 ]) + colladaContainer_##ITERATOR.getCount() ); \
     for( vector< VALUE_TYPE##Ref >::iterator ITERATOR = STL_##ITERATOR.begin(); ITERATOR != STL_##ITERATOR.end() && NULL != *ITERATOR; ++ITERATOR )
 
 

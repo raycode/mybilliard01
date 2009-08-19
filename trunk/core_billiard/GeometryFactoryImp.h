@@ -33,8 +33,6 @@ private:
     typedef list< GeometryMeshPrimitivePtr > Primitives;
     Primitives primitives_;
 
-    InstanceResolver * const instanceResolver_;
-
 private: // Pimpl idiom without any member variables.
     struct Pimpl;
 };

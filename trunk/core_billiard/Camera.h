@@ -4,8 +4,11 @@ namespace my_render {
 
 MY_INTERFACE Camera : EXTENDS_INTERFACE( Base ) {
 
-    virtual void setViewMatrix( const NxMat34 & ) PURE;
-    virtual const NxMat34 & getViewMatrix() PURE;
+    virtual bool isPerspective() PURE;
+    virtual bool isOrthographic() PURE;
+
+    virtual CameraPerspective * getPerspectiveCamera() PURE;
+    virtual CameraOrthographic * getOrthographicCamera() PURE;
 
 };
 

@@ -3,6 +3,12 @@
 namespace my_render_imp {
 
 
+NodeImp::NodeImp()
+    : parent_(NULL), nextSibling_( NULL ), firstChildren_( NULL ), nbChildren_( 0 )
+    ,needToUpdateLocalMatrix_( true ), needToUpdateLocalToWorldMatrix_( true )
+{
+}
+
 Node * NodeImp::getParent() {
     return parent_;
 }
@@ -88,16 +94,6 @@ void NodeImp::renderInstanceGeometries( Render * render ) {
         if( NULL == geo ) continue;
         geo->display( render );
     }
-}
-
-void NodeImp::appendNodeTransform( NodeTransform transform ) {
-    transforms_.push_back( transform );
-}
-
-NodeImp::NodeImp()
-: parent_(NULL), nextSibling_( NULL ), firstChildren_( NULL ), nbChildren_( 0 )
-,needToUpdateLocalMatrix_( true ), needToUpdateLocalToWorldMatrix_( true )
-{
 }
 
 void NodeImp::updateOrient( float time ) {

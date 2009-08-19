@@ -129,7 +129,7 @@ void RenderBufferFactoryDX9Imp::acquireResources()
         MY_FOR_EACH( ReleasableResources, iter, resources_[ i ][ EREADY_QUEUE ] ) {
             (*iter)->acquireResource();
         }
-        resources_[ i ][ EACTIVE_QUEUE ].merge( resources_[ i ][ EREADY_QUEUE ] );
+        resources_[ i ][ EACTIVE_QUEUE ].splice( resources_[ i ][ EACTIVE_QUEUE ].end(), resources_[ i ][ EREADY_QUEUE ] );
     }
 }
 
@@ -138,7 +138,7 @@ void RenderBufferFactoryDX9Imp::releaseByResourceType( int resourceType )
     MY_FOR_EACH( ReleasableResources, iter, resources_[ resourceType ][ EACTIVE_QUEUE ] ) {
         (*iter)->releaseResource();
     }
-    resources_[ resourceType ][ EREADY_QUEUE ].merge( resources_[ resourceType ][ EACTIVE_QUEUE ] );
+    resources_[ resourceType ][ EREADY_QUEUE ].splice( resources_[ resourceType ][ EREADY_QUEUE ].end(), resources_[ resourceType ][ EACTIVE_QUEUE ] );
     bNeedToUpdate_ = true;
 }
 

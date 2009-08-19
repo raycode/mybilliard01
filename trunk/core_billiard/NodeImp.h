@@ -27,7 +27,6 @@ public: // set
     void setSID( wstring sid );
 
     void appendInstanceGeometry( Instance * instanceGeometry );
-    void appendNodeTransform( NodeTransform transform );
 
 public: // update
     void updateOrient( float time );
@@ -45,10 +44,6 @@ private: // from Node
 private: // instance
     typedef vector< Instance * > Instances;
     Instances instanceGeometries_;
-
-private: // transform
-    typedef vector< NodeTransform > Transforms;
-    Transforms transforms_;
 
 private: // render
     void renderInstanceGeometries( Render * render );

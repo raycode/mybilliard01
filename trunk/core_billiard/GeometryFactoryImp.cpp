@@ -4,7 +4,6 @@ namespace my_render_imp {
 
 
 GeometryFactoryImp::GeometryFactoryImp( InstanceResolver * instanceResolver )
-    : instanceResolver_( instanceResolver )
 {
 }
 

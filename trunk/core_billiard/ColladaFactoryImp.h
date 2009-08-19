@@ -6,6 +6,7 @@ class ColladaFactoryImp : IMPLEMENTS_INTERFACE( ColladaFactory ), IMPLEMENTS_INT
 public: // from ColladaFactory
     virtual Node * createVisualScene( domVisual_sceneRef ) OVERRIDE;
     virtual Geometry * createGeometry( domGeometryRef ) OVERRIDE;
+    virtual Camera * createCamera( domCameraRef ) OVERRIDE;
 
     virtual bool destroy( Base * ) OVERRIDE;
 
@@ -28,6 +29,7 @@ private: // instances
 private: // sub-factories
     NodeFactoryPtr nodeFactory_;
     GeometryFactoryPtr geometryFactory_;
+    CameraFactoryPtr cameraFactory_;
 
     MY_UNIT_TEST_BACKDOOR;
 };

@@ -14,22 +14,13 @@ public:
 private: // read visual_scene
     void readNode( NodeImp * parentNode, domNodeRef node );
 
-    void readNodeTranforms( NodeImp * newNode, domNodeRef node );
     void readNodeInstanceGeometries( NodeImp * newNode, domNodeRef node );
-    void readNodeInstanceControllers();
-    void readNodeInstanceLights();
     void readNodeInstanceCameras();
+    void readNodeInstanceLights();
+    void readNodeInstanceControllers();
     void readNodeChildNodes();
     void readNodeInstanceNodes();
     void readNodeInstanceGeometry();
-
-private: // read transform
-    NodeTransformPtr readNodeTranform( daeElementRef content );
-    bool readNodeTransformRotate( NodeTransform * transform, daeElementRef content );
-    bool readNodeTransformTranslate( NodeTransform * transform, daeElementRef content );
-    bool readNodeTransformScale( NodeTransform * transform, daeElementRef content );
-    bool readNodeTransformLookAt( NodeTransform * transform, daeElementRef content );
-    bool readNodeTransformMatrix( NodeTransform * transform, daeElementRef content );
 
 private:
     InstanceResolver * const instanceResolver_;
