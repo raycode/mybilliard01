@@ -13,6 +13,9 @@ SceneImp::SceneImp()
     currentScene_ = & nullNode_;
 }
 
+SceneImp::~SceneImp() {
+    unload();
+}
 
 void SceneImp::update( float elapsedTime ) {
     currentScene_->update( elapsedTime );
@@ -32,10 +35,12 @@ void SceneImp::setRenderFactory( RenderBufferFactory * renderFactory ) {
 }
 
 void SceneImp::unload() {
-    dae_ = DAEPtr( new DAE() );
     visualScenes_.clear();
     nodes_.clear();
     geometries_.clear();
+
+    dae_->clear();
+    dae_ = DAEPtr( new DAE() );
 }
 
 bool SceneImp::load( wstring filename ) {
@@ -81,7 +86,7 @@ void SceneImp::storeFilename( wstring filename ) {
     pathname_ = getPathnameOnly( filename );
 }
 
-bool SceneImp::loadUpAxis( domCOLLADA * collada ) {
+bool SceneImp::loadUpAxis( domCOLLADARef collada ) {
     if( NULL == collada ) return false;
     if( NULL == collada->getAsset() ) return false;
     const domAsset::domUp_axis * const upAxis = collada->getAsset()->getUp_axis();
@@ -103,7 +108,7 @@ bool SceneImp::setCurrentVisualScene( wstring sceneID ) {
     return true;
 }
 
-daeElement * SceneImp::idLookup( wstring id )
+daeElementRef SceneImp::idLookup( wstring id )
 {
     return dae_->getDatabase()->idLookup( convertString( id ), collada_->getDocument() );
 }

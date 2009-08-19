@@ -23,10 +23,12 @@ public:
 public:
     PixelColor();
     PixelColor( NxU32 argb );
-    PixelColor( NxVec3 rgb );
     PixelColor( Color256 a, Color256 r, Color256 g, Color256 b );
     PixelColor( int a, int r, int g, int b );
     PixelColor( unsigned int a, unsigned int r, unsigned int g, unsigned int b );
+
+    PixelColor( NxVec3 rgb );
+    PixelColor( float a, float r, float g, float b );
 
 public:
     operator NxU32 ();

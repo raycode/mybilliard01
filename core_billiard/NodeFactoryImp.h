@@ -24,12 +24,12 @@ private: // read visual_scene
     void readNodeInstanceGeometry();
 
 private: // read transform
-    NodeTransformPtr readNodeTranform( domElement * content );
-    bool readNodeTransformRotate( NodeTransform * transform, domElement * content );
-    bool readNodeTransformTranslate( NodeTransform * transform, domElement * content );
-    bool readNodeTransformScale( NodeTransform * transform, domElement * content );
-    bool readNodeTransformLookAt( NodeTransform * transform, domElement * content );
-    bool readNodeTransformMatrix( NodeTransform * transform, domElement * content );
+    NodeTransformPtr readNodeTranform( daeElementRef content );
+    bool readNodeTransformRotate( NodeTransform * transform, daeElementRef content );
+    bool readNodeTransformTranslate( NodeTransform * transform, daeElementRef content );
+    bool readNodeTransformScale( NodeTransform * transform, daeElementRef content );
+    bool readNodeTransformLookAt( NodeTransform * transform, daeElementRef content );
+    bool readNodeTransformMatrix( NodeTransform * transform, daeElementRef content );
 
 private:
     InstanceResolver * const instanceResolver_;
@@ -42,6 +42,8 @@ private: // create node
 private:
     typedef list< NodeImpPtr > Nodes;
     Nodes nodes_;
+
+    MY_UNIT_TEST_BACKDOOR;
 };
 
 

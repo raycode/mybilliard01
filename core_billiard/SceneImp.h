@@ -26,9 +26,10 @@ public: // from Scene
 
 public:
     SceneImp();
+    ~SceneImp();
 
 private: // load
-    bool loadUpAxis( domCOLLADA * collada );
+    bool loadUpAxis( domCOLLADARef collada );
     void loadLibraryImagesArray();
     void loadLibraryEffectsArray();
     void loadLibraryMaterialsArray();
@@ -44,7 +45,7 @@ private: // load
 private:
     void updateDevice();
     void unload();
-    daeElement * idLookup( wstring id );
+    daeElementRef idLookup( wstring id );
 
 private: // dae file
     void storeFilename( wstring filename );
@@ -57,7 +58,7 @@ private:
     RenderBufferFactory * renderFactory_;
 
     DAEPtr dae_;
-    domCOLLADA * collada_;
+    domCOLLADARef collada_;
 
     ColladaFactoryImp defaultFactory_;
     RenderBufferFactoryNull nullRenderFactory_;
