@@ -8,6 +8,11 @@
 #include "NXU_helper.h"
 #include "NXU_ColladaImport.h"
 #include "MediaPath.h"
+#include "NxController.h"
+#include "ControllerManager.h"
+#include "NxCapsuleController.h"
+
+#include "UserAllocator.h"
 
 namespace my_phys {
     using namespace std;

@@ -10,7 +10,7 @@ namespace my_utility {
 	    static wstring effectFilename();
 	    static wstring colladaPhysXFilename();
 	    static wstring colladaVisualAssetFilename();
-        static wstring dllDirectoryForColladaDOM();
+        static wstring dllDirectory();
     };
 
 }

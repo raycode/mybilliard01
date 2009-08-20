@@ -5,21 +5,13 @@
 MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring physX_File )
 : scene_( new SceneImp() )
 , phys_( new MyPhysX() )
-, bRightHand_( false )
-, bRowMajor_( false )
+, bRightHand_( true )
 {
     scene_->load( sceneFile );
     phys_->loadXMLFile( physX_File );
 
-    static NxMat34 posCamera( NxMat33( 
-        NxVec3( 1.f, 0.f, 0.f ),
-        NxVec3( 0.f, 1.f, 0.f ),
-        NxVec3( 0.f, 0.f, 1.f ) ), NxVec3( -0.01f, 0.01f, -1.f ) );
-
-    NxActor * const cameraPhysX = phys_->addCameraActor( posCamera );
-    Camera * const cameraCollada = scene_->getCameraByIndex( 0u );
-
-    camera_ = MyCameraPtr( new MyCamera( cameraCollada, cameraPhysX ) );
+    Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
+    camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_, NxVec3( -0.01f, 0.01f, -1.f ) ) );
 }
 
 void MyRenderEventListenerImp::init( RenderBufferFactory * renderFactory )
@@ -53,46 +45,54 @@ void MyRenderEventListenerImp::connectPhysicsToGraphics()
 
 void MyRenderEventListenerImp::displayReset( int x, int y, int width, int height )
 {
-    width_ = (float) width;
-    height_ = (float) height;
+    updateCameraProjection( (float) width / (float) height );
 }
 
-void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime ) {
+void MyRenderEventListenerImp::updateCameraProjection( float aspectRatio )
+{
+    camera_->setAspect( aspectRatio );
+    camera_->getProjectionMatrix44( matrixProjection_, bRightHand_, true );
+}
+
+void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
+{
     phys_->simulate( elapsedTime );
-    updateCamera( elapsedTime );
+    updateCharacter();
+    updateCameraView();
     updateObjects( elapsedTime );
     phys_->fetchResult();
 }
 
-void MyRenderEventListenerImp::updateCamera( float elapsedTime )
+void MyRenderEventListenerImp::updateCharacter()
 {
-    RowMajorMatrix44f projection;
-    camera_->cameraCollada_->getProjectionMatrix44( (float*) projection, bRightHand_, true );
+    phys_->UpdateControllers();
+    camera_->move( -0.5f, -0.5f, 0.f, 0.1f);
+}
 
+void MyRenderEventListenerImp::updateCameraView()
+{
     RowMajorMatrix44f view;
-    camera_->getViewMatrix44( (float*) view, bRightHand_, true );
-
-    matrixProjectionView_ = projection * view;
+    camera_->getViewMatrix44( view, bRightHand_, true );
+    matrixProjectionView_ = matrixProjection_ * view;
 }
 
 void MyRenderEventListenerImp::updateObjects( float elapsedTime )
 {
-    toRender_.clear();
+    toRenders_.clear();
 
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
         Node * const node = (Node *) (actor->userData);
         if( NULL == node ) continue;
 
-        toRender_.push_back( node );
+        toRenders_.push_back( node );
+        GeometryUnderEffect * const toRender = &*(toRenders_.rbegin());
 
         RowMajorMatrix44f matWorld;
         actor->getGlobalPose().getRowMajor44( matWorld );
-        const RowMajorMatrix44f matWVP( matrixProjectionView_ * matWorld, bRowMajor_ );
-        if( bRowMajor_ ) matWorld.Transpose();
 
-        memcpy( toRender_.rbegin()->matWorldViewProjection_, matWVP, sizeof( matWVP ) );
-        memcpy( toRender_.rbegin()->matWorld_, matWorld, sizeof( matWorld ) );
+        matWorld.GetColumnMajor( toRender->matWorld_ );
+        (matrixProjectionView_ * matWorld).GetColumnMajor( toRender->matWorldViewProjection_ );
     }
 }
 
@@ -103,11 +103,11 @@ void MyRenderEventListenerImp::display( Render * render ) {
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
     render->setRenderState()->setWireframe()->setSolid();
     render->setRenderState()->setCull()->setNone();
-    MY_FOR_EACH_MOD( ToRender, iter, toRender_ )
+    MY_FOR_EACH_MOD( ToRender, iter, toRenders_ )
     {
         iter_ = iter;
-        effect_->setFloatArray( world_, iter_->matWorld_, 16 );
-        effect_->setFloatArray( wvp_, iter_->matWorldViewProjection_, 16 );
+        effect_->setFloatArray( world_, iter_->matWorld_, 16u );
+        effect_->setFloatArray( wvp_, iter_->matWorldViewProjection_, 16u );
         render->renderWithEffectShader( effect_, tech_, this );
     }
     DXUT_EndPerfEvent();

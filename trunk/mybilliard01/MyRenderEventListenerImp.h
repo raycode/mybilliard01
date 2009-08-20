@@ -20,20 +20,21 @@ private: // init
     void connectPhysicsToGraphics();
 
 private: // update
+    void updateCharacter();
     void updateObjects( float elapsedTime );
-    void updateCamera( float elapsedTime );
 
 private: // collada
     ScenePtr scene_;
     MyPhysXPtr phys_;
 
-private: // window
-    float width_, height_;
-
 private: // camera
     MyCameraPtr camera_;
+    RowMajorMatrix44f matrixProjection_;
     RowMajorMatrix44f matrixProjectionView_;
-    const bool bRightHand_, bRowMajor_;
+    const bool bRightHand_;
+
+    void updateCameraProjection( float aspectRatio );
+    void updateCameraView();
 
 private: // effect
     EffectShader * effect_;
@@ -52,7 +53,7 @@ private: // render effect
     };
 
     typedef list< GeometryUnderEffect > ToRender;
-    ToRender toRender_;
+    ToRender toRenders_;
     ToRender::const_iterator iter_;
 };
 
