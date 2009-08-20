@@ -2,7 +2,7 @@
 #include "my_app.h"
 
 
-RenderEventListenerImp::RenderEventListenerImp( wstring sceneFile, wstring physX_File )
+MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring physX_File )
 : scene_( new SceneImp() )
 , phys_( new MyPhysX() )
 , bRightHand_( false )
@@ -22,14 +22,14 @@ RenderEventListenerImp::RenderEventListenerImp( wstring sceneFile, wstring physX
     camera_ = MyCameraPtr( new MyCamera( cameraCollada, cameraPhysX ) );
 }
 
-void RenderEventListenerImp::init( RenderBufferFactory * renderFactory )
+void MyRenderEventListenerImp::init( RenderBufferFactory * renderFactory )
 {
     scene_->setRenderFactory( renderFactory );
     initEffect( renderFactory );
     connectPhysicsToGraphics();
 }
 
-void RenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
+void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
 {
     effect_ = renderFactory->createEffectShader( L"..\\asset\\SimpleSample.fx" );
     assert( effect_ );
@@ -41,7 +41,7 @@ void RenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
     wvp_ = effect_->createVariable( L"g_mWorldViewProjection" );
 }
 
-void RenderEventListenerImp::connectPhysicsToGraphics()
+void MyRenderEventListenerImp::connectPhysicsToGraphics()
 {
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
@@ -51,20 +51,20 @@ void RenderEventListenerImp::connectPhysicsToGraphics()
     }
 }
 
-void RenderEventListenerImp::displayReset( int x, int y, int width, int height )
+void MyRenderEventListenerImp::displayReset( int x, int y, int width, int height )
 {
     width_ = (float) width;
     height_ = (float) height;
 }
 
-void RenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime ) {
+void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime ) {
     phys_->simulate( elapsedTime );
     updateCamera( elapsedTime );
     updateObjects( elapsedTime );
     phys_->fetchResult();
 }
 
-void RenderEventListenerImp::updateCamera( float elapsedTime )
+void MyRenderEventListenerImp::updateCamera( float elapsedTime )
 {
     RowMajorMatrix44f projection;
     camera_->cameraCollada_->getProjectionMatrix44( (float*) projection, bRightHand_, true );
@@ -75,7 +75,7 @@ void RenderEventListenerImp::updateCamera( float elapsedTime )
     matrixProjectionView_ = projection * view;
 }
 
-void RenderEventListenerImp::updateObjects( float elapsedTime )
+void MyRenderEventListenerImp::updateObjects( float elapsedTime )
 {
     toRender_.clear();
 
@@ -96,11 +96,11 @@ void RenderEventListenerImp::updateObjects( float elapsedTime )
     }
 }
 
-void RenderEventListenerImp::display( Render * render ) {
+void MyRenderEventListenerImp::display( Render * render ) {
     render->clear_Color_Z( PixelColor( 0, 45, 50, 170 ), 1.0f );
     if( false == render->beginScene() ) return;
 
-    DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"My Testing" ); // These events are to help PIX identify
+    DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
     render->setRenderState()->setWireframe()->setSolid();
     render->setRenderState()->setCull()->setNone();
     MY_FOR_EACH_MOD( ToRender, iter, toRender_ )
@@ -115,15 +115,17 @@ void RenderEventListenerImp::display( Render * render ) {
     render->endScene();
 }
 
-void RenderEventListenerImp::display( Render * render, size_t pass ) {
+void MyRenderEventListenerImp::display( Render * render, size_t pass ) {
+    DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"Effect display for each pass" );
     iter_->node_->display( render );
+    DXUT_EndPerfEvent();
 }
 
-void RenderEventListenerImp::displayLost()
+void MyRenderEventListenerImp::displayLost()
 {
 }
 
-void RenderEventListenerImp::destroy() 
+void MyRenderEventListenerImp::destroy() 
 {
 }
 

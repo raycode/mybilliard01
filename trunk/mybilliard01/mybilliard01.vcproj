@@ -285,23 +285,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\InputListenerImp.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						PrecompiledHeaderThrough="StdAfx.h"
-						PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\InputListenerImp.h"
-				>
-			</File>
-			<File
 				RelativePath=".\my_app.h"
 				>
 			</File>
@@ -314,7 +297,7 @@
 				>
 			</File>
 			<File
-				RelativePath=".\RenderEventListenerImp.cpp"
+				RelativePath=".\MyInputListenerImp.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -327,7 +310,24 @@
 				</FileConfiguration>
 			</File>
 			<File
-				RelativePath=".\RenderEventListenerImp.h"
+				RelativePath=".\MyInputListenerImp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyRenderEventListenerImp.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						PrecompiledHeaderThrough="StdAfx.h"
+						PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath=".\MyRenderEventListenerImp.h"
 				>
 			</File>
 			<File

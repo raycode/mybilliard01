@@ -1,7 +1,7 @@
 #pragma once
 
 
-class RenderEventListenerImp : IMPLEMENTS_INTERFACE( RenderEventListener ), public RenderEffectShader 
+class MyRenderEventListenerImp : IMPLEMENTS_INTERFACE( RenderEventListener ), public RenderEffectShader 
 {
 public: // from RenderEventListener
     virtual void init( RenderBufferFactory * ) OVERRIDE;
@@ -13,7 +13,7 @@ public: // from RenderEventListener
     virtual void destroy() OVERRIDE;
 
 public:
-    RenderEventListenerImp( wstring sceneFile, wstring physX_File );
+    MyRenderEventListenerImp( wstring sceneFile, wstring physX_File );
 
 private: // init
     void initEffect( RenderBufferFactory * renderFactory );

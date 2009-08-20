@@ -21,29 +21,37 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
 
-    RenderEventListenerImp * renderEvent = new RenderEventListenerImp( L"..\\asset\\1ball1box.triangles.dae", L"..\\asset\\1ball1box.physx.xml" );
+    {
+        MyRenderEventListenerImp * renderEvent = new MyRenderEventListenerImp(
+            L"..\\asset\\1ball1box.triangles.dae",
+            L"..\\asset\\1ball1box.physx.xml"
+        );
 
-    RenderWin32DX9 * render = new RenderWin32DX9Imp();
-    render->addRenderEventListener( renderEvent );
+        MyInputListenerImp * inputListener = new MyInputListenerImp( renderEvent );
 
 
-    InputListenerImp * inputListener = new InputListenerImp( renderEvent );
+        {
+            Render * const render = new RenderWin32DX9Imp();
+            render->addRenderEventListener( renderEvent );
 
-    ApplicationWin32 * app = new ApplicationWin32Imp();
-    app->setRender( render );
-    app->addKeyboardListener( inputListener );
-    app->addMouseListener( inputListener );
-    app->addWin32MessageListener( inputListener );
-    app->setScreenWidth( 640 );
-    app->setScreenHeight( 480 );
-    app->setWindowedMode( true );
-    app->setScreenTitle( ConstString::windowTitle() );
-    app->start();
+            ApplicationWin32 * const app = new ApplicationWin32Imp();
+            app->setRender( render );
+            app->addKeyboardListener( inputListener );
+            app->addMouseListener( inputListener );
+            app->addWin32MessageListener( inputListener );
+            app->setScreenWidth( 640 );
+            app->setScreenHeight( 480 );
+            app->setWindowedMode( true );
+            app->setScreenTitle( ConstString::windowTitle() );
+            app->start();
 
-    delete app;
-    delete inputListener;
-    delete render;
-    delete renderEvent;
+            delete app;
+            delete render;
+        }
+
+        delete inputListener;
+        delete renderEvent;
+    }
 
     return 0;
 }
