@@ -70,7 +70,7 @@
 				AdditionalDependencies="dxerr.lib dxguid.lib d3dx9d.lib d3dx10d.lib d3d9.lib winmm.lib comctl32.lib &quot;$(SolutionDir)/tinyxml/lib/tinyxml.lib&quot; &quot;$(SolutionDir)/collada_dom/lib/libcollada141dom21-d.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCharacter.lib&quot; &quot;$(SolutionDir)/PhysX/lib/NxCooking.lib&quot; &quot;$(SolutionDir)/PhysX/lib/PhysXLoader.lib&quot;"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories=""
-				DelayLoadDLLs=""
+				DelayLoadDLLs="libcollada141dom21-d.dll;NxCharacter.dll"
 				GenerateDebugInformation="true"
 				AssemblyDebug="1"
 				SubSystem="0"
