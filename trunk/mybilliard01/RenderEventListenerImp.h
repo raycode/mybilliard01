@@ -31,7 +31,7 @@ private: // window
 
 private: // camera
     NxActor * camera_;
-    float y;
+    float z_;
 
 private: // effect
     EffectShader * effect_;

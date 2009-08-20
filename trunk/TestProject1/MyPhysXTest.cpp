@@ -22,6 +22,10 @@ public ref class MyPhysXTest
 private:
     static TestContext^ testContext_;
 
+    static wstring getFilename() {
+        return getDeployedFilename( L"asset\\1ball1box.physx.xml" );
+    }
+
 public: 
     [ClassInitialize()]
     static void MyClassInitialize(TestContext^ testContext)
@@ -43,7 +47,7 @@ public:
 
     [TestMethod]
     void FindAssetFile() {
-        const wstring filename = getDeployedFilename( L"asset\\1ball1box.physx.dae" );
+        const wstring filename = getFilename();
         assertTrue( isFileExist( filename ) );
 
         wchar_t LoadFilename[512];
@@ -56,10 +60,10 @@ public:
     [TestMethod]
     void LoadColladaFile()
     {
-        const wstring filename = getDeployedFilename( L"asset\\1ball1box.physx.dae" );
+        const wstring filename = getFilename();
 
         MyPhysX phys;
-        const bool bLoad = phys.loadXMLFile( filename, &userNotify );
+        const bool bLoad = phys.loadXMLFile( filename );
         assertTrue( bLoad );
         assertEquals( 2u, phys.getNumberOfActors() );
     }
@@ -68,7 +72,7 @@ public:
     void CheckActorNames()
     {
         MyPhysX phys;
-        phys.loadXMLFile( getDeployedFilename( L"asset\\1ball1box.physx.dae" ) );
+        phys.loadXMLFile( getFilename() );
 
         array< String^ >^ namesOfActors = { L"Sphere01", L"Box01" };
         for( size_t i = 0; i < (size_t) namesOfActors->Length; ++i )
@@ -84,7 +88,7 @@ public:
     void CheckSkinWidth()
     {
         MyPhysX phys;
-        phys.loadXMLFile( getDeployedFilename( L"asset\\1ball1box.physx.dae" ) );
+        phys.loadXMLFile( getFilename() );
 
         for( size_t i = 0; i < (size_t) phys.getNumberOfActors(); ++i )
         {

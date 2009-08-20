@@ -8,7 +8,7 @@ RenderEventListenerImp::RenderEventListenerImp( wstring sceneFile, wstring physX
 , width_( 0.f )
 , height_ ( 0.f )
 , camera_( NULL )
-, y( 0.f )
+, z_( 0.f )
 {
     scene_->load( sceneFile );
     phys_->loadXMLFile( physX_File );
@@ -60,7 +60,7 @@ void RenderEventListenerImp::update( RenderBufferFactory * renderFactory, float 
     updateObjects();
     phys_->fetchResult();
 
-    y += elapsedTime;
+    z_ += elapsedTime;
 }
 
 void RenderEventListenerImp::updateObjects()
@@ -75,18 +75,17 @@ void RenderEventListenerImp::updateObjects()
         toRender_.push_back( node );
 
         float * matWorld = toRender_.rbegin()->matWorld_;
-        actor->getGlobalPose().getRowMajor44( matWorld );
+        actor->getGlobalPose().getColumnMajor44( matWorld );
 
 
-        D3DXMATRIX Rx, Ry;
-        D3DXMatrixRotationX( &Rx, 3.14f /4.0f );
-        D3DXMatrixRotationZ( &Ry, y );
-        if( y>= 6.28f ) y = 0.f;
-        D3DXMATRIX p = Ry;
+        D3DXMATRIX Rz;
+        D3DXMatrixRotationZ( &Rz, z_ );
+        if( z_ >= 6.28f ) z_ = 0.f;
+        D3DXMATRIX p = Rz;
 
-        D3DXVECTOR3 position( 1.f, 0.1f, -2.f );
+        D3DXVECTOR3 position( 2.f, 0.5f, 1.f );
         D3DXVECTOR3 lookAt( 0.f, 0.f, 0.f );
-        D3DXVECTOR3 up( 0.f, 0.f, -1.f );
+        D3DXVECTOR3 up( 0.f, 0.f, 1.f );
         D3DXMATRIX view;
         D3DXMatrixLookAtLH( &view, &position, &lookAt, &up );
 
@@ -98,7 +97,7 @@ void RenderEventListenerImp::updateObjects()
             1.f,
             1000.f );
 
-        memcpy( toRender_.rbegin()->matWVP_ , (float*) (D3DXMATRIX( matWorld ) * p * view * proj), sizeof(float) * 16 );
+        memcpy( toRender_.rbegin()->matWVP_, (float*) (D3DXMATRIX( matWorld ) * p * view * proj), sizeof(float) * 16 );
     }
 }
 
@@ -108,7 +107,7 @@ void RenderEventListenerImp::display( Render * render ) {
 
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"My Testing" ); // These events are to help PIX identify
     render->setRenderState()->setWireframe()->setSolid();
-    render->setRenderState()->setCull()->setCounterClockWise();
+    render->setRenderState()->setCull()->setNone();
     MY_FOR_EACH( ToRender, iter, toRender_ )
     {
         iter_ = iter;
