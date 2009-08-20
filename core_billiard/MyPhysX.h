@@ -16,18 +16,26 @@ public:
     void fetchResult();
     bool isSimulationDone();
 
-    NxActor * addCameraActor( const NxMat34 & globalPose );
+    NxController * addCapsuleCharacter( NxVec3 position, float radius, float height,
+        float skinWidth, NxHeightFieldAxis upDirection );
 
-private:
-    friend class MyUserSceneNotify;
+    NxU32 MoveCharacter(NxU32 characterIndex, const NxVec3& dispVector, NxF32 elapsedTime, NxU32 collisionGroups, NxF32 heightDelta);
+    const NxExtendedVec3& GetCharacterPos(NxU32 characterIndex);
+    bool ResetCharacterPos(NxU32 index, const NxVec3& pos);
+    void UpdateControllers();
+    NxActor* GetCharacterActor(NxU32 characterIndex);
 
 private:
     NxPhysicsSDK * physicsSDK_;
     NxScene * scene_;
     PerfRenderer perfRenderer_;
 
-    typedef list< NxActor * > Actors;
-    Actors actors_;
+private: // character
+    static NxControllerManager * characterMnager_;
+    UserAllocator * const userAllocator_;
+    
+    typedef list< NxController * > Controllers;
+    Controllers controllers_;
 };
 
 

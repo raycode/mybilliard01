@@ -19,7 +19,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 
-    SetDllDirectory( ConstString::dllDirectoryForColladaDOM().c_str() );
+    SetDllDirectory( ConstString::dllDirectory().c_str() );
 
     {
         MyRenderEventListenerImp * renderEvent = new MyRenderEventListenerImp(

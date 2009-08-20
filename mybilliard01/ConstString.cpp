@@ -19,8 +19,8 @@ wstring ConstString::colladaVisualAssetFilename() {
 	return L"asset\\1ball1box.dae";
 }
 
-wstring ConstString::dllDirectoryForColladaDOM() {
-    return L"..\\collada_dom\\dll";
+wstring ConstString::dllDirectory() {
+    return L"..\\dll";
 }
 
 }
