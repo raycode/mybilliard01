@@ -1,7 +1,7 @@
 #pragma once
 
 
-class InputListenerImp
+class MyInputListenerImp
     : IMPLEMENTS_INTERFACE( KeyboardEventListener )
     , IMPLEMENTS_INTERFACE( MouseEventListener )
     , IMPLEMENTS_INTERFACE( Win32MessageListener )
@@ -25,10 +25,10 @@ public: // from Win32MessageListener
     virtual bool MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 public:
-    InputListenerImp( RenderEventListenerImp * renderListener );
+    MyInputListenerImp( MyRenderEventListenerImp * renderListener );
 
 private:
-    RenderEventListenerImp * renderListener_;
+    MyRenderEventListenerImp * renderListener_;
 };
 
 

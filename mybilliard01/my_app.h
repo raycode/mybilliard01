@@ -24,15 +24,15 @@ using namespace my_render_win32_dx9_imp;
 
 using namespace my_phys;
 
-class RenderEventListenerImp;
-class InputListenerImp;
+class MyRenderEventListenerImp;
+class MyInputListenerImp;
 class MyCamera;
 
-MY_SMART_PTR( RenderEventListenerImp );
-MY_SMART_PTR( InputListenerImp );
+MY_SMART_PTR( MyRenderEventListenerImp );
+MY_SMART_PTR( MyInputListenerImp );
 MY_SMART_PTR( MyCamera );
 
 #include "MyCamera.h"
-#include "RenderEventListenerImp.h"
-#include "InputListenerImp.h"
+#include "MyRenderEventListenerImp.h"
+#include "MyInputListenerImp.h"
 #include "ConstString.h"

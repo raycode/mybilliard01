@@ -2,19 +2,19 @@
 #include "my_app.h"
 
 
-InputListenerImp::InputListenerImp( RenderEventListenerImp * renderListener ) {
+MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListener ) {
     renderListener_ = renderListener;
 }
 
-void InputListenerImp::keyDown( unsigned int key, bool bAlt ) {
+void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
 
 }
 
-void InputListenerImp::keyUp( unsigned int key, bool bAlt ) {
+void MyInputListenerImp::keyUp( unsigned int key, bool bAlt ) {
 
 }
 
-void InputListenerImp::onMouseEvent(
+void MyInputListenerImp::onMouseEvent(
         int xPos,
         int yPos,
         bool bLeftButton,
@@ -27,7 +27,7 @@ void InputListenerImp::onMouseEvent(
 
 }
 
-bool InputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
+bool MyInputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam ) {
     //if( false == MsgProcDXUT( hWnd, uMsg, wParam, lParam ) )
     //    return false;
 
