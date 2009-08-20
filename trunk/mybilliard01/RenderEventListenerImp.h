@@ -20,7 +20,8 @@ private: // init
     void connectPhysicsToGraphics();
 
 private: // update
-    void updateObjects();
+    void updateObjects( float elapsedTime );
+    void updateCamera( float elapsedTime );
 
 private: // collada
     ScenePtr scene_;
@@ -30,8 +31,9 @@ private: // window
     float width_, height_;
 
 private: // camera
-    NxActor * camera_;
-    float z_;
+    MyCameraPtr camera_;
+    RowMajorMatrix44f matrixProjectionView_;
+    const bool bRightHand_, bRowMajor_;
 
 private: // effect
     EffectShader * effect_;
@@ -46,7 +48,7 @@ private: // render effect
 
         Node * node_;
         float matWorld_[16];
-        float matWVP_[16];
+        float matWorldViewProjection_[16];
     };
 
     typedef list< GeometryUnderEffect > ToRender;

@@ -17,6 +17,7 @@
 #include <algorithm>
 #include <cassert>
 #include <memory>
+#include <math.h>
 
 #include "NxPhysics.h"
 #include "NxSimpleTypes.h"

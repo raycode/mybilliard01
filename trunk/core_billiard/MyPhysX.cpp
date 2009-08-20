@@ -75,7 +75,7 @@ bool MyPhysX::isSimulationDone() {
     return scene_->checkResults( NX_RIGID_BODY_FINISHED, false );
 }
 
-NxActor * MyPhysX::addCameraActor( NxMat34 globalPose ) {
+NxActor * MyPhysX::addCameraActor( const NxMat34 & globalPose ) {
 
     NxSphereShapeDesc shapeDesc;
     shapeDesc.radius = 0.1f;

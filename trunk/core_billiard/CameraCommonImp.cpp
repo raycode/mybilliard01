@@ -6,8 +6,8 @@ namespace my_render_imp {
 CameraCommonImp::CameraCommonImp()
 {
     aspect_ = 16.0f / 9.0f;
-    zNear_ = 10.0f;
-    zFar_ = 15000.0f;		
+    zNear_ = 0.01f;
+    zFar_ = 10.0f * 100.f;		
 }
 
 float	CameraCommonImp::getZNear()	{ return zNear_;  }

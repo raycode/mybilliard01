@@ -10,6 +10,8 @@ public: // from CameraPerspective
     virtual void	setXFov(float fovx) OVERRIDE;
     virtual void 	setYFov(float fovf) OVERRIDE;
 
+    virtual void getProjectionMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor ) OVERRIDE;
+
 public:
     CameraPerspectiveImp();
 

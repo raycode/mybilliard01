@@ -10,6 +10,8 @@ MY_INTERFACE Camera : EXTENDS_INTERFACE( Base ) {
     virtual CameraPerspective * getPerspectiveCamera() PURE;
     virtual CameraOrthographic * getOrthographicCamera() PURE;
 
+    virtual void getProjectionMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor ) PURE;
+
 };
 
 

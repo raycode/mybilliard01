@@ -5,19 +5,21 @@
 RenderEventListenerImp::RenderEventListenerImp( wstring sceneFile, wstring physX_File )
 : scene_( new SceneImp() )
 , phys_( new MyPhysX() )
-, width_( 0.f )
-, height_ ( 0.f )
-, camera_( NULL )
-, z_( 0.f )
+, bRightHand_( false )
+, bRowMajor_( false )
 {
     scene_->load( sceneFile );
     phys_->loadXMLFile( physX_File );
 
-    //static NxMat34 posCamera( NxMat33( 
-    //    NxVec3( 1.f, 0.f, 0.f ),
-    //    NxVec3( 0.f, 1.f, 0.f ),
-    //    NxVec3( 0.f, 0.f, 1.f ) ), NxVec3( -0.01f, 0.01f, -1.f ) );
-    //camera_ = phys_->addCameraActor( posCamera );
+    static NxMat34 posCamera( NxMat33( 
+        NxVec3( 1.f, 0.f, 0.f ),
+        NxVec3( 0.f, 1.f, 0.f ),
+        NxVec3( 0.f, 0.f, 1.f ) ), NxVec3( -0.01f, 0.01f, -1.f ) );
+
+    NxActor * const cameraPhysX = phys_->addCameraActor( posCamera );
+    Camera * const cameraCollada = scene_->getCameraByIndex( 0u );
+
+    camera_ = MyCameraPtr( new MyCamera( cameraCollada, cameraPhysX ) );
 }
 
 void RenderEventListenerImp::init( RenderBufferFactory * renderFactory )
@@ -57,13 +59,23 @@ void RenderEventListenerImp::displayReset( int x, int y, int width, int height )
 
 void RenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime ) {
     phys_->simulate( elapsedTime );
-    updateObjects();
+    updateCamera( elapsedTime );
+    updateObjects( elapsedTime );
     phys_->fetchResult();
-
-    z_ += elapsedTime;
 }
 
-void RenderEventListenerImp::updateObjects()
+void RenderEventListenerImp::updateCamera( float elapsedTime )
+{
+    RowMajorMatrix44f projection;
+    camera_->cameraCollada_->getProjectionMatrix44( (float*) projection, bRightHand_, true );
+
+    RowMajorMatrix44f view;
+    camera_->getViewMatrix44( (float*) view, bRightHand_, true );
+
+    matrixProjectionView_ = projection * view;
+}
+
+void RenderEventListenerImp::updateObjects( float elapsedTime )
 {
     toRender_.clear();
 
@@ -74,30 +86,13 @@ void RenderEventListenerImp::updateObjects()
 
         toRender_.push_back( node );
 
-        float * matWorld = toRender_.rbegin()->matWorld_;
-        actor->getGlobalPose().getColumnMajor44( matWorld );
+        RowMajorMatrix44f matWorld;
+        actor->getGlobalPose().getRowMajor44( matWorld );
+        const RowMajorMatrix44f matWVP( matrixProjectionView_ * matWorld, bRowMajor_ );
+        if( bRowMajor_ ) matWorld.Transpose();
 
-
-        D3DXMATRIX Rz;
-        D3DXMatrixRotationZ( &Rz, z_ );
-        if( z_ >= 6.28f ) z_ = 0.f;
-        D3DXMATRIX p = Rz;
-
-        D3DXVECTOR3 position( 2.f, 0.5f, 1.f );
-        D3DXVECTOR3 lookAt( 0.f, 0.f, 0.f );
-        D3DXVECTOR3 up( 0.f, 0.f, 1.f );
-        D3DXMATRIX view;
-        D3DXMatrixLookAtLH( &view, &position, &lookAt, &up );
-
-        D3DXMATRIX proj;
-        D3DXMatrixPerspectiveFovLH(
-            &proj,
-            D3DX_PI * 0.5f, // 90 - degree
-            width_ / height_,
-            1.f,
-            1000.f );
-
-        memcpy( toRender_.rbegin()->matWVP_, (float*) (D3DXMATRIX( matWorld ) * p * view * proj), sizeof(float) * 16 );
+        memcpy( toRender_.rbegin()->matWorldViewProjection_, matWVP, sizeof( matWVP ) );
+        memcpy( toRender_.rbegin()->matWorld_, matWorld, sizeof( matWorld ) );
     }
 }
 
@@ -108,11 +103,11 @@ void RenderEventListenerImp::display( Render * render ) {
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"My Testing" ); // These events are to help PIX identify
     render->setRenderState()->setWireframe()->setSolid();
     render->setRenderState()->setCull()->setNone();
-    MY_FOR_EACH( ToRender, iter, toRender_ )
+    MY_FOR_EACH_MOD( ToRender, iter, toRender_ )
     {
         iter_ = iter;
         effect_->setFloatArray( world_, iter_->matWorld_, 16 );
-        effect_->setFloatArray( wvp_, iter_->matWVP_, 16 );
+        effect_->setFloatArray( wvp_, iter_->matWorldViewProjection_, 16 );
         render->renderWithEffectShader( effect_, tech_, this );
     }
     DXUT_EndPerfEvent();
