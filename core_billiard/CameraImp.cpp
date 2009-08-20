@@ -28,5 +28,11 @@ void CameraImp::setAsPerspective( bool val ) {
     isPerspective_ = val;
 }
 
+void CameraImp::getProjectionMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor )
+{
+    if( isPerspective() ) getPerspectiveCamera()->getProjectionMatrix44( returnMatrix44, bRightHand, bRowMajor );
+    else getOrthographicCamera()->getProjectionMatrix44( returnMatrix44, bRightHand, bRowMajor );
+}
+
 
 }

@@ -26,10 +26,13 @@ using namespace my_phys;
 
 class RenderEventListenerImp;
 class InputListenerImp;
+class MyCamera;
 
 MY_SMART_PTR( RenderEventListenerImp );
 MY_SMART_PTR( InputListenerImp );
+MY_SMART_PTR( MyCamera );
 
+#include "MyCamera.h"
 #include "RenderEventListenerImp.h"
 #include "InputListenerImp.h"
 #include "ConstString.h"

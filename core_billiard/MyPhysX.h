@@ -16,7 +16,7 @@ public:
     void fetchResult();
     bool isSimulationDone();
 
-    NxActor * addCameraActor( NxMat34 globalPose );
+    NxActor * addCameraActor( const NxMat34 & globalPose );
 
 private:
     friend class MyUserSceneNotify;

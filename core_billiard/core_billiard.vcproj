@@ -2037,6 +2037,26 @@
 			<Filter
 				Name="8. Others"
 				>
+				<File
+					RelativePath=".\RowMajorMatrix44.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\RowMajorMatrix44.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RowMajorMatrix44.inl"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="9. Precompiled"

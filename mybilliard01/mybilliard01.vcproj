@@ -306,6 +306,14 @@
 				>
 			</File>
 			<File
+				RelativePath=".\MyCamera.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyCamera.h"
+				>
+			</File>
+			<File
 				RelativePath=".\RenderEventListenerImp.cpp"
 				>
 				<FileConfiguration

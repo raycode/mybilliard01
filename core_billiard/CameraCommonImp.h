@@ -19,6 +19,7 @@ private:
     float		aspect_;
     float		zNear_;
     float		zFar_;
+
 };
 
 }

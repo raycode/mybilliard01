@@ -13,6 +13,8 @@ MY_INTERFACE CameraCommon {
     virtual void	setZFar(float farf) PURE;
     virtual void	setAspect(float aspect) PURE;
 
+    virtual void getProjectionMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor ) PURE;
+
 };
 
 

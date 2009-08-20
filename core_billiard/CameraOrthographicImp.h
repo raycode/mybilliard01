@@ -7,8 +7,10 @@ public:
     virtual float	getXMag() OVERRIDE;
     virtual float	getYMag() OVERRIDE;
 
-    virtual void	setXMag(float magx) OVERRIDE;
-    virtual void 	setYMag(float magy) OVERRIDE;
+    virtual void	setXMag( float magx ) OVERRIDE;
+    virtual void 	setYMag( float magy ) OVERRIDE;
+
+    virtual void getProjectionMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor ) OVERRIDE;
 
 public:
     CameraOrthographicImp();
