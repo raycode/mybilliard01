@@ -13,7 +13,20 @@ public:
     NxVec3 getUpVector () const;
     NxVec3 getDirectionVector () const;
 
-    NxU32 move( NxReal x, NxReal y, NxReal z, NxReal elapsedTime );
+    void update( float elapsedTime );
+
+    NxU32 move( NxVec3 dispVector, NxReal elapsedTime );
+    void beginMoveForward();
+    void beginMoveLeft();
+    void beginMoveRight();
+    void beginMoveBackward();
+    void endMoveForward();
+    void endMoveLeft();
+    void endMoveRight();
+    void endMoveBackward();
+
+    void yawFromLeftToRight( float angle );
+    void pitchFromDownToUp( float angle );
 
 private:
     Camera * colladaCamera_;
@@ -22,4 +35,7 @@ private:
 
     NxController * controller_;
     NxMat33 rotate_;
+
+    enum { EMOVE_FORWARD, EMOVE_LEFT, EMOVE_RIGHT, EMOVE_BACKWARD, SIZE_OF_MOVE_DIRECTION };
+    bool moveTo_[ SIZE_OF_MOVE_DIRECTION ];
 };
