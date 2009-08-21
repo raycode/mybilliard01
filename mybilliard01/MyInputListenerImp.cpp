@@ -29,6 +29,7 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
             break;
         case KEY_RIGHT_ARROW: // right arrow
             beginMoveRight();
+            break;
         case KEY_DOWN_ARROW: // down arrow
             beginMoveBackward();
             break;
@@ -66,37 +67,29 @@ void MyInputListenerImp::onMouseEvent(
     if( bLeftButton ) selectBall( xPos, yPos );
 }
 
-void MyInputListenerImp::beginMoveForward()
-{
-    //getCamera()->move(  )
+void MyInputListenerImp::beginMoveForward() {
+    getCamera()->beginMoveForward();
 }
-void MyInputListenerImp::beginMoveLeft()
-{
-
+void MyInputListenerImp::beginMoveLeft() {
+    getCamera()->beginMoveLeft();
 }
-void MyInputListenerImp::beginMoveRight()
-{
-
+void MyInputListenerImp::beginMoveRight() {
+    getCamera()->beginMoveRight();
 }
-void MyInputListenerImp::beginMoveBackward()
-{
-
+void MyInputListenerImp::beginMoveBackward() {
+    getCamera()->beginMoveBackward();
 }
-void MyInputListenerImp::endMoveForward()
-{
-
+void MyInputListenerImp::endMoveForward() {
+    getCamera()->endMoveForward();
 }
-void MyInputListenerImp::endMoveLeft()
-{
-
+void MyInputListenerImp::endMoveLeft() {
+    getCamera()->endMoveLeft();
 }
-void MyInputListenerImp::endMoveRight()
-{
-
+void MyInputListenerImp::endMoveRight() {
+    getCamera()->endMoveRight();
 }
-void MyInputListenerImp::endMoveBackward()
-{
-
+void MyInputListenerImp::endMoveBackward() {
+    getCamera()->endMoveBackward();
 }
 
 

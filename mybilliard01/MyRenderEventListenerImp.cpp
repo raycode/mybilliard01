@@ -58,16 +58,16 @@ void MyRenderEventListenerImp::updateCameraProjection( float aspectRatio )
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
 {
     phys_->simulate( elapsedTime  / 10.f);
-    updateCharacter();
+    updateCharacter( elapsedTime );
     updateCameraView();
     updateObjects( elapsedTime );
     phys_->fetchResult();
 }
 
-void MyRenderEventListenerImp::updateCharacter()
+void MyRenderEventListenerImp::updateCharacter( float elapsedTime )
 {
     phys_->UpdateControllers();
-    camera_->move( 0.f, 0.f, 0.01f, 0.1f );
+    camera_->update( elapsedTime );
 }
 
 void MyRenderEventListenerImp::updateCameraView()

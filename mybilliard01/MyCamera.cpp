@@ -13,16 +13,35 @@ MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys,
     NxVec3 up = NxVec3( 0.f, 0.f, 1.f );
     NxVec3 right = ( bRightHand ? up.cross( direction ) : direction.cross( up ) );
     rotate_ = NxMat33( right, up, direction );
+
+    for( size_t i = 0; i < SIZE_OF_MOVE_DIRECTION; ++i )
+        moveTo_[ i ] = false;
 }
 
-NxU32 MyCamera::move( NxReal x, NxReal y, NxReal z, NxReal elapsedTime )
+void MyCamera::update( float elapsedTime )
+{
+    //wchar_t tmp[256];
+    //_snwprintf_s( tmp, 256, L"move state = %s %s %s %s\n",
+    //    (moveTo_[ EMOVE_FORWARD ] ? L"T" : L"F"),
+    //    (moveTo_[ EMOVE_LEFT ] ? L"T" : L"F"),
+    //    (moveTo_[ EMOVE_RIGHT ] ? L"T" : L"F"),
+    //    (moveTo_[ EMOVE_BACKWARD ] ? L"T" : L"F")
+    //    );
+    //OutputDebugStr( tmp );
+    NxVec3 dir( 0.f, 0.f, 0.f );
+    if( moveTo_[ EMOVE_FORWARD ] ) dir.add( dir, getDirectionVector() );
+    if( moveTo_[ EMOVE_LEFT ] ) dir.add( dir, -getRightVector() );
+    if( moveTo_[ EMOVE_RIGHT ] ) dir.add( dir, getRightVector() );
+    if( moveTo_[ EMOVE_BACKWARD ] ) dir.add( dir, -getDirectionVector() );
+    move( dir, elapsedTime );
+}
+
+NxU32 MyCamera::move( NxVec3 dispVector, NxReal elapsedTime )
 {
     NxU32 collisionGroups = 0u;//COLLIDABLE_MASK;
-    NxVec3 dispVector( x, y, z );
 
     //	NxF32 sharpness = 0.1f;
     NxF32 sharpness = 1.0f;
-
     const NxVec3 d = dispVector * elapsedTime;
 
     NxU32 collisionFlags;
@@ -84,4 +103,36 @@ const NxExtendedVec3 & MyCamera::getPosition()
     return controller_->getFilteredPosition();
 }
 
+void MyCamera::yawFromLeftToRight( float angle ) {
+    rotate_.rotY( angle );
+}
+
+void MyCamera::pitchFromDownToUp( float angle ) {
+
+}
+
+void MyCamera::beginMoveForward() {
+    moveTo_[ EMOVE_FORWARD ] = true;
+}
+void MyCamera::beginMoveLeft() {
+    moveTo_[ EMOVE_LEFT ] = true;
+}
+void MyCamera::beginMoveRight() {
+    moveTo_[ EMOVE_RIGHT ] = true;
+}
+void MyCamera::beginMoveBackward() {
+    moveTo_[ EMOVE_BACKWARD ] = true;
+}
+void MyCamera::endMoveForward() {
+    moveTo_[ EMOVE_FORWARD ] = false;
+}
+void MyCamera::endMoveLeft() {
+    moveTo_[ EMOVE_LEFT ] = false;
+}
+void MyCamera::endMoveRight() {
+    moveTo_[ EMOVE_RIGHT ] = false;
+}
+void MyCamera::endMoveBackward() {
+    moveTo_[ EMOVE_BACKWARD ] = false;
+}
 
