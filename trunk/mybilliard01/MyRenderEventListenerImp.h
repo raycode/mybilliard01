@@ -22,7 +22,7 @@ private: // init
     void connectPhysicsToGraphics();
 
 private: // update
-    void updateCharacter( float elapsedTime );
+    void updateCamera( float elapsedTime );
     void updateObjects( float elapsedTime );
 
 private: // collada
