@@ -25,10 +25,18 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
             beginMoveForward();
             break;
         case KEY_LEFT_ARROW: // left arrow
-            beginMoveLeft();
+            beginPitchUp();
+            //if( bAlt )
+                //beginRotateLeft();
+            //else
+                //beginMoveLeft();
             break;
         case KEY_RIGHT_ARROW: // right arrow
-            beginMoveRight();
+            beginPitchDown();
+            //if( bAlt )
+                //beginRotateRight();
+            //else
+                //beginMoveRight();
             break;
         case KEY_DOWN_ARROW: // down arrow
             beginMoveBackward();
@@ -43,9 +51,11 @@ void MyInputListenerImp::keyUp( unsigned int key, bool bAlt )
             endMoveForward();
             break;
         case KEY_LEFT_ARROW: // left arrow
+            endPitchUp();
             endMoveLeft();
             break;
         case KEY_RIGHT_ARROW: // right arrow
+            endPitchDown();
             endMoveRight();
         case KEY_DOWN_ARROW: // down arrow
             endMoveBackward();
@@ -90,6 +100,32 @@ void MyInputListenerImp::endMoveRight() {
 }
 void MyInputListenerImp::endMoveBackward() {
     getCamera()->endMoveBackward();
+}
+
+void MyInputListenerImp::beginRotateCounterClockWiseByZ() {
+    getCamera()->beginRotateCounterClockWiseByZ();
+}
+void MyInputListenerImp::beginRotateClockWiseByZ() {
+    getCamera()->beginRotateClockWiseByZ();
+}
+void MyInputListenerImp::endRotateCounterClockWiseByZ() {
+    getCamera()->endRotateCounterClockWiseByZ();
+}
+void MyInputListenerImp::endRotateClockWiseByZ() {
+    getCamera()->endRotateClockWiseByZ();
+}
+
+void MyInputListenerImp::beginPitchDown() {
+    getCamera()->beginPitchDown();
+}
+void MyInputListenerImp::beginPitchUp() {
+    getCamera()->beginPitchUp();
+}
+void MyInputListenerImp::endPitchDown() {
+    getCamera()->endPitchDown();
+}
+void MyInputListenerImp::endPitchUp() {
+    getCamera()->endPitchUp();
 }
 
 

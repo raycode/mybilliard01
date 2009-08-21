@@ -25,8 +25,18 @@ public:
     void endMoveRight();
     void endMoveBackward();
 
-    void yawFromLeftToRight( float angle );
-    void pitchFromDownToUp( float angle );
+    void rotateClockWiseByZ( float angle );
+    void pitchDown( float angle );
+
+    void beginRotateClockWiseByZ();
+    void beginRotateCounterClockWiseByZ();
+    void endRotateClockWiseByZ();
+    void endRotateCounterClockWiseByZ();
+
+    void beginPitchDown();
+    void beginPitchUp();
+    void endPitchDown();
+    void endPitchUp();
 
 private:
     Camera * colladaCamera_;
@@ -38,4 +48,8 @@ private:
 
     enum { EMOVE_FORWARD, EMOVE_LEFT, EMOVE_RIGHT, EMOVE_BACKWARD, SIZE_OF_MOVE_DIRECTION };
     bool moveTo_[ SIZE_OF_MOVE_DIRECTION ];
+
+    enum { EROTATE_Z_CW, EROTATE_Z_CCW, EROTATE_PITCH_UP, EROTATE_PITCH_DOWN, SIZE_OF_ROTATE_AXIS };
+    bool rotateTo_[ SIZE_OF_ROTATE_AXIS ];
 };
+
