@@ -9,10 +9,16 @@ public:
     void getViewMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor );
 
     const NxExtendedVec3 & getPosition();
+    NxVec3 getRightVector () const;
+    NxVec3 getUpVector () const;
+    NxVec3 getDirectionVector () const;
+
     NxU32 move( NxReal x, NxReal y, NxReal z, NxReal elapsedTime );
+
     void rotateX( NxReal angle );
     void rotateY( NxReal angle );
     void rotateZ( NxReal angle );
+    void lookAt( NxVec3 pos );
 
 private:
     Camera * colladaCamera_;

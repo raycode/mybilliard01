@@ -28,6 +28,22 @@ public:
     MyInputListenerImp( MyRenderEventListenerImp * renderListener );
 
 private:
+    MyCamera * getCamera();
+
+private: // move
+    void beginMoveForward();
+    void beginMoveLeft();
+    void beginMoveRight();
+    void beginMoveBackward();
+    void endMoveForward();
+    void endMoveLeft();
+    void endMoveRight();
+    void endMoveBackward();
+
+    void selectBall( int xPos, int yPos );
+    void rotateCamera( int xPos, int yPos );
+
+private:
     MyRenderEventListenerImp * renderListener_;
 };
 

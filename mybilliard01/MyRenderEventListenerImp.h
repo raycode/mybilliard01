@@ -15,6 +15,8 @@ public: // from RenderEventListener
 public:
     MyRenderEventListenerImp( wstring sceneFile, wstring physX_File );
 
+    MyCamera * getMyCamera();
+
 private: // init
     void initEffect( RenderBufferFactory * renderFactory );
     void connectPhysicsToGraphics();
