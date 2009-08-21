@@ -389,7 +389,7 @@
 				<forceFieldMaterial>0</forceFieldMaterial>
 			</NxActorDesc>
 			<NxActorDesc id="Actor_2" userProperties="" hasBody="true" name="Box02">
-				<globalPose>1 0 0  0 1 0  0 0 1  1 1 10</globalPose>
+				<globalPose>1 0 0  0 1 0  0 0 1  1 4 -1</globalPose>
 				<NxBodyDesc id="body">
 					<massLocalPose>1 0 0  0 1 0  0 0 1  0 0 0.107535288</massLocalPose>
 					<massSpaceInertia>0.090022944 0.017631577 0.099945292</massSpaceInertia>
