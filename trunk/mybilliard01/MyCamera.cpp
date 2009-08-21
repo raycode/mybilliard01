@@ -5,7 +5,7 @@ MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys, NxVec3 initPosition 
 : colladaCamera_( cameraCollada )
 , phys_( phys )
 {
-    controller_ = phys_->addCapsuleCharacter( initPosition, 0.1f, 0.2f, 0.001f, NX_Z );
+    controller_ = phys_->addCapsuleCharacter( -initPosition, 0.1f, 0.2f, 0.001f, NX_Z );
 
     rotate_ = NxMat33( NxVec3( 1.f, 0.f, 0.f ), NxVec3( 0.f, 1.f, 0.f ), NxVec3( 0.f, 0.f, 1.f ) );
 }
@@ -53,7 +53,7 @@ NxU32 MyCamera::move( NxReal x, NxReal y, NxReal z, NxReal elapsedTime )
     const NxVec3 d = dispVector * elapsedTime;
 
     NxU32 collisionFlags;
-    controller_->move(d, collisionGroups, 0.000001f, collisionFlags, sharpness);
+    controller_->move( -d, collisionGroups, 0.000001f, collisionFlags, sharpness);
     return collisionFlags;
 }
 

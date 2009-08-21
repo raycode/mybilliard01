@@ -17,14 +17,6 @@ SceneImp::~SceneImp() {
     unload();
 }
 
-void SceneImp::update( float elapsedTime ) {
-    currentScene_->update( elapsedTime );
-}
-
-void SceneImp::display( Render * render ) {
-    currentScene_->display( render );
-}
-
 void SceneImp::setColladaFactoryBeforeLoad( ColladaFactory * factory ) {
     colladaFactory_ = ( ( NULL == factory ) ? & defaultFactory_ : factory );
 }

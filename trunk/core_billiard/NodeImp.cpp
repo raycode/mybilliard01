@@ -81,11 +81,6 @@ void NodeImp::display( Render * render ) {
     {
         renderInstanceGeometries( render );
     }
-
-    if( firstChildren_ )
-        firstChildren_->display( render );
-    if( nextSibling_ )
-        nextSibling_->display( render );
 }
 
 void NodeImp::renderInstanceGeometries( Render * render ) {

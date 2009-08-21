@@ -11,9 +11,6 @@ MY_INTERFACE Scene {
     virtual bool load( wstring filename ) PURE;
     virtual void unload() PURE;
 
-    virtual void update( float elapsedTime ) PURE;
-    virtual void display( Render * ) PURE;
-
     virtual vector< wstring > getVisualSceneIDs() PURE;
     virtual wstring getDefaultVisualSceneID() PURE;
     virtual bool hasDefaultVisualSceneID() PURE;

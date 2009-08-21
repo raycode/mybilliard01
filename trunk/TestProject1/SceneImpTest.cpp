@@ -6,13 +6,6 @@ using namespace System::Text;
 using namespace System::Collections::Generic;
 using namespace	Microsoft::VisualStudio::TestTools::UnitTesting;
 
-struct DummyNode_forDisplayTest : public NodeNull {
-    DummyNode_forDisplayTest() : counter_( 0 ) {}
-    size_t counter_;
-    virtual void display( Render * ) OVERRIDE {
-        ++counter_;
-    }
-};
 
 [TestClass]
 public ref class SceneImpTest
@@ -139,14 +132,6 @@ public:
         RenderBufferFactoryNull nullRenderFactory;
         scene->setRenderFactory( &nullRenderFactory );
         assertTrue( &nullRenderFactory == PRIVATE_METHOD( SceneImp, renderFactory_ )( scene ) );
-    }
-
-    [TestMethod]
-    void Display() {
-        DummyNode_forDisplayTest sceneNode;
-        PRIVATE_METHOD( SceneImp, currentScene_ )( scene ) = & sceneNode;
-        scene->display( NULL );
-        assertEquals( 1u, sceneNode.counter_ );
     }
 
     [TestMethod]
