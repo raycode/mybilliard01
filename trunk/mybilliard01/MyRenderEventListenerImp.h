@@ -33,6 +33,7 @@ private: // camera
     MyCameraPtr camera_;
     RowMajorMatrix44f matrixProjection_;
     RowMajorMatrix44f matrixProjectionView_;
+    bool bRightHandHardware_;
 
     void updateCameraProjection( float aspectRatio );
     void updateCameraView();

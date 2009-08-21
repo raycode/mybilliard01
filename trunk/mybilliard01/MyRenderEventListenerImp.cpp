@@ -5,12 +5,14 @@
 MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring physX_File )
 : scene_( new SceneImp() )
 , phys_( new MyPhysX() )
+, bRightHandHardware_( false )
 {
     scene_->load( sceneFile );
     phys_->loadXMLFile( physX_File );
 
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_, NxVec3( -4.f, 0.f, 0.f ) ) );
+    camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_,
+            NxVec3( -4.f, 0.f, 0.f ), NxVec3( 1.f, 0.f, 0.f ), bRightHandHardware_ ) );
 }
 
 void MyRenderEventListenerImp::init( RenderBufferFactory * renderFactory )
@@ -50,7 +52,7 @@ void MyRenderEventListenerImp::displayReset( int x, int y, int width, int height
 void MyRenderEventListenerImp::updateCameraProjection( float aspectRatio )
 {
     camera_->setAspect( aspectRatio );
-    camera_->getProjectionMatrix44( matrixProjection_, true, true );
+    camera_->getProjectionMatrix44( matrixProjection_, bRightHandHardware_, true );
 }
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
@@ -65,13 +67,13 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
 void MyRenderEventListenerImp::updateCharacter()
 {
     phys_->UpdateControllers();
-    //camera_->move( 0.f, 0.f, 0.1f, 0.1f );
+    camera_->move( 0.f, 0.f, 0.1f, 0.1f );
 }
 
 void MyRenderEventListenerImp::updateCameraView()
 {
     RowMajorMatrix44f view;
-    camera_->getViewMatrix44( view, true, true );
+    camera_->getViewMatrix44( view, true );
     matrixProjectionView_ = matrixProjection_ * view;
 }
 
@@ -101,7 +103,8 @@ void MyRenderEventListenerImp::display( Render * render ) {
 
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
     render->setRenderState()->setWireframe()->setSolid();
-    render->setRenderState()->setCull()->setClockWise();
+    if( bRightHandHardware_ ) render->setRenderState()->setCull()->setCounterClockWise();
+    else render->setRenderState()->setCull()->setClockWise();
     MY_FOR_EACH_MOD( ToRender, iter, toRenders_ )
     {
         iter_ = iter;
