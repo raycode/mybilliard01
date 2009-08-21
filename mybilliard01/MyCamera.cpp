@@ -29,10 +29,10 @@ void MyCamera::update( float elapsedTime )
     if( moveTo_[ EMOVE_BACKWARD ] ) dir.add( dir, -getDirectionVector() );
     move( dir, elapsedTime );
 
-    if( rotateTo_[ EROTATE_Z_CW ] ) rotateClockWiseByZ( 0.1f );
-    if( rotateTo_[ EROTATE_Z_CCW ] ) rotateClockWiseByZ( -0.1f );
-    if( rotateTo_[ EROTATE_PITCH_UP ] ) pitchDown( -0.1f );
-    if( rotateTo_[ EROTATE_PITCH_DOWN ] ) pitchDown( 0.1f );
+    if( rotateTo_[ EROTATE_Z_CW ] ) rotateClockWiseByZ( 2.f * elapsedTime );
+    if( rotateTo_[ EROTATE_Z_CCW ] ) rotateClockWiseByZ( -2.f * elapsedTime );
+    if( rotateTo_[ EROTATE_PITCH_UP ] ) pitchDown( -10.f * elapsedTime );
+    if( rotateTo_[ EROTATE_PITCH_DOWN ] ) pitchDown( 10.f * elapsedTime );
 }
 
 void MyCamera::rotateClockWiseByZ( float angle )
@@ -43,6 +43,12 @@ void MyCamera::rotateClockWiseByZ( float angle )
 }
 void MyCamera::pitchDown( float angle )
 {
+    NxVec3 right = getRightVector();
+    NxQuat q;
+    q.fromAngleAxis( angle, right );
+    NxMat33 rotateByRight;
+    rotateByRight.fromQuat( q );
+    rotate_.multiply( rotate_, rotateByRight );
 
 }
 
