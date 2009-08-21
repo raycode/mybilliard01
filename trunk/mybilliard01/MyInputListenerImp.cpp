@@ -17,12 +17,13 @@
 #define KEY_F 70
 
 MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListener, ApplicationWindow * app )
-: m_bDrag( false )
+: renderListener_( renderListener )
+, app_( app )
+, m_bDrag( false )
 {
-    renderListener_ = renderListener;
-    rotationSensitivity_ = 0.0005f;
+    rotationSensitivity_ = 0.005f;
     pitchSensitivity_ = 0.01f;
-    app_ = app;
+    getCamera()->setMovingSpeed( 20.f );
 }
 
 void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
