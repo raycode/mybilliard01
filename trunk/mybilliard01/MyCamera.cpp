@@ -7,7 +7,7 @@ MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys, NxVec3 initPosition 
 {
     controller_ = phys_->addCapsuleCharacter( -initPosition, 0.1f, 0.2f, 0.001f, NX_Z );
 
-    rotate_ = NxMat33( NxVec3( 1.f, 0.f, 0.f ), NxVec3( 0.f, 1.f, 0.f ), NxVec3( 0.f, 0.f, 1.f ) );
+    rotate_ = NxMat33( NxVec3( 0.f, 1.f, 0.f ), NxVec3( 0.f, 0.f, 1.f ), NxVec3( 1.f, 0.f, 0.f ) );
 }
 
 void MyCamera::setAspect( float aspectRatio )
@@ -25,13 +25,37 @@ const NxExtendedVec3 & MyCamera::getPosition()
 }
 
 
+NxVec3 MyCamera::getRightVector () const {
+    return rotate_.getRow( 0 );
+}
+NxVec3 MyCamera::getUpVector () const {
+    return rotate_.getRow( 1 );
+}
+NxVec3 MyCamera::getDirectionVector () const {
+    return rotate_.getRow( 2 );
+}
+
 void MyCamera::getViewMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor )
 {
+    NxVec3 dir = getDirectionVector();
+    dir.normalize();
+
+    NxVec3 up = dir.cross( getRightVector() );
+    up.normalize();
+
+    NxVec3 right = up.cross( dir );
+    right.normalize();
+
+    NxVec3 trans;
+    trans.x = (NxReal) - getPosition().dot( right );
+    trans.y = (NxReal) - getPosition().dot( up );
+    trans.z = (NxReal) - getPosition().dot( dir );
+
     NxMat34 view;
-    view.M = rotate_;
-    view.t.x = (NxReal) getPosition().x;
-    view.t.y = (NxReal) getPosition().y;
-    view.t.z = (NxReal) getPosition().z;
+    view.M.setRow( 0, right );
+    view.M.setRow( 1, up );
+    view.M.setRow( 2, dir );
+    view.t = trans;
 
     if( bRowMajor ) {
         view.getRowMajor44( returnMatrix44 );

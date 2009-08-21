@@ -10,7 +10,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
     phys_->loadXMLFile( physX_File );
 
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_, NxVec3( 0.f, 0.f, 10.f ) ) );
+    camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_, NxVec3( -4.f, 0.f, 0.f ) ) );
 }
 
 void MyRenderEventListenerImp::init( RenderBufferFactory * renderFactory )
@@ -55,7 +55,7 @@ void MyRenderEventListenerImp::updateCameraProjection( float aspectRatio )
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
 {
-    phys_->simulate( 0.f ); //elapsedTime );
+    phys_->simulate( elapsedTime  / 10.f);
     updateCharacter();
     updateCameraView();
     updateObjects( elapsedTime );
@@ -65,7 +65,7 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
 void MyRenderEventListenerImp::updateCharacter()
 {
     phys_->UpdateControllers();
-    camera_->move( 0.f, 0.f, 1.f, 0.5f );
+    //camera_->move( 0.f, 0.f, 0.1f, 0.1f );
 }
 
 void MyRenderEventListenerImp::updateCameraView()
@@ -101,7 +101,7 @@ void MyRenderEventListenerImp::display( Render * render ) {
 
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
     render->setRenderState()->setWireframe()->setSolid();
-    render->setRenderState()->setCull()->setNone();
+    render->setRenderState()->setCull()->setClockWise();
     MY_FOR_EACH_MOD( ToRender, iter, toRenders_ )
     {
         iter_ = iter;
@@ -128,3 +128,6 @@ void MyRenderEventListenerImp::destroy()
 {
 }
 
+MyCamera * MyRenderEventListenerImp::getMyCamera() {
+    return &* camera_;
+}

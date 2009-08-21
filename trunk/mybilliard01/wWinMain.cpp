@@ -23,8 +23,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     {
         MyRenderEventListenerImp * renderEvent = new MyRenderEventListenerImp(
-            L"..\\asset\\1ball2box.triangles.dae",
-            L"..\\asset\\1ball2box.physx.xml"
+            L"..\\asset\\1ball1box.triangles.dae",
+            L"..\\asset\\1ball1box.physx.xml"
         );
 
         MyInputListenerImp * inputListener = new MyInputListenerImp( renderEvent );
