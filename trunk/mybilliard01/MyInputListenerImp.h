@@ -40,6 +40,17 @@ private: // move
     void endMoveRight();
     void endMoveBackward();
 
+private: // rotate
+    void beginRotateClockWiseByZ();
+    void beginRotateCounterClockWiseByZ();
+    void endRotateClockWiseByZ();
+    void endRotateCounterClockWiseByZ();
+
+    void beginPitchDown();
+    void beginPitchUp();
+    void endPitchDown();
+    void endPitchUp();
+
     void selectBall( int xPos, int yPos );
     void rotateCamera( int xPos, int yPos );
 

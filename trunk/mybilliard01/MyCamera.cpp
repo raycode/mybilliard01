@@ -16,24 +16,34 @@ MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys,
 
     for( size_t i = 0; i < SIZE_OF_MOVE_DIRECTION; ++i )
         moveTo_[ i ] = false;
+    for( size_t i = 0; i < SIZE_OF_ROTATE_AXIS; ++i )
+        rotateTo_[ i ] = false;
 }
 
 void MyCamera::update( float elapsedTime )
 {
-    //wchar_t tmp[256];
-    //_snwprintf_s( tmp, 256, L"move state = %s %s %s %s\n",
-    //    (moveTo_[ EMOVE_FORWARD ] ? L"T" : L"F"),
-    //    (moveTo_[ EMOVE_LEFT ] ? L"T" : L"F"),
-    //    (moveTo_[ EMOVE_RIGHT ] ? L"T" : L"F"),
-    //    (moveTo_[ EMOVE_BACKWARD ] ? L"T" : L"F")
-    //    );
-    //OutputDebugStr( tmp );
     NxVec3 dir( 0.f, 0.f, 0.f );
     if( moveTo_[ EMOVE_FORWARD ] ) dir.add( dir, getDirectionVector() );
     if( moveTo_[ EMOVE_LEFT ] ) dir.add( dir, -getRightVector() );
     if( moveTo_[ EMOVE_RIGHT ] ) dir.add( dir, getRightVector() );
     if( moveTo_[ EMOVE_BACKWARD ] ) dir.add( dir, -getDirectionVector() );
     move( dir, elapsedTime );
+
+    if( rotateTo_[ EROTATE_Z_CW ] ) rotateClockWiseByZ( 0.1f );
+    if( rotateTo_[ EROTATE_Z_CCW ] ) rotateClockWiseByZ( -0.1f );
+    if( rotateTo_[ EROTATE_PITCH_UP ] ) pitchDown( -0.1f );
+    if( rotateTo_[ EROTATE_PITCH_DOWN ] ) pitchDown( 0.1f );
+}
+
+void MyCamera::rotateClockWiseByZ( float angle )
+{
+    NxMat33 rotateZ;
+    rotateZ.rotZ( angle );
+    rotate_.multiply( rotate_, rotateZ );
+}
+void MyCamera::pitchDown( float angle )
+{
+
 }
 
 NxU32 MyCamera::move( NxVec3 dispVector, NxReal elapsedTime )
@@ -103,14 +113,6 @@ const NxExtendedVec3 & MyCamera::getPosition()
     return controller_->getFilteredPosition();
 }
 
-void MyCamera::yawFromLeftToRight( float angle ) {
-    rotate_.rotY( angle );
-}
-
-void MyCamera::pitchFromDownToUp( float angle ) {
-
-}
-
 void MyCamera::beginMoveForward() {
     moveTo_[ EMOVE_FORWARD ] = true;
 }
@@ -134,5 +136,31 @@ void MyCamera::endMoveRight() {
 }
 void MyCamera::endMoveBackward() {
     moveTo_[ EMOVE_BACKWARD ] = false;
+}
+
+void MyCamera::beginRotateClockWiseByZ() {
+    rotateTo_[ EROTATE_Z_CW ] = true;
+}
+void MyCamera::beginRotateCounterClockWiseByZ() {
+    rotateTo_[ EROTATE_Z_CCW ] = true;
+}
+void MyCamera::endRotateClockWiseByZ() {
+    rotateTo_[ EROTATE_Z_CW ] = false;
+}
+void MyCamera::endRotateCounterClockWiseByZ() {
+    rotateTo_[ EROTATE_Z_CCW ] = false;
+}
+
+void MyCamera::beginPitchDown() {
+    rotateTo_[ EROTATE_PITCH_DOWN ] = true;
+}
+void MyCamera::beginPitchUp() {
+    rotateTo_[ EROTATE_PITCH_UP ] = true;
+}
+void MyCamera::endPitchDown() {
+    rotateTo_[ EROTATE_PITCH_DOWN ] = false;
+}
+void MyCamera::endPitchUp() {
+    rotateTo_[ EROTATE_PITCH_UP ] = false;
 }
 
