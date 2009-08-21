@@ -1,13 +1,17 @@
 #include "stdafx.h"
 #include "my_app.h"
 
-MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys, NxVec3 initPosition )
+MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys,
+                   NxVec3 initPosition, NxVec3 direction, bool bRightHand )
 : colladaCamera_( cameraCollada )
 , phys_( phys )
+, bRightHand_( bRightHand )
 {
-    controller_ = phys_->addCapsuleCharacter( -initPosition, 0.1f, 0.2f, 0.001f, NX_Z );
+    controller_ = phys_->addCapsuleCharacter( initPosition, 0.1f, 0.2f, 0.001f, NX_Z );
 
-    rotate_ = NxMat33( NxVec3( 0.f, 1.f, 0.f ), NxVec3( 0.f, 0.f, 1.f ), NxVec3( 1.f, 0.f, 0.f ) );
+    NxVec3 up = NxVec3( 0.f, 0.f, 1.f );
+    NxVec3 right = (bRightHand ? up.cross( direction ) : direction.cross( up ) );
+    rotate_ = NxMat33( right, up, direction );
 }
 
 void MyCamera::setAspect( float aspectRatio )
@@ -35,15 +39,15 @@ NxVec3 MyCamera::getDirectionVector () const {
     return rotate_.getRow( 2 );
 }
 
-void MyCamera::getViewMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor )
+void MyCamera::getViewMatrix44( float * returnMatrix44, bool bRowMajor )
 {
     NxVec3 dir = getDirectionVector();
     dir.normalize();
 
-    NxVec3 up = dir.cross( getRightVector() );
+    NxVec3 up = (bRightHand_ ? getRightVector().cross( dir ) : dir.cross( getRightVector() ) );
     up.normalize();
 
-    NxVec3 right = up.cross( dir );
+    NxVec3 right = (bRightHand_ ? dir.cross( up ) : up.cross( dir ) );
     right.normalize();
 
     NxVec3 trans;
@@ -51,19 +55,18 @@ void MyCamera::getViewMatrix44( float * returnMatrix44, bool bRightHand, bool bR
     trans.y = (NxReal) - getPosition().dot( up );
     trans.z = (NxReal) - getPosition().dot( dir );
 
-    NxMat34 view;
-    view.M.setRow( 0, right );
-    view.M.setRow( 1, up );
-    view.M.setRow( 2, dir );
-    view.t = trans;
+    NxMat34 rowMajorView;
+    rowMajorView.M.setRow( 0, right * ( bRightHand_ ? 1.f : -1.f ) );
+    rowMajorView.M.setRow( 1, up * ( bRightHand_ ? 1.f : -1.f ) );
+    rowMajorView.M.setRow( 2, dir * ( bRightHand_ ? 1.f : -1.f ) );
+    rowMajorView.t = trans;
 
     if( bRowMajor ) {
-        view.getRowMajor44( returnMatrix44 );
+        rowMajorView.getRowMajor44( returnMatrix44 );
 
     } else {
-        view.getColumnMajor44( returnMatrix44 );
+        rowMajorView.getColumnMajor44( returnMatrix44 );
     }
-
 }
 
 NxU32 MyCamera::move( NxReal x, NxReal y, NxReal z, NxReal elapsedTime )
