@@ -18,6 +18,8 @@ MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys,
         moveTo_[ i ] = false;
     for( size_t i = 0; i < SIZE_OF_ROTATE_AXIS; ++i )
         rotateTo_[ i ] = false;
+
+    movingSpeed_ = 5.f;
 }
 
 void MyCamera::update( float elapsedTime )
@@ -58,11 +60,18 @@ NxU32 MyCamera::move( NxVec3 dispVector, NxReal elapsedTime )
 
     //	NxF32 sharpness = 0.1f;
     NxF32 sharpness = 1.0f;
-    const NxVec3 d = dispVector * elapsedTime;
+    const NxVec3 d = dispVector * elapsedTime * movingSpeed_;
 
     NxU32 collisionFlags;
     controller_->move( d, collisionGroups, 0.000001f, collisionFlags, sharpness);
     return collisionFlags;
+}
+
+void MyCamera::setMovingSpeed( float movingSpeed ) {
+    movingSpeed_ = movingSpeed;
+}
+float MyCamera::getMovingSpeed() {
+    return movingSpeed_;
 }
 
 void MyCamera::getViewMatrix44( float * returnMatrix44, bool bRowMajor )

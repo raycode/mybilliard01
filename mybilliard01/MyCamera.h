@@ -16,6 +16,10 @@ public:
     void update( float elapsedTime );
 
     NxU32 move( NxVec3 dispVector, NxReal elapsedTime );
+
+    void setMovingSpeed( float movingSpeed );
+    float getMovingSpeed();
+
     void beginMoveForward();
     void beginMoveLeft();
     void beginMoveRight();
@@ -48,6 +52,8 @@ private:
 
     enum { EMOVE_FORWARD, EMOVE_LEFT, EMOVE_RIGHT, EMOVE_BACKWARD, SIZE_OF_MOVE_DIRECTION };
     bool moveTo_[ SIZE_OF_MOVE_DIRECTION ];
+
+    float movingSpeed_;
 
     enum { EROTATE_Z_CW, EROTATE_Z_CCW, EROTATE_PITCH_UP, EROTATE_PITCH_DOWN, SIZE_OF_ROTATE_AXIS };
     bool rotateTo_[ SIZE_OF_ROTATE_AXIS ];
