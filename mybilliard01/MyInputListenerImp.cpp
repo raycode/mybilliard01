@@ -22,7 +22,7 @@ MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListene
 , m_bDrag( false )
 {
     rotationSensitivity_ = 0.005f;
-    pitchSensitivity_ = 0.01f;
+    pitchSensitivity_ = 0.05f;
     getCamera()->setMovingSpeed( 20.f );
 }
 

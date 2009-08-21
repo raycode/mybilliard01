@@ -7,6 +7,7 @@ MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys,
 : colladaCamera_( cameraCollada )
 , phys_( phys )
 , bRightHand_( bRightHand )
+, bConstrainMovementToHeight_( false )
 {
     controller_ = phys_->addCapsuleCharacter( initPosition, 0.1f, 0.2f, 0.001f, NX_Z );
 
@@ -35,6 +36,8 @@ void MyCamera::update( float elapsedTime )
     if( rotateTo_[ EROTATE_Z_CCW ] ) rotateClockWiseByZ( -2.f * elapsedTime );
     if( rotateTo_[ EROTATE_PITCH_UP ] ) pitchDown( -10.f * elapsedTime );
     if( rotateTo_[ EROTATE_PITCH_DOWN ] ) pitchDown( 10.f * elapsedTime );
+
+    phys_->UpdateControllers();
 }
 
 void MyCamera::rotateClockWiseByZ( float angle )
@@ -59,8 +62,9 @@ NxU32 MyCamera::move( NxVec3 dispVector, NxReal elapsedTime )
     NxU32 collisionGroups = 0u;//COLLIDABLE_MASK;
 
     //	NxF32 sharpness = 0.1f;
-    NxF32 sharpness = 1.0f;
-    const NxVec3 d = dispVector * elapsedTime * movingSpeed_;
+    const NxF32 sharpness = 1.0f;
+    NxVec3 d = dispVector * elapsedTime * movingSpeed_;
+    if( isMovementConstrainedToHeight() ) d.z = 0.f;
 
     NxU32 collisionFlags;
     controller_->move( d, collisionGroups, 0.000001f, collisionFlags, sharpness);
@@ -73,6 +77,23 @@ void MyCamera::setMovingSpeed( float movingSpeed ) {
 float MyCamera::getMovingSpeed() {
     return movingSpeed_;
 }
+bool MyCamera::isMovementConstrainedToHeight() {
+    return bConstrainMovementToHeight_;
+}
+void MyCamera::setMovementToFixedHeight( float height ) {
+    bConstrainMovementToHeight_ = true;
+    height_ = height;
+    NxExtendedVec3 newPos = getPosition();
+    newPos.z = height;
+    controller_->setPosition( newPos );
+}
+void MyCamera::setMovementFreeFromHeightContrain() {
+    bConstrainMovementToHeight_ = false;
+}
+float MyCamera::getConstrainedHeight() {
+    return height_;
+}
+
 
 void MyCamera::getViewMatrix44( float * returnMatrix44, bool bRowMajor )
 {

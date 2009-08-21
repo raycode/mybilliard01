@@ -15,6 +15,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
     camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_,
             NxVec3( -80.f, 0.f, 50.f ), NxVec3( 1.f, 0.f, -0.5f ), bRightHandHardware_ ) );
+    camera_->setMovementToFixedHeight( 50.f );
 }
 
 void MyRenderEventListenerImp::init( RenderBufferFactory * renderFactory )
@@ -69,18 +70,15 @@ void MyRenderEventListenerImp::updateCameraProjection( float aspectRatio )
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
 {
     phys_->simulate( elapsedTime );
-    updateCharacter( elapsedTime );
+    updateCamera( elapsedTime );
     updateCameraView();
     updateObjects( elapsedTime );
     phys_->fetchResult();
 }
 
-void MyRenderEventListenerImp::updateCharacter( float elapsedTime )
-{
-    phys_->UpdateControllers();
+void MyRenderEventListenerImp::updateCamera( float elapsedTime ) {
     camera_->update( elapsedTime );
 }
-
 void MyRenderEventListenerImp::updateCameraView()
 {
     RowMajorMatrix44f view;

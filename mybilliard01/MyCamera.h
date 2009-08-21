@@ -20,6 +20,11 @@ public:
     void setMovingSpeed( float movingSpeed );
     float getMovingSpeed();
 
+    bool isMovementConstrainedToHeight();
+    void setMovementToFixedHeight( float height );
+    void setMovementFreeFromHeightContrain();
+    float getConstrainedHeight();
+
     void beginMoveForward();
     void beginMoveLeft();
     void beginMoveRight();
@@ -54,6 +59,8 @@ private:
     bool moveTo_[ SIZE_OF_MOVE_DIRECTION ];
 
     float movingSpeed_;
+    bool bConstrainMovementToHeight_;
+    float height_;
 
     enum { EROTATE_Z_CW, EROTATE_Z_CCW, EROTATE_PITCH_UP, EROTATE_PITCH_DOWN, SIZE_OF_ROTATE_AXIS };
     bool rotateTo_[ SIZE_OF_ROTATE_AXIS ];
