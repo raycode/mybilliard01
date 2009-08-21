@@ -5,13 +5,12 @@
 MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring physX_File )
 : scene_( new SceneImp() )
 , phys_( new MyPhysX() )
-, bRightHand_( true )
 {
     scene_->load( sceneFile );
     phys_->loadXMLFile( physX_File );
 
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_, NxVec3( -0.01f, 0.01f, -1.f ) ) );
+    camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_, NxVec3( 0.f, 0.f, 10.f ) ) );
 }
 
 void MyRenderEventListenerImp::init( RenderBufferFactory * renderFactory )
@@ -51,12 +50,12 @@ void MyRenderEventListenerImp::displayReset( int x, int y, int width, int height
 void MyRenderEventListenerImp::updateCameraProjection( float aspectRatio )
 {
     camera_->setAspect( aspectRatio );
-    camera_->getProjectionMatrix44( matrixProjection_, bRightHand_, true );
+    camera_->getProjectionMatrix44( matrixProjection_, true, true );
 }
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
 {
-    phys_->simulate( elapsedTime );
+    phys_->simulate( 0.f ); //elapsedTime );
     updateCharacter();
     updateCameraView();
     updateObjects( elapsedTime );
@@ -66,13 +65,13 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
 void MyRenderEventListenerImp::updateCharacter()
 {
     phys_->UpdateControllers();
-    camera_->move( -0.5f, -0.5f, 0.f, 0.1f);
+    camera_->move( 0.f, 0.f, 1.f, 0.5f );
 }
 
 void MyRenderEventListenerImp::updateCameraView()
 {
     RowMajorMatrix44f view;
-    camera_->getViewMatrix44( view, bRightHand_, true );
+    camera_->getViewMatrix44( view, true, true );
     matrixProjectionView_ = matrixProjection_ * view;
 }
 

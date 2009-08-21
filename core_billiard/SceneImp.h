@@ -10,9 +10,6 @@ public: // from Scene
     virtual bool load( wstring filename ) OVERRIDE;
     virtual void unload() OVERRIDE;
 
-    virtual void update( float elapsedTime ) OVERRIDE;
-    virtual void display( Render * ) OVERRIDE;
-
     virtual vector< wstring > getVisualSceneIDs() OVERRIDE;
     virtual wstring getDefaultVisualSceneID() OVERRIDE;
     virtual bool hasDefaultVisualSceneID() OVERRIDE;
