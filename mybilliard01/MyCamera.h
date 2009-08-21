@@ -15,11 +15,6 @@ public:
 
     NxU32 move( NxReal x, NxReal y, NxReal z, NxReal elapsedTime );
 
-    void rotateX( NxReal angle );
-    void rotateY( NxReal angle );
-    void rotateZ( NxReal angle );
-    void lookAt( NxVec3 pos );
-
 private:
     Camera * colladaCamera_;
     MyPhysX * phys_;

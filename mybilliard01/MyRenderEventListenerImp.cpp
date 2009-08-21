@@ -12,7 +12,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
     camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_,
-            NxVec3( -4.f, 0.f, 0.f ), NxVec3( 1.f, 0.f, 0.f ), bRightHandHardware_ ) );
+            NxVec3( -10.f, 0.f, 10.f ), NxVec3( 1.f, 0.f, -1.f ), bRightHandHardware_ ) );
 }
 
 void MyRenderEventListenerImp::init( RenderBufferFactory * renderFactory )
@@ -67,7 +67,7 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
 void MyRenderEventListenerImp::updateCharacter()
 {
     phys_->UpdateControllers();
-    camera_->move( 0.f, 0.f, 0.1f, 0.1f );
+    camera_->move( 0.f, 0.f, 0.01f, 0.1f );
 }
 
 void MyRenderEventListenerImp::updateCameraView()
@@ -103,8 +103,7 @@ void MyRenderEventListenerImp::display( Render * render ) {
 
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
     render->setRenderState()->setWireframe()->setSolid();
-    if( bRightHandHardware_ ) render->setRenderState()->setCull()->setCounterClockWise();
-    else render->setRenderState()->setCull()->setClockWise();
+    render->setRenderState()->setCull()->setNone();
     MY_FOR_EACH_MOD( ToRender, iter, toRenders_ )
     {
         iter_ = iter;
