@@ -21,37 +21,34 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     SetDllDirectory( ConstString::dllDirectory().c_str() );
 
+    ApplicationWin32 * const app = new ApplicationWin32Imp();
     {
         MyRenderEventListenerImp * renderEvent = new MyRenderEventListenerImp(
-            L"..\\asset\\1ball2box.triangles.dae",
-            L"..\\asset\\1ball2box.physx.xml"
+            L"..\\asset\\table.triangles.dae",
+            L"..\\asset\\table.physx.xml"
         );
 
-        MyInputListenerImp * inputListener = new MyInputListenerImp( renderEvent );
+        MyInputListenerImp * inputListener = new MyInputListenerImp( renderEvent, app );
 
 
-        {
-            Render * const render = new RenderWin32DX9Imp();
-            render->addRenderEventListener( renderEvent );
+        Render * const render = new RenderWin32DX9Imp();
+        render->addRenderEventListener( renderEvent );
 
-            ApplicationWin32 * const app = new ApplicationWin32Imp();
-            app->setRender( render );
-            app->addKeyboardListener( inputListener );
-            app->addMouseListener( inputListener );
-            app->addWin32MessageListener( inputListener );
-            app->setScreenWidth( 640 );
-            app->setScreenHeight( 480 );
-            app->setWindowedMode( true );
-            app->setScreenTitle( ConstString::windowTitle() );
-            app->start();
+        app->setRender( render );
+        app->addKeyboardListener( inputListener );
+        app->addMouseListener( inputListener );
+        app->addWin32MessageListener( inputListener );
+        app->setScreenWidth( 640 );
+        app->setScreenHeight( 480 );
+        app->setWindowedMode( true );
+        app->setScreenTitle( ConstString::windowTitle() );
+        app->start();
 
-            delete app;
-            delete render;
-        }
-
+        delete render;
         delete inputListener;
         delete renderEvent;
     }
+    delete app;
 
     return 0;
 }

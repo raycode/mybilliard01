@@ -10,7 +10,9 @@ public: // from GeometryMeshPrimitive
 
     virtual void display( Render * render ) OVERRIDE;
 
-    virtual void buildDeviceBuffer( RenderBufferFactory * ) OVERRIDE;
+    virtual void buildDeviceBuffer_onStatic( RenderBufferFactory * ) OVERRIDE;
+    virtual void buildDeviceBuffer_onDynamic( RenderBufferFactory * ) OVERRIDE;
+    virtual void buildDeviceBuffer_onStream( RenderBufferFactory * ) OVERRIDE;
 
 public:
     GeometryMeshPrimitiveImp();
@@ -40,6 +42,9 @@ private: // display by draw type
 
     typedef void (GeometryMeshPrimitiveImp::*Display_pointer)( Render * );
     Display_pointer display_pointer_;
+
+private: // build buffers on device
+    void buildDeviceBuffer( VertexBuffer * vertexBuffer );
 
 private: // from GeometryMeshPrimitive
     wstring name_, materialName_;

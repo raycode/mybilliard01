@@ -1,6 +1,7 @@
 #include "StdAfx.h"
 #include "my_app.h"
 
+//#define DEBUG_KEY_CODE
 #define KEY_UP_ARROW 38
 #define KEY_LEFT_ARROW 37
 #define KEY_RIGHT_ARROW 39
@@ -13,19 +14,23 @@
 #define KEY_S 83
 #define KEY_D 68
 #define KEY_W 87
+#define KEY_F 70
 
-MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListener )
+MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListener, ApplicationWindow * app )
 : m_bDrag( false )
 {
     renderListener_ = renderListener;
     rotationSensitivity_ = 0.0005f;
     pitchSensitivity_ = 0.01f;
+    app_ = app;
 }
 
 void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
+#ifdef DEBUG_KEY_CODE
     wchar_t tmp[256];
     _snwprintf_s( tmp, 256, L"key = %d\n", key );
     OutputDebugStr( tmp );
+#endif
     switch( key ) {
         case KEY_UP_ARROW:
         case KEY_W:
@@ -54,6 +59,9 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
             break;
         case KEY_L:
             beginRotateClockWiseByZ();
+            break;
+        case KEY_F:
+            app_->setWindowedMode( ! app_->isWindowedMode() );
             break;
     }
 }

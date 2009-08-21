@@ -11,7 +11,9 @@ MY_INTERFACE GeometryMeshPrimitive {
 
     virtual void display( Render * render ) PURE;
 
-    virtual void buildDeviceBuffer( RenderBufferFactory * ) PURE;
+    virtual void buildDeviceBuffer_onStatic( RenderBufferFactory * ) PURE;
+    virtual void buildDeviceBuffer_onDynamic( RenderBufferFactory * ) PURE;
+    virtual void buildDeviceBuffer_onStream( RenderBufferFactory * ) PURE;
 };
 
 

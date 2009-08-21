@@ -25,7 +25,7 @@ public: // from Win32MessageListener
     virtual bool MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam );
 
 public:
-    MyInputListenerImp( MyRenderEventListenerImp * renderListener );
+    MyInputListenerImp( MyRenderEventListenerImp * renderListener, ApplicationWindow * app );
 
 private:
     MyCamera * getCamera();
@@ -60,6 +60,7 @@ private: // mouse
 
 private:
     MyRenderEventListenerImp * renderListener_;
+    ApplicationWindow * app_;
 
 private: // mouse
     bool m_bDrag;

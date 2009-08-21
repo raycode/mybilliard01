@@ -65,7 +65,7 @@ void SceneImp::updateDevice() {
         const size_t numPrim = mesh->getNumberOfPrimitives();
         for( size_t i = 0; i < numPrim; ++i ) {
             GeometryMeshPrimitive * const prim = mesh->getPrimitive( i );
-            prim->buildDeviceBuffer( renderFactory_ );
+            prim->buildDeviceBuffer_onStatic( renderFactory_ );
         }
     }
 }
