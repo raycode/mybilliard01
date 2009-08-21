@@ -9,32 +9,38 @@
 #define KEY_J 74
 #define KEY_K 75
 #define KEY_L 76
+#define KEY_A 65
+#define KEY_S 83
+#define KEY_D 68
+#define KEY_W 87
 
 MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListener )
 : m_bDrag( false )
 {
     renderListener_ = renderListener;
-    D3DXQuaternionIdentity( &m_qDown );
-    D3DXQuaternionIdentity( &m_qNow );
-    m_vDownPt = D3DXVECTOR3( 0, 0, 0 );
-    m_vCurrentPt = D3DXVECTOR3( 0, 0, 0 );
+    rotationSensitivity_ = 0.0005f;
+    pitchSensitivity_ = 0.01f;
 }
 
 void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
-    //wchar_t tmp[256];
-    //_snwprintf_s( tmp, 256, L"key = %d\n", key );
-    //OutputDebugStr( tmp );
+    wchar_t tmp[256];
+    _snwprintf_s( tmp, 256, L"key = %d\n", key );
+    OutputDebugStr( tmp );
     switch( key ) {
-        case KEY_UP_ARROW: // up arrow
+        case KEY_UP_ARROW:
+        case KEY_W:
             beginMoveForward();
             break;
-        case KEY_LEFT_ARROW: // left arrow
+        case KEY_LEFT_ARROW:
+        case KEY_A:
             beginMoveLeft();
             break;
-        case KEY_RIGHT_ARROW: // right arrow
+        case KEY_RIGHT_ARROW:
+        case KEY_D:
             beginMoveRight();
             break;
-        case KEY_DOWN_ARROW: // down arrow
+        case KEY_DOWN_ARROW:
+        case KEY_S:
             beginMoveBackward();
             break;
         case KEY_H:
@@ -56,15 +62,19 @@ void MyInputListenerImp::keyUp( unsigned int key, bool bAlt )
 {
     switch( key ) {
         case KEY_UP_ARROW: // up arrow
+        case KEY_W:
             endMoveForward();
             break;
         case KEY_LEFT_ARROW: // left arrow
+        case KEY_A:
             endMoveLeft();
             break;
         case KEY_RIGHT_ARROW: // right arrow
+        case KEY_D:
             endPitchDown();
             endMoveRight();
         case KEY_DOWN_ARROW: // down arrow
+        case KEY_S:
             endMoveBackward();
             break;
         case KEY_H:
@@ -92,7 +102,6 @@ void MyInputListenerImp::onMouseEvent(
         bool bSideButton2, 
         int nMouseWheelDelta ) 
 {
-    if( bRightButton ) rotateCamera( xPos, yPos );
     if( bLeftButton ) selectBall( xPos, yPos );
 }
 
@@ -150,7 +159,6 @@ void MyInputListenerImp::endPitchUp() {
 
 bool MyInputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
-#ifdef AAA
     // Current mouse position
     int iMouseX = ( short )LOWORD( lParam );
     int iMouseY = ( short )HIWORD( lParam );
@@ -182,23 +190,25 @@ bool MyInputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
         }
         return TRUE;
     }
-#endif
     return true;
 }
 
 void MyInputListenerImp::OnBegin( int nX, int nY )
 {
     m_bDrag = true;
-    m_qDown = m_qNow;
-    m_vDownPt = ScreenToVector( ( float )nX, ( float )nY );
+    m_vDownPt = NxVec3( (float) nX, (float) nY, 0.f );
 }
 
 void MyInputListenerImp::OnMove( int nX, int nY )
 {
     if( m_bDrag )
     {
-        m_vCurrentPt = ScreenToVector( ( float )nX, ( float )nY );
-        //m_qNow = m_qDown * QuatFromBallPoints( m_vDownPt, m_vCurrentPt );
+        m_vCurrentPt = NxVec3( (float) nX, (float) nY, 0.f );
+        const NxVec3 diff = m_vCurrentPt - m_vDownPt;
+        m_vDownPt = m_vCurrentPt;
+
+        getCamera()->rotateClockWiseByZ( diff.x * rotationSensitivity_ );
+        getCamera()->pitchDown( diff.y * pitchSensitivity_ );
     }
 }
 
@@ -207,45 +217,9 @@ void MyInputListenerImp::OnEnd()
     m_bDrag = false;
 }
 
-D3DXVECTOR3 MyInputListenerImp::ScreenToVector( float fScreenPtX, float fScreenPtY )
-{
-    // Scale to screen
-    FLOAT x = -( fScreenPtX - m_Offset.x - m_nWidth / 2 ) / ( m_fRadius * m_nWidth / 2 );
-    FLOAT y = ( fScreenPtY - m_Offset.y - m_nHeight / 2 ) / ( m_fRadius * m_nHeight / 2 );
-
-    FLOAT z = 0.0f;
-    FLOAT mag = x * x + y * y;
-
-    if( mag > 1.0f )
-    {
-        FLOAT scale = 1.0f / sqrtf( mag );
-        x *= scale;
-        y *= scale;
-    }
-    else
-        z = sqrtf( 1.0f - mag );
-
-    // Return vector
-    return D3DXVECTOR3( x, y, z );
-}
-
-//D3DXQUATERNION CD3DArcBall::QuatFromBallPoints( const D3DXVECTOR3& vFrom, const D3DXVECTOR3& vTo )
-//{
-//    D3DXVECTOR3 vPart;
-//    float fDot = D3DXVec3Dot( &vFrom, &vTo );
-//    D3DXVec3Cross( &vPart, &vFrom, &vTo );
-//
-//    return D3DXQUATERNION( vPart.x, vPart.y, vPart.z, fDot );
-//}
-
 MyCamera * MyInputListenerImp::getCamera()
 {
     return renderListener_->getMyCamera();
-}
-
-void MyInputListenerImp::rotateCamera( int xPos, int yPos )
-{
-
 }
 
 void MyInputListenerImp::selectBall( int xPos, int yPos )
