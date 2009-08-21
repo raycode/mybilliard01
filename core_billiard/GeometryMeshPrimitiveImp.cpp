@@ -97,21 +97,32 @@ void GeometryMeshPrimitiveImp::appendTexCoord2D( NxReal u, NxReal v, size_t whic
     semanticSet_[ ETYPE_TEXCOORD_2D ][ whichSet ].push_back( uv );
 }
 
-void GeometryMeshPrimitiveImp::buildDeviceBuffer( RenderBufferFactory * renderFactory ) {
+void GeometryMeshPrimitiveImp::buildDeviceBuffer_onStatic( RenderBufferFactory * renderFactory ) {
     vertexBuffer_ = renderFactory->createVertexBuffer_stream( getNumberOfVertex(), (float*) &(semanticSet_[ ETYPE_POSITION ][ 0 ][ 0 ]) );
-    if( NULL == vertexBuffer_ ) return;
+    buildDeviceBuffer( vertexBuffer_ );
+}
+void GeometryMeshPrimitiveImp::buildDeviceBuffer_onDynamic( RenderBufferFactory * renderFactory ) {
+    vertexBuffer_ = renderFactory->createVertexBuffer_stream( getNumberOfVertex(), (float*) &(semanticSet_[ ETYPE_POSITION ][ 0 ][ 0 ]) );
+    buildDeviceBuffer( vertexBuffer_ );
+}
+void GeometryMeshPrimitiveImp::buildDeviceBuffer_onStream( RenderBufferFactory * renderFactory ) {
+    vertexBuffer_ = renderFactory->createVertexBuffer_stream( getNumberOfVertex(), (float*) &(semanticSet_[ ETYPE_POSITION ][ 0 ][ 0 ]) );
+    buildDeviceBuffer( vertexBuffer_ );
+}
+void GeometryMeshPrimitiveImp::buildDeviceBuffer( VertexBuffer * vertexBuffer ) {
+    if( NULL == vertexBuffer ) return;
 
     for( size_t i = 0; i < semanticSet_[ ETYPE_NORMAL ].size(); ++i )
-        vertexBuffer_->appendNormal_Array( (float*) &(semanticSet_[ ETYPE_NORMAL ][ i ][ 0 ]), i );
+        vertexBuffer->appendNormal_Array( (float*) &(semanticSet_[ ETYPE_NORMAL ][ i ][ 0 ]), i );
     for( size_t i = 0; i < semanticSet_[ ETYPE_BINORMAL ].size(); ++i )
-        vertexBuffer_->appendBinormal_Array( (float*) &(semanticSet_[ ETYPE_BINORMAL ][ i ][ 0 ]), i );
+        vertexBuffer->appendBinormal_Array( (float*) &(semanticSet_[ ETYPE_BINORMAL ][ i ][ 0 ]), i );
     for( size_t i = 0; i < semanticSet_[ ETYPE_TANGENT ].size(); ++i )
-        vertexBuffer_->appendTangent_Array( (float*) &(semanticSet_[ ETYPE_TANGENT ][ i ][ 0 ]), i );
+        vertexBuffer->appendTangent_Array( (float*) &(semanticSet_[ ETYPE_TANGENT ][ i ][ 0 ]), i );
     for( size_t i = 0; i < semanticSet_[ ETYPE_COLOR ].size(); ++i ) {
         vector< NxU32 > stream;
         MY_FOR_EACH( Semantic, iter, semanticSet_[ ETYPE_COLOR ][ i ] )
             stream.push_back( PixelColor( *iter ) );
-        vertexBuffer_->appendColor_Array( &(stream[ 0 ]), i );
+        vertexBuffer->appendColor_Array( &(stream[ 0 ]), i );
     }
     for( size_t i = 0; i < semanticSet_[ ETYPE_TEXCOORD_2D ].size(); ++i ) {
         vector< float > stream;
@@ -119,7 +130,7 @@ void GeometryMeshPrimitiveImp::buildDeviceBuffer( RenderBufferFactory * renderFa
             stream.push_back( iter->x );
             stream.push_back( iter->y );
         }
-        vertexBuffer_->appendTexCoord2D_Array( (float*) &(stream[ 0 ]), i );
+        vertexBuffer->appendTexCoord2D_Array( (float*) &(stream[ 0 ]), i );
     }
 }
 

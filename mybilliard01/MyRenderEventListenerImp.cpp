@@ -7,12 +7,14 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 , phys_( new MyPhysX() )
 , bRightHandHardware_( false )
 {
-    scene_->load( sceneFile );
-    phys_->loadXMLFile( physX_File );
+    const bool bScene = scene_->load( sceneFile );
+    const bool bPhys = phys_->loadXMLFile( physX_File );
+    assert( bScene );
+    assert( bPhys );
 
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
     camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_,
-            NxVec3( -10.f, 0.f, 10.f ), NxVec3( 1.f, 0.f, -1.f ), bRightHandHardware_ ) );
+            NxVec3( -80.f, 0.f, 50.f ), NxVec3( 1.f, 0.f, -0.5f ), bRightHandHardware_ ) );
 }
 
 void MyRenderEventListenerImp::init( RenderBufferFactory * renderFactory )
@@ -36,12 +38,21 @@ void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
 
 void MyRenderEventListenerImp::connectPhysicsToGraphics()
 {
+    wchar_t tmp[256];
+    _snwprintf_s( tmp, 256, L"%d physics actors are found\n", phys_->getNumberOfActors() );
+    OutputDebugStr( tmp );
+
+    size_t numberOfLoad = 0;
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
         const wstring name = convertString( actor->getName() );
         Node * const node = scene_->getNode( name );
         actor->userData = node;
+        if( NULL != node ) ++numberOfLoad;
     }
+
+    _snwprintf_s( tmp, 256, L"%d geometry nodes are found\n", numberOfLoad );
+    OutputDebugStr( tmp );
 }
 
 void MyRenderEventListenerImp::displayReset( int x, int y, int width, int height )
@@ -57,7 +68,7 @@ void MyRenderEventListenerImp::updateCameraProjection( float aspectRatio )
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
 {
-    phys_->simulate( elapsedTime  / 10.f);
+    phys_->simulate( elapsedTime );
     updateCharacter( elapsedTime );
     updateCameraView();
     updateObjects( elapsedTime );
@@ -103,7 +114,7 @@ void MyRenderEventListenerImp::display( Render * render ) {
 
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
     render->setRenderState()->setWireframe()->setSolid();
-    render->setRenderState()->setCull()->setNone();
+    render->setRenderState()->setCull()->setClockWise();
     MY_FOR_EACH_MOD( ToRender, iter, toRenders_ )
     {
         iter_ = iter;
