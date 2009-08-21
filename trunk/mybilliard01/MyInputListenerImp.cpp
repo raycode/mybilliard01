@@ -5,6 +5,10 @@
 #define KEY_LEFT_ARROW 37
 #define KEY_RIGHT_ARROW 39
 #define KEY_DOWN_ARROW 40
+#define KEY_H 72
+#define KEY_J 74
+#define KEY_K 75
+#define KEY_L 76
 
 MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListener )
 : m_bDrag( false )
@@ -25,21 +29,25 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
             beginMoveForward();
             break;
         case KEY_LEFT_ARROW: // left arrow
-            beginPitchUp();
-            //if( bAlt )
-                //beginRotateLeft();
-            //else
-                //beginMoveLeft();
+            beginMoveLeft();
             break;
         case KEY_RIGHT_ARROW: // right arrow
-            beginPitchDown();
-            //if( bAlt )
-                //beginRotateRight();
-            //else
-                //beginMoveRight();
+            beginMoveRight();
             break;
         case KEY_DOWN_ARROW: // down arrow
             beginMoveBackward();
+            break;
+        case KEY_H:
+            beginRotateCounterClockWiseByZ();
+            break;
+        case KEY_J:
+            beginPitchDown();
+            break;
+        case KEY_K:
+            beginPitchUp();
+            break;
+        case KEY_L:
+            beginRotateClockWiseByZ();
             break;
     }
 }
@@ -51,7 +59,6 @@ void MyInputListenerImp::keyUp( unsigned int key, bool bAlt )
             endMoveForward();
             break;
         case KEY_LEFT_ARROW: // left arrow
-            endPitchUp();
             endMoveLeft();
             break;
         case KEY_RIGHT_ARROW: // right arrow
@@ -59,6 +66,18 @@ void MyInputListenerImp::keyUp( unsigned int key, bool bAlt )
             endMoveRight();
         case KEY_DOWN_ARROW: // down arrow
             endMoveBackward();
+            break;
+        case KEY_H:
+            endRotateCounterClockWiseByZ();
+            break;
+        case KEY_J: // down
+            endPitchDown();
+            break;
+        case KEY_K: // up
+            endPitchUp();
+            break;
+        case KEY_L:
+            endRotateClockWiseByZ();
             break;
     }
 }
