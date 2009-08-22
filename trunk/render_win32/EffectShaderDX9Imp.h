@@ -24,6 +24,8 @@ public:
     EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice, wstring filename, LPD3DXEFFECTPOOL effectPool );
     ~EffectShaderDX9Imp();
 
+    wstring getFilename() const;
+
 private: // acquire and release
     bool acquireBestValidTechnique();
     void setEffectOntoEffectVariable( ReleasableEffectResourceDX9 * var );
@@ -32,9 +34,10 @@ private: // acquire and release
 private:
     LPDIRECT3DDEVICE9 d3dDevice_;
     LPD3DXEFFECTPOOL effectPool_;
-    wstring filename_;
+    const wstring filename_;
 
     LPD3DXEFFECT effect_;
+
     D3DXHANDLE bestTechnique_;
 
     typedef list < ReleasableEffectResourceDX9Ptr > EffectVariables;

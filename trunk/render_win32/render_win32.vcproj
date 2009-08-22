@@ -548,6 +548,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\SharedResource.hpp"
+					>
+				</File>
+				<File
 					RelativePath=".\VertexBufferDX9Imp.cpp"
 					>
 					<FileConfiguration

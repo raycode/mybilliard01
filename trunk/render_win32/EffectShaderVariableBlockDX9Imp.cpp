@@ -18,13 +18,19 @@ EffectShaderVariableBlockDX9Imp::~EffectShaderVariableBlockDX9Imp() {
 
 void EffectShaderVariableBlockDX9Imp::applyNow()  {
     const HRESULT hr = effect_->ApplyParameterBlock( getHandleDX9() );
-    assert( S_OK == hr );
+    if( FAILED( hr ) )
+        DXUT_ERR( L"EffectShaderVariableBlockDX9Imp::applyNow", hr );
 }
 
 bool EffectShaderVariableBlockDX9Imp::acquireResource()  {
     if( NULL == effect_ ) return false;
 
-    effect_->BeginParameterBlock();
+    const HRESULT hr = effect_->BeginParameterBlock();
+    if( FAILED( hr ) ) {
+        DXUT_ERR( L"EffectShaderVariableBlockDX9Imp::acquireResource", hr );
+        return false;
+    }
+
     callBack_->setEffectShaderVariableBlock();
     handle_ = effect_->EndParameterBlock();
     return true;

@@ -3,9 +3,6 @@
 
 class ToRenderImp : IMPLEMENTS_INTERFACE( ToRender ) 
 {
-public: // from EffectShaderVariableBlockCallBack
-    virtual void setEffectShaderVariableBlock() OVERRIDE;
-
 public: // from EffectShaderCallBack
     void displayPass( size_t pass ) OVERRIDE;
 
@@ -19,7 +16,6 @@ public:
 private: // input
     Node * const node_;
     EffectShader * const effect_;
-    EffectShaderVariableBlock * block_;
 
 private: // shader variables
     ShaderVariable * wvp_, * world_;

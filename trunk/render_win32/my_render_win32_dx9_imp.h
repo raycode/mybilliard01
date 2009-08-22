@@ -49,6 +49,8 @@ namespace my_render_win32_dx9_imp {
     MY_SMART_PTR( RenderState_CullDX9Imp );
 }
 
+#include "SharedResource.hpp"
+
 #include "SurfaceLockedRectDX9Imp.h"
 #include "SurfaceDX9Imp.h"
 
