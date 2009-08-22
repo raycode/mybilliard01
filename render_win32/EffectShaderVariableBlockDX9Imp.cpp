@@ -7,6 +7,7 @@ EffectShaderVariableBlockDX9Imp::EffectShaderVariableBlockDX9Imp(
     EffectShader * parent, EffectShaderVariableBlockCallBack * callBack )
 : parent_( parent )
 , callBack_( callBack )
+, effect_( NULL )
 , handle_( 0 )
 {
 }
@@ -16,19 +17,21 @@ EffectShaderVariableBlockDX9Imp::~EffectShaderVariableBlockDX9Imp() {
 }
 
 void EffectShaderVariableBlockDX9Imp::applyNow()  {
-    effect_->ApplyParameterBlock( getHandleDX9() );
+    const HRESULT hr = effect_->ApplyParameterBlock( getHandleDX9() );
+    assert( S_OK == hr );
 }
 
 bool EffectShaderVariableBlockDX9Imp::acquireResource()  {
     if( NULL == effect_ ) return false;
 
     effect_->BeginParameterBlock();
-    callBack_->setVariables();
+    callBack_->setEffectShaderVariableBlock();
     handle_ = effect_->EndParameterBlock();
     return true;
 }
 
 void EffectShaderVariableBlockDX9Imp::releaseResource() {
+    if( NULL == effect_ ) return;
     effect_->DeleteParameterBlock( getHandleDX9() );
     effect_ = NULL;
 }

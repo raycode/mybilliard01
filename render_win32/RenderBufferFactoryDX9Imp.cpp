@@ -11,6 +11,10 @@ RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevic
     D3DXCreateEffectPool( & d3dEffectPool_ );
 }
 
+RenderBufferFactoryDX9Imp::~RenderBufferFactoryDX9Imp() {
+    d3dEffectPool_->Release();
+}
+
 void RenderBufferFactoryDX9Imp::pushBackToReadyQueue( int resourceType, ReleasableResourceDX9 * newResource )
 {
     resources_[ resourceType ][ EREADY_QUEUE ].push_back( ReleasableResourceDX9Ptr( newResource ) );
