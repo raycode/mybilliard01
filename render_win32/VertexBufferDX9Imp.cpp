@@ -60,7 +60,6 @@ VertexBufferDX9Imp::~VertexBufferDX9Imp() {
 
 bool VertexBufferDX9Imp::acquireResource()
 {
-    releaseResource();
     const HRESULT hr1 = getD3D9Device()->CreateVertexDeclaration( getVertexElement(), &vertexDeclarationDX9_ );
     if( FAILED( hr1 ) )
     {
@@ -90,13 +89,11 @@ LPDIRECT3DDEVICE9 VertexBufferDX9Imp::getD3D9Device() {
     return d3d9Device_;
 }
 
-LPDIRECT3DVERTEXDECLARATION9 VertexBufferDX9Imp::getVertexDeclarationDX9()
-{
+LPDIRECT3DVERTEXDECLARATION9 VertexBufferDX9Imp::getVertexDeclarationDX9() {
     return vertexDeclarationDX9_;
 }
 
-LPDIRECT3DVERTEXBUFFER9 VertexBufferDX9Imp::getVertexBufferDX9()
-{
+LPDIRECT3DVERTEXBUFFER9 VertexBufferDX9Imp::getVertexBufferDX9() {
     return vertexBufferDX9_;
 }
 

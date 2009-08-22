@@ -17,6 +17,13 @@ MY_INTERFACE VertexBuffer {
 
     virtual size_t getNumberOfVertex() PURE;
 
+    virtual void drawPrimitive_POINTLIST() PURE;
+    virtual void drawPrimitive_LINELIST() PURE;
+    virtual void drawPrimitive_LINESTRIP() PURE;
+    virtual void drawPrimitive_TRIANGLELIST() PURE;
+    virtual void drawPrimitive_TRIANGLESTRIP() PURE;
+    virtual void drawPrimitive_TRIANGLEFAN() PURE;
+
 };
 
 

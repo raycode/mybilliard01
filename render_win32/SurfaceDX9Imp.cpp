@@ -19,13 +19,11 @@ SurfaceDX9Imp::~SurfaceDX9Imp()
 
 bool SurfaceDX9Imp::acquireResource()
 {
-    releaseResource();
     return false;
 }
 
 void SurfaceDX9Imp::releaseResource()
 {
-
 }
 
 

@@ -8,7 +8,7 @@ public: // from GeometryMeshPrimitive
     virtual size_t getTriangleCount() OVERRIDE;
     virtual wstring getMaterialName() OVERRIDE;
 
-    virtual void display( Render * render ) OVERRIDE;
+    virtual void display() OVERRIDE;
 
     virtual void buildDeviceBuffer_onStatic( RenderBufferFactory * ) OVERRIDE;
     virtual void buildDeviceBuffer_onDynamic( RenderBufferFactory * ) OVERRIDE;
@@ -34,13 +34,13 @@ public: // append vertex information
     void appendTexCoord2D( NxReal u, NxReal v, size_t whichSet );
 
 private: // display by draw type
-    void display_TRIANGLEFAN( Render * );
-    void display_TRIANGLESTRIP( Render * );
-    void display_LINESTRIP( Render * );
-    void display_TRIANGLELIST( Render * );
-    void display_LINELIST( Render * );
+    void display_TRIANGLEFAN();
+    void display_TRIANGLESTRIP();
+    void display_LINESTRIP();
+    void display_TRIANGLELIST();
+    void display_LINELIST();
 
-    typedef void (GeometryMeshPrimitiveImp::*Display_pointer)( Render * );
+    typedef void (GeometryMeshPrimitiveImp::*Display_pointer)();
     Display_pointer display_pointer_;
 
 private: // build buffers on device

@@ -8,6 +8,7 @@ RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevic
 , bNeedToUpdate_( false )
 {    
     if( NULL == d3dDevice ) throw exception();
+    D3DXCreateEffectPool( & d3dEffectPool_ );
 }
 
 void RenderBufferFactoryDX9Imp::pushBackToReadyQueue( int resourceType, ReleasableResourceDX9 * newResource )
@@ -67,19 +68,7 @@ bool RenderBufferFactoryDX9Imp::destroyEffectShader( EffectShader * victim ) {
     return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
 }
 
-bool RenderBufferFactoryDX9Imp::destroyVertexShader( VertexShader * victim ) {
-    return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
-}
-
-bool RenderBufferFactoryDX9Imp::destroyPixelShader( PixelShader * victim ) {
-    return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
-}
-
 bool RenderBufferFactoryDX9Imp::destroyVertexBuffer( VertexBuffer * victim ) {
-    return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
-}
-
-bool RenderBufferFactoryDX9Imp::destroyIndexBuffer( IndexBuffer * victim ) {
     return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
 }
 
@@ -107,11 +96,7 @@ void RenderBufferFactoryDX9Imp::update( RenderBufferFactory *, float elapsedTime
 void RenderBufferFactoryDX9Imp::displayLost() {
     releaseByResourceType( E_STATIC_VERTICES );
     releaseByResourceType( E_DYNAMIC_VERTICES );
-    releaseByResourceType( E_STATIC_INDICES );
-    releaseByResourceType( E_DYNAMIC_INDICES );
     releaseByResourceType( E_EFFECT_SHADERS );
-    releaseByResourceType( E_VERTEX_SHADERS );
-    releaseByResourceType( E_PIXEL_SHADERS );
     releaseByResourceType( E_SURFACES );
     releaseByResourceType( E_TEXTURE );
 }
@@ -135,9 +120,9 @@ void RenderBufferFactoryDX9Imp::acquireResources()
 
 void RenderBufferFactoryDX9Imp::releaseByResourceType( int resourceType )
 {
-    MY_FOR_EACH( ReleasableResources, iter, resources_[ resourceType ][ EACTIVE_QUEUE ] ) {
+    MY_FOR_EACH( ReleasableResources, iter, resources_[ resourceType ][ EACTIVE_QUEUE ] )
         (*iter)->releaseResource();
-    }
+
     resources_[ resourceType ][ EREADY_QUEUE ].splice( resources_[ resourceType ][ EREADY_QUEUE ].end(), resources_[ resourceType ][ EACTIVE_QUEUE ] );
     bNeedToUpdate_ = true;
 }

@@ -15,7 +15,7 @@ NULL_OBJECT( Node ), public BaseNull {
     virtual bool hasFirstChild() OVERRIDE { return false; }
 
     virtual void update( float elapsedTime ) OVERRIDE {}
-    virtual void display( Render * render ) OVERRIDE {}
+    virtual void display() OVERRIDE {}
 
 };
 

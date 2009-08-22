@@ -15,7 +15,7 @@ public: // from Node
     virtual bool hasFirstChild() OVERRIDE;
 
     virtual void update( float time ) OVERRIDE;
-    virtual void display( Render * render ) OVERRIDE;
+    virtual void display() OVERRIDE;
 
 public:
     NodeImp();
@@ -46,7 +46,7 @@ private: // instance
     Instances instanceGeometries_;
 
 private: // render
-    void renderInstanceGeometries( Render * render );
+    void renderInstanceGeometries();
 
 private:
     bool isNeedToUpdate() const;

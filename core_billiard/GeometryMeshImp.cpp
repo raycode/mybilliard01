@@ -3,9 +3,9 @@
 namespace my_render_imp {
 
 
-void GeometryMeshImp::display( Render * render ) {
+void GeometryMeshImp::display() {
     MY_FOR_EACH( Primitives, primitive, primitives_ ) {
-        (*primitive)->display( render );
+        (*primitive)->display();
     }
 }
 

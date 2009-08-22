@@ -8,8 +8,8 @@ GeometryImp::GeometryImp()
 {
 }
 
-void GeometryImp::display( Render * render ) {
-    mesh_->display( render );
+void GeometryImp::display() {
+    mesh_->display();
 }
 
 GeometryMesh * GeometryImp::getMesh() {

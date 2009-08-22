@@ -52,48 +52,6 @@ public: // from Render
     virtual bool beginScene() OVERRIDE;
     virtual void endScene() OVERRIDE;
 
-    virtual void setVertexShader( VertexShader * ) OVERRIDE;
-    virtual void setPixelShader( PixelShader * ) OVERRIDE;
-
-    virtual void renderWithEffectShader( EffectShader *, ShaderVariable * technique, RenderEffectShader * callBack ) OVERRIDE;
-
-    virtual void drawPrimitive_POINTLIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE;
-    virtual void drawPrimitive_LINELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE;
-    virtual void drawPrimitive_LINESTRIP( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE;
-    virtual void drawPrimitive_TRIANGLELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE;
-    virtual void drawPrimitive_TRIANGLESTRIP( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE;
-    virtual void drawPrimitive_TRIANGLEFAN( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) OVERRIDE;
-
-    virtual void drawIndexedPrimitive_POINTLIST(
-        VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex,
-        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE;
-
-    virtual void drawIndexedPrimitive_LINELIST(
-        VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex,
-        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE;
-
-    virtual void drawIndexedPrimitive_LINESTRIP(
-        VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex,
-        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE;
-
-    virtual void drawIndexedPrimitive_TRIANGLELIST(
-        VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex,
-        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE;
-
-    virtual void drawIndexedPrimitive_TRIANGLESTRIP(
-        VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex,
-        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE;
-
-    virtual void drawIndexedPrimitive_TRIANGLEFAN(
-        VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex,
-        NxU32 startIndex, NxU32 primitiveCount ) OVERRIDE;
-
     virtual const RenderState * getRenderState() const OVERRIDE;
     virtual RenderState * setRenderState() OVERRIDE;
 
@@ -113,11 +71,6 @@ private: // buffer factory
 
 private: // render state
     virtual void setRenderState( RenderStatePtr );
-
-private: // draw
-    void drawPrimitive( D3DPRIMITIVETYPE primitiveType, VertexBuffer * vb, NxU32 startVertex, NxU32 primitiveCount );
-    void drawIndexedPrimitive( D3DPRIMITIVETYPE primitiveType, VertexBuffer * vb, IndexBuffer * ib,
-        int baseVertexIndex, NxU32 minIndex, NxU32 startIndex, NxU32 primitiveCount );
 
 private:
     RenderEventListener * eventListener_;
