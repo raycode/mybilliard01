@@ -1886,7 +1886,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\RenderState_CullNull.h"
+					RelativePath=".\RenderState_CullNull.hpp"
 					>
 				</File>
 				<File
@@ -1895,6 +1895,10 @@
 				</File>
 				<File
 					RelativePath=".\RenderStateNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ShaderVariableNull.hpp"
 					>
 				</File>
 			</Filter>

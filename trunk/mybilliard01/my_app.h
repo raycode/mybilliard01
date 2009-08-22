@@ -27,12 +27,19 @@ using namespace my_phys;
 class MyRenderEventListenerImp;
 class MyInputListenerImp;
 class MyCamera;
+class ToRender;
 
 MY_SMART_PTR( MyRenderEventListenerImp );
 MY_SMART_PTR( MyInputListenerImp );
 MY_SMART_PTR( MyCamera );
+MY_SMART_PTR( ToRender );
 
 #include "MyCamera.h"
-#include "MyRenderEventListenerImp.h"
 #include "MyInputListenerImp.h"
+#include "ToRender.h"
+#include "ToRenderNull.hpp"
+#include "ToRenderImp.h"
+#include "MyRenderEventListenerImp.h"
 #include "ConstString.h"
+#include "ConstEffectFilename.h"
+

@@ -7,6 +7,7 @@ EffectShaderAnnotationDX9Imp::EffectShaderAnnotationDX9Imp( size_t index, Effect
 : searchBy_( ESEARCH_BY_INDEX )
 , index_( index )
 , parent_( parent )
+, effect_( NULL )
 {
     if( NULL == parent ) throw exception();
 }

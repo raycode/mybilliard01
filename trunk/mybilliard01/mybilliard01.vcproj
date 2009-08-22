@@ -269,22 +269,6 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\ConstString.cpp"
-				>
-				<FileConfiguration
-					Name="Debug|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="0"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath=".\ConstString.h"
-				>
-			</File>
-			<File
 				RelativePath=".\my_app.h"
 				>
 			</File>
@@ -331,6 +315,22 @@
 				>
 			</File>
 			<File
+				RelativePath=".\ToRender.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ToRenderImp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\ToRenderImp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\ToRenderNull.hpp"
+				>
+			</File>
+			<File
 				RelativePath=".\wWinMain.cpp"
 				>
 				<FileConfiguration
@@ -343,6 +343,46 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<Filter
+				Name="Constant Variables"
+				>
+				<File
+					RelativePath=".\ConstEffectFilename.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\ConstEffectFilename.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ConstString.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\ConstString.h"
+					>
+				</File>
+				<Filter
+					Name="tinyxml"
+					>
+					<File
+						RelativePath="..\tinyxml\include\tinystr.h"
+						>
+					</File>
+					<File
+						RelativePath="..\tinyxml\include\tinyxml.h"
+						>
+					</File>
+				</Filter>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"
@@ -389,18 +429,6 @@
 			</File>
 			<File
 				RelativePath=".\StdAfx.h"
-				>
-			</File>
-		</Filter>
-		<Filter
-			Name="tinyxml"
-			>
-			<File
-				RelativePath="..\tinyxml\include\tinystr.h"
-				>
-			</File>
-			<File
-				RelativePath="..\tinyxml\include\tinyxml.h"
 				>
 			</File>
 		</Filter>

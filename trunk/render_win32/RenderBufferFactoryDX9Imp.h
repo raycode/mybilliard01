@@ -29,6 +29,7 @@ public: // from RenderEventListener
 
 public:
     RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevice );
+    ~RenderBufferFactoryDX9Imp();
 
 private:
     LPDIRECT3DDEVICE9 getD3D9Device();

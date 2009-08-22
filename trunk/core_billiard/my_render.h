@@ -99,6 +99,7 @@ namespace my_render {
 #include "Texture.h"
 #include "Shader.h"
 #include "ShaderVariable.h"
+#include "ShaderVariableNull.hpp"
 #include "EffectShaderCallBack.h"
 #include "EffectShaderAnnotation.h"
 #include "EffectShaderVariable.h"
@@ -109,7 +110,7 @@ namespace my_render {
 #include "RenderState_Wireframe.h"
 #include "RenderState_WireframeNull.hpp"
 #include "RenderState_Cull.h"
-#include "RenderState_CullNull.h"
+#include "RenderState_CullNull.hpp"
 #include "RenderState.h"
 #include "RenderStateNull.hpp"
 
