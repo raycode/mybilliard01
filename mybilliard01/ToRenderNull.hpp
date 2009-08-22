@@ -8,8 +8,6 @@ NULL_OBJECT( ToRender ) {
 
     void updateMatrix( NxActor *, const RowMajorMatrix44f &, const RowMajorMatrix44f & ) {}
 
-    virtual void setEffectShaderVariableBlock() OVERRIDE {}
-
 private:
     ShaderVariableNull nullShaderVariable_;
 

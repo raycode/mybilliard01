@@ -42,6 +42,8 @@ private: // resource manage
     void acquireResources();
     void releaseByResourceType( int resourceType );
 
+    EffectShaderDX9 * findAlreadyCreatedEffectShader( wstring filename );
+
 
 private:
     LPDIRECT3DDEVICE9 d3dDevice_;

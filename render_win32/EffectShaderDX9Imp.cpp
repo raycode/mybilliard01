@@ -19,7 +19,7 @@ EffectShaderDX9Imp::~EffectShaderDX9Imp() {
 bool EffectShaderDX9Imp::acquireResource()
 {
     ID3DXBuffer * error = NULL;
-    const HRESULT hr = D3DXCreateEffectFromFile( d3dDevice_, filename_.c_str(), NULL, NULL, 0, effectPool_, &effect_, &error );
+    const HRESULT hr = D3DXCreateEffectFromFile( d3dDevice_, filename_.c_str(), NULL, NULL, 0, effectPool_, &(effect_), &error );
 
     if( NULL != error ) {
         DXUT_ERR( (wchar_t*) error->GetBufferPointer(), hr );
@@ -67,16 +67,14 @@ void EffectShaderDX9Imp::releaseResource()
 {
     MY_FOR_EACH( EffectVariables, iter, effectVariables_ )
         (*iter)->releaseResource();
-    effectVariables_.clear();
-
-    SAFE_RELEASE( effect_ );
+    (effectVariables_).clear();
 }
 
 bool EffectShaderDX9Imp::releaseAnyEffectVariable( ReleasableEffectResourceDX9 * var ) {
     MY_FOR_EACH( EffectVariables, iter, effectVariables_ ) {
         if( var != &**iter ) continue;
         (*iter)->releaseResource();
-        effectVariables_.erase( iter );
+        (effectVariables_).erase( iter );
         return true;
     }
     return false;
@@ -147,7 +145,7 @@ ShaderVariable * EffectShaderDX9Imp::createVariableBySemantic( wstring semantic 
 
 EffectShaderVariableBlock * EffectShaderDX9Imp::createVariableBlock( EffectShaderVariableBlockCallBack * callBack )
 {
-    assert( callBack );
+    if( NULL == callBack ) return NULL;
     EffectShaderVariableBlockDX9 * const newBlock = new EffectShaderVariableBlockDX9Imp( this, callBack );
     effectVariables_.push_back( ReleasableEffectResourceDX9Ptr( newBlock ) );
     setEffectOntoEffectVariable( newBlock );
@@ -159,6 +157,10 @@ size_t EffectShaderDX9Imp::getNumberOfVariables()
     D3DXEFFECT_DESC desc;
     effect_->GetDesc( & desc );
     return desc.Parameters;
+}
+
+wstring EffectShaderDX9Imp::getFilename() const {
+    return filename_;
 }
 
 

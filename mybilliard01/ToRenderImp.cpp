@@ -5,7 +5,6 @@
 ToRenderImp::ToRenderImp( Node * node, EffectShader * effect )
 : node_( node )
 , effect_( effect )
-, block_( NULL )
 {
     assert( node_ );
     assert( effect_ );
@@ -22,18 +21,12 @@ void ToRenderImp::updateMatrix( NxActor * actor,
     RowMajorMatrix44f matWorld;
     actor->getGlobalPose().getRowMajor44( matWorld );
     (matProjView * matWorld).GetColumnMajor( columnMajor44_WVP_ );
-
-    block_ = effect_->createVariableBlock( this );
-}
-
-void ToRenderImp::setEffectShaderVariableBlock() {
-    world_->setFloatArray( columnMajor44_World_, 16u );
-    wvp_->setFloatArray( columnMajor44_WVP_, 16u );
 }
 
 void ToRenderImp::display()
 {
-    block_->applyNow();
+    world_->setFloatArray( columnMajor44_World_, 16u );
+    wvp_->setFloatArray( columnMajor44_WVP_, 16u );
     effect_->renderWithTechnique( this );
 }
 
