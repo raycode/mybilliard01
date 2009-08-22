@@ -15,7 +15,7 @@ MY_INTERFACE Node : EXTENDS_INTERFACE( Base ) {
     virtual bool hasFirstChild() PURE;
 
     virtual void update( float elapsedTime ) PURE;
-    virtual void display( Render * render ) PURE;
+    virtual void display() PURE;
 
 };
 

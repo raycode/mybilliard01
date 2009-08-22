@@ -1,14 +1,14 @@
 #pragma once
 
 
-class MyRenderEventListenerImp : IMPLEMENTS_INTERFACE( RenderEventListener ), public RenderEffectShader 
+class MyRenderEventListenerImp : IMPLEMENTS_INTERFACE( RenderEventListener ), public EffectShaderCallBack 
 {
 public: // from RenderEventListener
     virtual void init( RenderBufferFactory * ) OVERRIDE;
     virtual void displayReset( int x, int y, int width, int height ) OVERRIDE;
     virtual void update( RenderBufferFactory *, float elapsedTime ) OVERRIDE;
     virtual void display( Render * ) OVERRIDE;
-    virtual void display( Render * render, size_t pass ) OVERRIDE;
+    virtual void displayPass( size_t pass ) OVERRIDE;
     virtual void displayLost() OVERRIDE;
     virtual void destroy() OVERRIDE;
 
@@ -40,7 +40,7 @@ private: // camera
 
 private: // effect
     EffectShader * effect_;
-    ShaderVariable * tech_, * wvp_, * world_;
+    ShaderVariable * wvp_, * world_;
 
 private: // render effect
 

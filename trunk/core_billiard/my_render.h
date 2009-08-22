@@ -19,15 +19,15 @@ namespace my_render {
 
     class Shader;
     class Texture;
-    class VertexShader;
-    class PixelShader;
     class EffectShader;
-    class ShaderVariableWriter;
-    class RenderEffectShader;
+    class EffectShaderCallBack;
     class ShaderVariable;
+    class EffectShaderAnnotation;
+    class EffectShaderVariable;
+    class EffectShaderVariableBlock;
+    class EffectShaderVariableBlockCallBack;
 
     class VertexBuffer;
-    class IndexBuffer;
     class RenderBufferFactory;
 
     class Scene;
@@ -59,14 +59,14 @@ namespace my_render {
     MY_SMART_PTR( RenderState );
     MY_SMART_PTR( RenderEventListener );
     MY_SMART_PTR( VertexBuffer );
-    MY_SMART_PTR( IndexBuffer );
     MY_SMART_PTR( Texture );
     MY_SMART_PTR( Shader );
     MY_SMART_PTR( ShaderVariable );
-    MY_SMART_PTR( ShaderVariableWriter );
-    MY_SMART_PTR( VertexShader );
-    MY_SMART_PTR( PixelShader );
-    MY_SMART_PTR( RenderEffectShader );
+    MY_SMART_PTR( EffectShaderAnnotation );
+    MY_SMART_PTR( EffectShaderVariable );
+    MY_SMART_PTR( EffectShaderVariableBlock );
+    MY_SMART_PTR( EffectShaderVariableBlockCallBack );
+    MY_SMART_PTR( EffectShaderCallBack );
     MY_SMART_PTR( EffectShader );
     MY_SMART_PTR( RenderBufferFactory );
     MY_SMART_PTR( Scene );
@@ -93,17 +93,17 @@ namespace my_render {
 #include "KeyboardEventListenerNull.hpp"
 
 #include "VertexBuffer.h"
-#include "IndexBuffer.h"
 #include "RenderBufferFactory.h"
 #include "RenderBufferFactoryNull.hpp"
 
-#include "ShaderVariableWriter.h"
 #include "Texture.h"
 #include "Shader.h"
 #include "ShaderVariable.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
-#include "RenderEffectShader.h"
+#include "EffectShaderCallBack.h"
+#include "EffectShaderAnnotation.h"
+#include "EffectShaderVariable.h"
+#include "EffectShaderVariableBlock.h"
+#include "EffectShaderVariableBlockCallBack.h"
 #include "EffectShader.h"
 
 #include "RenderState_Wireframe.h"

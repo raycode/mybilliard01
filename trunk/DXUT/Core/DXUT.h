@@ -364,14 +364,23 @@ void      WINAPI DXUTDestroyState(); // Optional method to destroy DXUT's memory
 #include <map>
 #include <list>
 #include <algorithm>
+#include <cassert>
+#include <memory>
+#include <math.h>
 #include "NxPhysics.h"
+#include "NxSimpleTypes.h"
+#include "NxMat34.h"
+
+#pragma warning ( disable : 4819 )
+
+#include "dae.h"
+#include "dom/domTypes.h"
+#include "dom/domCOLLADA.h"
 
 #include "DXUTgui.h"
 #include "DXUTmisc.h"
 #include "DXUTCamera.h"
 #include "DXUTSettingsDlg.h"
-
-#include "../../core_billiard/my_render.h"
 
 #endif
 

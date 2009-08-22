@@ -59,8 +59,8 @@ void GeometryMeshPrimitiveImp::setRenderingPrimitiveType( const int primitiveTyp
         throw exception();
 }
 
-void GeometryMeshPrimitiveImp::display( Render * render ) {
-    (this->*display_pointer_)( render );
+void GeometryMeshPrimitiveImp::display() {
+    (this->*display_pointer_)();
 }
 
 void GeometryMeshPrimitiveImp::appendPosition( NxVec3 val ) {
@@ -134,24 +134,20 @@ void GeometryMeshPrimitiveImp::buildDeviceBuffer( VertexBuffer * vertexBuffer ) 
     }
 }
 
-void GeometryMeshPrimitiveImp::display_TRIANGLEFAN( Render * render ) {
-    render->drawPrimitive_TRIANGLEFAN( vertexBuffer_, 0, getNumberOfVertex() - 2 );
+void GeometryMeshPrimitiveImp::display_TRIANGLEFAN() {
+    vertexBuffer_->drawPrimitive_TRIANGLEFAN();
 }
-
-void GeometryMeshPrimitiveImp::display_TRIANGLESTRIP( Render * render ) {
-    render->drawPrimitive_TRIANGLESTRIP( vertexBuffer_, 0, getNumberOfVertex() - 2 );
+void GeometryMeshPrimitiveImp::display_TRIANGLESTRIP() {
+    vertexBuffer_->drawPrimitive_TRIANGLESTRIP();
 }
-
-void GeometryMeshPrimitiveImp::display_LINESTRIP( Render * render ) {
-    render->drawPrimitive_LINESTRIP( vertexBuffer_, 0, getNumberOfVertex() - 1 );
+void GeometryMeshPrimitiveImp::display_LINESTRIP() {
+    vertexBuffer_->drawPrimitive_LINESTRIP();
 }
-
-void GeometryMeshPrimitiveImp::display_TRIANGLELIST( Render * render ) {
-    render->drawPrimitive_TRIANGLELIST( vertexBuffer_, 0, getNumberOfVertex() /3 );
+void GeometryMeshPrimitiveImp::display_TRIANGLELIST() {
+    vertexBuffer_->drawPrimitive_TRIANGLELIST();
 }
-
-void GeometryMeshPrimitiveImp::display_LINELIST( Render * render ) {
-    render->drawPrimitive_LINELIST( vertexBuffer_, 0, getNumberOfVertex() / 2 );
+void GeometryMeshPrimitiveImp::display_LINELIST() {
+    vertexBuffer_->drawPrimitive_LINELIST();
 }
 
 

@@ -17,36 +17,6 @@ MY_INTERFACE Render {
     virtual bool beginScene() PURE;
     virtual void endScene() PURE;
 
-    virtual void setVertexShader( VertexShader * ) PURE;
-    virtual void setPixelShader( PixelShader * ) PURE;
-
-    virtual void renderWithEffectShader( EffectShader *, ShaderVariable * technique, RenderEffectShader * callBack ) PURE;
-
-    virtual void drawPrimitive_POINTLIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) PURE;
-    virtual void drawPrimitive_LINELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) PURE;
-    virtual void drawPrimitive_LINESTRIP( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) PURE;
-    virtual void drawPrimitive_TRIANGLELIST( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) PURE;
-    virtual void drawPrimitive_TRIANGLESTRIP( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) PURE;
-    virtual void drawPrimitive_TRIANGLEFAN( VertexBuffer *, NxU32 startVertex, NxU32 primitiveCount ) PURE;
-
-    virtual void drawIndexedPrimitive_POINTLIST( VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex, NxU32 startIndex, NxU32 primitiveCount ) PURE;
-
-    virtual void drawIndexedPrimitive_LINELIST( VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex, NxU32 startIndex, NxU32 primitiveCount ) PURE;
-
-    virtual void drawIndexedPrimitive_LINESTRIP( VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex, NxU32 startIndex, NxU32 primitiveCount ) PURE;
-
-    virtual void drawIndexedPrimitive_TRIANGLELIST( VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex, NxU32 startIndex, NxU32 primitiveCount ) PURE;
-
-    virtual void drawIndexedPrimitive_TRIANGLESTRIP( VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex, NxU32 startIndex, NxU32 primitiveCount ) PURE;
-
-    virtual void drawIndexedPrimitive_TRIANGLEFAN( VertexBuffer *, IndexBuffer *,
-        int baseVertexIndex, NxU32 minIndex, NxU32 startIndex, NxU32 primitiveCount ) PURE;
-
     virtual const RenderState * getRenderState() const = 0;
     virtual RenderState * setRenderState() PURE;
 

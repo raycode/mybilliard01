@@ -1717,10 +1717,6 @@
 						>
 					</File>
 					<File
-						RelativePath=".\IndexBuffer.h"
-						>
-					</File>
-					<File
 						RelativePath=".\Render.h"
 						>
 					</File>
@@ -1741,25 +1737,13 @@
 						>
 					</File>
 					<File
+						RelativePath=".\VertexBuffer.h"
+						>
+					</File>
+					<File
 						RelativePath=".\Visible.h"
 						>
 					</File>
-					<Filter
-						Name="RenderState"
-						>
-						<File
-							RelativePath=".\RenderState.h"
-							>
-						</File>
-						<File
-							RelativePath=".\RenderState_Cull.h"
-							>
-						</File>
-						<File
-							RelativePath=".\RenderState_Wireframe.h"
-							>
-						</File>
-					</Filter>
 				</Filter>
 				<Filter
 					Name="2. Scene"
@@ -1786,42 +1770,18 @@
 					</File>
 				</Filter>
 				<Filter
-					Name="4. Shader"
+					Name="4. RenderState"
 					>
 					<File
-						RelativePath=".\EffectShader.h"
+						RelativePath=".\RenderState.h"
 						>
 					</File>
 					<File
-						RelativePath=".\PixelShader.h"
+						RelativePath=".\RenderState_Cull.h"
 						>
 					</File>
 					<File
-						RelativePath=".\RenderEffectShader.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Shader.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ShaderVariable.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ShaderVariableWriter.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Texture.h"
-						>
-					</File>
-					<File
-						RelativePath=".\VertexBuffer.h"
-						>
-					</File>
-					<File
-						RelativePath=".\VertexShader.h"
+						RelativePath=".\RenderState_Wireframe.h"
 						>
 					</File>
 				</Filter>
@@ -1959,6 +1919,46 @@
 				</File>
 				<File
 					RelativePath=".\CameraPerspective.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="6. Shader"
+				>
+				<File
+					RelativePath=".\EffectShader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EffectShaderAnnotation.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EffectShaderCallBack.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EffectShaderVariable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EffectShaderVariableBlock.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EffectShaderVariableBlockCallBack.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Shader.h"
+					>
+				</File>
+				<File
+					RelativePath=".\ShaderVariable.h"
+					>
+				</File>
+				<File
+					RelativePath=".\Texture.h"
 					>
 				</File>
 			</Filter>

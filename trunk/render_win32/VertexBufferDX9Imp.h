@@ -16,6 +16,13 @@ public: // from VertexBuffer
 
     virtual size_t getNumberOfVertex() OVERRIDE;
 
+    virtual void drawPrimitive_POINTLIST() OVERRIDE;
+    virtual void drawPrimitive_LINELIST() OVERRIDE;
+    virtual void drawPrimitive_LINESTRIP() OVERRIDE;
+    virtual void drawPrimitive_TRIANGLELIST() OVERRIDE;
+    virtual void drawPrimitive_TRIANGLESTRIP() OVERRIDE;
+    virtual void drawPrimitive_TRIANGLEFAN() OVERRIDE;
+
 public: // from VertexBufferDX9
     virtual size_t getSizeInByteForEachVertex() OVERRIDE;
     virtual LPDIRECT3DVERTEXDECLARATION9 getVertexDeclarationDX9() OVERRIDE;
@@ -40,6 +47,9 @@ private:
     bool isUsageIndexInUse( int usage, size_t usageIndex );
 
     LPDIRECT3DDEVICE9 getD3D9Device();
+
+    void drawPrimitive( D3DPRIMITIVETYPE primitiveType,
+        LPDIRECT3DVERTEXBUFFER9 vb, NxU32 startVertex, NxU32 primitiveCount );
 
 private:
     struct Storage {
@@ -107,9 +117,9 @@ private:
 
 private:
     LPDIRECT3DDEVICE9 d3d9Device_;
-    DWORD usage_;
-    D3DPOOL pool_;
-    DWORD lockingFlags_;
+    const DWORD usage_;
+    const D3DPOOL pool_;
+    const DWORD lockingFlags_;
     vector< D3DVERTEXELEMENT9 > vertexElementDX9_;
 
 private:

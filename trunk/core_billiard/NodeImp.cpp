@@ -77,17 +77,15 @@ void NodeImp::update( float time ) {
     }
 }
 
-void NodeImp::display( Render * render ) {
-    {
-        renderInstanceGeometries( render );
-    }
+void NodeImp::display() {
+    renderInstanceGeometries();
 }
 
-void NodeImp::renderInstanceGeometries( Render * render ) {
+void NodeImp::renderInstanceGeometries() {
     MY_FOR_EACH( Instances, igeo, instanceGeometries_ ) {
         Geometry * const geo = renderDowncast< Geometry >( (*igeo)->getResolvedReference() );
         if( NULL == geo ) continue;
-        geo->display( render );
+        geo->display();
     }
 }
 

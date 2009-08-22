@@ -6,30 +6,16 @@ class RenderBufferFactoryDX9Imp : IMPLEMENTS_INTERFACE( RenderBufferFactoryDX9 )
 public: // from RenderBufferFactory
     virtual EffectShader * createEffectShader( wstring filename ) OVERRIDE;
 
-    virtual VertexShader * createVertexShader_1_1( wstring filename, wstring entry ) OVERRIDE;
-    virtual VertexShader * createVertexShader_2_0( wstring filename, wstring entry ) OVERRIDE;
-    virtual VertexShader * createVertexShader_2_0_sw( wstring filename, wstring entry ) OVERRIDE;
-
-    virtual PixelShader * createPixelShader_2_0( wstring filename, wstring entry ) OVERRIDE;
-    virtual PixelShader * createPixelShader_2_sw( wstring filename, wstring entry ) OVERRIDE;
-
     virtual VertexBuffer * createVertexBuffer_static( size_t numberOfPosition, const float * positions ) OVERRIDE;
     virtual VertexBuffer * createVertexBuffer_dynamic( size_t numberOfPosition, const float * positions ) OVERRIDE;
     virtual VertexBuffer * createVertexBuffer_stream( size_t numberOfPosition, const float * positions ) OVERRIDE;
-
-    virtual IndexBuffer * createIndexBuffer_static( size_t numberOfIndex, const unsigned int * indexies ) OVERRIDE;
-    virtual IndexBuffer * createIndexBuffer_dynamic( size_t numberOfIndex, const unsigned int * indexies ) OVERRIDE;
-    virtual IndexBuffer * createIndexBuffer_stream( size_t numberOfIndex, const unsigned int * indexies ) OVERRIDE;
 
     virtual Surface * getBackBuffer( size_t whichBackBuffer ) OVERRIDE;
 
     virtual Texture * createTexture( wstring filename ) OVERRIDE;
 
     virtual bool destroyEffectShader( EffectShader *) OVERRIDE;
-    virtual bool destroyVertexShader( VertexShader *) OVERRIDE;
-    virtual bool destroyPixelShader( PixelShader *) OVERRIDE;
     virtual bool destroyVertexBuffer( VertexBuffer *) OVERRIDE;
-    virtual bool destroyIndexBuffer( IndexBuffer *) OVERRIDE;
     virtual bool destroySurface( Surface * ) OVERRIDE;
     virtual bool destroyTexture( Texture * ) OVERRIDE;
 
@@ -58,11 +44,11 @@ private: // resource manage
 
 private:
     LPDIRECT3DDEVICE9 d3dDevice_;
+    LPD3DXEFFECTPOOL d3dEffectPool_;
 
 private:
     enum { E_STATIC_VERTICES, E_DYNAMIC_VERTICES, E_STREAM_VERTICES,
-           E_STATIC_INDICES, E_DYNAMIC_INDICES, E_STREAM_INDICES,
-           E_EFFECT_SHADERS, E_VERTEX_SHADERS, E_PIXEL_SHADERS,
+           E_EFFECT_SHADERS,
            E_SURFACES, E_TEXTURE, SIZE_OF_RESOURCETYPES };
     enum { EREADY_QUEUE, EACTIVE_QUEUE, SIZE_OF_QUEUE };
     typedef list< ReleasableResourceDX9Ptr > ReleasableResources;

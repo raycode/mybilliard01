@@ -5,7 +5,11 @@ namespace my_render {
 MY_INTERFACE Shader {
     virtual ~Shader() {}
 
-    virtual ShaderVariable * createVariable( wstring name ) PURE;
+    virtual size_t getNumberOfVariables() PURE;
+
+    virtual ShaderVariable * createVariableByIndex( size_t index ) PURE;
+    virtual ShaderVariable * createVariableByName( wstring name ) PURE;
+    virtual ShaderVariable * createVariableBySemantic( wstring semantic ) PURE;
     virtual bool releaseShaderVariable( ShaderVariable * ) PURE;
 
 };

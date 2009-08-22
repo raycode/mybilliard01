@@ -55,24 +55,6 @@ namespace TestDX9
             assertTrue( factory->destroyEffectShader( effect ) );
 		};
 
-        [TestMethod]
-        void SetTechnique() {
-            assertTrue( dx9Imp->createDevice( true, 30, 30 ) );
-            factory = PRIVATE_METHOD( RenderWin32DX9Imp, getBufferFactory )( dx9Imp );
-            EffectShaderDX9 * const effectDX9 = static_cast< EffectShaderDX9 *>( factory->createEffectShader( getFilename() ) );
-            assertNotNull( effectDX9 );
-
-            ShaderVariable * const tech = effectDX9->createTechniqueVariable( L"RenderScene" );
-            assertNotNull( tech );
-
-            assertTrue( effectDX9->isValidTechnique( tech ) );
-
-            effectDX9->setTechnique( tech );
-            assertEquals( 1u, effectDX9->begin() );
-            effectDX9->end();
-
-            assertTrue( factory->destroyEffectShader( effectDX9 ) );
-        }
 
         [TestMethod]
         void RenderEffect() {

@@ -30,11 +30,8 @@ void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
     effect_ = renderFactory->createEffectShader( L"..\\asset\\SimpleSample.fx" );
     assert( effect_ );
 
-    tech_ = effect_->createTechniqueVariable( L"RenderScene" );
-    assert( effect_->isValidTechnique( tech_ ) );
-
-    world_ = effect_->createVariable( L"g_mWorld" );
-    wvp_ = effect_->createVariable( L"g_mWorldViewProjection" );
+    world_ = effect_->createVariableByName( L"g_mWorld" );
+    wvp_ = effect_->createVariableByName( L"g_mWorldViewProjection" );
 }
 
 void MyRenderEventListenerImp::connectPhysicsToGraphics()
@@ -116,18 +113,18 @@ void MyRenderEventListenerImp::display( Render * render ) {
     MY_FOR_EACH_MOD( ToRender, iter, toRenders_ )
     {
         iter_ = iter;
-        effect_->setFloatArray( world_, iter_->matWorld_, 16u );
-        effect_->setFloatArray( wvp_, iter_->matWorldViewProjection_, 16u );
-        render->renderWithEffectShader( effect_, tech_, this );
+        world_->setFloatArray( iter_->matWorld_, 16u );
+        wvp_->setFloatArray( iter_->matWorldViewProjection_, 16u );
+        effect_->renderWithTechnique( this );
     }
     DXUT_EndPerfEvent();
 
     render->endScene();
 }
 
-void MyRenderEventListenerImp::display( Render * render, size_t pass ) {
+void MyRenderEventListenerImp::displayPass( size_t pass ) {
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"Effect display for each pass" );
-    iter_->node_->display( render );
+    iter_->node_->display();
     DXUT_EndPerfEvent();
 }
 
