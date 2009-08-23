@@ -3,6 +3,7 @@
 
 namespace my_render {
     using namespace std;
+    using namespace std::tr1;
 
     class ApplicationWindow;
     class MouseEventListener;

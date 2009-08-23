@@ -34,7 +34,6 @@ public: // from ReleasableResource
 
 public:
     VertexBufferDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t numberOfPosition, const float * positions_3floatsForEach, DWORD usage, D3DPOOL pool, DWORD lockingFlags  );
-    ~VertexBufferDX9Imp();
 
 private:
     size_t getSizeInByteForTotal();
@@ -123,8 +122,11 @@ private:
     vector< D3DVERTEXELEMENT9 > vertexElementDX9_;
 
 private:
-    LPDIRECT3DVERTEXDECLARATION9 vertexDeclarationDX9_;
-    LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9_;
+    MY_SMART_PTR( IDirect3DVertexBuffer9 );
+    IDirect3DVertexBuffer9Ptr vertexBufferDX9_;
+
+    MY_SMART_PTR( IDirect3DVertexDeclaration9 );
+    IDirect3DVertexDeclaration9Ptr vertexDeclarationDX9_;
 
 private:
     struct Pimpl;

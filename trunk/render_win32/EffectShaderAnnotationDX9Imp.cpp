@@ -21,10 +21,6 @@ EffectShaderAnnotationDX9Imp::EffectShaderAnnotationDX9Imp( wstring name, Effect
     if( NULL == parent ) throw exception();
 }
 
-EffectShaderAnnotationDX9Imp::~EffectShaderAnnotationDX9Imp() {
-    releaseResource();
-}
-
 void EffectShaderAnnotationDX9Imp::getValue( void * dest, size_t sizeInByte ) {
     assert( effect_ );
     effect_->GetValue( getHandleDX9(), dest, sizeInByte );
@@ -43,6 +39,7 @@ void EffectShaderAnnotationDX9Imp::setEffect( LPD3DXEFFECT effect ) {
 
 bool EffectShaderAnnotationDX9Imp::acquireResource()
 {
+    assert( effect_ );
     if( NULL == effect_ ) return false;
 
     switch( searchBy_ )

@@ -8,8 +8,11 @@ ToRenderImp::ToRenderImp( Node * node, EffectShader * effect )
 {
     assert( node_ );
     assert( effect_ );
+
     world_ = effect_->createVariableByName( L"g_mWorld" );
     wvp_ = effect_->createVariableByName( L"g_mWorldViewProjection" );
+    assert( world_ );
+    assert( wvp_ );
 }
 
 void ToRenderImp::updateMatrix( NxActor * actor,

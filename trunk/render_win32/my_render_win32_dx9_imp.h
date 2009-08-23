@@ -7,6 +7,7 @@
 
 namespace my_render_win32_dx9_imp {
     using namespace std;
+    using namespace std::tr1;
     using namespace my_utility;
 
     using namespace my_render;
@@ -49,8 +50,6 @@ namespace my_render_win32_dx9_imp {
     MY_SMART_PTR( RenderState_CullDX9Imp );
 }
 
-#include "SharedResource.hpp"
-
 #include "SurfaceLockedRectDX9Imp.h"
 #include "SurfaceDX9Imp.h"
 
@@ -66,3 +65,7 @@ namespace my_render_win32_dx9_imp {
 #include "RenderStateDX9Imp.h"
 #include "RenderState_WireframeDX9Imp.h"
 #include "RenderState_CullDX9Imp.h"
+
+
+#define RETURN_FALSE_IF_FAILED( HR, MSG )   if( FAILED( HR ) ) { DXUT_ERR( MSG, HR ); return false; }
+

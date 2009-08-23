@@ -46,34 +46,29 @@ VertexBufferDX9Imp::VertexBufferDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t how
 , usage_( usage )
 , pool_( pool )
 , lockingFlags_( lockingFlags )
-, vertexBufferDX9_( NULL )
-, vertexDeclarationDX9_( NULL )
 {
     if( 0 == howMany || NULL == source ) throw exception();
 
     storageContainer_array_[ D3DDECLUSAGE_POSITION ].push_back( StorageContainer( source, howMany, 0, D3DDECLTYPE_FLOAT3 ) );
 }
 
-VertexBufferDX9Imp::~VertexBufferDX9Imp() {
-    releaseResource();
-}
-
 bool VertexBufferDX9Imp::acquireResource()
 {
-    const HRESULT hr1 = getD3D9Device()->CreateVertexDeclaration( getVertexElement(), &vertexDeclarationDX9_ );
-    if( FAILED( hr1 ) )
-    {
-        DXUT_ERR( L"RenderBufferFactoryDX9Imp::uploadVertexBuffers", hr1 );
-        return false;
-    }
+    LPDIRECT3DVERTEXDECLARATION9 vertexDeclarationDX9;
+    const HRESULT hr1 = getD3D9Device()->CreateVertexDeclaration( getVertexElement(), &vertexDeclarationDX9 );
+    RETURN_FALSE_IF_FAILED( hr1, L"RenderBufferFactoryDX9Imp::uploadVertexBuffers" );
 
-    const HRESULT hr2 = getD3D9Device()->CreateVertexBuffer( getSizeInByteForTotal(), usage_, 0, pool_, &vertexBufferDX9_, NULL );
+    LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9;
+    const HRESULT hr2 = getD3D9Device()->CreateVertexBuffer( getSizeInByteForTotal(), usage_, 0, pool_, &vertexBufferDX9, NULL );
     if( FAILED( hr2 ) )
     {
         DXUT_ERR( L"RenderBufferFactoryDX9Imp::uploadVertexBuffers", hr2 );
-        SAFE_RELEASE( vertexDeclarationDX9_ );
+        SAFE_RELEASE( vertexDeclarationDX9 );
         return false;
     }
+
+    vertexDeclarationDX9_ = IDirect3DVertexDeclaration9Ptr( vertexDeclarationDX9, ComReleaser< IDirect3DVertexDeclaration9 >() );
+    vertexBufferDX9_ = IDirect3DVertexBuffer9Ptr( vertexBufferDX9, ComReleaser< IDirect3DVertexBuffer9 >() );
 
     writeOntoDevice( lockingFlags_ );
     return true;
@@ -81,8 +76,8 @@ bool VertexBufferDX9Imp::acquireResource()
 
 void VertexBufferDX9Imp::releaseResource()
 {
-    SAFE_RELEASE( vertexBufferDX9_ );
-    SAFE_RELEASE( vertexDeclarationDX9_ );
+    vertexBufferDX9_.reset();
+    vertexDeclarationDX9_.reset();
 }
 
 LPDIRECT3DDEVICE9 VertexBufferDX9Imp::getD3D9Device() {
@@ -90,11 +85,11 @@ LPDIRECT3DDEVICE9 VertexBufferDX9Imp::getD3D9Device() {
 }
 
 LPDIRECT3DVERTEXDECLARATION9 VertexBufferDX9Imp::getVertexDeclarationDX9() {
-    return vertexDeclarationDX9_;
+    return &*vertexDeclarationDX9_;
 }
 
 LPDIRECT3DVERTEXBUFFER9 VertexBufferDX9Imp::getVertexBufferDX9() {
-    return vertexBufferDX9_;
+    return &*vertexBufferDX9_;
 }
 
 size_t VertexBufferDX9Imp::getNumberOfVertex()

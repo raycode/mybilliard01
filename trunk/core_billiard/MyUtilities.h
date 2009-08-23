@@ -73,29 +73,31 @@ static T1 * daeDowncast( daeElement * elem ) {
 }
 
 
-#define MY_SMART_PTR_USE_TR1
-
-#ifdef MY_SMART_PTR_USE_TR1
-
 #include <memory>
 
 #define MY_SMART_PTR( CLASS_NAME ) \
     typedef std::tr1::shared_ptr< CLASS_NAME > CLASS_NAME##Ptr; \
     typedef std::tr1::shared_ptr< const CLASS_NAME > CLASS_NAME##ConstPtr 
 
-namespace Loki {}
+template< typename T >
+struct ComReleaser
+{
+    void operator()( T * comObject) const {
+        if( NULL == comObject ) return;
+        comObject->Release();
+    }
+};
 
-#else
+template< typename T1, typename T2 >
+static bool remove_only_one_pointer( T1 & aList, T2 val ) {
+    for( T1::const_iterator iter = aList.begin(); iter != aList.end(); ++iter ) {
+        if( val != &**iter ) continue;
+        aList.erase( iter );
+        return true;
+    }
+    return false;
+}
 
-#pragma warning ( disable : 4819 )
-
-#include "loki/SmartPtr.h"
-
-#define MY_SMART_PTR( CLASS_NAME ) \
-    typedef Loki::SmartPtr< CLASS_NAME > CLASS_NAME##Ptr; \
-    typedef Loki::SmartPtr< const CLASS_NAME > CLASS_NAME##ConstPtr 
-
-#endif
 
 
 #pragma warning ( disable : 4250 )

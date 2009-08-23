@@ -8,6 +8,16 @@ MY_INTERFACE ReleasableResourceDX9 {
     virtual bool acquireResource() PURE;
     virtual void releaseResource() PURE;
 
+
+    struct Releaser
+    {
+        void operator()( ReleasableResourceDX9 * resource ) const {
+            if( NULL == resource ) return;
+            resource->releaseResource();
+            delete resource;
+        }
+    };
+
 };
 
 
