@@ -47,7 +47,6 @@ public:
     enum ESEARCH_BY { ESEARCH_BY_INDEX, ESEARCH_BY_NAME, ESEARCH_BY_SEMANTIC };
     EffectShaderVariableDX9Imp( ESEARCH_BY, wstring nameOrSemantic, ShaderVariableHandleDX9 * parent );
     EffectShaderVariableDX9Imp( ESEARCH_BY, size_t index, ShaderVariableHandleDX9 * parent );
-    ~EffectShaderVariableDX9Imp();
 
 private:
     void setEffectOntoNestedVariable( ReleasableEffectResourceDX9 * var );

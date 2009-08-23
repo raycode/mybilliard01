@@ -8,22 +8,21 @@ RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevic
 , bNeedToUpdate_( false )
 {    
     if( NULL == d3dDevice ) throw exception();
-    D3DXCreateEffectPool( & d3dEffectPool_ );
-}
 
-RenderBufferFactoryDX9Imp::~RenderBufferFactoryDX9Imp() {
-    d3dEffectPool_->Release();
+    LPD3DXEFFECTPOOL d3dEffectPool;
+    D3DXCreateEffectPool( & d3dEffectPool );
+    d3dEffectPool_ = ID3DXEffectPoolPtr( d3dEffectPool, ComReleaser< ID3DXEffectPool >() );
 }
 
 void RenderBufferFactoryDX9Imp::pushBackToReadyQueue( int resourceType, ReleasableResourceDX9 * newResource )
 {
-    resources_[ resourceType ][ EREADY_QUEUE ].push_back( ReleasableResourceDX9Ptr( newResource ) );
+    resources_[ resourceType ][ EREADY_QUEUE ].push_back( ReleasableResourceDX9Ptr( newResource, ReleasableResourceDX9::Releaser() ) );
     bNeedToUpdate_ = true;
 }
 
 void RenderBufferFactoryDX9Imp::pushBackToActiveQueue( int resourceType, ReleasableResourceDX9 * newResource )
 {
-    resources_[ resourceType ][ EACTIVE_QUEUE ].push_back( ReleasableResourceDX9Ptr( newResource ) );
+    resources_[ resourceType ][ EACTIVE_QUEUE ].push_back( ReleasableResourceDX9Ptr( newResource, ReleasableResourceDX9::Releaser() ) );
 }
 
 Surface * RenderBufferFactoryDX9Imp::getBackBuffer( size_t whichBackBuffer ) {
@@ -46,15 +45,10 @@ Texture * RenderBufferFactoryDX9Imp::createTexture( wstring filename )
 
 bool RenderBufferFactoryDX9Imp::destroy( ReleasableResourceDX9 * victim )
 {
-    if( NULL == victim ) return false;
-
     for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i ) {
         for( size_t j = 0; j < SIZE_OF_QUEUE; ++j ) {
-            MY_FOR_EACH( ReleasableResources, iter, resources_[ i ][ j ] ) {
-                if( victim != &**iter ) continue;
-                resources_[ i ][ j ].erase( iter );
+            if( remove_only_one_pointer< ReleasableResources >( resources_[ i ][ j ], victim ) )
                 return true;
-            }
         }    
     }
     return false;
@@ -92,8 +86,7 @@ void RenderBufferFactoryDX9Imp::displayReset( int x, int y, int width, int heigh
     acquireResources();
 }
 
-void RenderBufferFactoryDX9Imp::update( RenderBufferFactory *, float elapsedTime )
-{
+void RenderBufferFactoryDX9Imp::update( RenderBufferFactory *, float elapsedTime ) {
     acquireResources();
 }
 
@@ -114,8 +107,10 @@ void RenderBufferFactoryDX9Imp::acquireResources()
     if( false == bNeedToUpdate_ ) return;
     bNeedToUpdate_ = false;
 
-    for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i ) {
-        MY_FOR_EACH( ReleasableResources, iter, resources_[ i ][ EREADY_QUEUE ] ) {
+    for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i )
+    {
+        MY_FOR_EACH( ReleasableResources, iter, resources_[ i ][ EREADY_QUEUE ] )
+        {
             (*iter)->acquireResource();
         }
         resources_[ i ][ EACTIVE_QUEUE ].splice( resources_[ i ][ EACTIVE_QUEUE ].end(), resources_[ i ][ EREADY_QUEUE ] );

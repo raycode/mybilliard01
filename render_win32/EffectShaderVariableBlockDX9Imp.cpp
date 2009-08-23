@@ -18,18 +18,15 @@ EffectShaderVariableBlockDX9Imp::~EffectShaderVariableBlockDX9Imp() {
 
 void EffectShaderVariableBlockDX9Imp::applyNow()  {
     const HRESULT hr = effect_->ApplyParameterBlock( getHandleDX9() );
-    if( FAILED( hr ) )
-        DXUT_ERR( L"EffectShaderVariableBlockDX9Imp::applyNow", hr );
+    if( FAILED( hr ) ) DXUT_ERR( L"EffectShaderVariableBlockDX9Imp::applyNow", hr );
 }
 
 bool EffectShaderVariableBlockDX9Imp::acquireResource()  {
+    assert( effect_ );
     if( NULL == effect_ ) return false;
 
     const HRESULT hr = effect_->BeginParameterBlock();
-    if( FAILED( hr ) ) {
-        DXUT_ERR( L"EffectShaderVariableBlockDX9Imp::acquireResource", hr );
-        return false;
-    }
+    RETURN_FALSE_IF_FAILED( hr, L"EffectShaderVariableBlockDX9Imp::acquireResource" );
 
     callBack_->setEffectShaderVariableBlock();
     handle_ = effect_->EndParameterBlock();
@@ -37,8 +34,9 @@ bool EffectShaderVariableBlockDX9Imp::acquireResource()  {
 }
 
 void EffectShaderVariableBlockDX9Imp::releaseResource() {
-    if( NULL == effect_ ) return;
-    effect_->DeleteParameterBlock( getHandleDX9() );
+    assert( effect_ );
+    const HRESULT hr = effect_->DeleteParameterBlock( getHandleDX9() );
+    if( FAILED( hr ) ) DXUT_ERR( L"EffectShaderVariableBlockDX9Imp::releaseResource", hr );
     effect_ = NULL;
 }
 

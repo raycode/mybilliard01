@@ -8,32 +8,30 @@ EffectShaderDX9Imp::EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice,
 : d3dDevice_( d3dDevice )
 , effectPool_( effectPool )
 , filename_( filename )
-, effect_( NULL )
+, effectVariables_( new EffectVariables() )
 {
-}
-
-EffectShaderDX9Imp::~EffectShaderDX9Imp() {
-    releaseResource();
 }
 
 bool EffectShaderDX9Imp::acquireResource()
 {
-    ID3DXBuffer * error = NULL;
-    const HRESULT hr = D3DXCreateEffectFromFile( d3dDevice_, filename_.c_str(), NULL, NULL, 0, effectPool_, &(effect_), &error );
+    if( NULL == effect_ ) {
+        ID3DXBuffer * error = NULL;
+        ID3DXEffect * effect;
+        const HRESULT hr = D3DXCreateEffectFromFile( d3dDevice_, filename_.c_str(), NULL, NULL, 0, effectPool_, & effect, & error );
 
-    if( NULL != error ) {
-        DXUT_ERR( (wchar_t*) error->GetBufferPointer(), hr );
-        SAFE_RELEASE( error );
-        return false;
+        if( NULL != error ) {
+            DXUT_ERR( (wchar_t*) error->GetBufferPointer(), hr );
+            SAFE_RELEASE( error );
+            return false;
+        }
+        RETURN_FALSE_IF_FAILED( hr, L"EffectShaderDX9Imp::acquireResource" );
+        assert( effect );
+
+        effect_ = ID3DXEffectPtr( effect, ComReleaser< ID3DXEffect >() );
+        effect_->GetDesc( & effectDesc_ );
     }
 
-    if( FAILED( hr ) ) {
-        DXUT_ERR( L"EffectShaderDX9Imp::acquireResource", hr );
-        return false;
-    }
-    assert( effect_ );
-
-    MY_FOR_EACH( EffectVariables, iter, effectVariables_ )
+    MY_FOR_EACH( EffectVariables, iter, *effectVariables_ )
         setEffectOntoEffectVariable( &**iter );
 
     return acquireBestValidTechnique();
@@ -42,42 +40,29 @@ bool EffectShaderDX9Imp::acquireResource()
 void EffectShaderDX9Imp::setEffectOntoEffectVariable( ReleasableEffectResourceDX9 * var ) {
     assert( var );
     if( NULL == effect_ ) return;
-    var->setEffect( effect_ );
+    var->setEffect( &*effect_ );
     var->acquireResource();
 }
 
 bool EffectShaderDX9Imp::acquireBestValidTechnique()
 {
     const HRESULT hr1 = effect_->FindNextValidTechnique( NULL, & bestTechnique_ );
-    if( FAILED( hr1 ) ) {
-        DXUT_ERR( L"EffectShaderDX9Imp::acquireBestValidTechnique", hr1 );
-        return false;
-    }
+    RETURN_FALSE_IF_FAILED( hr1, L"EffectShaderDX9Imp::acquireBestValidTechnique" );
 
     const HRESULT hr2 = effect_->SetTechnique( bestTechnique_ );
-    if( FAILED( hr2 ) ) {
-        DXUT_ERR( L"EffectShaderDX9Imp::acquireBestValidTechnique", hr2 );
-        return false;
-    }
+    RETURN_FALSE_IF_FAILED( hr2, L"EffectShaderDX9Imp::acquireBestValidTechnique" );
 
     return true;
 }
 
 void EffectShaderDX9Imp::releaseResource()
 {
-    MY_FOR_EACH( EffectVariables, iter, effectVariables_ )
-        (*iter)->releaseResource();
-    (effectVariables_).clear();
+    (*effectVariables_).clear();
+    effect_.reset();
 }
 
 bool EffectShaderDX9Imp::releaseAnyEffectVariable( ReleasableEffectResourceDX9 * var ) {
-    MY_FOR_EACH( EffectVariables, iter, effectVariables_ ) {
-        if( var != &**iter ) continue;
-        (*iter)->releaseResource();
-        (effectVariables_).erase( iter );
-        return true;
-    }
-    return false;
+    return remove_only_one_pointer< EffectVariables >( *effectVariables_, var );
 }
 
 bool EffectShaderDX9Imp::releaseShaderVariable( ShaderVariable * variable ) {
@@ -94,18 +79,12 @@ bool EffectShaderDX9Imp::renderWithTechnique( EffectShaderCallBack * callBack )
 
     UINT nPass;
     const HRESULT hr1 = effect_->Begin( & nPass, 0 );
-    if( FAILED( hr1 ) ) {
-        DXUT_ERR( L"EffectShaderDX9Imp::renderWithTechnique" , hr1 );
-        return false;
-    }
+    RETURN_FALSE_IF_FAILED( hr1, L"EffectShaderDX9Imp::renderWithTechnique"  );
 
     for( size_t i = 0; i < nPass; ++i )
     {
         const HRESULT hr2 = effect_->BeginPass( i );
-        if( FAILED( hr2 )  ) {
-            DXUT_ERR( L"EffectShaderDX9Imp::renderWithTechnique", hr2 );
-            continue;
-        }
+        RETURN_FALSE_IF_FAILED( hr2, L"EffectShaderDX9Imp::renderWithTechnique" );
 
         callBack->displayPass( i );
 
@@ -121,7 +100,7 @@ ShaderVariable * EffectShaderDX9Imp::createVariableByIndex( size_t index )
 {
     EffectShaderVariableDX9 * const newVariable
         = new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_INDEX, index, NULL );
-    effectVariables_.push_back( ReleasableEffectResourceDX9Ptr( newVariable ) );
+    (*effectVariables_).push_back( ReleasableEffectResourceDX9Ptr( newVariable, ReleasableResourceDX9::Releaser() ) );
     setEffectOntoEffectVariable( newVariable );
     return newVariable;
 }
@@ -129,7 +108,7 @@ ShaderVariable * EffectShaderDX9Imp::createVariableByName( wstring name )
 {
     EffectShaderVariableDX9 * const newVariable
         = new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_NAME, name, NULL );
-    effectVariables_.push_back( ReleasableEffectResourceDX9Ptr( newVariable ) );
+    (*effectVariables_).push_back( ReleasableEffectResourceDX9Ptr( newVariable, ReleasableResourceDX9::Releaser() ) );
     setEffectOntoEffectVariable( newVariable );
     return newVariable;
 }
@@ -138,7 +117,7 @@ ShaderVariable * EffectShaderDX9Imp::createVariableBySemantic( wstring semantic 
 {
     EffectShaderVariableDX9 * const newVariable
         = new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_SEMANTIC, semantic, NULL );
-    effectVariables_.push_back( ReleasableEffectResourceDX9Ptr( newVariable ) );
+    (*effectVariables_).push_back( ReleasableEffectResourceDX9Ptr( newVariable, ReleasableResourceDX9::Releaser() ) );
     setEffectOntoEffectVariable( newVariable );
     return newVariable;
 }
@@ -147,16 +126,14 @@ EffectShaderVariableBlock * EffectShaderDX9Imp::createVariableBlock( EffectShade
 {
     if( NULL == callBack ) return NULL;
     EffectShaderVariableBlockDX9 * const newBlock = new EffectShaderVariableBlockDX9Imp( this, callBack );
-    effectVariables_.push_back( ReleasableEffectResourceDX9Ptr( newBlock ) );
+    (*effectVariables_).push_back( ReleasableEffectResourceDX9Ptr( newBlock, ReleasableResourceDX9::Releaser() ) );
     setEffectOntoEffectVariable( newBlock );
     return newBlock;
 }
 
 size_t EffectShaderDX9Imp::getNumberOfVariables()
 {
-    D3DXEFFECT_DESC desc;
-    effect_->GetDesc( & desc );
-    return desc.Parameters;
+    return effectDesc_.Parameters;
 }
 
 wstring EffectShaderDX9Imp::getFilename() const {

@@ -3,6 +3,7 @@
 
 namespace my_render_imp {
     using namespace std;
+    using namespace std::tr1;
     using namespace my_utility;
     using namespace my_render;
 

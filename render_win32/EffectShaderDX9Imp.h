@@ -22,7 +22,6 @@ public: // from ReleasableResource
 
 public:
     EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice, wstring filename, LPD3DXEFFECTPOOL effectPool );
-    ~EffectShaderDX9Imp();
 
     wstring getFilename() const;
 
@@ -36,12 +35,16 @@ private:
     LPD3DXEFFECTPOOL effectPool_;
     const wstring filename_;
 
-    LPD3DXEFFECT effect_;
+    MY_SMART_PTR( ID3DXEffect );
+    ID3DXEffectPtr effect_;
 
+    D3DXEFFECT_DESC effectDesc_;
     D3DXHANDLE bestTechnique_;
 
     typedef list < ReleasableEffectResourceDX9Ptr > EffectVariables;
-    EffectVariables effectVariables_;
+    MY_SMART_PTR( EffectVariables );
+    EffectVariablesPtr effectVariables_;
+
 };
 
 

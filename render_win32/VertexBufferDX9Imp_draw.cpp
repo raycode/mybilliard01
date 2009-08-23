@@ -4,22 +4,22 @@ namespace my_render_win32_dx9_imp {
 
 
 void VertexBufferDX9Imp::drawPrimitive_POINTLIST() {
-    drawPrimitive( D3DPT_POINTLIST, vertexBufferDX9_, 0, getNumberOfVertex() );
+    drawPrimitive( D3DPT_POINTLIST, getVertexBufferDX9(), 0, getNumberOfVertex() );
 }
 void VertexBufferDX9Imp::drawPrimitive_LINELIST() {
-    drawPrimitive( D3DPT_LINELIST, vertexBufferDX9_, 0, getNumberOfVertex() / 2 );
+    drawPrimitive( D3DPT_LINELIST, getVertexBufferDX9(), 0, getNumberOfVertex() / 2 );
 }
 void VertexBufferDX9Imp::drawPrimitive_LINESTRIP() {
-    drawPrimitive( D3DPT_LINESTRIP, vertexBufferDX9_, 0, getNumberOfVertex() - 1 );
+    drawPrimitive( D3DPT_LINESTRIP, getVertexBufferDX9(), 0, getNumberOfVertex() - 1 );
 }
 void VertexBufferDX9Imp::drawPrimitive_TRIANGLELIST() {
-    drawPrimitive( D3DPT_TRIANGLELIST, vertexBufferDX9_, 0, getNumberOfVertex() /3 );
+    drawPrimitive( D3DPT_TRIANGLELIST, getVertexBufferDX9(), 0, getNumberOfVertex() /3 );
 }
 void VertexBufferDX9Imp::drawPrimitive_TRIANGLESTRIP() {
-    drawPrimitive( D3DPT_TRIANGLESTRIP, vertexBufferDX9_, 0, getNumberOfVertex() - 2 );
+    drawPrimitive( D3DPT_TRIANGLESTRIP, getVertexBufferDX9(), 0, getNumberOfVertex() - 2 );
 }
 void VertexBufferDX9Imp::drawPrimitive_TRIANGLEFAN() {
-    drawPrimitive( D3DPT_TRIANGLEFAN, vertexBufferDX9_, 0, getNumberOfVertex() - 2 );
+    drawPrimitive( D3DPT_TRIANGLEFAN, getVertexBufferDX9(), 0, getNumberOfVertex() - 2 );
 }
 
 void VertexBufferDX9Imp::drawPrimitive( D3DPRIMITIVETYPE primitiveType,

@@ -20,7 +20,6 @@ public: // from ReleasableEffectResourceDX9
 public:
     EffectShaderAnnotationDX9Imp( size_t index, EffectShaderVariableDX9 * parent );
     EffectShaderAnnotationDX9Imp( wstring name, EffectShaderVariableDX9 * parent );
-    ~EffectShaderAnnotationDX9Imp();
 
 private:
     D3DXHANDLE getParentHandle();

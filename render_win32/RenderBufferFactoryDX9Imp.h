@@ -29,7 +29,6 @@ public: // from RenderEventListener
 
 public:
     RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevice );
-    ~RenderBufferFactoryDX9Imp();
 
 private:
     LPDIRECT3DDEVICE9 getD3D9Device();
@@ -47,7 +46,9 @@ private: // resource manage
 
 private:
     LPDIRECT3DDEVICE9 d3dDevice_;
-    LPD3DXEFFECTPOOL d3dEffectPool_;
+
+    MY_SMART_PTR( ID3DXEffectPool );
+    ID3DXEffectPoolPtr d3dEffectPool_;
 
 private:
     enum { E_STATIC_VERTICES, E_DYNAMIC_VERTICES, E_STREAM_VERTICES,
