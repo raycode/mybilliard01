@@ -29,17 +29,17 @@ float3 fvLightPosition
    bool UIVisible =  true;
    float UIMin = -100.00;
    float UIMax = 100.00;
-> = float3( -100.00, 100.00, -100.00 );
+> = float3( -100.00, 10.00, 50.00 );
 float3 fvEyePosition
 <
    string UIName = "fvEyePosition";
    string UIWidget = "Numeric";
    bool UIVisible =  false;
-   float UIMin = -100.00;
-   float UIMax = 100.00;
-> = float3( 0.00, 0.00, -100.00 );
-float4x4 matView : View;
-float4x4 matViewProjection : ViewProjection;
+   float UIMin = -1.00;
+   float UIMax = 1.00;
+> = float3( -80.00, 0.00, 50.00 );
+float4x4 matWorldView : WorldView;
+float4x4 matWorldViewProjection : WorldViewProjection;
 
 struct VS_INPUT 
 {
@@ -52,7 +52,7 @@ struct VS_INPUT
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
-   float2 Texcoord :        TEXCOORD0;
+//   float2 Texcoord :        TEXCOORD0;
    float3 ViewDirection :   TEXCOORD1;
    float3 LightDirection :  TEXCOORD2;
    float3 Normal :          TEXCOORD3;
@@ -63,15 +63,13 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
-   Output.Position         = mul( Input.Position, matViewProjection );
-   Output.Texcoord         = Input.Texcoord;
+   Output.Position         = mul( Input.Position, matWorldViewProjection );
+//   Output.Texcoord         = Input.Texcoord;
    
-   float3 fvObjectPosition = mul( Input.Position, matView );
-   
-   Output.ViewDirection    = fvEyePosition - fvObjectPosition;
-   Output.LightDirection   = fvLightPosition - fvObjectPosition;
-   Output.Normal           = mul( Input.Normal, matView );
-      
+   Output.ViewDirection    = mul( fvEyePosition - Input.Position, matWorldView );
+   Output.LightDirection   = mul( fvLightPosition - Input.Position, matWorldView );
+   Output.Normal           = mul( Input.Normal, matWorldView );
+
    return( Output );
    
 }
@@ -95,7 +93,7 @@ float4 fvDiffuse
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.89, 0.89, 0.89, 1.00 );
+> = float4( 0.89, 0.07, 0.03, 1.00 );
 float fSpecularPower
 <
    string UIName = "fSpecularPower";
@@ -104,23 +102,11 @@ float fSpecularPower
    float UIMin = 1.00;
    float UIMax = 100.00;
 > = float( 25.00 );
-texture base_Tex
-<
-   string ResourceName = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Textures\\Fieldstone.tga";
->;
-sampler2D baseMap = sampler_state
-{
-   Texture = (base_Tex);
-   ADDRESSU = WRAP;
-   ADDRESSV = WRAP;
-   MINFILTER = LINEAR;
-   MAGFILTER = LINEAR;
-   MIPFILTER = LINEAR;
-};
+sampler2D baseMap;
 
 struct PS_INPUT 
 {
-   float2 Texcoord :        TEXCOORD0;
+//   float2 Texcoord :        TEXCOORD0;
    float3 ViewDirection :   TEXCOORD1;
    float3 LightDirection:   TEXCOORD2;
    float3 Normal :          TEXCOORD3;
@@ -128,23 +114,23 @@ struct PS_INPUT
 };
 
 float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
-{      
+{
    float3 fvLightDirection = normalize( Input.LightDirection );
    float3 fvNormal         = normalize( Input.Normal );
    float  fNDotL           = dot( fvNormal, fvLightDirection ); 
    
    float3 fvReflection     = normalize( ( ( 2.0f * fvNormal ) * ( fNDotL ) ) - fvLightDirection ); 
    float3 fvViewDirection  = normalize( Input.ViewDirection );
-   float  fRDotV           = max( 0.0f, dot( fvReflection, fvViewDirection ) );
+   float  fRDotV           = max( 0.01f, dot( fvReflection, fvViewDirection ) );
    
-   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
+//   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
+   float4 fvBaseColor      = float4( 0.5f, 0.5f, 0.5f, 0.5f );
    
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
    float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
    float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
    
    return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
-      
 }
 
 
