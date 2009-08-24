@@ -6,12 +6,19 @@ class ToRenderImp : IMPLEMENTS_INTERFACE( ToRender )
 public: // from EffectShaderCallBack
     void displayPass( size_t pass ) OVERRIDE;
 
+public: // from ToRender
+    void display() OVERRIDE;
+
+    virtual void updateMatrix(
+        NxActor *,
+        const NxVec3 & cameraPos,
+        const NxVec3 & cameraDir,
+        const RowMajorMatrix44f & matProj,
+        const RowMajorMatrix44f & matView,
+        const RowMajorMatrix44f & matProjView ) OVERRIDE;
+
 public:
     ToRenderImp( Node *, EffectShader * );
-
-    void updateMatrix( NxActor *, const RowMajorMatrix44f & matView, const RowMajorMatrix44f & matProjView ) OVERRIDE;
-
-    void display() OVERRIDE;
 
 private: // input
     Node * const node_;

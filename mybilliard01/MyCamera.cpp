@@ -11,6 +11,7 @@ MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys,
 {
     controller_ = phys_->addCapsuleCharacter( initPosition, 0.1f, 0.2f, 0.001f, NX_Z );
 
+    direction.normalize();
     NxVec3 up = NxVec3( 0.f, 0.f, 1.f );
     NxVec3 right = ( bRightHand ? up.cross( direction ) : direction.cross( up ) );
     rotate_ = NxMat33( right, up, direction );

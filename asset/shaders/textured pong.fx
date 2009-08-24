@@ -22,29 +22,25 @@
 //--------------------------------------------------------------//
 string Textured_Phong_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
-float3 fvLightPosition
+float4 fvLightPosition
 <
    string UIName = "fvLightPosition";
-   string UIWidget = "Numeric";
-   bool UIVisible =  true;
-   float UIMin = -100.00;
-   float UIMax = 100.00;
-> = float3( -100.00, 10.00, 50.00 );
-float3 fvEyePosition
-<
-   string UIName = "fvEyePosition";
-   string UIWidget = "Numeric";
+   string UIWidget = "Direction";
    bool UIVisible =  false;
-   float UIMin = -1.00;
-   float UIMax = 1.00;
-> = float3( -80.00, 0.00, 50.00 );
-float4x4 matWorldView : WorldView;
+   float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
+   float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
+   bool Normalize =  false;
+> = float4( -100.00, 10.00, 50.00, 1.00 );
+float4 fvEyePosition : ViewPosition;
+float4x4 matView : View;
 float4x4 matWorldViewProjection : WorldViewProjection;
+float4x4 matWorld : World;
+float4x4 matWorldView : WorldView;
 
 struct VS_INPUT 
 {
    float4 Position : POSITION0;
-   float2 Texcoord : TEXCOORD0;
+//   float2 Texcoord : TEXCOORD0;
    float3 Normal :   NORMAL0;
    
 };
@@ -65,10 +61,17 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
    Output.Position         = mul( Input.Position, matWorldViewProjection );
 //   Output.Texcoord         = Input.Texcoord;
-   
-   Output.ViewDirection    = mul( fvEyePosition - Input.Position, matWorldView );
-   Output.LightDirection   = mul( fvLightPosition - Input.Position, matWorldView );
-   Output.Normal           = mul( Input.Normal, matWorldView );
+
+   float3 fvWorld          = mul( Input.Position, matWorld );
+
+   float3 fvEminusW        = fvEyePosition - fvWorld;
+   Output.ViewDirection    = mul( fvEminusW, matView );
+
+   float3 fvLminusW        = fvLightPosition - fvWorld;   
+   Output.LightDirection   = mul( fvLminusW, matView );
+
+   float3 fvNormal         = Input.Normal;
+   Output.Normal           = mul( fvNormal, matWorldView );
 
    return( Output );
    
@@ -81,7 +84,7 @@ float4 fvAmbient
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.37, 0.37, 0.37, 1.00 );
+> = float4( 0.95, 0.96, 0.79, 1.00 );
 float4 fvSpecular
 <
    string UIName = "fvSpecular";
@@ -121,7 +124,7 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    
    float3 fvReflection     = normalize( ( ( 2.0f * fvNormal ) * ( fNDotL ) ) - fvLightDirection ); 
    float3 fvViewDirection  = normalize( Input.ViewDirection );
-   float  fRDotV           = max( 0.01f, dot( fvReflection, fvViewDirection ) );
+   float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
    
 //   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
    float4 fvBaseColor      = float4( 0.5f, 0.5f, 0.5f, 0.5f );

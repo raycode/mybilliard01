@@ -44,9 +44,8 @@ SurfaceLockedRect * SurfaceDX9Imp::lockRect( int left, int top, int right, int b
        return NULL;
     }
 
-    SurfaceLockedRectDX9Imp * const lockedRect = new SurfaceLockedRectDX9Imp( dxLockedRect );
-    lockedRect_ = SurfaceLockedRectDX9ImpPtr( lockedRect );
-    return lockedRect;
+    lockedRect_ = SurfaceLockedRectDX9ImpPtr( new SurfaceLockedRectDX9Imp( dxLockedRect ) );
+    return &*lockedRect_;
 }
 
 SurfaceLockedRect * SurfaceDX9Imp::lockRect( int flag )
@@ -65,7 +64,7 @@ void SurfaceDX9Imp::unlockRect( SurfaceLockedRect * lockedRect )
     if( FAILED( hr ) )
         DXUT_ERR( L"SurfaceDX9Imp::unlockRect", hr );
 
-    lockedRect_ = SurfaceLockedRectDX9ImpPtr( (SurfaceLockedRectDX9Imp *) NULL );
+    lockedRect_.reset();
 }
 
 

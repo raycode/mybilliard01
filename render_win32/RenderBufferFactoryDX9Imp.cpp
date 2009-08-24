@@ -14,15 +14,12 @@ RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevic
     d3dEffectPool_ = ID3DXEffectPoolPtr( d3dEffectPool, ComReleaser< ID3DXEffectPool >() );
 }
 
-void RenderBufferFactoryDX9Imp::pushBackToReadyQueue( int resourceType, ReleasableResourceDX9 * newResource )
-{
-    resources_[ resourceType ][ EREADY_QUEUE ].push_back( ReleasableResourceDX9Ptr( newResource, ReleasableResourceDX9::Releaser() ) );
+void RenderBufferFactoryDX9Imp::pushBackToReadyQueue( int resourceType, ReleasableResourceDX9Ptr newResource ) {
+    resources_[ resourceType ][ EREADY_QUEUE ].push_back( newResource );
     bNeedToUpdate_ = true;
 }
-
-void RenderBufferFactoryDX9Imp::pushBackToActiveQueue( int resourceType, ReleasableResourceDX9 * newResource )
-{
-    resources_[ resourceType ][ EACTIVE_QUEUE ].push_back( ReleasableResourceDX9Ptr( newResource, ReleasableResourceDX9::Releaser() ) );
+void RenderBufferFactoryDX9Imp::pushBackToActiveQueue( int resourceType, ReleasableResourceDX9Ptr newResource) {
+    resources_[ resourceType ][ EACTIVE_QUEUE ].push_back( newResource );
 }
 
 Surface * RenderBufferFactoryDX9Imp::getBackBuffer( size_t whichBackBuffer ) {
@@ -33,9 +30,9 @@ Surface * RenderBufferFactoryDX9Imp::getBackBuffer( size_t whichBackBuffer ) {
         return NULL;
     }
 
-    SurfaceDX9Imp * const newSurface = new SurfaceDX9Imp( newDXSurface );
+    SurfaceDX9Ptr newSurface = SurfaceDX9Ptr( new SurfaceDX9Imp( newDXSurface ) );
     pushBackToActiveQueue( E_SURFACES, newSurface );
-    return newSurface;
+    return &*newSurface;
 }
 
 Texture * RenderBufferFactoryDX9Imp::createTexture( wstring filename )
@@ -93,7 +90,6 @@ void RenderBufferFactoryDX9Imp::update( RenderBufferFactory *, float elapsedTime
 void RenderBufferFactoryDX9Imp::displayLost() {
     releaseByResourceType( E_STATIC_VERTICES );
     releaseByResourceType( E_DYNAMIC_VERTICES );
-    releaseByResourceType( E_EFFECT_SHADERS );
     releaseByResourceType( E_SURFACES );
     releaseByResourceType( E_TEXTURE );
 }
