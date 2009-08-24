@@ -26,11 +26,11 @@ shared float4 Light0_Position
 <
    string UIName = "Light0_Position";
    string UIWidget = "Direction";
-   bool UIVisible =  false;
+   bool UIVisible =  true;
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
-> = float4( -100.00, 10.00, 50.00, 1.00 );
+> = float4( 0.00, 0.00, -400.00, 1.00 );
 float4 fvEyePosition : ViewPosition;
 float4x4 matView : View;
 float4x4 matWorldViewProjection : WorldViewProjection;
@@ -105,7 +105,19 @@ float fSpecularPower
    float UIMin = 1.00;
    float UIMax = 100.00;
 > = float( 25.00 );
-sampler2D baseMap;
+texture base_Tex
+<
+   string ResourceName = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Textures\\Fieldstone.tga";
+>;
+sampler2D baseMap = sampler_state
+{
+   Texture = (base_Tex);
+   ADDRESSU = WRAP;
+   ADDRESSV = WRAP;
+   MINFILTER = LINEAR;
+   MAGFILTER = LINEAR;
+   MIPFILTER = LINEAR;
+};
 
 struct PS_INPUT 
 {
@@ -126,8 +138,7 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
    
-//   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
-   float4 fvBaseColor      = float4( 0.5f, 0.5f, 0.5f, 0.5f );
+   float4 fvBaseColor      = tex2D( baseMap, Input.Normal );
    
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
    float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
