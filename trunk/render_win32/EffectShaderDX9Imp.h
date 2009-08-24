@@ -10,6 +10,9 @@ public: // from Shader
     virtual ShaderVariable * createVariableBySemantic( wstring semantic ) OVERRIDE;
     virtual bool releaseShaderVariable( ShaderVariable * ) OVERRIDE;
 
+    virtual bool hasVariableByName( wstring name ) OVERRIDE;
+    virtual bool hasVariableBySemantic( wstring semantic ) OVERRIDE;
+
 public: // from EffectShader
     virtual bool renderWithTechnique( EffectShaderCallBack * ) OVERRIDE;
 

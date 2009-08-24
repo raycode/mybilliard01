@@ -9,6 +9,8 @@ MY_INTERFACE EffectShaderVariable : EXTENDS_INTERFACE( ShaderVariable ) {
     virtual EffectShaderAnnotation * createAnnotationByName( wstring name ) PURE;
     virtual bool releaseShaderAnnotation( EffectShaderAnnotation * ) PURE;
 
+    virtual bool hasAnnotationByName( wstring name ) PURE;
+
 };
 
 

@@ -12,6 +12,9 @@ MY_INTERFACE Shader {
     virtual ShaderVariable * createVariableBySemantic( wstring semantic ) PURE;
     virtual bool releaseShaderVariable( ShaderVariable * ) PURE;
 
+    virtual bool hasVariableByName( wstring name ) PURE;
+    virtual bool hasVariableBySemantic( wstring semantic ) PURE;
+
 };
 
 

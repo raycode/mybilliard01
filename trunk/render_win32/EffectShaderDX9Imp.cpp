@@ -105,6 +105,13 @@ bool EffectShaderDX9Imp::renderWithTechnique( EffectShaderCallBack * callBack )
 }
 
 
+bool EffectShaderDX9Imp::hasVariableByName( wstring name ) {
+    return NULL != effect_->GetParameterByName( 0, convertString( name ).c_str() );
+}
+bool EffectShaderDX9Imp::hasVariableBySemantic( wstring semantic )  {
+    return NULL != effect_->GetParameterBySemantic( 0, convertString( semantic ).c_str() );
+}
+
 ShaderVariable * EffectShaderDX9Imp::createVariableByIndex( size_t index )
 {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_INDEX, index, NULL ), ReleasableResourceDX9::Releaser() );

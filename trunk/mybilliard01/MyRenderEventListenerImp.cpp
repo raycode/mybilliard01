@@ -41,6 +41,13 @@ void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
 
         actor->userData = createToRender( node, renderFactory );
     }
+
+    initEffectLights();
+}
+
+void MyRenderEventListenerImp::initEffectLights() {
+    const float light0_position[] = { -40.f, 0.f, 80.f, 1.f };
+    getLight( L"Light0_Position" )->setFloatArray( light0_position, 4u );
 }
 
 void MyRenderEventListenerImp::displayReset( int x, int y, int width, int height ) {

@@ -20,6 +20,7 @@ public:
 private: // init
     void initCamera( NxVec3 pos, NxVec3 dir );
     void initEffect( RenderBufferFactory * renderFactory );
+    void initEffectLights();
 
 private: // update
     void updateCamera( float elapsedTime );
@@ -42,11 +43,17 @@ private: // camera
 
 private: // effect
     ToRender * createToRender( Node * node, RenderBufferFactory * renderFactory );
+    void findLights( EffectShader * effect);
+    ShaderVariable * getLight( wstring name );
 
     typedef list< ToRenderPtr > ToRenders;
     ToRenders toRenders_;
 
     ToRenderNull nullToRender_;
+
+    typedef map< wstring, ShaderVariable * > SharedLights;
+    SharedLights sharedLights_;
+
 };
 
 
