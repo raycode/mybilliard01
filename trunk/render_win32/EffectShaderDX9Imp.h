@@ -27,7 +27,7 @@ public:
 
 private: // acquire and release
     bool acquireBestValidTechnique();
-    void setEffectOntoEffectVariable( ReleasableEffectResourceDX9 * var );
+    bool setEffectOntoEffectVariable( ReleasableEffectResourceDX9 * var );
     bool releaseAnyEffectVariable( ReleasableEffectResourceDX9 * var );
 
 private:

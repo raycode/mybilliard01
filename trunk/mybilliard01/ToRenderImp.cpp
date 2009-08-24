@@ -15,8 +15,13 @@ ToRenderImp::ToRenderImp( Node * node, EffectShader * effect )
     assert( wvp_ );
 }
 
-void ToRenderImp::updateMatrix( NxActor * actor,
-    const RowMajorMatrix44f & matView, const RowMajorMatrix44f & matProjView )
+void ToRenderImp::updateMatrix(
+    NxActor * actor,
+    const NxVec3 & cameraPos,
+    const NxVec3 & cameraDir,
+    const RowMajorMatrix44f & matProj,
+    const RowMajorMatrix44f & matView,
+    const RowMajorMatrix44f & matProjView )
 {
     actor->getGlobalPose().getColumnMajor44( columnMajor44_World_ );
     matView.GetColumnMajor( columnMajor44_View_ );

@@ -49,7 +49,7 @@ public:
     EffectShaderVariableDX9Imp( ESEARCH_BY, size_t index, ShaderVariableHandleDX9 * parent );
 
 private:
-    void setEffectOntoNestedVariable( ReleasableEffectResourceDX9 * var );
+    bool setEffectOntoNestedVariable( ReleasableEffectResourceDX9 * var );
     bool releaseAnyEffectVariable( ReleasableEffectResourceDX9 * var );
     D3DXHANDLE getParentHandleDX9();
     D3DXPARAMETER_DESC getParameterDesc();

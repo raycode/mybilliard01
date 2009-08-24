@@ -75,4 +75,5 @@ namespace my_render_imp {
 #include "CameraImp.h"
 #include "CameraFactoryImp.h"
 
+#include "WM4Math.h"
 #include "RowMajorMatrix44.h"

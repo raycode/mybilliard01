@@ -25,6 +25,7 @@ private: // update
     void updateCamera( float elapsedTime );
     void updateCameraProjection( float aspectRatio );
     void updateCameraView();
+    void updateCameraPosAndDir();
     void updateEffect( float elapsedTime );
 
 private:
@@ -33,9 +34,10 @@ private:
 
 private: // camera
     MyCameraPtr camera_;
-    RowMajorMatrix44f view_;
+    RowMajorMatrix44f matrixView_;
     RowMajorMatrix44f matrixProjection_;
     RowMajorMatrix44f matrixProjectionView_;
+    NxVec3 cameraPos_, cameraDir_;
     const bool bRightHandHardware_;
 
 private: // effect

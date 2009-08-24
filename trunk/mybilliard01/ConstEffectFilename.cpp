@@ -13,6 +13,8 @@ struct ConstEffectFilename::Pimp {
 
     static void init() {
         if( false == effectFilenames_.empty() ) return;
+
+        effectFilenames_.insert( EffectFilenames::value_type( L"CUE_BALL", L"..\\asset\\shaders\\textured pong.fx" ) );
     }
 };
 

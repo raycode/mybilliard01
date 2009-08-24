@@ -34,14 +34,14 @@ private:
     LPDIRECT3DDEVICE9 getD3D9Device();
 
 private: // resource manage
-    void pushBackToReadyQueue( int resourceType, ReleasableResourceDX9 * newResource );
-    void pushBackToActiveQueue( int resourceType, ReleasableResourceDX9 * newResource );
+    void pushBackToReadyQueue( int resourceType, ReleasableResourceDX9Ptr newResource );
+    void pushBackToActiveQueue( int resourceType, ReleasableResourceDX9Ptr newResource );
     bool destroy( ReleasableResourceDX9 * victim );
     void destroyAll();
     void acquireResources();
     void releaseByResourceType( int resourceType );
 
-    EffectShaderDX9 * findAlreadyCreatedEffectShader( wstring filename );
+    EffectShaderDX9Ptr copyEffectShaderFromAlreadyCreated( wstring filename );
 
 
 private:

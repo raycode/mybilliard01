@@ -2077,6 +2077,26 @@
 					RelativePath=".\RowMajorMatrix44.inl"
 					>
 				</File>
+				<File
+					RelativePath=".\WM4Math.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\WM4Math.h"
+					>
+				</File>
+				<File
+					RelativePath=".\WM4Math.inl"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="9. Precompiled"

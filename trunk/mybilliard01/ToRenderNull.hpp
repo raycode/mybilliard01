@@ -3,13 +3,16 @@
 
 NULL_OBJECT( ToRender ) {
 
-    void display() {}
-    void displayPass( size_t pass ) {}
+    void display() OVERRIDE {}
+    void displayPass( size_t pass ) OVERRIDE {}
 
-    void updateMatrix( NxActor *, const RowMajorMatrix44f &, const RowMajorMatrix44f & ) {}
-
-private:
-    ShaderVariableNull nullShaderVariable_;
+    virtual void updateMatrix(
+        NxActor *,
+        const NxVec3 & cameraPos,
+        const NxVec3 & cameraDir,
+        const RowMajorMatrix44f & matProj,
+        const RowMajorMatrix44f & matView,
+        const RowMajorMatrix44f & matProjView ) OVERRIDE {};
 
 };
 

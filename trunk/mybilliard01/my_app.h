@@ -39,6 +39,7 @@ MY_SMART_PTR( ToRender );
 #include "ToRender.h"
 #include "ToRenderNull.hpp"
 #include "ToRenderImp.h"
+#include "ToRenderImp_RenderMonkey.h"
 #include "MyRenderEventListenerImp.h"
 #include "ConstString.h"
 #include "ConstEffectFilename.h"

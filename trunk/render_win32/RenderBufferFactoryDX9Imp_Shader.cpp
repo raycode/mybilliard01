@@ -5,20 +5,19 @@ namespace my_render_win32_dx9_imp {
 
 EffectShader * RenderBufferFactoryDX9Imp::createEffectShader( wstring filename )
 {
-    EffectShaderDX9 * newEffect = findAlreadyCreatedEffectShader( filename );
-    if( NULL == newEffect ) newEffect = new EffectShaderDX9Imp( getD3D9Device(), filename, &*d3dEffectPool_ );
+    EffectShaderDX9Ptr newEffect = copyEffectShaderFromAlreadyCreated( filename );
+    if( NULL == newEffect ) newEffect = EffectShaderDX9Ptr( new EffectShaderDX9Imp( getD3D9Device(), filename, &*d3dEffectPool_ ), ReleasableResourceDX9::Releaser() );
     if( NULL == newEffect ) return NULL;
 
     const bool bAcquired = newEffect->acquireResource();
     assert( bAcquired );
+    if( false == bAcquired ) return NULL;
 
-    if( bAcquired ) pushBackToActiveQueue( E_EFFECT_SHADERS, newEffect );
-    else pushBackToReadyQueue( E_EFFECT_SHADERS, newEffect );
-
-    return newEffect;
+    pushBackToActiveQueue( E_EFFECT_SHADERS, newEffect );
+    return &*newEffect;
 }
 
-EffectShaderDX9 * RenderBufferFactoryDX9Imp::findAlreadyCreatedEffectShader( wstring filename ) {
+EffectShaderDX9Ptr RenderBufferFactoryDX9Imp::copyEffectShaderFromAlreadyCreated( wstring filename ) {
     for( size_t i = 0; i < SIZE_OF_QUEUE; ++i )
     {
         MY_FOR_EACH( ReleasableResources, iter, resources_[ E_EFFECT_SHADERS ][ i ] )
@@ -26,10 +25,10 @@ EffectShaderDX9 * RenderBufferFactoryDX9Imp::findAlreadyCreatedEffectShader( wst
             EffectShaderDX9Imp * const effectShader = dynamic_cast< EffectShaderDX9Imp * >( &**iter );
             if( effectShader->getFilename() != filename ) continue;
 
-            return new EffectShaderDX9Imp( *effectShader );
+            return EffectShaderDX9Ptr( new EffectShaderDX9Imp( *effectShader ), ReleasableResourceDX9::Releaser() );
         }
     }
-    return NULL;
+    return EffectShaderDX9Ptr();
 }
 
 

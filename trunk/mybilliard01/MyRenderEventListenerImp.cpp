@@ -43,22 +43,6 @@ void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
     }
 }
 
-ToRender * MyRenderEventListenerImp::createToRender( Node * node, RenderBufferFactory * renderFactory )
-{
-    if( NULL == node ) return & nullToRender_;
-    const wstring nodeName = node->getName();
-
-    const wstring effectFilename = ConstEffectFilename::getEffectFilenameByNodeName( nodeName );
-    EffectShader * const effect = renderFactory->createEffectShader( effectFilename );
-    assert( effect );
-    if( NULL == effect ) return & nullToRender_;
-
-    ToRender * const newToRender = new ToRenderImp( node, effect );
-    toRenders_.push_back( ToRenderPtr( newToRender ) );
-
-    return newToRender;
-}
-
 void MyRenderEventListenerImp::displayReset( int x, int y, int width, int height ) {
     updateCameraProjection( (float) width / (float) height );
 }
@@ -79,12 +63,22 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
 void MyRenderEventListenerImp::updateCamera( float elapsedTime ) {
     camera_->update( elapsedTime );
     updateCameraView();
+    updateCameraPosAndDir();
 }
 
 void MyRenderEventListenerImp::updateCameraView()
 {
-    camera_->getViewMatrix44( view_, true );
-    matrixProjectionView_ = matrixProjection_ * view_;
+    camera_->getViewMatrix44( matrixView_, true );
+    matrixProjectionView_ = matrixProjection_ * matrixView_;
+}
+
+void MyRenderEventListenerImp::updateCameraPosAndDir()
+{
+    NxExtendedVec3 pos = camera_->getPosition();
+    cameraPos_.x = (NxReal) pos.x;
+    cameraPos_.y = (NxReal) pos.y;
+    cameraPos_.z = (NxReal) pos.z;
+    cameraDir_ = camera_->getDirectionVector();
 }
 
 void MyRenderEventListenerImp::updateEffect( float elapsedTime )
@@ -92,7 +86,8 @@ void MyRenderEventListenerImp::updateEffect( float elapsedTime )
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
         ToRender * const toRender = (ToRender *) (actor->userData);
-        toRender->updateMatrix( actor, view_, matrixProjectionView_ );
+        toRender->updateMatrix( actor, cameraPos_, cameraDir_,
+            matrixProjection_, matrixView_, matrixProjectionView_ );
     }
 }
 
