@@ -22,16 +22,22 @@ public: // from ShaderVariable
     virtual bool setTexture( Texture * ) OVERRIDE;
     virtual bool setSampler() OVERRIDE;
 
-    virtual size_t getNumberOfAnnotations() OVERRIDE;
-    virtual EffectShaderAnnotation * createAnnotationByIndex( size_t index ) OVERRIDE;
-    virtual EffectShaderAnnotation * createAnnotationByName( wstring name ) OVERRIDE;
-    virtual bool releaseShaderAnnotation( EffectShaderAnnotation * ) OVERRIDE;
-
     virtual size_t getNumberOfNestedVariables() OVERRIDE;
     virtual ShaderVariable * createNestedVariableByIndex( size_t index ) OVERRIDE;
     virtual ShaderVariable * createNestedVariableByName( wstring name ) OVERRIDE;
     virtual ShaderVariable * createNestedVariableBySemantic( wstring semantic ) OVERRIDE;
     virtual bool releaseNestedVariable( ShaderVariable * nestedVariable ) OVERRIDE;
+
+    virtual bool hasNestedVariableByName( wstring name ) OVERRIDE;
+    virtual bool hasNestedVariableBySemantic( wstring semantic ) OVERRIDE;
+
+public: // from EffectShaderVariable
+    virtual size_t getNumberOfAnnotations() OVERRIDE;
+    virtual EffectShaderAnnotation * createAnnotationByIndex( size_t index ) OVERRIDE;
+    virtual EffectShaderAnnotation * createAnnotationByName( wstring name ) OVERRIDE;
+    virtual bool releaseShaderAnnotation( EffectShaderAnnotation * ) OVERRIDE;
+
+    virtual bool hasAnnotationByName( wstring name ) OVERRIDE;
 
 public: // from ShaderVariableHandleDX9
     virtual D3DXHANDLE getHandleDX9() OVERRIDE;

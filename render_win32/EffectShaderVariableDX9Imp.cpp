@@ -42,9 +42,9 @@ bool EffectShaderVariableDX9Imp::acquireResource() {
     }
 
     if( NULL == handle_ ) {
-        //wchar_t tmp[256];
-        //_snwprintf_s( tmp, 256, L"EffectShaderVariableDX9Imp::acquireResource : %s\n", getVariableName().c_str() );
-        //OutputDebugStr( tmp );
+        wchar_t tmp[256];
+        _snwprintf_s( tmp, 256, L"EffectShaderVariableDX9Imp::acquireResource : %s\n", getVariableName().c_str() );
+        OutputDebugStr( tmp );
         return false;
     }
 
@@ -77,6 +77,16 @@ bool EffectShaderVariableDX9Imp::releaseShaderAnnotation( EffectShaderAnnotation
 }
 void EffectShaderVariableDX9Imp::setEffect( LPD3DXEFFECT effect ) {
     effect_ = effect;
+}
+
+bool EffectShaderVariableDX9Imp::hasNestedVariableByName( wstring name ) {
+    return NULL != effect_->GetParameterByName( getHandleDX9(), convertString( name ).c_str() );
+}
+bool EffectShaderVariableDX9Imp::hasNestedVariableBySemantic( wstring semantic ) {
+    return NULL != effect_->GetParameterBySemantic( getHandleDX9(), convertString( semantic ).c_str() );
+}
+bool EffectShaderVariableDX9Imp::hasAnnotationByName( wstring anno ) {
+    return NULL != effect_->GetAnnotationByName( getHandleDX9(), convertString( anno ).c_str() );
 }
 
 ShaderVariable * EffectShaderVariableDX9Imp::createNestedVariableByIndex( size_t index ) {

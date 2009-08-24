@@ -22,9 +22,9 @@
 //--------------------------------------------------------------//
 string Textured_Phong_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
-float4 fvLightPosition
+shared float4 Light0_Position
 <
-   string UIName = "fvLightPosition";
+   string UIName = "Light0_Position";
    string UIWidget = "Direction";
    bool UIVisible =  false;
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
@@ -67,7 +67,7 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    float3 fvEminusW        = fvEyePosition - fvWorld;
    Output.ViewDirection    = mul( fvEminusW, matView );
 
-   float3 fvLminusW        = fvLightPosition - fvWorld;   
+   float3 fvLminusW        = Light0_Position - fvWorld;   
    Output.LightDirection   = mul( fvLminusW, matView );
 
    float3 fvNormal         = Input.Normal;
@@ -84,7 +84,7 @@ float4 fvAmbient
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.95, 0.96, 0.79, 1.00 );
+> = float4( 0.96, 0.27, 0.26, 1.00 );
 float4 fvSpecular
 <
    string UIName = "fvSpecular";
@@ -96,7 +96,7 @@ float4 fvDiffuse
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.89, 0.07, 0.03, 1.00 );
+> = float4( 0.89, 0.67, 0.56, 1.00 );
 float fSpecularPower
 <
    string UIName = "fSpecularPower";

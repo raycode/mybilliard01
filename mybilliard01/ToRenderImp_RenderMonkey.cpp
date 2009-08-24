@@ -26,20 +26,20 @@ void ToRenderImp_RenderMonkey::updateMatrix(
     matView_ = matView;
     matProjView_ = matProjView;
 
-    MY_FOR_EACH( MatrixSemantics, iter, matrixSemantics_ )
-        updateMatrixForPredefinedSemantics( *iter );
+    MY_FOR_EACH( ActivePredefinedSemantics_Matrix, iter, activePredefinedSemantics_Matrix_ )
+        updateMatrixForPredefinedSemantic( *iter );
 
-    MY_FOR_EACH( Vec4Semantics, iter, vec4Semantics_ )
-        updateMatrixForPredefinedSemantics( *iter );
+    MY_FOR_EACH( ActivePredefinedSemantics_Vec4, iter, activePredefinedSemantics_Vec4_ )
+        updateMatrixForPredefinedSemantic( *iter );
 }
 
 void ToRenderImp_RenderMonkey::display()
 {
-    MY_FOR_EACH( MatrixSemantics, iter, matrixSemantics_ )
-        setMatrixForPredefinedSemantics( *iter );
+    MY_FOR_EACH( ActivePredefinedSemantics_Matrix, iter, activePredefinedSemantics_Matrix_ )
+        setMatrixForPredefinedSemantic( *iter );
 
-    MY_FOR_EACH( Vec4Semantics, iter, vec4Semantics_ )
-        setVec4ForPredefinedSemantics( *iter );
+    MY_FOR_EACH( ActivePredefinedSemantics_Vec4, iter, activePredefinedSemantics_Vec4_ )
+        setVec4ForPredefinedSemantic( *iter );
 
     effect_->renderWithTechnique( this );
 }
@@ -53,12 +53,12 @@ void ToRenderImp_RenderMonkey::displayPass( size_t pass )
 
 void ToRenderImp_RenderMonkey::initPredefinedSemantics() {
 
-#define INIT_VEC3_SEMANTIC( SEMANTIC ) predef_[ SEMANTIC ] = effect_->createVariableBySemantic( L#SEMANTIC ); if( predef_[ SEMANTIC ] ) vec4Semantics_.push_back( SEMANTIC );
+#define INIT_VEC3_SEMANTIC( SEMANTIC ) if( effect_->hasVariableBySemantic( L#SEMANTIC ) ) { predef_[ SEMANTIC ] = effect_->createVariableBySemantic( L#SEMANTIC ); activePredefinedSemantics_Vec4_.push_back( SEMANTIC ); }
 
     INIT_VEC3_SEMANTIC( ViewPosition );
     INIT_VEC3_SEMANTIC( ViewDirection );
 
-#define INIT_MATRIX_SEMANTIC( SEMANTIC ) predef_[ SEMANTIC ] = effect_->createVariableBySemantic( L#SEMANTIC ); if( predef_[ SEMANTIC ] ) matrixSemantics_.push_back( SEMANTIC );
+#define INIT_MATRIX_SEMANTIC( SEMANTIC ) if( effect_->hasVariableBySemantic( L#SEMANTIC ) ) { predef_[ SEMANTIC ] = effect_->createVariableBySemantic( L#SEMANTIC ); activePredefinedSemantics_Matrix_.push_back( SEMANTIC ); }
 
     INIT_MATRIX_SEMANTIC( World );
     INIT_MATRIX_SEMANTIC( WorldTranspose );
@@ -92,9 +92,9 @@ void ToRenderImp_RenderMonkey::initPredefinedSemantics() {
 }
 
 
-void ToRenderImp_RenderMonkey::updateMatrixForPredefinedSemantics( int whichSemantic )
+void ToRenderImp_RenderMonkey::updateMatrixForPredefinedSemantic( int whichSemantic )
 {
-    float * const colMajor44f = colMat44fs_[ whichSemantic ];
+    float * const colMajor44f = predefinedSemantics_Matrix44f_[ whichSemantic ];
 
     switch( whichSemantic )
     {
@@ -133,15 +133,17 @@ void ToRenderImp_RenderMonkey::updateMatrixForPredefinedSemantics( int whichSema
     }
 }
 
-void ToRenderImp_RenderMonkey::setMatrixForPredefinedSemantics( int whichSemantic ) {
-    predef_[ whichSemantic ]->setFloatArray( colMat44fs_[ whichSemantic ], 16u );
+void ToRenderImp_RenderMonkey::setMatrixForPredefinedSemantic( int whichSemantic ) {
+    predef_[ whichSemantic ]->setFloatArray( predefinedSemantics_Matrix44f_[ whichSemantic ], 16u );
 
-    //const float * ptr = colMat44fs_[ whichSemantic ];
+    //const float * ptr = predefinedSemantics_Matrix44f_[ whichSemantic ];
     //wchar_t tmp[256];
     //_snwprintf_s( tmp, 256, L"%d: %f %f %f %f [1] %f %f %f %f [2] %f %f %f %f [3] %f %f %f %f\n", whichSemantic, ptr[0], ptr[1], ptr[2], ptr[3], ptr[4], ptr[5], ptr[6], ptr[7], ptr[8], ptr[9], ptr[10], ptr[11], ptr[12], ptr[13], ptr[14], ptr[15] );
     //OutputDebugStr( tmp );
 }
 
-void ToRenderImp_RenderMonkey::setVec4ForPredefinedSemantics( int whichSemantic ) {
-    predef_[ whichSemantic ]->setFloatArray( colMat44fs_[ whichSemantic ], 4u );
+void ToRenderImp_RenderMonkey::setVec4ForPredefinedSemantic( int whichSemantic ) {
+    predef_[ whichSemantic ]->setFloatArray( predefinedSemantics_Matrix44f_[ whichSemantic ], 4u );
 }
+
+
