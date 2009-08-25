@@ -42,6 +42,7 @@ private: // resource manage
     void releaseByResourceType( int resourceType );
 
     EffectShaderDX9Ptr copyEffectShaderFromAlreadyCreated( wstring filename );
+    TextureDX9Ptr copyTextureFromAlreadyCreated( wstring filename );
 
 
 private:

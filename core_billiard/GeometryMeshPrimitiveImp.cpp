@@ -43,16 +43,16 @@ void GeometryMeshPrimitiveImp::setRenderingPrimitiveType( const int primitiveTyp
 
     if( primitiveTypeID == domTrifans::ID() )
         display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLEFAN;
-    else if( primitiveTypeID == domPolygons::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLEFAN;
-    else if( primitiveTypeID == domPolylist::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLEFAN;
     else if( primitiveTypeID == domTristrips::ID() )
         display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLESTRIP;
-    else if( primitiveTypeID == domLinestrips::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_LINESTRIP;
+    else if( primitiveTypeID == domPolygons::ID() )
+        display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLELIST;
+    else if( primitiveTypeID == domPolylist::ID() )
+        display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLELIST;
     else if( primitiveTypeID == domTriangles::ID() )
         display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLELIST;
+    else if( primitiveTypeID == domLinestrips::ID() )
+        display_pointer_ = &GeometryMeshPrimitiveImp::display_LINESTRIP;
     else if( primitiveTypeID == domLines::ID() )
         display_pointer_ = &GeometryMeshPrimitiveImp::display_LINELIST;
     else

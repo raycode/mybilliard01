@@ -22,10 +22,10 @@ EffectShaderDX9Ptr RenderBufferFactoryDX9Imp::copyEffectShaderFromAlreadyCreated
     {
         MY_FOR_EACH( ReleasableResources, iter, resources_[ E_EFFECT_SHADERS ][ i ] )
         {
-            EffectShaderDX9Imp * const effectShader = dynamic_cast< EffectShaderDX9Imp * >( &**iter );
-            if( effectShader->getFilename() != filename ) continue;
+            EffectShaderDX9Imp * const oldEffectShader = dynamic_cast< EffectShaderDX9Imp * >( &**iter );
+            if( oldEffectShader->getFilename() != filename ) continue;
 
-            return EffectShaderDX9Ptr( new EffectShaderDX9Imp( *effectShader ), ReleasableResourceDX9::Releaser() );
+            return EffectShaderDX9Ptr( new EffectShaderDX9Imp( *oldEffectShader ), ReleasableResourceDX9::Releaser() );
         }
     }
     return EffectShaderDX9Ptr();
@@ -35,7 +35,8 @@ Texture * RenderBufferFactoryDX9Imp::createTexture( wstring filename )
 {
     if( filename.empty() ) return NULL;
 
-    TextureDX9Ptr newTexture = TextureDX9Ptr( new TextureDX9Imp( getD3D9Device(), filename ), ReleasableResourceDX9::Releaser() );
+    TextureDX9Ptr newTexture = copyTextureFromAlreadyCreated( filename );
+    if( NULL == newTexture ) newTexture = TextureDX9Ptr( new TextureDX9Imp( getD3D9Device(), filename ), ReleasableResourceDX9::Releaser() );
     if( NULL == newTexture ) return NULL;
 
     const bool bAcquired = newTexture->acquireResource();
@@ -46,5 +47,19 @@ Texture * RenderBufferFactoryDX9Imp::createTexture( wstring filename )
     return newTexture.get();
 }
 
+TextureDX9Ptr RenderBufferFactoryDX9Imp::copyTextureFromAlreadyCreated( wstring filename ) {
+    for( size_t i = 0; i < SIZE_OF_QUEUE; ++i )
+    {
+        MY_FOR_EACH( ReleasableResources, iter, resources_[ E_TEXTURE ][ i ] )
+        {
+            TextureDX9Imp * const oldTexture = dynamic_cast< TextureDX9Imp * >( &**iter );
+            if( false == oldTexture->isFromFile() ) continue;
+            if( oldTexture->getFilename() != filename ) continue;
+
+            return TextureDX9Ptr( new TextureDX9Imp( *oldTexture ), ReleasableResourceDX9::Releaser() );
+        }
+    }
+    return TextureDX9Ptr();
+}
 
 }
