@@ -9,6 +9,9 @@ MY_INTERFACE EffectShader : EXTENDS_INTERFACE( Shader ) {
     virtual EffectShaderVariableBlock * createVariableBlock( EffectShaderVariableBlockCallBack * ) PURE;
     virtual bool releaseShaderVariableBlock( EffectShaderVariableBlock * ) PURE;
 
+    virtual EffectShaderVariable * createEffectVariableByIndex( size_t index ) PURE;
+    virtual EffectShaderVariable * createEffectVariableByName( wstring name ) PURE;
+    virtual EffectShaderVariable * createEffectVariableBySemantic( wstring semantic ) PURE;
 };
 
 

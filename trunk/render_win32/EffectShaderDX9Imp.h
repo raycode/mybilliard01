@@ -19,12 +19,16 @@ public: // from EffectShader
     virtual EffectShaderVariableBlock * createVariableBlock( EffectShaderVariableBlockCallBack * ) OVERRIDE;
     virtual bool releaseShaderVariableBlock( EffectShaderVariableBlock * ) OVERRIDE;
 
+    virtual EffectShaderVariable * createEffectVariableByIndex( size_t index ) OVERRIDE;
+    virtual EffectShaderVariable * createEffectVariableByName( wstring name ) OVERRIDE;
+    virtual EffectShaderVariable * createEffectVariableBySemantic( wstring semantic ) OVERRIDE;
+
 public: // from ReleasableResource
     virtual bool acquireResource() OVERRIDE;
     virtual void releaseResource() OVERRIDE;
 
 public:
-    EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice, wstring filename, LPD3DXEFFECTPOOL effectPool );
+    EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice, wstring filename, LPD3DXEFFECTPOOL effectPool, RenderBufferFactory * renderFactory );
 
     wstring getFilename() const;
 
@@ -33,10 +37,15 @@ private: // acquire and release
     bool setEffectOntoEffectVariable( ReleasableEffectResourceDX9 * var );
     bool releaseAnyEffectVariable( ReleasableEffectResourceDX9 * var );
 
+private: // texture
+    void acquireTextures();
+    RenderBufferFactory * getRenderBufferFactory();
+
 private:
     LPDIRECT3DDEVICE9 d3dDevice_;
-    LPD3DXEFFECTPOOL effectPool_;
     const wstring filename_;
+    LPD3DXEFFECTPOOL effectPool_;
+    RenderBufferFactory * const renderFactory_;
 
     MY_SMART_PTR( ID3DXEffect );
     ID3DXEffectPtr effect_;
@@ -44,10 +53,15 @@ private:
     D3DXEFFECT_DESC effectDesc_;
     D3DXHANDLE bestTechnique_;
 
+private: // variables
     typedef list < ReleasableEffectResourceDX9Ptr > EffectVariables;
     MY_SMART_PTR( EffectVariables );
     EffectVariablesPtr effectVariables_;
 
+private: // texture
+    typedef list< TexturePtr > BorrowedTextures;
+    MY_SMART_PTR( BorrowedTextures );
+    BorrowedTexturesPtr borrwoedTextures_;
 };
 
 

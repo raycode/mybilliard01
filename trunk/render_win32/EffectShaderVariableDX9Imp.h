@@ -7,6 +7,20 @@ public: // from ShaderVariable
     virtual wstring getVariableName() OVERRIDE;
     virtual wstring getSemanticName() OVERRIDE;
 
+    virtual bool isFloat() OVERRIDE;
+
+    virtual bool isTexture() OVERRIDE;
+    virtual bool isTexture1D() OVERRIDE;
+    virtual bool isTexture2D() OVERRIDE;
+    virtual bool isTexture3D() OVERRIDE;
+    virtual bool isTextureCube() OVERRIDE;
+
+    virtual bool isSampler() OVERRIDE;
+    virtual bool isSampler1D() OVERRIDE;
+    virtual bool isSampler2D() OVERRIDE;
+    virtual bool isSampler3D() OVERRIDE;
+    virtual bool isSamplerCube() OVERRIDE;
+
     virtual bool setFloat( float ) OVERRIDE;
     virtual bool setFloatArray( const float *, size_t count ) OVERRIDE;
 
@@ -18,9 +32,7 @@ public: // from ShaderVariable
 
     virtual bool setString( wstring newValue ) OVERRIDE;
 
-    // TODO
     virtual bool setTexture( Texture * ) OVERRIDE;
-    virtual bool setSampler() OVERRIDE;
 
     virtual size_t getNumberOfNestedVariables() OVERRIDE;
     virtual ShaderVariable * createNestedVariableByIndex( size_t index ) OVERRIDE;
@@ -58,7 +70,7 @@ private:
     bool setEffectOntoNestedVariable( ReleasableEffectResourceDX9 * var );
     bool releaseAnyEffectVariable( ReleasableEffectResourceDX9 * var );
     D3DXHANDLE getParentHandleDX9();
-    D3DXPARAMETER_DESC getParameterDesc();
+    const D3DXPARAMETER_DESC & getParameterDesc();
 
 private: // input
     const ESEARCH_BY searchBy_;
@@ -68,6 +80,7 @@ private: // input
     LPD3DXEFFECT effect_;
 
 private:
+    D3DXPARAMETER_DESC desc_;
     D3DXHANDLE handle_;
 
     typedef list < ReleasableEffectResourceDX9Ptr > NestedVariables;

@@ -1,14 +1,17 @@
 #include "stdafx.h"
 #include "my_app.h"
 
-ToRenderImp_RenderMonkey::ToRenderImp_RenderMonkey( Node * node, EffectShader * effect )
+ToRenderImp_RenderMonkey::ToRenderImp_RenderMonkey( Node * node, EffectShader * effect, RenderBufferFactory * renderFactory )
 : node_( node )
 , effect_( effect )
+, renderFactory_( renderFactory )
 {
     assert( node_ );
     assert( effect_ );
     initPredefinedSemantics();
 }
+
+const wstring ToRenderImp_RenderMonkey::effectFilename = L"..\\asset\\shaders\\textured pong.fx";
 
 void ToRenderImp_RenderMonkey::updateMatrix(
     NxActor * actor,

@@ -35,11 +35,6 @@ Surface * RenderBufferFactoryDX9Imp::getBackBuffer( size_t whichBackBuffer ) {
     return &*newSurface;
 }
 
-Texture * RenderBufferFactoryDX9Imp::createTexture( wstring filename )
-{
-    return NULL;
-}
-
 bool RenderBufferFactoryDX9Imp::destroy( ReleasableResourceDX9 * victim )
 {
     for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i ) {

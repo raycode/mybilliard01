@@ -21,18 +21,6 @@ EffectShaderAnnotationDX9Imp::EffectShaderAnnotationDX9Imp( wstring name, Effect
     if( NULL == parent ) throw exception();
 }
 
-void EffectShaderAnnotationDX9Imp::getValue( void * dest, size_t sizeInByte ) {
-    assert( effect_ );
-    effect_->GetValue( getHandleDX9(), dest, sizeInByte );
-}
-
-wstring EffectShaderAnnotationDX9Imp::getAnnotationName() {
-    assert( effect_ );
-    D3DXPARAMETER_DESC desc;
-    effect_->GetParameterDesc( getHandleDX9(), &desc );
-    return convertString( desc.Name );
-}
-
 void EffectShaderAnnotationDX9Imp::setEffect( LPD3DXEFFECT effect ) {
     effect_ = effect;
 }
@@ -51,7 +39,34 @@ bool EffectShaderAnnotationDX9Imp::acquireResource()
         handle_ = effect_->GetParameterByName( getParentHandle(), convertString( name_ ).c_str() );
         break;
     }
+
+    if( NULL == handle_ ) {
+        wchar_t tmp[256];
+        _snwprintf_s( tmp, 256, L"EffectShaderAnnotationDX9Imp::acquireResource\n" );
+        OutputDebugStr( tmp );
+        return false;
+    }
+
+    assert( effect_ );
+    effect_->GetParameterDesc( getHandleDX9(), & desc_ );
+
     return true;
+}
+
+bool EffectShaderAnnotationDX9Imp::isString() {
+    return D3DXPT_STRING == getParameterDesc().Type;
+}
+bool EffectShaderAnnotationDX9Imp::isFloat() {
+    return D3DXPT_FLOAT == getParameterDesc().Type;
+}
+bool EffectShaderAnnotationDX9Imp::isBool() {
+    return D3DXPT_BOOL == getParameterDesc().Type;
+}
+wstring EffectShaderAnnotationDX9Imp::getAnnotationName() {
+    return convertString( getParameterDesc().Name );
+}
+const D3DXPARAMETER_DESC & EffectShaderAnnotationDX9Imp::getParameterDesc() {
+    return desc_;
 }
 
 void EffectShaderAnnotationDX9Imp::releaseResource() {
@@ -65,6 +80,26 @@ D3DXHANDLE EffectShaderAnnotationDX9Imp::getParentHandle() {
 
 D3DXHANDLE EffectShaderAnnotationDX9Imp::getHandleDX9() {
     return handle_;
+}
+
+wstring EffectShaderAnnotationDX9Imp::getString() {
+    const char * buff;
+    const HRESULT hr = effect_->GetString( getHandleDX9(), & buff );
+    RETURN_FALSE_IF_FAILED( hr, L"EffectShaderAnnotationDX9Imp::getString" );
+    return convertString( buff );
+}
+
+float EffectShaderAnnotationDX9Imp::getFloat() {
+    float buff;
+    const HRESULT hr = effect_->GetFloat( getHandleDX9(), & buff );
+    RETURN_FALSE_IF_FAILED( hr, L"EffectShaderAnnotationDX9Imp::getFloat" );
+    return buff;
+}
+bool EffectShaderAnnotationDX9Imp::getBool() {
+    BOOL buff;
+    const HRESULT hr = effect_->GetBool( getHandleDX9(), & buff );
+    RETURN_FALSE_IF_FAILED( hr, L"EffectShaderAnnotationDX9Imp::getBool" );
+    return TRUE == buff;
 }
 
 

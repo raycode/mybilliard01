@@ -332,6 +332,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\ToRenderImp_RenderMonkey_Texture.cpp"
+					>
+				</File>
+				<File
 					RelativePath=".\ToRenderNull.hpp"
 					>
 				</File>

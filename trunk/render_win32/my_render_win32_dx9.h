@@ -14,6 +14,8 @@ namespace my_render_win32_dx9 {
     class EffectShaderDX9;
     class RenderBufferFactoryDX9;
     class RednerWin32DX9;
+
+    class TextureDX9;
     class EffectShaderAnnotationDX9;
     class ShaderVariableHandleDX9;
     class ShaderVariableDX9;
@@ -30,6 +32,8 @@ namespace my_render_win32_dx9 {
     MY_SMART_PTR( VertexBufferDX9 );
     MY_SMART_PTR( EffectShaderDX9 );
     MY_SMART_PTR( RenderBufferFactoryDX9 );
+
+    MY_SMART_PTR( TextureDX9 );
     MY_SMART_PTR( EffectShaderAnnotationDX9 );
     MY_SMART_PTR( ShaderVariableHandleDX9 );
     MY_SMART_PTR( ShaderVariableDX9 );
@@ -49,6 +53,8 @@ namespace my_render_win32_dx9 {
 #include "RenderBufferFactoryDX9Null.hpp"
 #include "VertexBufferDX9.h"
 #include "RenderWin32DX9.h"
+
+#include "TextureDX9.h"
 #include "ShaderVariableHandleDX9.h"
 #include "ShaderVariableDX9.h"
 #include "EffectShaderAnnotationDX9.h"

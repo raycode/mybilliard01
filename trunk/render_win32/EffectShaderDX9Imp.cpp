@@ -4,11 +4,14 @@ namespace my_render_win32_dx9_imp {
 
 
 EffectShaderDX9Imp::EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice,
-                                       wstring filename, LPD3DXEFFECTPOOL effectPool )
+                                       wstring filename, LPD3DXEFFECTPOOL effectPool,
+                                       RenderBufferFactory * renderFactory )
 : d3dDevice_( d3dDevice )
 , effectPool_( effectPool )
+, renderFactory_ ( renderFactory )
 , filename_( filename )
 , effectVariables_( new EffectVariables() )
+, borrwoedTextures_( new BorrowedTextures() )
 {
 }
 
@@ -38,6 +41,7 @@ bool EffectShaderDX9Imp::acquireResource()
         effect_->GetDesc( & effectDesc_ );
 
         acquireBestValidTechnique();
+        acquireTextures();
     }
 
     MY_FOR_EACH( EffectVariables, iter, *effectVariables_ )
@@ -112,27 +116,33 @@ bool EffectShaderDX9Imp::hasVariableBySemantic( wstring semantic )  {
     return NULL != effect_->GetParameterBySemantic( 0, convertString( semantic ).c_str() );
 }
 
-ShaderVariable * EffectShaderDX9Imp::createVariableByIndex( size_t index )
-{
+EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableByIndex( size_t index ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_INDEX, index, NULL ), ReleasableResourceDX9::Releaser() );
     if( false == setEffectOntoEffectVariable( &*newVariable ) ) return NULL;
     effectVariables_->push_back( newVariable );
     return &*newVariable;
 }
-ShaderVariable * EffectShaderDX9Imp::createVariableByName( wstring name )
-{
+EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableByName( wstring name ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_NAME, name, NULL ), ReleasableResourceDX9::Releaser() );
     if( false == setEffectOntoEffectVariable( &*newVariable ) ) return NULL;
     effectVariables_->push_back( newVariable );
     return &*newVariable;
 }
-
-ShaderVariable * EffectShaderDX9Imp::createVariableBySemantic( wstring semantic )
-{
+EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableBySemantic( wstring semantic ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_SEMANTIC, semantic, NULL ), ReleasableResourceDX9::Releaser() );
     if( false == setEffectOntoEffectVariable( &*newVariable ) ) return NULL;
     effectVariables_->push_back( newVariable );
     return &*newVariable;
+}
+ShaderVariable * EffectShaderDX9Imp::createVariableByIndex( size_t index ) {
+    return createEffectVariableByIndex( index );
+}
+ShaderVariable * EffectShaderDX9Imp::createVariableByName( wstring name ) {
+    return createEffectVariableByName( name );
+}
+
+ShaderVariable * EffectShaderDX9Imp::createVariableBySemantic( wstring semantic ) {
+    return createEffectVariableBySemantic( semantic );
 }
 
 EffectShaderVariableBlock * EffectShaderDX9Imp::createVariableBlock( EffectShaderVariableBlockCallBack * callBack )
@@ -152,6 +162,38 @@ size_t EffectShaderDX9Imp::getNumberOfVariables()
 
 wstring EffectShaderDX9Imp::getFilename() const {
     return filename_;
+}
+
+RenderBufferFactory * EffectShaderDX9Imp::getRenderBufferFactory() {
+    return renderFactory_;
+}
+
+void EffectShaderDX9Imp::acquireTextures()
+{
+    DirectoryHelper::ChangeDirectory changePath( getFilename() );
+    for( size_t i = 0; i < getNumberOfVariables(); ++i )
+    {
+        EffectShaderVariablePtr textureVariable = EffectShaderVariablePtr( createEffectVariableByIndex( i ), Shader::Releaser( this ) );
+
+        const bool bTexture = ( textureVariable->isTexture() || textureVariable->isTexture1D() ||
+            textureVariable->isTexture2D() || textureVariable->isTextureCube() );
+        if( false == bTexture ) continue;
+
+        for( size_t j = 0; j < textureVariable->getNumberOfAnnotations(); ++j ) {
+            EffectShaderAnnotationPtr anno = EffectShaderAnnotationPtr( textureVariable->createAnnotationByIndex( j ), EffectShaderVariable::Releaser( textureVariable.get() ) );
+            if( false == anno->isString() ) continue;
+
+            const wstring textureFilename = anno->getString();
+            TexturePtr newTex = TexturePtr( renderFactory_->createTexture( textureFilename ), RenderBufferFactory::Releaser( renderFactory_ ) );
+            if( NULL == newTex ) continue;
+
+            textureVariable->setTexture( newTex.get() );
+            borrwoedTextures_->push_back( newTex );
+            break;
+        }
+    }
+
+
 }
 
 

@@ -8,6 +8,20 @@ MY_INTERFACE ShaderVariable {
     virtual wstring getVariableName() PURE;
     virtual wstring getSemanticName() PURE;
 
+    virtual bool isFloat() PURE;
+    
+    virtual bool isTexture() PURE;
+    virtual bool isTexture1D() PURE;
+    virtual bool isTexture2D() PURE;
+    virtual bool isTexture3D() PURE;
+    virtual bool isTextureCube() PURE;
+
+    virtual bool isSampler() PURE;
+    virtual bool isSampler1D() PURE;
+    virtual bool isSampler2D() PURE;
+    virtual bool isSampler3D() PURE;
+    virtual bool isSamplerCube() PURE;
+
     virtual bool setFloat( float ) PURE;
     virtual bool setFloatArray( const float *, size_t count ) PURE;
 
@@ -19,9 +33,7 @@ MY_INTERFACE ShaderVariable {
 
     virtual bool setString( wstring newValue ) PURE;
 
-    // TODO
     virtual bool setTexture( Texture * ) PURE;
-    virtual bool setSampler() PURE;
 
     virtual size_t getNumberOfNestedVariables() PURE;
     virtual ShaderVariable * createNestedVariableByIndex( size_t index ) PURE;
@@ -31,6 +43,7 @@ MY_INTERFACE ShaderVariable {
 
     virtual bool hasNestedVariableByName( wstring name ) PURE;
     virtual bool hasNestedVariableBySemantic( wstring semantic ) PURE;
+
 };
 
 

@@ -107,7 +107,7 @@ float fSpecularPower
 > = float( 25.00 );
 texture base_Tex
 <
-   string ResourceName = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Textures\\Fieldstone.tga";
+   string ResourceName = ".\\Fieldstone.tga";
 >;
 sampler2D baseMap = sampler_state
 {
@@ -139,6 +139,7 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
    
    float4 fvBaseColor      = tex2D( baseMap, Input.Normal );
+//   float4 fvBaseColor      = float4( 0.5f, 0.5f, 0.5f, 1.f);
    
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
    float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 

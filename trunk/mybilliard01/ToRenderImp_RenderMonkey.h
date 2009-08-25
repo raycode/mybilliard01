@@ -17,7 +17,9 @@ public: // from ToRender
         const RowMajorMatrix44f & matProjView ) OVERRIDE;
 
 public:
-    ToRenderImp_RenderMonkey( Node *, EffectShader * );
+    ToRenderImp_RenderMonkey( Node *, EffectShader *, RenderBufferFactory * renderFactory );
+
+    static const wstring effectFilename;
 
 private: // predefined semantics
     void initPredefinedSemantics();
@@ -28,6 +30,7 @@ private: // predefined semantics
 private: // input
     Node * const node_;
     EffectShader * const effect_;
+    RenderBufferFactory * const renderFactory_;
 
 private: // matrices
     NxVec3 cameraPos_, cameraDir_;

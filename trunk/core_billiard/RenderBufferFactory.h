@@ -29,6 +29,17 @@ MY_INTERFACE RenderBufferFactory {
     virtual bool destroySurface( Surface * ) PURE;
     virtual bool destroyTexture( Texture * ) PURE;
 
+public: // releaser
+
+    struct Releaser
+    {
+    public:
+        void operator()( Texture * texture ) { owner_->destroyTexture( texture ); }
+
+    public: Releaser( RenderBufferFactory * owner ) : owner_( owner ) {}
+    private: RenderBufferFactory * const owner_;
+    };
+
 };
 
 

@@ -19,7 +19,6 @@ NULL_OBJECT( ShaderVariable ) {
     virtual bool setString( wstring newValue ) OVERRIDE { return false; }
 
     virtual bool setTexture( Texture * ) OVERRIDE { return false; }
-    virtual bool setSampler() OVERRIDE { return false; }
 
     virtual size_t getNumberOfNestedVariables() OVERRIDE { return 0u; }
     virtual ShaderVariable * createNestedVariableByIndex( size_t index ) OVERRIDE { return this; }
