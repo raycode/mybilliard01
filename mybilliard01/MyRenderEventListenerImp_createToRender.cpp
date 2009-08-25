@@ -13,8 +13,8 @@ ToRender * MyRenderEventListenerImp::createToRender( Node * node, RenderBufferFa
     if( NULL == effect ) return & nullToRender_;
 
     ToRender * newToRender = NULL;
-    if( nodeName == L"CUE_BALL" ) {
-        newToRender = new ToRenderImp_RenderMonkey( node, effect );
+    if( effectFilename == ToRenderImp_RenderMonkey::effectFilename ) {
+        newToRender = new ToRenderImp_RenderMonkey( node, effect, renderFactory );
     } else {
         newToRender = new ToRenderImp( node, effect );
     }

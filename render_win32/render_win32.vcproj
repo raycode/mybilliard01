@@ -247,6 +247,14 @@
 					RelativePath=".\RenderWin32DX9.h"
 					>
 				</File>
+				<File
+					RelativePath=".\SurfaceDX9.h"
+					>
+				</File>
+				<File
+					RelativePath=".\TextureDX9.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="2. Shader"
@@ -277,10 +285,6 @@
 				</File>
 				<File
 					RelativePath=".\ShaderVariableHandleDX9.h"
-					>
-				</File>
-				<File
-					RelativePath=".\SurfaceDX9.h"
 					>
 				</File>
 				<File
@@ -471,6 +475,14 @@
 					RelativePath=".\SurfaceLockedRectDX9Imp.h"
 					>
 				</File>
+				<File
+					RelativePath=".\TextureDX9Imp.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\TextureDX9Imp.h"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="2. Shader"
@@ -612,6 +624,14 @@
 				RelativePath=".\my_render_win32_imp.h"
 				>
 			</File>
+			<Filter
+				Name="8. Others"
+				>
+				<File
+					RelativePath=".\DirectoryHelper.hpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="my_render_win32_opengl"

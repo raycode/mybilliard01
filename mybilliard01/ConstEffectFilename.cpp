@@ -1,7 +1,5 @@
 #include "StdAfx.h"
-
-using namespace std;
-#include "ConstEffectFilename.h"
+#include "my_app.h"
 
 
 struct ConstEffectFilename::Pimp {
@@ -14,11 +12,12 @@ struct ConstEffectFilename::Pimp {
     static void init() {
         if( false == effectFilenames_.empty() ) return;
 
-        effectFilenames_.insert( EffectFilenames::value_type( L"CUE_BALL", L"..\\asset\\shaders\\textured pong.fx" ) );
+        effectFilenames_.insert( EffectFilenames::value_type( L"CUE_BALL", ToRenderImp_RenderMonkey::effectFilename ) );
     }
 };
 
-wstring ConstEffectFilename::Pimp::defaultEffectFilename_ = L"..\\asset\\SimpleSample.fx";
+wstring ConstEffectFilename::Pimp::defaultEffectFilename_ = L"..\\asset\\shaders\\textured pong.fx";
+//wstring ConstEffectFilename::Pimp::defaultEffectFilename_ = L"..\\asset\\SimpleSample.fx";
 ConstEffectFilename::Pimp::EffectFilenames ConstEffectFilename::Pimp::effectFilenames_;
 
 

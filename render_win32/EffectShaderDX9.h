@@ -7,6 +7,7 @@ MY_INTERFACE EffectShaderDX9
     , EXTENDS_INTERFACE( ReleasableResourceDX9 )
 {
 
+
 };
 
 

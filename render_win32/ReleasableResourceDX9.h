@@ -9,6 +9,8 @@ MY_INTERFACE ReleasableResourceDX9 {
     virtual void releaseResource() PURE;
 
 
+public: // releser
+
     struct Releaser
     {
         void operator()( ReleasableResourceDX9 * resource ) const {

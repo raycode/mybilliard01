@@ -15,6 +15,19 @@ MY_INTERFACE Shader {
     virtual bool hasVariableByName( wstring name ) PURE;
     virtual bool hasVariableBySemantic( wstring semantic ) PURE;
 
+
+public: // releaser
+
+    struct Releaser {
+    public:
+        void operator()( ShaderVariable * shaderVariable ) {
+            owner_->releaseShaderVariable( shaderVariable );
+        }
+
+    public: Releaser( Shader * owner ) : owner_( owner ) {}
+    private: Shader * const owner_;
+    };
+
 };
 
 

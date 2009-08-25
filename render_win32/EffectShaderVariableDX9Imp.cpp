@@ -43,10 +43,14 @@ bool EffectShaderVariableDX9Imp::acquireResource() {
 
     if( NULL == handle_ ) {
         wchar_t tmp[256];
-        _snwprintf_s( tmp, 256, L"EffectShaderVariableDX9Imp::acquireResource : %s\n", getVariableName().c_str() );
+        _snwprintf_s( tmp, 256, L"EffectShaderVariableDX9Imp::acquireResource\n" );
         OutputDebugStr( tmp );
         return false;
     }
+
+    assert( effect_ );
+
+    effect_->GetParameterDesc( handle_, &desc_ );
 
     MY_FOR_EACH( NestedVariables, iter, nestedVariables_ )
         setEffectOntoNestedVariable( &**iter );
@@ -121,11 +125,8 @@ EffectShaderAnnotation * EffectShaderVariableDX9Imp::createAnnotationByName( wst
     return &*newAnno;
 }
 
-D3DXPARAMETER_DESC EffectShaderVariableDX9Imp::getParameterDesc() {
-    assert( effect_ );
-    D3DXPARAMETER_DESC desc;
-    effect_->GetParameterDesc( getHandleDX9(), &desc );
-    return desc;
+const D3DXPARAMETER_DESC & EffectShaderVariableDX9Imp::getParameterDesc() {
+    return desc_;
 }
 wstring EffectShaderVariableDX9Imp::getVariableName() {
     return convertString( getParameterDesc().Name );
@@ -138,6 +139,39 @@ size_t EffectShaderVariableDX9Imp::getNumberOfAnnotations() {
 }
 size_t EffectShaderVariableDX9Imp::getNumberOfNestedVariables() {
     return getParameterDesc().StructMembers;
+}
+bool EffectShaderVariableDX9Imp::isFloat()  {
+    return getParameterDesc().Type == D3DXPT_FLOAT;
+}
+bool EffectShaderVariableDX9Imp::isTexture()  {
+    return getParameterDesc().Type == D3DXPT_TEXTURE;
+}
+bool EffectShaderVariableDX9Imp::isTexture1D()  {
+    return getParameterDesc().Type == D3DXPT_TEXTURE1D;
+}
+bool EffectShaderVariableDX9Imp::isTexture2D() {
+    return getParameterDesc().Type == D3DXPT_TEXTURE2D;
+}
+bool EffectShaderVariableDX9Imp::isTexture3D() {
+    return getParameterDesc().Type == D3DXPT_TEXTURE3D;
+}
+bool EffectShaderVariableDX9Imp::isTextureCube() {
+    return getParameterDesc().Type == D3DXPT_TEXTURECUBE;
+}
+bool EffectShaderVariableDX9Imp::isSampler()  {
+    return getParameterDesc().Type == D3DXPT_SAMPLER;
+}
+bool EffectShaderVariableDX9Imp::isSampler1D() {
+    return getParameterDesc().Type == D3DXPT_SAMPLER1D;
+}
+bool EffectShaderVariableDX9Imp::isSampler2D() {
+    return getParameterDesc().Type == D3DXPT_SAMPLER2D;
+}
+bool EffectShaderVariableDX9Imp::isSampler3D() {
+    return getParameterDesc().Type == D3DXPT_SAMPLER3D;
+}
+bool EffectShaderVariableDX9Imp::isSamplerCube() {
+    return getParameterDesc().Type == D3DXPT_SAMPLERCUBE;
 }
 
 D3DXHANDLE EffectShaderVariableDX9Imp::getHandleDX9() {
@@ -187,11 +221,12 @@ bool EffectShaderVariableDX9Imp::setString( wstring newValue ) {
     RETURN_FALSE_IF_FAILED( hr, L"EffectShaderVariableDX9Imp::setString" );
     return true;
 }
-bool EffectShaderVariableDX9Imp::setTexture( Texture * ) {
-    return false;
-}
-bool EffectShaderVariableDX9Imp::setSampler() {
-    return false;
+bool EffectShaderVariableDX9Imp::setTexture( Texture * newTexture ) {
+    // I need to find a better way to avoid down casting here.
+    TextureDX9 * const newTextureDX9 = dynamic_cast< TextureDX9 * >( newTexture );
+    const HRESULT hr = effect_->SetTexture( getHandleDX9(), newTextureDX9->getTextureDX9() );
+    RETURN_FALSE_IF_FAILED( hr, L"EffectShaderVariableDX9Imp::setTexture" );
+    return true;
 }
 
 

@@ -21,6 +21,7 @@ namespace my_render_win32_dx9_imp {
     class SurfaceDX9Imp;
 
     class VertexBufferDX9Imp;
+    class TextureDX9Imp;
     class EffectShaderDX9Imp;
     class EffectShaderVariableDX9Imp;
     class EffectShaderVariableBlockDX9Imp;
@@ -37,6 +38,7 @@ namespace my_render_win32_dx9_imp {
     MY_SMART_PTR( SurfaceLockedRectDX9Imp );
 
     MY_SMART_PTR( VertexBufferDX9Imp );
+    MY_SMART_PTR( TextureDX9Imp );
     MY_SMART_PTR( EffectShaderDX9Imp );
     MY_SMART_PTR( EffectShaderVariableDX9Imp );
     MY_SMART_PTR( EffectShaderVariableBlockDX9Imp );
@@ -54,6 +56,7 @@ namespace my_render_win32_dx9_imp {
 #include "SurfaceDX9Imp.h"
 
 #include "VertexBufferDX9Imp.h"
+#include "TextureDX9Imp.h"
 #include "EffectShaderDX9Imp.h"
 #include "EffectShaderVariableDX9Imp.h"
 #include "EffectShaderVariableBlockDX9Imp.h"

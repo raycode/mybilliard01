@@ -11,6 +11,18 @@ MY_INTERFACE EffectShaderVariable : EXTENDS_INTERFACE( ShaderVariable ) {
 
     virtual bool hasAnnotationByName( wstring name ) PURE;
 
+public: // releaser
+
+    struct Releaser {
+    public:
+        void operator()( EffectShaderAnnotation * anno ) {
+            owner_->releaseShaderAnnotation( anno );
+        }
+
+    public: Releaser( EffectShaderVariable * owner ) : owner_( owner ) {}
+    private: EffectShaderVariable * const owner_;
+    };
+
 };
 
 
