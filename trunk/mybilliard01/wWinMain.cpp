@@ -24,7 +24,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     ApplicationWin32 * const app = new ApplicationWin32Imp();
     {
         MyRenderEventListenerImp * renderEvent = new MyRenderEventListenerImp(
-            L"..\\asset\\table.triangles.dae",
+            L"..\\asset\\table.dae",
             L"..\\asset\\table.physx.xml"
         );
 

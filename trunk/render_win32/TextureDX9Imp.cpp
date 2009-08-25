@@ -31,6 +31,12 @@ LPDIRECT3DTEXTURE9 TextureDX9Imp::getTextureDX9() {
     return textureDX9_.get();
 }
 
+bool TextureDX9Imp::isFromFile() {
+    return true;
+}
+wstring TextureDX9Imp::getFilename() {
+    return filename_;
+}
 
 
 }

@@ -155,8 +155,7 @@ EffectShaderVariableBlock * EffectShaderDX9Imp::createVariableBlock( EffectShade
     return &*newBlock;
 }
 
-size_t EffectShaderDX9Imp::getNumberOfVariables()
-{
+size_t EffectShaderDX9Imp::getNumberOfVariables() {
     return effectDesc_.Parameters;
 }
 
@@ -171,6 +170,7 @@ RenderBufferFactory * EffectShaderDX9Imp::getRenderBufferFactory() {
 void EffectShaderDX9Imp::acquireTextures()
 {
     DirectoryHelper::ChangeDirectory changePath( getFilename() );
+
     for( size_t i = 0; i < getNumberOfVariables(); ++i )
     {
         EffectShaderVariablePtr textureVariable = EffectShaderVariablePtr( createEffectVariableByIndex( i ), Shader::Releaser( this ) );

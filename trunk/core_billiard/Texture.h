@@ -5,8 +5,8 @@ namespace my_render {
 MY_INTERFACE Texture {
     virtual ~Texture() {}
 
-    enum FilterType {
-    };
+    virtual bool isFromFile() PURE;
+    virtual wstring getFilename() PURE;
 
 };
 
