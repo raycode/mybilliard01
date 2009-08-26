@@ -45,13 +45,13 @@ bool SceneImp::load( wstring filename ) {
     storeFilename( filename );
 
     loadUpAxis( collada_ );
-    loadLibraryImagesArray();
-    loadLibraryCameraArray();
-    loadLibraryEffectsArray();
-    loadLibraryMaterialsArray();
-    loadLibraryAnimationsArray();
-    loadLibraryGeometriesArray();
-    loadLibraryVisualScenesArray();
+    loadLibraryAnimations();
+    loadLibraryAnimationClips();
+    loadLibraryCameras();
+    loadLibraryControllers();
+    loadLibraryLights();
+    loadLibraryGeometries();
+    loadLibraryVisualScenes();
     loadLibraryScene();
     setDefaultsAfterLoad();
 
@@ -114,11 +114,15 @@ daeElementRef SceneImp::idLookup( wstring id )
     return dae_->getDatabase()->idLookup( convertString( id ), collada_->getDocument() );
 }
 
-void SceneImp::loadLibraryImagesArray() {
+void SceneImp::loadLibraryAnimations() {
     // TODO
 }
 
-void SceneImp::loadLibraryCameraArray() {
+void SceneImp::loadLibraryAnimationClips() {
+    // TODO
+}
+
+void SceneImp::loadLibraryCameras() {
     MY_FOR_EACH_COLLADA( domLibrary_cameras, cameras, collada_->getLibrary_cameras_array() ) {
         MY_FOR_EACH_COLLADA( domCamera, camera, (*cameras)->getCamera_array() ) {
 
@@ -133,19 +137,15 @@ void SceneImp::loadLibraryCameraArray() {
     }
 }
 
-void SceneImp::loadLibraryEffectsArray() {
+void SceneImp::loadLibraryControllers() {
     // TODO
 }
 
-void SceneImp::loadLibraryMaterialsArray() {
+void SceneImp::loadLibraryLights() {
     // TODO
 }
 
-void SceneImp::loadLibraryAnimationsArray() {
-    // TODO
-}
-
-void SceneImp::loadLibraryVisualScenesArray() {
+void SceneImp::loadLibraryVisualScenes() {
     MY_FOR_EACH_COLLADA( domLibrary_visual_scenes, vscenes, collada_->getLibrary_visual_scenes_array() ) {
         MY_FOR_EACH_COLLADA( domVisual_scene, vscene, (*vscenes)->getVisual_scene_array() ) {
 
@@ -161,7 +161,7 @@ void SceneImp::loadLibraryVisualScenesArray() {
     }
 }
 
-void SceneImp::loadLibraryGeometriesArray() {
+void SceneImp::loadLibraryGeometries() {
     MY_FOR_EACH_COLLADA( domLibrary_geometries, geoes, collada_->getLibrary_geometries_array() ) {
         MY_FOR_EACH_COLLADA( domGeometry, geo, (*geoes)->getGeometry_array() ) {
 

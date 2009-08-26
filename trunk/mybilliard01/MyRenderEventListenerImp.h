@@ -42,17 +42,17 @@ private: // camera
     const bool bRightHandHardware_;
 
 private: // effect
-    ToRender * createToRender( Node * node, RenderBufferFactory * renderFactory );
-    void findLights( EffectShader * effect);
-    ShaderVariable * getLight( wstring name );
+    EffectShaderFeeder * createToRender( Node * node, RenderBufferFactory * renderFactory );
+    void findSharedVariables( EffectShader * effect);
+    ShaderVariable * getSharedVariable( wstring name );
 
-    typedef list< ToRenderPtr > ToRenders;
-    ToRenders toRenders_;
+    typedef list< EffectShaderFeederPtr > EffectShaderFeeders;
+    EffectShaderFeeders feeders_;
 
-    ToRenderNull nullToRender_;
+    EffectShaderFeederNull nullToRender_;
 
-    typedef map< wstring, ShaderVariable * > SharedLights;
-    SharedLights sharedLights_;
+    typedef map< wstring, ShaderVariablePtr > SharedVariables;
+    SharedVariables sharedVariables_;
 
 };
 

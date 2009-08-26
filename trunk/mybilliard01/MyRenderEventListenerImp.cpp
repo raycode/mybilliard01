@@ -47,7 +47,7 @@ void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
 
 void MyRenderEventListenerImp::initEffectLights() {
     const float light0_position[] = { -40.f, 0.f, 80.f, 1.f };
-    getLight( L"Light0_Position" )->setFloatArray( light0_position, 4u );
+    getSharedVariable( L"Light0_Position" )->setFloatArray( light0_position, 4u );
 }
 
 void MyRenderEventListenerImp::displayReset( int x, int y, int width, int height ) {
@@ -92,7 +92,7 @@ void MyRenderEventListenerImp::updateEffect( float elapsedTime )
 {
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
-        ToRender * const toRender = (ToRender *) (actor->userData);
+        EffectShaderFeeder * const toRender = (EffectShaderFeeder *) (actor->userData);
         toRender->updateMatrix( actor, cameraPos_, cameraDir_,
             matrixProjection_, matrixView_, matrixProjectionView_ );
     }
@@ -106,7 +106,7 @@ void MyRenderEventListenerImp::display( Render * render ) {
     {
         render->setRenderState()->setWireframe()->setSolid();
         render->setRenderState()->setCull()->setClockWise();
-        MY_FOR_EACH_MOD( ToRenders, iter, toRenders_ )
+        MY_FOR_EACH_MOD( EffectShaderFeeders, iter, feeders_ )
             (*iter)->display();
     }
     DXUT_EndPerfEvent();

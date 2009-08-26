@@ -2,53 +2,42 @@
 #include "my_app.h"
 
 
-ToRender * MyRenderEventListenerImp::createToRender( Node * node, RenderBufferFactory * renderFactory )
+EffectShaderFeeder * MyRenderEventListenerImp::createToRender( Node * node, RenderBufferFactory * renderFactory )
 {
     if( NULL == node ) return & nullToRender_;
     const wstring nodeName = node->getName();
 
     const wstring effectFilename = ConstEffectFilename::getEffectFilenameByNodeName( nodeName );
-    EffectShader * const effect = renderFactory->createEffectShader( effectFilename );
+    EffectShaderPtr const effect = EffectShaderPtr( renderFactory->createEffectShader( effectFilename ), RenderBufferFactory::Releaser( renderFactory ) );
     assert( effect );
     if( NULL == effect ) return & nullToRender_;
 
-    ToRender * newToRender = NULL;
-    if( effectFilename == ToRenderImp_RenderMonkey::effectFilename ) {
-        newToRender = new ToRenderImp_RenderMonkey( node, effect, renderFactory );
-    } else {
-        newToRender = new ToRenderImp( node, effect );
-    }
-    
-    toRenders_.push_back( ToRenderPtr( newToRender ) );
+    EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( node, effect, renderFactory ) );
+    feeders_.push_back( newFeeder );
 
-    findLights( effect );
-
-    return newToRender;
+    findSharedVariables( effect.get() );
+    return newFeeder.get();
 }
 
-void MyRenderEventListenerImp::findLights( EffectShader * effect ) {
+void MyRenderEventListenerImp::findSharedVariables( EffectShader * effect ) {
 
-    const wchar_t * names[] = {
-        L"Light0_Position",
-        L"Light1_Position" };
+    const size_t nVariables = effect->getNumberOfVariables();
 
-    for( size_t i = 0; i < sizeof( names ) / sizeof( wchar_t * ); ++i )
+    for( size_t i = 0; i < nVariables; ++i )
     {
-        const wstring name = names[ i ];
-        if( false == effect->hasVariableByName( name ) ) continue;
-        if( sharedLights_.find( name ) != sharedLights_.end() ) continue;
+        EffectShaderVariablePtr const sharedVariable = ShaderVariablePtr( effect->createEffectVariableByIndex( i ), Shader::Releaser( effect ) );
+        if( false == sharedVariable->isShared() ) continue;
 
-        ShaderVariable * const newLight = effect->createVariableByName( name );
-        sharedLights_.insert( SharedLights::value_type( name, newLight ) );
+        const wstring variableName = sharedVariable->getVariableName();
+        if( sharedVariables_.find( variableName ) != sharedVariables_.end() ) continue;
+
+        sharedVariables_.insert( SharedVariables::value_type( variableName, sharedVariable ) );
     }
 }
 
-ShaderVariable * MyRenderEventListenerImp::getLight( wstring name ) {
-    SharedLights::const_iterator iter = sharedLights_.find( name );
-    if( sharedLights_.end() == iter ) {
-        assert( L"light not found." && false );
-        return NULL;
-    }
-    return iter->second;
+ShaderVariable * MyRenderEventListenerImp::getSharedVariable( wstring name ) {
+    SharedVariables::const_iterator iter = sharedVariables_.find( name );
+    if( sharedVariables_.end() == iter ) return NULL;
+    return iter->second.get();
 }
 

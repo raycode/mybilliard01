@@ -11,6 +11,8 @@ MY_INTERFACE EffectShaderVariable : EXTENDS_INTERFACE( ShaderVariable ) {
 
     virtual bool hasAnnotationByName( wstring name ) PURE;
 
+    virtual bool isShared() PURE;
+
 public: // releaser
 
     struct Releaser {

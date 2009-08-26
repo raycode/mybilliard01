@@ -33,13 +33,13 @@ public:
 
 private: // load
     bool loadUpAxis( domCOLLADARef collada );
-    void loadLibraryImagesArray();
-    void loadLibraryCameraArray();
-    void loadLibraryEffectsArray();
-    void loadLibraryMaterialsArray();
-    void loadLibraryAnimationsArray();
-    void loadLibraryGeometriesArray();
-    void loadLibraryVisualScenesArray();
+    void loadLibraryAnimations();
+    void loadLibraryAnimationClips();
+    void loadLibraryCameras();
+    void loadLibraryControllers();
+    void loadLibraryLights();
+    void loadLibraryGeometries();
+    void loadLibraryVisualScenes();
     void loadLibraryScene();
 
     void loadNodesFromVisualScene( Node * node );
