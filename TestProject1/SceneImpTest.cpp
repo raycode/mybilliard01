@@ -123,8 +123,8 @@ public:
     [TestMethod]
     void SetColladaFactory() {
         ColladaFactoryPtr factory = ColladaFactoryPtr( new ColladaFactoryImp() );
-        scene->setColladaFactoryBeforeLoad( &*factory );
-        assertTrue( &*factory == PRIVATE_METHOD( SceneImp, colladaFactory_ )( scene ) );
+        scene->setColladaFactoryBeforeLoad( factory.get() );
+        assertTrue( factory.get() == PRIVATE_METHOD( SceneImp, colladaFactory_ )( scene ) );
     }
 
     [TestMethod]

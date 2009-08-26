@@ -91,7 +91,7 @@ struct ComReleaser
 template< typename T1, typename T2 >
 static bool remove_only_one_pointer( T1 & aList, T2 val ) {
     for( T1::const_iterator iter = aList.begin(); iter != aList.end(); ++iter ) {
-        if( val != &**iter ) continue;
+        if( val != iter->get() ) continue;
         aList.erase( iter );
         return true;
     }

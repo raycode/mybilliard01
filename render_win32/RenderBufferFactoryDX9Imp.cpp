@@ -8,10 +8,15 @@ RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevic
 , bNeedToUpdate_( false )
 {    
     if( NULL == d3dDevice ) throw exception();
+}
 
+void RenderBufferFactoryDX9Imp::acquireEffectPool() {
     LPD3DXEFFECTPOOL d3dEffectPool;
     D3DXCreateEffectPool( & d3dEffectPool );
     d3dEffectPool_ = ID3DXEffectPoolPtr( d3dEffectPool, ComReleaser< ID3DXEffectPool >() );
+}
+void RenderBufferFactoryDX9Imp::releaseEffectPool() {
+    d3dEffectPool_.reset();
 }
 
 void RenderBufferFactoryDX9Imp::pushBackToReadyQueue( int resourceType, ReleasableResourceDX9Ptr newResource ) {
@@ -32,7 +37,7 @@ Surface * RenderBufferFactoryDX9Imp::getBackBuffer( size_t whichBackBuffer ) {
 
     SurfaceDX9Ptr newSurface = SurfaceDX9Ptr( new SurfaceDX9Imp( newDXSurface ) );
     pushBackToActiveQueue( E_SURFACES, newSurface );
-    return &*newSurface;
+    return newSurface.get();
 }
 
 bool RenderBufferFactoryDX9Imp::destroy( ReleasableResourceDX9 * victim )
@@ -52,6 +57,7 @@ void RenderBufferFactoryDX9Imp::destroyAll() {
             resources_[ ( SIZE_OF_RESOURCETYPES - 1 ) - i ][ j ].clear();
         }    
     }
+    releaseEffectPool();
 }
 
 bool RenderBufferFactoryDX9Imp::destroyEffectShader( EffectShader * victim ) {
@@ -70,11 +76,10 @@ bool RenderBufferFactoryDX9Imp::destroyTexture( Texture * victim ) {
     return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
 }
 
-void RenderBufferFactoryDX9Imp::init( RenderBufferFactory * ) {
-    acquireResources();
+void RenderBufferFactoryDX9Imp::init() {
 }
 
-void RenderBufferFactoryDX9Imp::displayReset( int x, int y, int width, int height ) {
+void RenderBufferFactoryDX9Imp::displayReset( RenderBufferFactory *, int x, int y, int width, int height ) {
     acquireResources();
 }
 
@@ -88,6 +93,7 @@ void RenderBufferFactoryDX9Imp::displayLost() {
     releaseResourceByType( E_SURFACES );
     releaseResourceByType( E_DYNAMIC_VERTICES );
     releaseResourceByType( E_STATIC_VERTICES );
+    releaseEffectPool();
 }
 
 void RenderBufferFactoryDX9Imp::destroy() {
@@ -99,6 +105,7 @@ void RenderBufferFactoryDX9Imp::acquireResources()
     if( false == bNeedToUpdate_ ) return;
     bNeedToUpdate_ = false;
 
+    if( NULL == d3dEffectPool_ ) acquireEffectPool();
     for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i )
         acquireResourcesByType( i );
 }

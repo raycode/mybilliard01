@@ -55,13 +55,11 @@ private:
 
 private: // variables
     typedef list < ReleasableEffectResourceDX9Ptr > EffectVariables;
-    MY_SMART_PTR( EffectVariables );
-    EffectVariablesPtr effectVariables_;
+    EffectVariables effectVariables_;
 
 private: // texture
     typedef list< TexturePtr > BorrowedTextures;
-    MY_SMART_PTR( BorrowedTextures );
-    BorrowedTexturesPtr borrwoedTextures_;
+    BorrowedTextures borrwoedTextures_;
 };
 
 

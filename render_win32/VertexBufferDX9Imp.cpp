@@ -85,11 +85,11 @@ LPDIRECT3DDEVICE9 VertexBufferDX9Imp::getD3D9Device() {
 }
 
 LPDIRECT3DVERTEXDECLARATION9 VertexBufferDX9Imp::getVertexDeclarationDX9() {
-    return &*vertexDeclarationDX9_;
+    return vertexDeclarationDX9_.get();
 }
 
 LPDIRECT3DVERTEXBUFFER9 VertexBufferDX9Imp::getVertexBufferDX9() {
-    return &*vertexBufferDX9_;
+    return vertexBufferDX9_.get();
 }
 
 size_t VertexBufferDX9Imp::getNumberOfVertex()

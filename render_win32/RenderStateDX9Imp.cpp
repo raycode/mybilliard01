@@ -12,22 +12,22 @@ RenderStateDX9Imp::RenderStateDX9Imp( LPDIRECT3DDEVICE9 d3d9Device )
 
 const RenderState_Wireframe * RenderStateDX9Imp::getWireframe() const
 {
-    return &*wireframe_;
+    return wireframe_.get();
 }
 
 RenderState_Wireframe * RenderStateDX9Imp::setWireframe()
 {
-    return &*wireframe_;
+    return wireframe_.get();
 }
 
 const RenderState_Cull * RenderStateDX9Imp::getCull() const
 {
-    return &*cull_;
+    return cull_.get();
 }
 
 RenderState_Cull * RenderStateDX9Imp::setCull()
 {
-    return &*cull_;
+    return cull_.get();
 }
 
 

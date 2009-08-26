@@ -52,7 +52,7 @@ Instance * ColladaFactoryImp::createInstance( wstring url ) {
 
 bool ColladaFactoryImp::destroyInstance( Instance * ptr ) {
     MY_FOR_EACH( Instances, iter, instances_ ) {
-        if( &**iter != ptr ) continue;
+        if( iter->get() != ptr ) continue;
         instances_.erase( iter );
         return true;
     }

@@ -99,7 +99,7 @@ void RenderWin32DX9Imp::showCursor( bool val ) {
 }
 
 RenderBufferFactoryDX9 * RenderWin32DX9Imp::getBufferFactory() {
-    return &*bufferFactory_;
+    return bufferFactory_.get();
 }
 
 void RenderWin32DX9Imp::setBufferFactory( RenderBufferFactoryDX9Ptr factory ) {
@@ -126,8 +126,8 @@ HRESULT RenderWin32DX9Imp::s_init( IDirect3DDevice9* pd3dDevice, const D3DSURFAC
     render->setBufferFactory( RenderBufferFactoryDX9Ptr( new RenderBufferFactoryDX9Imp( pd3dDevice ) ) );
     render->setRenderState( RenderStatePtr( new RenderStateDX9Imp( pd3dDevice ) ) );
 
-    render->eventListener_->init( render->getBufferFactory() );
-    render->getBufferFactory()->init( NULL );
+    render->eventListener_->init();
+    render->getBufferFactory()->init();
 
     return S_OK;
 }
@@ -139,8 +139,8 @@ HRESULT RenderWin32DX9Imp::s_displayReset( IDirect3DDevice9* pd3dDevice, const D
     RenderWin32DX9Imp * const render = (RenderWin32DX9Imp*) pUserContext;
     const RECT rc = DXUTGetWindowClientRect();
 
-    render->eventListener_->displayReset( rc.left, rc.top, pBackBufferSurfaceDesc->Width, pBackBufferSurfaceDesc->Height );
-    render->getBufferFactory()->displayReset( rc.left, rc.top, pBackBufferSurfaceDesc->Width, pBackBufferSurfaceDesc->Height );
+    render->getBufferFactory()->displayReset( NULL, rc.left, rc.top, pBackBufferSurfaceDesc->Width, pBackBufferSurfaceDesc->Height );
+    render->eventListener_->displayReset( render->getBufferFactory(), rc.left, rc.top, pBackBufferSurfaceDesc->Width, pBackBufferSurfaceDesc->Height );
 
     return S_OK;
 }
@@ -298,12 +298,12 @@ void RenderWin32DX9Imp::setRenderState( RenderStatePtr renderState )
 
 const RenderState * RenderWin32DX9Imp::getRenderState() const
 {
-    return &*renderState_;
+    return renderState_.get();
 }
 
 RenderState * RenderWin32DX9Imp::setRenderState()
 {
-    return &*renderState_;
+    return renderState_.get();
 }
 
 }

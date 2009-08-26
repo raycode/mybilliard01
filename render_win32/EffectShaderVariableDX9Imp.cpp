@@ -53,7 +53,7 @@ bool EffectShaderVariableDX9Imp::acquireResource() {
     effect_->GetParameterDesc( handle_, &desc_ );
 
     MY_FOR_EACH( NestedVariables, iter, nestedVariables_ )
-        activateNestedVariable( &**iter );
+        activateNestedVariable( iter->get() );
 
     return true;
 }
@@ -95,34 +95,34 @@ bool EffectShaderVariableDX9Imp::hasAnnotationByName( wstring anno ) {
 
 ShaderVariable * EffectShaderVariableDX9Imp::createNestedVariableByIndex( size_t index ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( ESEARCH_BY_INDEX, index, this ), ReleasableResourceDX9::Releaser() );
-    if( false == activateNestedVariable( &*newVariable ) ) return NULL;
+    if( false == activateNestedVariable( newVariable.get() ) ) return NULL;
     nestedVariables_.push_back( newVariable );
-    return &*newVariable;
+    return newVariable.get();
 }
 ShaderVariable * EffectShaderVariableDX9Imp::createNestedVariableByName( wstring name ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( ESEARCH_BY_NAME, name, this ), ReleasableResourceDX9::Releaser() );
-    if( false == activateNestedVariable( &*newVariable ) ) return NULL;
+    if( false == activateNestedVariable( newVariable.get() ) ) return NULL;
     nestedVariables_.push_back( newVariable );
-    return &*newVariable;
+    return newVariable.get();
 }
 ShaderVariable * EffectShaderVariableDX9Imp::createNestedVariableBySemantic( wstring semantic ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( ESEARCH_BY_SEMANTIC, semantic, this ), ReleasableResourceDX9::Releaser() );
-    if( false == activateNestedVariable( &*newVariable ) ) return NULL;
+    if( false == activateNestedVariable( newVariable.get() ) ) return NULL;
     nestedVariables_.push_back( newVariable );
-    return &*newVariable;
+    return newVariable.get();
 }
 
 EffectShaderAnnotation * EffectShaderVariableDX9Imp::createAnnotationByIndex( size_t index ) {
     EffectShaderAnnotationDX9Ptr newAnno = EffectShaderAnnotationDX9Ptr( new EffectShaderAnnotationDX9Imp( index, this ), ReleasableResourceDX9::Releaser() );
-    if( false == activateNestedVariable( &*newAnno ) ) return NULL;
+    if( false == activateNestedVariable( newAnno.get() ) ) return NULL;
     nestedVariables_.push_back( newAnno );
-    return &*newAnno;
+    return newAnno.get();
 }
 EffectShaderAnnotation * EffectShaderVariableDX9Imp::createAnnotationByName( wstring name ) {
     EffectShaderAnnotationDX9Ptr newAnno = EffectShaderAnnotationDX9Ptr( new EffectShaderAnnotationDX9Imp( name , this ), ReleasableResourceDX9::Releaser() );
-    if( false == activateNestedVariable( &*newAnno ) ) return NULL;
+    if( false == activateNestedVariable( newAnno.get() ) ) return NULL;
     nestedVariables_.push_back( newAnno );
-    return &*newAnno;
+    return newAnno.get();
 }
 
 const D3DXPARAMETER_DESC & EffectShaderVariableDX9Imp::getParameterDesc() {

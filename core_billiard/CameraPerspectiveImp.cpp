@@ -29,25 +29,31 @@ void CameraPerspectiveImp::getProjectionMatrix44( float * returnMatrix44, bool b
     = columnMajor[ 8 ] = columnMajor[ 9 ]
     = columnMajor[ 12 ] = columnMajor[ 13 ] = columnMajor[ 15 ] = 0.f;
 
+    if( 0.f == getAspect() ) throw exception();
+
     const float yScale = 1.f / tan( getYFov() / 180.f * 3.141592f / 2.f );
     const float xScale = yScale / getAspect();
 
     columnMajor[ 0 ] = xScale;
     columnMajor[ 5 ] = yScale;
 
+    const float denominator = getZNear() - getZFar();
+    if( 0.f == denominator ) throw exception();
+
     if( bRightHand ) {
-        columnMajor[ 10 ] = getZFar() / ( getZNear() - getZFar() );
+        columnMajor[ 10 ] = getZFar() / denominator;
         columnMajor[ 11 ] = -1.f;
-        columnMajor[ 14 ] = getZNear() * getZFar() / ( getZNear() - getZFar() );
+        columnMajor[ 14 ] = getZNear() * getZFar() / denominator;
 
     } else {
-        columnMajor[ 10 ] = getZFar() / ( getZFar() - getZNear() );
+        columnMajor[ 10 ] = getZFar() / - denominator;
         columnMajor[ 11 ] = 1.f;
-        columnMajor[ 14 ] = - getZNear() * getZFar() / ( getZFar() - getZNear() );
+        columnMajor[ 14 ] = - getZNear() * getZFar() / - denominator;
 
     }
 
-    memcpy( returnMatrix44, columnMajor, sizeof( columnMajor ) );
+    assert( sizeof( columnMajor ) == sizeof(float) * 16 );
+    memcpy( (unsigned char *) returnMatrix44, (unsigned char *) columnMajor, sizeof( columnMajor ) );
 
     if( bRowMajor ) {
         returnMatrix44[ 11 ] = columnMajor[ 14 ];

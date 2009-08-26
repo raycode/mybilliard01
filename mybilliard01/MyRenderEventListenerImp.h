@@ -5,8 +5,8 @@ class MyRenderEventListenerImp
     : IMPLEMENTS_INTERFACE( RenderEventListener )
 {
 public: // from RenderEventListener
-    virtual void init( RenderBufferFactory * ) OVERRIDE;
-    virtual void displayReset( int x, int y, int width, int height ) OVERRIDE;
+    virtual void init() OVERRIDE;
+    virtual void displayReset( RenderBufferFactory *, int x, int y, int width, int height ) OVERRIDE;
     virtual void update( RenderBufferFactory *, float elapsedTime ) OVERRIDE;
     virtual void display( Render * ) OVERRIDE;
     virtual void displayLost() OVERRIDE;
@@ -42,7 +42,7 @@ private: // camera
     const bool bRightHandHardware_;
 
 private: // effect
-    EffectShaderFeeder * createToRender( Node * node, RenderBufferFactory * renderFactory );
+    EffectShaderFeeder * createEffectFeeder( Node * node, RenderBufferFactory * renderFactory );
     void findSharedVariables( EffectShader * effect);
     ShaderVariable * getSharedVariable( wstring name );
 

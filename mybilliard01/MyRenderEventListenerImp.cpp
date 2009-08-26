@@ -17,14 +17,18 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 
 void MyRenderEventListenerImp::initCamera( NxVec3 pos, NxVec3 dir ) {
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    camera_ = MyCameraPtr( new MyCamera( colladaCamera, &*phys_, pos, dir, bRightHandHardware_ ) );
+    camera_ = MyCameraPtr( new MyCamera( colladaCamera, phys_.get(), pos, dir, bRightHandHardware_ ) );
     camera_->setMovementToFixedHeight( pos.z );
 }
 
-void MyRenderEventListenerImp::init( RenderBufferFactory * renderFactory )
+void MyRenderEventListenerImp::init()
 {
+}
+
+void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory, int x, int y, int width, int height ) {
     initEffect( renderFactory );
     scene_->setRenderFactory( renderFactory );
+    updateCameraProjection( (float) width / (float) height );
 }
 
 void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
@@ -33,13 +37,14 @@ void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
     _snwprintf_s( tmp, 256, L"%d physics actors are found\n", phys_->getNumberOfActors() );
     OutputDebugStr( tmp );
 
+    feeders_.clear();
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
 
         const wstring nodeName = convertString( actor->getName() );
         Node * const node = scene_->getNode( nodeName );
 
-        actor->userData = createToRender( node, renderFactory );
+        actor->userData = createEffectFeeder( node, renderFactory );
     }
 
     initEffectLights();
@@ -48,10 +53,6 @@ void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
 void MyRenderEventListenerImp::initEffectLights() {
     const float light0_position[] = { -40.f, 0.f, 80.f, 1.f };
     getSharedVariable( L"Light0_Position" )->setFloatArray( light0_position, 4u );
-}
-
-void MyRenderEventListenerImp::displayReset( int x, int y, int width, int height ) {
-    updateCameraProjection( (float) width / (float) height );
 }
 
 void MyRenderEventListenerImp::updateCameraProjection( float aspectRatio ) {
@@ -123,5 +124,5 @@ void MyRenderEventListenerImp::destroy()
 }
 
 MyCamera * MyRenderEventListenerImp::getMyCamera() {
-    return &* camera_;
+    return camera_.get();
 }

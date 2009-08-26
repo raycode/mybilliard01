@@ -13,7 +13,7 @@ void GeometryImp::display() {
 }
 
 GeometryMesh * GeometryImp::getMesh() {
-    return &*mesh_;
+    return mesh_.get();
 }
 
 }

@@ -104,8 +104,8 @@ void RenderMonkeySemanticFeeder::updateMatrixForPredefinedSemantic( int whichSem
 
     switch( whichSemantic )
     {
-    case ViewPosition:  memcpy( colMajor44f, cameraPos_.get(), sizeof(NxVec3) ); colMajor44f[3] = 1.f; break;
-    case ViewDirection: memcpy( colMajor44f, cameraDir_.get(), sizeof(NxVec3) ); colMajor44f[3] = 0.f; break;
+    case ViewPosition:  memcpy( (char*)colMajor44f, (char*)cameraPos_.get(), sizeof(NxVec3) ); colMajor44f[3] = 1.f; break;
+    case ViewDirection: memcpy( (char*)colMajor44f, (char*)cameraDir_.get(), sizeof(NxVec3) ); colMajor44f[3] = 0.f; break;
 
     case World:                 matWorld_.GetColumnMajor( colMajor44f ); break;
     case WorldTranspose:        matWorld_.Transpose().GetColumnMajor( colMajor44f ); break;

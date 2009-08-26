@@ -45,7 +45,7 @@ SurfaceLockedRect * SurfaceDX9Imp::lockRect( int left, int top, int right, int b
     }
 
     lockedRect_ = SurfaceLockedRectDX9ImpPtr( new SurfaceLockedRectDX9Imp( dxLockedRect ) );
-    return &*lockedRect_;
+    return lockedRect_.get();
 }
 
 SurfaceLockedRect * SurfaceDX9Imp::lockRect( int flag )

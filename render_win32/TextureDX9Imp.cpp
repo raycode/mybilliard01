@@ -11,11 +11,13 @@ TextureDX9Imp::TextureDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, wstring filename )
 
 bool TextureDX9Imp::acquireResource()
 {
-    LPDIRECT3DTEXTURE9 newTexDX9;
-    const HRESULT hr = D3DXCreateTextureFromFile( getD3D9Device(), filename_.c_str(), & newTexDX9 );
-    RETURN_FALSE_IF_FAILED( hr, L"TextureDX9Imp::acquireResource" );
+    if( NULL == textureDX9_ ) {
+        LPDIRECT3DTEXTURE9 newTexDX9;
+        const HRESULT hr = D3DXCreateTextureFromFileEx( getD3D9Device(), filename_.c_str(), D3DX_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0, NULL, NULL, & newTexDX9 );
+        RETURN_FALSE_IF_FAILED( hr, L"TextureDX9Imp::acquireResource" );
 
-    textureDX9_ = IDirect3DTexture9Ptr( newTexDX9, ComReleaser< IDirect3DTexture9 >() );
+        textureDX9_ = IDirect3DTexture9Ptr( newTexDX9, ComReleaser< IDirect3DTexture9 >() );
+    }
     return true;
 }
 

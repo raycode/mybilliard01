@@ -51,14 +51,14 @@ bool GeometryFactoryImp::isAlreadyCreated( wstring id ) {
 Geometry * GeometryFactoryImp::find( wstring id ) {
     MY_FOR_EACH( Geometries, iter, geometries_ ) {
         if( (*iter)->getID() != id ) continue;
-        return &**iter;
+        return iter->get();
     }
     return NULL;
 }
 
 bool GeometryFactoryImp::destroyGeometry( Geometry * ptr ) {
     MY_FOR_EACH( Geometries, iter, geometries_ ) {
-        if( (&**iter) != ptr ) continue;
+        if( iter->get() != ptr ) continue;
 
         GeometryMesh * const mesh = (*iter)->getMesh();
         const size_t numberOfPrimitives = mesh->getNumberOfPrimitives();
@@ -96,7 +96,7 @@ GeometryMeshPrimitiveImp * GeometryFactoryImp::createGeometryMeshPrimitive( wstr
 
 bool GeometryFactoryImp::destroyGeometryMeshPrimitive( GeometryMeshPrimitive * ptr ) {
     MY_FOR_EACH( Primitives, iter, primitives_ ) {
-        if( (&**iter) != ptr ) continue;
+        if( iter->get() != ptr ) continue;
         primitives_.erase( iter );
         return true;
     }
