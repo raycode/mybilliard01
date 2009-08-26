@@ -128,6 +128,9 @@ EffectShaderAnnotation * EffectShaderVariableDX9Imp::createAnnotationByName( wst
 const D3DXPARAMETER_DESC & EffectShaderVariableDX9Imp::getParameterDesc() {
     return desc_;
 }
+bool EffectShaderVariableBlockDX9Imp::isShared() {
+    return getParameterDesc().FLAGS & D3DX_PARAMETER_SHARED;
+}
 wstring EffectShaderVariableDX9Imp::getVariableName() {
     return convertString( getParameterDesc().Name );
 }

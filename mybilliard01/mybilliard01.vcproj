@@ -309,44 +309,28 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="2. ToRenders"
+				Name="2. EffectShaderFeeder"
 				>
 				<File
-					RelativePath=".\ToRender.h"
+					RelativePath=".\EffectShaderFeeder.h"
 					>
 				</File>
 				<File
-					RelativePath=".\ToRenderImp.cpp"
+					RelativePath=".\EffectShaderFeederNull.hpp"
 					>
 				</File>
 				<File
-					RelativePath=".\ToRenderImp.h"
+					RelativePath=".\RenderMonkeySemanticFeeder.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\ToRenderImp_RenderMonkey.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ToRenderImp_RenderMonkey.h"
-					>
-				</File>
-				<File
-					RelativePath=".\ToRenderImp_RenderMonkey_Texture.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ToRenderNull.hpp"
+					RelativePath=".\RenderMonkeySemanticFeeder.h"
 					>
 				</File>
 			</Filter>
 			<Filter
 				Name="1. Main"
 				>
-				<File
-					RelativePath=".\my_app.h"
-					>
-				</File>
 				<File
 					RelativePath=".\MyCamera.cpp"
 					>
@@ -405,6 +389,14 @@
 							PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 						/>
 					</FileConfiguration>
+				</File>
+			</Filter>
+			<Filter
+				Name="9. Package Headers"
+				>
+				<File
+					RelativePath=".\my_app.h"
+					>
 				</File>
 			</Filter>
 		</Filter>

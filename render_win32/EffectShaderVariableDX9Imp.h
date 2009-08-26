@@ -51,6 +51,8 @@ public: // from EffectShaderVariable
 
     virtual bool hasAnnotationByName( wstring name ) OVERRIDE;
 
+    virtual bool isShared() OVERRIDE;
+
 public: // from ShaderVariableHandleDX9
     virtual D3DXHANDLE getHandleDX9() OVERRIDE;
 
