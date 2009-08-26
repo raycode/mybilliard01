@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "test_dx9.h"
 #include "RenderEventListenerDX9_DummyRenderListener.h"
 //----------------------------------------------
 // RenderListenerSMC.cpp

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "test_dx9.h"
 #include "ApplicationWin32Imp_Backdoor.hpp"
 #include "ApplicationWin32ImpTest_DummyRenderWin32.hpp"
 #include "ApplicationWin32ImpTest_DummyKeyboardListener.h"

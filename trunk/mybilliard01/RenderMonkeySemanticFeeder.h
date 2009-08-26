@@ -17,7 +17,7 @@ public: // from EffectShaderFeeder
         const RowMajorMatrix44f & matProjView ) OVERRIDE;
 
 public:
-    RenderMonkeySemanticFeeder( Node *, EffectShader *, RenderBufferFactory * renderFactory );
+    RenderMonkeySemanticFeeder( Node *, EffectShaderPtr );
 
     static const wstring effectFilename;
 
@@ -29,8 +29,7 @@ private: // predefined semantics
 
 private: // input
     Node * const node_;
-    EffectShader * effect_;
-    RenderBufferFactory * const renderFactory_;
+    EffectShaderPtr effect_;
 
 private: // matrices
     NxVec3 cameraPos_, cameraDir_;

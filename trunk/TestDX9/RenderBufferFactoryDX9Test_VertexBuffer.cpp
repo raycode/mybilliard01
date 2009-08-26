@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "test_dx9.h"
 #include "RenderBufferFactoryDX9Imp_Backdoor.hpp"
 
 using namespace System;

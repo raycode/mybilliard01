@@ -8,7 +8,7 @@ RenderBufferFactoryDX9Imp::RenderBufferFactoryDX9Imp( LPDIRECT3DDEVICE9 d3dDevic
 , bNeedToUpdate_( false )
 {    
     if( NULL == d3dDevice ) throw exception();
-}
+}  
 
 void RenderBufferFactoryDX9Imp::acquireEffectPool() {
     LPD3DXEFFECTPOOL d3dEffectPool;
@@ -57,7 +57,6 @@ void RenderBufferFactoryDX9Imp::destroyAll() {
             resources_[ ( SIZE_OF_RESOURCETYPES - 1 ) - i ][ j ].clear();
         }    
     }
-    releaseEffectPool();
 }
 
 bool RenderBufferFactoryDX9Imp::destroyEffectShader( EffectShader * victim ) {
@@ -77,6 +76,7 @@ bool RenderBufferFactoryDX9Imp::destroyTexture( Texture * victim ) {
 }
 
 void RenderBufferFactoryDX9Imp::init() {
+    if( NULL == d3dEffectPool_ ) acquireEffectPool();
 }
 
 void RenderBufferFactoryDX9Imp::displayReset( RenderBufferFactory *, int x, int y, int width, int height ) {
@@ -93,11 +93,11 @@ void RenderBufferFactoryDX9Imp::displayLost() {
     releaseResourceByType( E_SURFACES );
     releaseResourceByType( E_DYNAMIC_VERTICES );
     releaseResourceByType( E_STATIC_VERTICES );
-    releaseEffectPool();
-}
+ }
 
 void RenderBufferFactoryDX9Imp::destroy() {
     destroyAll();
+    releaseEffectPool();
 }
 
 void RenderBufferFactoryDX9Imp::acquireResources()

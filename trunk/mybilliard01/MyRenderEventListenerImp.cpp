@@ -37,7 +37,6 @@ void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
     _snwprintf_s( tmp, 256, L"%d physics actors are found\n", phys_->getNumberOfActors() );
     OutputDebugStr( tmp );
 
-    feeders_.clear();
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
 
@@ -115,8 +114,9 @@ void MyRenderEventListenerImp::display( Render * render ) {
     render->endScene();
 }   
 
-void MyRenderEventListenerImp::displayLost()
-{
+void MyRenderEventListenerImp::displayLost() {
+    sharedVariables_.clear();
+    feeders_.clear();
 }
 
 void MyRenderEventListenerImp::destroy() 
