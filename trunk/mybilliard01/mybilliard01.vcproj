@@ -303,22 +303,42 @@
 			<Filter
 				Name="2. EffectShaderFeeder"
 				>
-				<File
-					RelativePath=".\EffectShaderFeeder.h"
+				<Filter
+					Name="2. RenderMonkey"
 					>
-				</File>
-				<File
-					RelativePath=".\EffectShaderFeederNull.hpp"
+					<File
+						RelativePath=".\RenderMonkeySemanticFeeder.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderMonkeySemanticFeeder.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderMonkeySemantics.hpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderMonkeySharedSemanticsFeeder.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderMonkeySharedSemanticsFeeder.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="1. Abstract"
 					>
-				</File>
-				<File
-					RelativePath=".\RenderMonkeySemanticFeeder.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\RenderMonkeySemanticFeeder.h"
-					>
-				</File>
+					<File
+						RelativePath=".\EffectShaderFeeder.h"
+						>
+					</File>
+					<File
+						RelativePath=".\EffectShaderFeederNull.hpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="1. Main"

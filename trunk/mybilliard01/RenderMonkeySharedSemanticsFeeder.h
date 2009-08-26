@@ -1,37 +1,24 @@
 #pragma once
 
 
-class RenderMonkeySemanticFeeder
-    : IMPLEMENTS_INTERFACE( EffectShaderFeeder )
-    , IMPLEMENTS_INTERFACE( EffectShaderCallBack )
-{
-public: // from EffectShaderCallBack
-    void displayPass( size_t pass ) OVERRIDE;
-
+class RenderMonkeySharedSemanticsFeeder : IMPLEMENTS_INTERFACE( EffectShaderFeeder ) {
 public: // from EffectShaderFeeder
-    void display() OVERRIDE;
-
+    virtual void display() OVERRIDE {}
     virtual void updateProjection( const RowMajorMatrix44f & matProj ) OVERRIDE;
-
     virtual void updateMatrix(
-        NxActor *,
+        NxActor * mustBeNull,
         const NxVec3 & cameraPos,
         const NxVec3 & cameraDir,
         const RowMajorMatrix44f & matView,
         const RowMajorMatrix44f & matProjView ) OVERRIDE;
 
 public:
-    RenderMonkeySemanticFeeder( Node *, EffectShaderPtr );
+    void appendSharedVariable( ShaderVariable * );
 
 private: // update and set
-    void initPredefinedSemantics();
     void updateMatrixForPredefinedSemantic( int whichSemantic );
     void updateVec4ForPredefinedSemantic( int whichSemantic );
-    void uploadValue( int whichSemantic, size_t count );
-
-private: // input
-    Node * const node_;
-    EffectShaderPtr effect_;
+    void upload( int whichSemantic, size_t count );
 
 private: // input - matrices
     NxVec3 cameraPos_, cameraDir_;
@@ -44,11 +31,8 @@ private: // render monkey semantics
     ActiveSemanticFlags activeSemantics_Matrix_;
     ActiveSemanticFlags activeSemantics_Vec4_;
 
-    bool initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, ActiveSemanticFlags & whereToStore );
+    void setSharedVariable( int whichSemantic, ShaderVariable * var, ActiveSemanticFlags &whereToStore );
 
-private: 
-    typedef float TemporaryStorage[16];
-    TemporaryStorage temporaryStorage16f[ RenderMonkeySemantics::SIZE_OF_SEMANTICS ];
-
+    typedef float PredefinedSemantics_Matrix44f[16];
+    PredefinedSemantics_Matrix44f predefinedSemantics_Matrix44f_[ RenderMonkeySemantics::SIZE_OF_SEMANTICS ];
 };
-

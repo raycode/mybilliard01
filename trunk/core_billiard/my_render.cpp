@@ -11,6 +11,7 @@ namespace my_render {
     RenderStateNull nullRenderState__; 
     RenderState_WireframeNull nullRenderState_Wireframe__; 
     RenderState_CullNull nullRenderState_Cull__; 
+    ShaderVariableNull nullShaderVariable__;
 #endif
 
 }
