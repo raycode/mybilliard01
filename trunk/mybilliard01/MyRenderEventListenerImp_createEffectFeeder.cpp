@@ -2,7 +2,7 @@
 #include "my_app.h"
 
 
-EffectShaderFeeder * MyRenderEventListenerImp::createToRender( Node * node, RenderBufferFactory * renderFactory )
+EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, RenderBufferFactory * renderFactory )
 {
     if( NULL == node ) return & nullToRender_;
     const wstring nodeName = node->getName();

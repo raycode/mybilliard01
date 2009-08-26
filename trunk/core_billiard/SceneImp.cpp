@@ -241,7 +241,7 @@ Geometry * SceneImp::getGeometryByID( wstring id ) {
 
 Geometry * SceneImp::getGeometryByName( wstring name ) {
     MY_FOR_EACH( Geometries, iter, geometries_ )
-        if( name == (*iter)->getName() ) return &**iter;
+        if( name == (*iter)->getName() ) return *iter;
     return NULL;
 }
 
@@ -252,7 +252,7 @@ Camera * SceneImp::getCameraByID( wstring id ) {
 }
 Camera * SceneImp::getCameraByName( wstring name ) {
     MY_FOR_EACH( Cameras, iter, cameras_ )
-        if( name == (*iter)->getName() ) return &**iter;
+        if( name == (*iter)->getName() ) return *iter;
     return NULL;
 }
 

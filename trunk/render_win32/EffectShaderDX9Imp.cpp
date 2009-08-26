@@ -10,8 +10,6 @@ EffectShaderDX9Imp::EffectShaderDX9Imp( LPDIRECT3DDEVICE9 d3dDevice,
 , effectPool_( effectPool )
 , renderFactory_ ( renderFactory )
 , filename_( filename )
-, effectVariables_( new EffectVariables() )
-, borrwoedTextures_( new BorrowedTextures() )
 {
 }
 
@@ -42,17 +40,16 @@ bool EffectShaderDX9Imp::acquireResource()
 
         acquireBestValidTechnique();
         acquireTextures();
+
+        MY_FOR_EACH( EffectVariables, iter, effectVariables_ )
+            activateEffectVariable( iter->get() );
     }
-
-    MY_FOR_EACH( EffectVariables, iter, *effectVariables_ )
-        activateEffectVariable( &**iter );
-
     return true;
 }
 
 void EffectShaderDX9Imp::releaseResource()
 {
-    MY_FOR_EACH( EffectVariables, iter, *effectVariables_ )
+    MY_FOR_EACH( EffectVariables, iter, effectVariables_ )
         (*iter)->releaseResource();
 
     effect_.reset();
@@ -61,7 +58,7 @@ void EffectShaderDX9Imp::releaseResource()
 bool EffectShaderDX9Imp::activateEffectVariable( ReleasableEffectResourceDX9 * var ) {
     assert( var );
     if( NULL == effect_ ) return false;
-    var->setEffect( &*effect_ );
+    var->setEffect( effect_.get() );
     return var->acquireResource();
 }
 
@@ -77,7 +74,7 @@ bool EffectShaderDX9Imp::acquireBestValidTechnique()
 }
 
 bool EffectShaderDX9Imp::destroyAnyEffectVariable( ReleasableEffectResourceDX9 * var ) {
-    return remove_only_one_pointer< EffectVariables >( *effectVariables_, var );
+    return remove_only_one_pointer< EffectVariables >( effectVariables_, var );
 }
 
 bool EffectShaderDX9Imp::destroyShaderVariable( ShaderVariable * variable ) {
@@ -120,21 +117,21 @@ bool EffectShaderDX9Imp::hasVariableBySemantic( wstring semantic )  {
 
 EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableByIndex( size_t index ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_INDEX, index, NULL ), ReleasableResourceDX9::Releaser() );
-    if( false == activateEffectVariable( &*newVariable ) ) return NULL;
-    effectVariables_->push_back( newVariable );
-    return &*newVariable;
+    if( false == activateEffectVariable( newVariable.get() ) ) return NULL;
+    effectVariables_.push_back( newVariable );
+    return newVariable.get();
 }
 EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableByName( wstring name ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_NAME, name, NULL ), ReleasableResourceDX9::Releaser() );
-    if( false == activateEffectVariable( &*newVariable ) ) return NULL;
-    effectVariables_->push_back( newVariable );
-    return &*newVariable;
+    if( false == activateEffectVariable( newVariable.get() ) ) return NULL;
+    effectVariables_.push_back( newVariable );
+    return newVariable.get();
 }
 EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableBySemantic( wstring semantic ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_SEMANTIC, semantic, NULL ), ReleasableResourceDX9::Releaser() );
-    if( false == activateEffectVariable( &*newVariable ) ) return NULL;
-    effectVariables_->push_back( newVariable );
-    return &*newVariable;
+    if( false == activateEffectVariable( newVariable.get() ) ) return NULL;
+    effectVariables_.push_back( newVariable );
+    return newVariable.get();
 }
 ShaderVariable * EffectShaderDX9Imp::createVariableByIndex( size_t index ) {
     return createEffectVariableByIndex( index );
@@ -152,9 +149,9 @@ EffectShaderVariableBlock * EffectShaderDX9Imp::createVariableBlock( EffectShade
     if( NULL == callBack ) return NULL;
     EffectShaderVariableBlockDX9Ptr newBlock = EffectShaderVariableBlockDX9Ptr( new EffectShaderVariableBlockDX9Imp( this, callBack ), ReleasableResourceDX9::Releaser() );
 
-    if( false == activateEffectVariable( &*newBlock ) ) return NULL;
-    effectVariables_->push_back( newBlock );
-    return &*newBlock;
+    if( false == activateEffectVariable( newBlock.get() ) ) return NULL;
+    effectVariables_.push_back( newBlock );
+    return newBlock.get();
 }
 
 size_t EffectShaderDX9Imp::getNumberOfVariables() {
@@ -190,7 +187,7 @@ void EffectShaderDX9Imp::acquireTextures()
             if( NULL == newTex ) continue;
 
             textureVariable->setTexture( newTex.get() );
-            borrwoedTextures_->push_back( newTex );
+            borrwoedTextures_.push_back( newTex );
             break;
         }
     }

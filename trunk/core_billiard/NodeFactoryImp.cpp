@@ -44,7 +44,7 @@ bool NodeFactoryImp::isAlreadyCreated( wstring id ) {
 
 bool NodeFactoryImp::destroyNode( Node * ptr ) {
     MY_FOR_EACH( Nodes, iter, nodes_ ) {
-        if( (&**iter) != ptr ) continue;
+        if( iter->get() != ptr ) continue;
         nodes_.erase( iter );
         return true;
     }
@@ -58,7 +58,7 @@ Node * NodeFactoryImp::find( wstring id ) {
 NodeImp * NodeFactoryImp::findNode( wstring id ) {
     MY_FOR_EACH( Nodes, iter, nodes_ ) {
         if( (*iter)->getID() != id ) continue;
-        return &**iter;
+        return iter->get();
     }
     return NULL;
 }

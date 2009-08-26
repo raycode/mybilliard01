@@ -20,8 +20,8 @@ public: // from RenderBufferFactory
     virtual bool destroyTexture( Texture * ) OVERRIDE;
 
 public: // from RenderEventListener
-    virtual void init( RenderBufferFactory * ) OVERRIDE;
-    virtual void displayReset( int x, int y, int width, int height ) OVERRIDE;
+    virtual void init() OVERRIDE;
+    virtual void displayReset( RenderBufferFactory *, int x, int y, int width, int height ) OVERRIDE;
     virtual void update( RenderBufferFactory *, float elapsedTime ) OVERRIDE;
     virtual void display( Render * ) OVERRIDE {}
     virtual void displayLost() OVERRIDE;
@@ -43,8 +43,11 @@ private: // resource manage
     void acquireResourcesByType( int resourceType );
     void releaseResourceByType( int resourceType );
 
-    EffectShaderDX9Ptr copyEffectShaderFromAlreadyCreated( wstring filename );
-    TextureDX9Ptr copyTextureFromAlreadyCreated( wstring filename );
+    void acquireEffectPool();
+    void releaseEffectPool();
+
+    EffectShaderDX9Ptr findEffectShaderFromAlreadyCreated( wstring filename );
+    TextureDX9Ptr findTextureFromAlreadyCreated( wstring filename );
 
 
 private:

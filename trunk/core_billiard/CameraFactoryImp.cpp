@@ -71,14 +71,14 @@ bool CameraFactoryImp::readCameraOrthographic( CameraImp * newCamera, domOrthogr
 Camera * CameraFactoryImp::find( wstring id ) {
     MY_FOR_EACH( Cameras, iter, cameras_ ) {
         if( (*iter)->getID() != id ) continue;
-        return &**iter;
+        return iter->get();
     }
     return NULL;
 }
 
 bool CameraFactoryImp::destroyCamera( Camera * camera ) {
     MY_FOR_EACH( Cameras, iter, cameras_ ) {
-        if( (&**iter) != camera ) continue;
+        if( iter->get() != camera ) continue;
         cameras_.erase( iter );
         return true;
     }
