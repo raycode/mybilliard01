@@ -38,7 +38,7 @@ public: // from ShaderVariable
     virtual ShaderVariable * createNestedVariableByIndex( size_t index ) OVERRIDE;
     virtual ShaderVariable * createNestedVariableByName( wstring name ) OVERRIDE;
     virtual ShaderVariable * createNestedVariableBySemantic( wstring semantic ) OVERRIDE;
-    virtual bool releaseNestedVariable( ShaderVariable * nestedVariable ) OVERRIDE;
+    virtual bool destroyNestedVariable( ShaderVariable * nestedVariable ) OVERRIDE;
 
     virtual bool hasNestedVariableByName( wstring name ) OVERRIDE;
     virtual bool hasNestedVariableBySemantic( wstring semantic ) OVERRIDE;
@@ -47,7 +47,7 @@ public: // from EffectShaderVariable
     virtual size_t getNumberOfAnnotations() OVERRIDE;
     virtual EffectShaderAnnotation * createAnnotationByIndex( size_t index ) OVERRIDE;
     virtual EffectShaderAnnotation * createAnnotationByName( wstring name ) OVERRIDE;
-    virtual bool releaseShaderAnnotation( EffectShaderAnnotation * ) OVERRIDE;
+    virtual bool destroyShaderAnnotation( EffectShaderAnnotation * ) OVERRIDE;
 
     virtual bool hasAnnotationByName( wstring name ) OVERRIDE;
 
@@ -69,8 +69,8 @@ public:
     EffectShaderVariableDX9Imp( ESEARCH_BY, size_t index, ShaderVariableHandleDX9 * parent );
 
 private:
-    bool setEffectOntoNestedVariable( ReleasableEffectResourceDX9 * var );
-    bool releaseAnyEffectVariable( ReleasableEffectResourceDX9 * var );
+    bool activateNestedVariable( ReleasableEffectResourceDX9 * var );
+    bool destroyAnyEffectVariable( ReleasableEffectResourceDX9 * var );
     D3DXHANDLE getParentHandleDX9();
     const D3DXPARAMETER_DESC & getParameterDesc();
 

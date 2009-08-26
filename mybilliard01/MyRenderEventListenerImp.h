@@ -51,7 +51,7 @@ private: // effect
 
     EffectShaderFeederNull nullToRender_;
 
-    typedef map< wstring, ShaderVariablePtr > SharedVariables;
+    typedef map< wstring, ShaderVariable * > SharedVariables;
     SharedVariables sharedVariables_;
 
 };

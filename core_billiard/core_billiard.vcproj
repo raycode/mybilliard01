@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="core_billiard"
+	Name="abstract engine"
 	ProjectGUID="{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}"
 	RootNamespace="core_billiard"
 	TargetFrameworkVersion="196613"
@@ -1713,10 +1713,6 @@
 					Name="3. Render"
 					>
 					<File
-						RelativePath=".\Animatable.h"
-						>
-					</File>
-					<File
 						RelativePath=".\Render.h"
 						>
 					</File>
@@ -1738,10 +1734,6 @@
 					</File>
 					<File
 						RelativePath=".\VertexBuffer.h"
-						>
-					</File>
-					<File
-						RelativePath=".\Visible.h"
 						>
 					</File>
 				</Filter>

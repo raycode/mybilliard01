@@ -8,7 +8,7 @@ public: // from Shader
     virtual ShaderVariable * createVariableByIndex( size_t index ) OVERRIDE;
     virtual ShaderVariable * createVariableByName( wstring name ) OVERRIDE;
     virtual ShaderVariable * createVariableBySemantic( wstring semantic ) OVERRIDE;
-    virtual bool releaseShaderVariable( ShaderVariable * ) OVERRIDE;
+    virtual bool destroyShaderVariable( ShaderVariable * ) OVERRIDE;
 
     virtual bool hasVariableByName( wstring name ) OVERRIDE;
     virtual bool hasVariableBySemantic( wstring semantic ) OVERRIDE;
@@ -17,7 +17,7 @@ public: // from EffectShader
     virtual bool renderWithTechnique( EffectShaderCallBack * ) OVERRIDE;
 
     virtual EffectShaderVariableBlock * createVariableBlock( EffectShaderVariableBlockCallBack * ) OVERRIDE;
-    virtual bool releaseShaderVariableBlock( EffectShaderVariableBlock * ) OVERRIDE;
+    virtual bool destroyShaderVariableBlock( EffectShaderVariableBlock * ) OVERRIDE;
 
     virtual EffectShaderVariable * createEffectVariableByIndex( size_t index ) OVERRIDE;
     virtual EffectShaderVariable * createEffectVariableByName( wstring name ) OVERRIDE;
@@ -34,8 +34,8 @@ public:
 
 private: // acquire and release
     bool acquireBestValidTechnique();
-    bool setEffectOntoEffectVariable( ReleasableEffectResourceDX9 * var );
-    bool releaseAnyEffectVariable( ReleasableEffectResourceDX9 * var );
+    bool activateEffectVariable( ReleasableEffectResourceDX9 * var );
+    bool destroyAnyEffectVariable( ReleasableEffectResourceDX9 * var );
 
 private: // texture
     void acquireTextures();

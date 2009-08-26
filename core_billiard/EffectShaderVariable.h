@@ -7,7 +7,7 @@ MY_INTERFACE EffectShaderVariable : EXTENDS_INTERFACE( ShaderVariable ) {
     virtual size_t getNumberOfAnnotations() PURE;
     virtual EffectShaderAnnotation * createAnnotationByIndex( size_t index ) PURE;
     virtual EffectShaderAnnotation * createAnnotationByName( wstring name ) PURE;
-    virtual bool releaseShaderAnnotation( EffectShaderAnnotation * ) PURE;
+    virtual bool destroyShaderAnnotation( EffectShaderAnnotation * ) PURE;
 
     virtual bool hasAnnotationByName( wstring name ) PURE;
 
@@ -15,13 +15,13 @@ MY_INTERFACE EffectShaderVariable : EXTENDS_INTERFACE( ShaderVariable ) {
 
 public: // releaser
 
-    struct Releaser {
+    struct Destroyer {
     public:
         void operator()( EffectShaderAnnotation * anno ) {
-            owner_->releaseShaderAnnotation( anno );
+            owner_->destroyShaderAnnotation( anno );
         }
 
-    public: Releaser( EffectShaderVariable * owner ) : owner_( owner ) {}
+    public: Destroyer( EffectShaderVariable * owner ) : owner_( owner ) {}
     private: EffectShaderVariable * const owner_;
     };
 

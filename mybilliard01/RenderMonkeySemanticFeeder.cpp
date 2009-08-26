@@ -2,7 +2,7 @@
 #include "my_app.h"
 
 
-RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShaderPtr effect, RenderBufferFactory * renderFactory )
+RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShader * effect, RenderBufferFactory * renderFactory )
 : node_( node )
 , effect_( effect )
 , renderFactory_( renderFactory )
@@ -39,6 +39,8 @@ void RenderMonkeySemanticFeeder::updateMatrix(
 
 void RenderMonkeySemanticFeeder::display()
 {
+    //OutputDebugStr( wstring( L"Node name: " + node_->getName() + L"\n" ).c_str() );
+
     MY_FOR_EACH( ActivePredefinedSemantics_Matrix, iter, activePredefinedSemantics_Matrix_ )
         setMatrixForPredefinedSemantic( *iter );
 

@@ -31,13 +31,13 @@ MY_INTERFACE RenderBufferFactory {
 
 public: // releaser
 
-    struct Releaser
+    struct Destroyer
     {
     public:
         void operator()( Texture * texture ) { owner_->destroyTexture( texture ); }
         void operator()( EffectShader * effect ) { owner_->destroyEffectShader( effect ); }
 
-    public: Releaser( RenderBufferFactory * owner ) : owner_( owner ) {}
+    public: Destroyer( RenderBufferFactory * owner ) : owner_( owner ) {}
     private: RenderBufferFactory * const owner_;
     };
 

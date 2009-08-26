@@ -2,20 +2,19 @@
 namespace my_render_win32_imp {
 
 
-    class DirectoryHelper {
+    class FileSystemHelper {
     public:
 
+        static wstring getFullPathnameWithoutFilename( wstring fullname );
+        static wstring getFullname( wstring filename );
+        static bool isFileExist( wstring filename );
+
+    public:
         class ChangeDirectory {
         public:
             ChangeDirectory( wstring filename ) {
                 ::GetCurrentDirectory( sizeof( previousDir_ ), previousDir_ );
-
-                wchar_t newPathname[ MAX_PATH ];
-                wchar_t * filePart;
-                ::GetFullPathName( filename.c_str(), MAX_PATH, newPathname, & filePart );
-                if( NULL != filePart ) filePart[ 0 ] = NULL;
-
-                ::SetCurrentDirectory( newPathname );
+                ::SetCurrentDirectory( getFullPathnameWithoutFilename( filename ).c_str() );
             }
             ~ChangeDirectory() {
                 ::SetCurrentDirectory( previousDir_ );
@@ -24,5 +23,6 @@ namespace my_render_win32_imp {
         private:
             wchar_t previousDir_[ MAX_PATH ];
         };
+
     };
 }

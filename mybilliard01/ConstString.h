@@ -6,11 +6,11 @@ namespace my_utility {
 
     class ConstString {
     public:
+        static wstring dllDirectory();
 	    static wstring windowTitle();
-	    static wstring effectFilename();
 	    static wstring colladaPhysXFilename();
 	    static wstring colladaVisualAssetFilename();
-        static wstring dllDirectory();
+        static wstring effectFilenameByNodeName( wstring nodeName );
     };
 
 }

@@ -39,7 +39,7 @@ MY_INTERFACE ShaderVariable {
     virtual ShaderVariable * createNestedVariableByIndex( size_t index ) PURE;
     virtual ShaderVariable * createNestedVariableByName( wstring name ) PURE;
     virtual ShaderVariable * createNestedVariableBySemantic( wstring semantic ) PURE;
-    virtual bool releaseNestedVariable( ShaderVariable * nestedVariable ) PURE;
+    virtual bool destroyNestedVariable( ShaderVariable * nestedVariable ) PURE;
 
     virtual bool hasNestedVariableByName( wstring name ) PURE;
     virtual bool hasNestedVariableBySemantic( wstring semantic ) PURE;

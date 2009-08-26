@@ -24,7 +24,7 @@ NULL_OBJECT( ShaderVariable ) {
     virtual ShaderVariable * createNestedVariableByIndex( size_t index ) OVERRIDE { return this; }
     virtual ShaderVariable * createNestedVariableByName( wstring name ) OVERRIDE { return this; }
     virtual ShaderVariable * createNestedVariableBySemantic( wstring semantic ) OVERRIDE { return this; }
-    virtual bool releaseNestedVariable( ShaderVariable * nestedVariable ) OVERRIDE { return false; }
+    virtual bool destroyNestedVariable( ShaderVariable * nestedVariable ) OVERRIDE { return false; }
 
 };
 
