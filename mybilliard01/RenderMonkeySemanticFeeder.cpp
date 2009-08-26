@@ -2,10 +2,9 @@
 #include "my_app.h"
 
 
-RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShader * effect, RenderBufferFactory * renderFactory )
+RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShaderPtr effect )
 : node_( node )
 , effect_( effect )
-, renderFactory_( renderFactory )
 {
     assert( node_ );
     assert( effect_ );

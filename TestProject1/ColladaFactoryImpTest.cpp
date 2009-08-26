@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "test_collada.h"
 #include "SceneImp_Backdoor.hpp"
 #include "ColladaFactoryImp_Backdoor.hpp"
 

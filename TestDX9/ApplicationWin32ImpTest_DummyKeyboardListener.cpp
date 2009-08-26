@@ -1,4 +1,5 @@
 #include "Stdafx.h"
+#include "test_dx9.h"
 #include "ApplicationWin32ImpTest_DummyKeyboardListener.h"
 
 DummyKeyboardListener_ApplicationWin32Imp::EachKey::EachKey( unsigned char key, bool down, bool alt )

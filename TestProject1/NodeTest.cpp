@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "test_collada.h"
 
 using namespace System;
 using namespace System::Text;

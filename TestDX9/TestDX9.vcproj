@@ -321,6 +321,10 @@
 				RelativePath=".\stdafx.h"
 				>
 			</File>
+			<File
+				RelativePath=".\test_dx9.h"
+				>
+			</File>
 		</Filter>
 		<Filter
 			Name="Resource Files"

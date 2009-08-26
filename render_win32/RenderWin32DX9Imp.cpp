@@ -126,8 +126,8 @@ HRESULT RenderWin32DX9Imp::s_init( IDirect3DDevice9* pd3dDevice, const D3DSURFAC
     render->setBufferFactory( RenderBufferFactoryDX9Ptr( new RenderBufferFactoryDX9Imp( pd3dDevice ) ) );
     render->setRenderState( RenderStatePtr( new RenderStateDX9Imp( pd3dDevice ) ) );
 
-    render->eventListener_->init();
     render->getBufferFactory()->init();
+    render->eventListener_->init();
 
     return S_OK;
 }

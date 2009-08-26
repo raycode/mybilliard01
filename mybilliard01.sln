@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "app", "mybilliard01\mybilliard01.vcproj", "{06B28C9E-8C7F-4CF8-8D33-535C17A298E4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "my app", "mybilliard01\mybilliard01.vcproj", "{06B28C9E-8C7F-4CF8-8D33-535C17A298E4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D} = {F148C4CB-8042-44A2-A04C-1BFB0BD3242D}
 		{F357C5D2-9567-4D14-AECA-A402EE71DE37} = {F357C5D2-9567-4D14-AECA-A402EE71DE37}
@@ -22,6 +22,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		mybilliard0111.vsmdi = mybilliard0111.vsmdi
 		mybilliard0112.vsmdi = mybilliard0112.vsmdi
 		mybilliard0113.vsmdi = mybilliard0113.vsmdi
+		mybilliard0114.vsmdi = mybilliard0114.vsmdi
 		mybilliard012.vsmdi = mybilliard012.vsmdi
 		mybilliard013.vsmdi = mybilliard013.vsmdi
 		mybilliard014.vsmdi = mybilliard014.vsmdi
@@ -32,7 +33,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		mybilliard019.vsmdi = mybilliard019.vsmdi
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "core_billiard", "core_billiard\core_billiard.vcproj", "{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "abstract engine", "core_billiard\core_billiard.vcproj", "{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDX9", "TestDX9\TestDX9.vcproj", "{051FAF55-C1E0-4F4C-94E7-17A58A458AB8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -40,14 +41,14 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDX9", "TestDX9\TestDX9.
 		{F357C5D2-9567-4D14-AECA-A402EE71DE37} = {F357C5D2-9567-4D14-AECA-A402EE71DE37}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "render_win32", "render_win32\render_win32.vcproj", "{F357C5D2-9567-4D14-AECA-A402EE71DE37}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "engine win32", "render_win32\render_win32.vcproj", "{F357C5D2-9567-4D14-AECA-A402EE71DE37}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D} = {F148C4CB-8042-44A2-A04C-1BFB0BD3242D}
 	EndProjectSection
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = mybilliard0113.vsmdi
+		CategoryFile = mybilliard0114.vsmdi
 	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
