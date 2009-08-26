@@ -39,7 +39,7 @@ bool RenderBufferFactoryDX9Imp::destroy( ReleasableResourceDX9 * victim )
 {
     for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i ) {
         for( size_t j = 0; j < SIZE_OF_QUEUE; ++j ) {
-            if( remove_only_one_pointer< ReleasableResources >( resources_[ i ][ j ], victim ) )
+            if( remove_only_one_pointer< ReleasableResources >( resources_[ ( SIZE_OF_RESOURCETYPES - 1 ) - i ][ j ], victim ) )
                 return true;
         }    
     }
@@ -49,7 +49,7 @@ bool RenderBufferFactoryDX9Imp::destroy( ReleasableResourceDX9 * victim )
 void RenderBufferFactoryDX9Imp::destroyAll() {
     for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i ) {
         for( size_t j = 0; j < SIZE_OF_QUEUE; ++j ) {
-            resources_[ i ][ j ].clear();
+            resources_[ ( SIZE_OF_RESOURCETYPES - 1 ) - i ][ j ].clear();
         }    
     }
 }
@@ -83,10 +83,11 @@ void RenderBufferFactoryDX9Imp::update( RenderBufferFactory *, float elapsedTime
 }
 
 void RenderBufferFactoryDX9Imp::displayLost() {
-    releaseByResourceType( E_STATIC_VERTICES );
-    releaseByResourceType( E_DYNAMIC_VERTICES );
-    releaseByResourceType( E_SURFACES );
-    releaseByResourceType( E_TEXTURE );
+    releaseResourceByType( E_EFFECT_SHADERS );
+    releaseResourceByType( E_TEXTURE );
+    releaseResourceByType( E_SURFACES );
+    releaseResourceByType( E_DYNAMIC_VERTICES );
+    releaseResourceByType( E_STATIC_VERTICES );
 }
 
 void RenderBufferFactoryDX9Imp::destroy() {
@@ -99,16 +100,19 @@ void RenderBufferFactoryDX9Imp::acquireResources()
     bNeedToUpdate_ = false;
 
     for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i )
-    {
-        MY_FOR_EACH( ReleasableResources, iter, resources_[ i ][ EREADY_QUEUE ] )
-        {
-            (*iter)->acquireResource();
-        }
-        resources_[ i ][ EACTIVE_QUEUE ].splice( resources_[ i ][ EACTIVE_QUEUE ].end(), resources_[ i ][ EREADY_QUEUE ] );
-    }
+        acquireResourcesByType( i );
 }
 
-void RenderBufferFactoryDX9Imp::releaseByResourceType( int resourceType )
+void RenderBufferFactoryDX9Imp::acquireResourcesByType( int resourceType ) {
+    MY_FOR_EACH( ReleasableResources, iter, resources_[ resourceType ][ EREADY_QUEUE ] ) {
+        const bool bRst = (*iter)->acquireResource();
+        assert( bRst );
+    }
+
+    resources_[ resourceType ][ EACTIVE_QUEUE ].splice( resources_[ resourceType ][ EACTIVE_QUEUE ].end(), resources_[ resourceType ][ EREADY_QUEUE ] );
+}
+
+void RenderBufferFactoryDX9Imp::releaseResourceByType( int resourceType )
 {
     MY_FOR_EACH( ReleasableResources, iter, resources_[ resourceType ][ EACTIVE_QUEUE ] )
         (*iter)->releaseResource();

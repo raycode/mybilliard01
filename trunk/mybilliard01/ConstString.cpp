@@ -1,3 +1,4 @@
+#include "my_app.h"
 #include "ConstString.h"
 namespace my_utility {
 
@@ -7,8 +8,15 @@ wstring ConstString::windowTitle() {
 	return L"Billiard";
 }
 
-wstring ConstString::effectFilename() {
-	return L"asset\\SimpleSample.fx";
+wstring ConstString::effectFilenameByNodeName( wstring nodeName ) {
+    static const wstring effectShaderDirectory = L"..\\asset\\shaders\\";
+    static const wstring defaultEffectFilename = L"textured phong.fx";
+
+    const wstring effectFilename = effectShaderDirectory + nodeName + L".fx";
+    if( FileSystemHelper::isFileExist( effectFilename ) )
+        return effectFilename;
+
+    return effectShaderDirectory + defaultEffectFilename;
 }
 
 wstring ConstString::colladaPhysXFilename() {

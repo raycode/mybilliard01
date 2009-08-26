@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="app"
+	Name="my app"
 	ProjectGUID="{06B28C9E-8C7F-4CF8-8D33-535C17A298E4}"
 	RootNamespace="mybilliard01"
 	Keyword="Win32Proj"
@@ -271,14 +271,6 @@
 			<Filter
 				Name="0. Constant Variables"
 				>
-				<File
-					RelativePath=".\ConstEffectFilename.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\ConstEffectFilename.h"
-					>
-				</File>
 				<File
 					RelativePath=".\ConstString.cpp"
 					>

@@ -22,7 +22,7 @@ bool EffectShaderDX9Imp::acquireResource()
         DWORD dwFlags = 0;
 
 #if defined( _DEBUG ) || defined( DEBUG )
-        dwFlags |= D3DXSHADER_DEBUG | D3DXSHADER_OPTIMIZATION_LEVEL0;
+        dwFlags |= D3DXSHADER_DEBUG; // | D3DXSHADER_OPTIMIZATION_LEVEL0;
 #endif
 
         ID3DXBuffer * error = NULL;
@@ -45,12 +45,20 @@ bool EffectShaderDX9Imp::acquireResource()
     }
 
     MY_FOR_EACH( EffectVariables, iter, *effectVariables_ )
-        setEffectOntoEffectVariable( &**iter );
+        activateEffectVariable( &**iter );
 
     return true;
 }
 
-bool EffectShaderDX9Imp::setEffectOntoEffectVariable( ReleasableEffectResourceDX9 * var ) {
+void EffectShaderDX9Imp::releaseResource()
+{
+    MY_FOR_EACH( EffectVariables, iter, *effectVariables_ )
+        (*iter)->releaseResource();
+
+    effect_.reset();
+}
+
+bool EffectShaderDX9Imp::activateEffectVariable( ReleasableEffectResourceDX9 * var ) {
     assert( var );
     if( NULL == effect_ ) return false;
     var->setEffect( &*effect_ );
@@ -68,22 +76,16 @@ bool EffectShaderDX9Imp::acquireBestValidTechnique()
     return true;
 }
 
-void EffectShaderDX9Imp::releaseResource()
-{
-    (*effectVariables_).clear();
-    effect_.reset();
-}
-
-bool EffectShaderDX9Imp::releaseAnyEffectVariable( ReleasableEffectResourceDX9 * var ) {
+bool EffectShaderDX9Imp::destroyAnyEffectVariable( ReleasableEffectResourceDX9 * var ) {
     return remove_only_one_pointer< EffectVariables >( *effectVariables_, var );
 }
 
-bool EffectShaderDX9Imp::releaseShaderVariable( ShaderVariable * variable ) {
-    return releaseAnyEffectVariable( dynamic_cast< ReleasableEffectResourceDX9 * >( variable ) );
+bool EffectShaderDX9Imp::destroyShaderVariable( ShaderVariable * variable ) {
+    return destroyAnyEffectVariable( dynamic_cast< ReleasableEffectResourceDX9 * >( variable ) );
 }
 
-bool EffectShaderDX9Imp::releaseShaderVariableBlock( EffectShaderVariableBlock * block ) {
-    return releaseAnyEffectVariable( dynamic_cast< ReleasableEffectResourceDX9 * >( block ) );
+bool EffectShaderDX9Imp::destroyShaderVariableBlock( EffectShaderVariableBlock * block ) {
+    return destroyAnyEffectVariable( dynamic_cast< ReleasableEffectResourceDX9 * >( block ) );
 }
 
 bool EffectShaderDX9Imp::renderWithTechnique( EffectShaderCallBack * callBack )
@@ -118,19 +120,19 @@ bool EffectShaderDX9Imp::hasVariableBySemantic( wstring semantic )  {
 
 EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableByIndex( size_t index ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_INDEX, index, NULL ), ReleasableResourceDX9::Releaser() );
-    if( false == setEffectOntoEffectVariable( &*newVariable ) ) return NULL;
+    if( false == activateEffectVariable( &*newVariable ) ) return NULL;
     effectVariables_->push_back( newVariable );
     return &*newVariable;
 }
 EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableByName( wstring name ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_NAME, name, NULL ), ReleasableResourceDX9::Releaser() );
-    if( false == setEffectOntoEffectVariable( &*newVariable ) ) return NULL;
+    if( false == activateEffectVariable( &*newVariable ) ) return NULL;
     effectVariables_->push_back( newVariable );
     return &*newVariable;
 }
 EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableBySemantic( wstring semantic ) {
     EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_SEMANTIC, semantic, NULL ), ReleasableResourceDX9::Releaser() );
-    if( false == setEffectOntoEffectVariable( &*newVariable ) ) return NULL;
+    if( false == activateEffectVariable( &*newVariable ) ) return NULL;
     effectVariables_->push_back( newVariable );
     return &*newVariable;
 }
@@ -150,7 +152,7 @@ EffectShaderVariableBlock * EffectShaderDX9Imp::createVariableBlock( EffectShade
     if( NULL == callBack ) return NULL;
     EffectShaderVariableBlockDX9Ptr newBlock = EffectShaderVariableBlockDX9Ptr( new EffectShaderVariableBlockDX9Imp( this, callBack ), ReleasableResourceDX9::Releaser() );
 
-    if( false == setEffectOntoEffectVariable( &*newBlock ) ) return NULL;
+    if( false == activateEffectVariable( &*newBlock ) ) return NULL;
     effectVariables_->push_back( newBlock );
     return &*newBlock;
 }
@@ -169,22 +171,22 @@ RenderBufferFactory * EffectShaderDX9Imp::getRenderBufferFactory() {
 
 void EffectShaderDX9Imp::acquireTextures()
 {
-    DirectoryHelper::ChangeDirectory changePath( getFilename() );
+    FileSystemHelper::ChangeDirectory changePath( getFilename() );
 
     for( size_t i = 0; i < getNumberOfVariables(); ++i )
     {
-        EffectShaderVariablePtr textureVariable = EffectShaderVariablePtr( createEffectVariableByIndex( i ), Shader::Releaser( this ) );
+        EffectShaderVariablePtr textureVariable = EffectShaderVariablePtr( createEffectVariableByIndex( i ), Shader::Destroyer( this ) );
 
         const bool bTexture = ( textureVariable->isTexture() || textureVariable->isTexture1D() ||
             textureVariable->isTexture2D() || textureVariable->isTextureCube() );
         if( false == bTexture ) continue;
 
         for( size_t j = 0; j < textureVariable->getNumberOfAnnotations(); ++j ) {
-            EffectShaderAnnotationPtr anno = EffectShaderAnnotationPtr( textureVariable->createAnnotationByIndex( j ), EffectShaderVariable::Releaser( textureVariable.get() ) );
+            EffectShaderAnnotationPtr anno = EffectShaderAnnotationPtr( textureVariable->createAnnotationByIndex( j ), EffectShaderVariable::Destroyer( textureVariable.get() ) );
             if( false == anno->isString() ) continue;
 
-            const wstring textureFilename = anno->getString();
-            TexturePtr newTex = TexturePtr( renderFactory_->createTexture( textureFilename ), RenderBufferFactory::Releaser( renderFactory_ ) );
+            const wstring textureFilename = FileSystemHelper::getFullname( anno->getString() );
+            TexturePtr newTex = TexturePtr( renderFactory_->createTexture( textureFilename ), RenderBufferFactory::Destroyer( renderFactory_ ) );
             if( NULL == newTex ) continue;
 
             textureVariable->setTexture( newTex.get() );

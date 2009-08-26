@@ -17,7 +17,7 @@ MY_INTERFACE Render {
     virtual bool beginScene() PURE;
     virtual void endScene() PURE;
 
-    virtual const RenderState * getRenderState() const = 0;
+    virtual const RenderState * getRenderState() const PURE;
     virtual RenderState * setRenderState() PURE;
 
 };

@@ -38,8 +38,10 @@ private: // resource manage
     void pushBackToActiveQueue( int resourceType, ReleasableResourceDX9Ptr newResource );
     bool destroy( ReleasableResourceDX9 * victim );
     void destroyAll();
+
     void acquireResources();
-    void releaseByResourceType( int resourceType );
+    void acquireResourcesByType( int resourceType );
+    void releaseResourceByType( int resourceType );
 
     EffectShaderDX9Ptr copyEffectShaderFromAlreadyCreated( wstring filename );
     TextureDX9Ptr copyTextureFromAlreadyCreated( wstring filename );
@@ -53,8 +55,7 @@ private:
 
 private:
     enum { E_STATIC_VERTICES, E_DYNAMIC_VERTICES, E_STREAM_VERTICES,
-           E_EFFECT_SHADERS,
-           E_SURFACES, E_TEXTURE, SIZE_OF_RESOURCETYPES };
+           E_SURFACES, E_TEXTURE, E_EFFECT_SHADERS, SIZE_OF_RESOURCETYPES };
     enum { EREADY_QUEUE, EACTIVE_QUEUE, SIZE_OF_QUEUE };
     typedef list< ReleasableResourceDX9Ptr > ReleasableResources;
     ReleasableResources resources_[ SIZE_OF_RESOURCETYPES ][ SIZE_OF_QUEUE ];

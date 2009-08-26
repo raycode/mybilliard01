@@ -41,5 +41,4 @@ MY_SMART_PTR( EffectShaderFeeder );
 #include "RenderMonkeySemanticFeeder.h"
 #include "MyRenderEventListenerImp.h"
 #include "ConstString.h"
-#include "ConstEffectFilename.h"
 

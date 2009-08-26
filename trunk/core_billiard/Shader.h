@@ -10,7 +10,7 @@ MY_INTERFACE Shader {
     virtual ShaderVariable * createVariableByIndex( size_t index ) PURE;
     virtual ShaderVariable * createVariableByName( wstring name ) PURE;
     virtual ShaderVariable * createVariableBySemantic( wstring semantic ) PURE;
-    virtual bool releaseShaderVariable( ShaderVariable * ) PURE;
+    virtual bool destroyShaderVariable( ShaderVariable * ) PURE;
 
     virtual bool hasVariableByName( wstring name ) PURE;
     virtual bool hasVariableBySemantic( wstring semantic ) PURE;
@@ -18,13 +18,13 @@ MY_INTERFACE Shader {
 
 public: // releaser
 
-    struct Releaser {
+    struct Destroyer {
     public:
         void operator()( ShaderVariable * shaderVariable ) {
-            owner_->releaseShaderVariable( shaderVariable );
+            owner_->destroyShaderVariable( shaderVariable );
         }
 
-    public: Releaser( Shader * owner ) : owner_( owner ) {}
+    public: Destroyer( Shader * owner ) : owner_( owner ) {}
     private: Shader * const owner_;
     };
 
