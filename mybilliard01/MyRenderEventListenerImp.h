@@ -25,6 +25,7 @@ private: // init
 private: // update
     void updateCamera( float elapsedTime );
     void updateCameraProjection( float aspectRatio );
+    void updateEffectProjection();
     void updateCameraView();
     void updateCameraPosAndDir();
     void updateEffect( float elapsedTime );
@@ -43,13 +44,16 @@ private: // camera
 
 private: // effect
     EffectShaderFeeder * createEffectFeeder( Node * node, RenderBufferFactory * renderFactory );
+    void createSharedVariableFeeder();
     void findSharedVariables( EffectShader * effect);
     ShaderVariable * getSharedVariable( wstring name );
 
     typedef list< EffectShaderFeederPtr > EffectShaderFeeders;
     EffectShaderFeeders feeders_;
+    EffectShaderFeederPtr sharedVaribleFeeder_;
 
     EffectShaderFeederNull nullToRender_;
+    ShaderVariableNull nullShaderVariable_;
 
     typedef map< wstring, ShaderVariablePtr > SharedVariables;
     SharedVariables sharedVariables_;

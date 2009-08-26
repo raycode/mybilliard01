@@ -29,6 +29,7 @@ void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory
     initEffect( renderFactory );
     scene_->setRenderFactory( renderFactory );
     updateCameraProjection( (float) width / (float) height );
+    updateEffectProjection();
 }
 
 void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
@@ -46,6 +47,8 @@ void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
         actor->userData = createEffectFeeder( node, renderFactory );
     }
 
+    createSharedVariableFeeder();
+
     initEffectLights();
 }
 
@@ -57,6 +60,17 @@ void MyRenderEventListenerImp::initEffectLights() {
 void MyRenderEventListenerImp::updateCameraProjection( float aspectRatio ) {
     camera_->setAspect( aspectRatio );
     camera_->getProjectionMatrix44( matrixProjection_, bRightHandHardware_, true );
+}
+
+void MyRenderEventListenerImp::updateEffectProjection()
+{
+    sharedVaribleFeeder_->updateProjection( matrixProjection_ );
+
+    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
+        NxActor * const actor = phys_->getActor( i );
+        EffectShaderFeeder * const feeder = (EffectShaderFeeder *) (actor->userData);
+        feeder->updateProjection( matrixProjection_ );
+    }
 }
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
@@ -90,11 +104,14 @@ void MyRenderEventListenerImp::updateCameraPosAndDir()
 
 void MyRenderEventListenerImp::updateEffect( float elapsedTime )
 {
+    sharedVaribleFeeder_->updateMatrix( NULL, cameraPos_, cameraDir_,
+        matrixView_, matrixProjectionView_ );
+
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
-        EffectShaderFeeder * const toRender = (EffectShaderFeeder *) (actor->userData);
-        toRender->updateMatrix( actor, cameraPos_, cameraDir_,
-            matrixProjection_, matrixView_, matrixProjectionView_ );
+        EffectShaderFeeder * const feeder = (EffectShaderFeeder *) (actor->userData);
+        feeder->updateMatrix( actor, cameraPos_, cameraDir_,
+            matrixView_, matrixProjectionView_ );
     }
 }
 

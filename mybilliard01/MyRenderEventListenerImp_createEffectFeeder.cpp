@@ -37,7 +37,16 @@ void MyRenderEventListenerImp::findSharedVariables( EffectShader * effect ) {
 
 ShaderVariable * MyRenderEventListenerImp::getSharedVariable( wstring name ) {
     SharedVariables::const_iterator iter = sharedVariables_.find( name );
-    if( sharedVariables_.end() == iter ) return NULL;
+    if( sharedVariables_.end() == iter ) return & nullShaderVariable_;
     return iter->second.get();
+}
+
+void MyRenderEventListenerImp::createSharedVariableFeeder() 
+{
+    RenderMonkeySharedSemanticsFeeder * const sharedVaribleFeeder = new RenderMonkeySharedSemanticsFeeder();
+    sharedVaribleFeeder_ = EffectShaderFeederPtr( sharedVaribleFeeder );
+
+    MY_FOR_EACH( SharedVariables, iter, sharedVariables_ )
+        sharedVaribleFeeder->appendSharedVariable( iter->second.get() );
 }
 

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "my_app.h"
+using namespace RenderMonkeySemantics;
 
 
 RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShaderPtr effect )
@@ -11,13 +12,14 @@ RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShade
     initPredefinedSemantics();
 }
 
-const wstring RenderMonkeySemanticFeeder::effectFilename = L"..\\asset\\shaders\\textured pong.fx";
+void RenderMonkeySemanticFeeder::updateProjection( const RowMajorMatrix44f & matProj ) {
+    matProj_ = matProj;
+}
 
 void RenderMonkeySemanticFeeder::updateMatrix(
     NxActor * actor,
     const NxVec3 & cameraPos,
     const NxVec3 & cameraDir,
-    const RowMajorMatrix44f & matProj,
     const RowMajorMatrix44f & matView,
     const RowMajorMatrix44f & matProjView )
 {
@@ -25,26 +27,25 @@ void RenderMonkeySemanticFeeder::updateMatrix(
 
     cameraPos_ = cameraPos;
     cameraDir_ = cameraDir;
-    matProj_ = matProj;
     matView_ = matView;
     matProjView_ = matProjView;
 
-    MY_FOR_EACH( ActivePredefinedSemantics_Matrix, iter, activePredefinedSemantics_Matrix_ )
+    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Matrix_ )
         updateMatrixForPredefinedSemantic( *iter );
 
-    MY_FOR_EACH( ActivePredefinedSemantics_Vec4, iter, activePredefinedSemantics_Vec4_ )
-        updateMatrixForPredefinedSemantic( *iter );
+    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Vec4_ )
+        updateVec4ForPredefinedSemantic( *iter );
 }
 
 void RenderMonkeySemanticFeeder::display()
 {
     //OutputDebugStr( wstring( L"Node name: " + node_->getName() + L"\n" ).c_str() );
 
-    MY_FOR_EACH( ActivePredefinedSemantics_Matrix, iter, activePredefinedSemantics_Matrix_ )
-        setMatrixForPredefinedSemantic( *iter );
+    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Matrix_ )
+        uploadValue( *iter, 16u );
 
-    MY_FOR_EACH( ActivePredefinedSemantics_Vec4, iter, activePredefinedSemantics_Vec4_ )
-        setVec4ForPredefinedSemantic( *iter );
+    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Vec4_ )
+        uploadValue( *iter, 4u );
 
     effect_->renderWithTechnique( this );
 }
@@ -56,14 +57,30 @@ void RenderMonkeySemanticFeeder::displayPass( size_t pass )
     DXUT_EndPerfEvent();
 }
 
+bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, ActiveSemanticFlags & whereToStore )
+{
+    if( false == effect_->hasVariableBySemantic( nameOfSemantic ) ) return false;
+
+    EffectShaderVariable * const variableForSemantic = effect_->createEffectVariableBySemantic( nameOfSemantic );
+
+    if( variableForSemantic->isShared() ) {
+        Shader::Destroyer( effect_.get() )( variableForSemantic );
+        return false;
+    }
+
+    predefinedVariables_[ whichSemantic ] = variableForSemantic;
+    whereToStore.push_back( whichSemantic );
+    return true;
+}
+
 void RenderMonkeySemanticFeeder::initPredefinedSemantics() {
 
-#define INIT_VEC3_SEMANTIC( SEMANTIC ) if( effect_->hasVariableBySemantic( L#SEMANTIC ) ) { predef_[ SEMANTIC ] = effect_->createVariableBySemantic( L#SEMANTIC ); activePredefinedSemantics_Vec4_.push_back( SEMANTIC ); }
+#define INIT_VEC3_SEMANTIC( SEMANTIC ) initPredefinedSemanticForEach( SEMANTIC, L#SEMANTIC, activeSemantics_Vec4_ );
 
     INIT_VEC3_SEMANTIC( ViewPosition );
     INIT_VEC3_SEMANTIC( ViewDirection );
 
-#define INIT_MATRIX_SEMANTIC( SEMANTIC ) if( effect_->hasVariableBySemantic( L#SEMANTIC ) ) { predef_[ SEMANTIC ] = effect_->createVariableBySemantic( L#SEMANTIC ); activePredefinedSemantics_Matrix_.push_back( SEMANTIC ); }
+#define INIT_MATRIX_SEMANTIC( SEMANTIC ) initPredefinedSemanticForEach( SEMANTIC, L#SEMANTIC, activeSemantics_Matrix_ );
 
     INIT_MATRIX_SEMANTIC( World );
     INIT_MATRIX_SEMANTIC( WorldTranspose );
@@ -97,15 +114,24 @@ void RenderMonkeySemanticFeeder::initPredefinedSemantics() {
 }
 
 
-void RenderMonkeySemanticFeeder::updateMatrixForPredefinedSemantic( int whichSemantic )
+void RenderMonkeySemanticFeeder::updateVec4ForPredefinedSemantic( int whichSemantic )
 {
-    float * const colMajor44f = predefinedSemantics_Matrix44f_[ whichSemantic ];
+    float * const colMajor44f = temporaryStorage16f[ whichSemantic ];
 
     switch( whichSemantic )
     {
     case ViewPosition:  memcpy( (char*)colMajor44f, (char*)cameraPos_.get(), sizeof(NxVec3) ); colMajor44f[3] = 1.f; break;
     case ViewDirection: memcpy( (char*)colMajor44f, (char*)cameraDir_.get(), sizeof(NxVec3) ); colMajor44f[3] = 0.f; break;
 
+    }
+}
+
+void RenderMonkeySemanticFeeder::updateMatrixForPredefinedSemantic( int whichSemantic )
+{
+    float * const colMajor44f = temporaryStorage16f[ whichSemantic ];
+
+    switch( whichSemantic )
+    {
     case World:                 matWorld_.GetColumnMajor( colMajor44f ); break;
     case WorldTranspose:        matWorld_.Transpose().GetColumnMajor( colMajor44f ); break;
     case WorldInverse:          matWorld_.Inverse().GetColumnMajor( colMajor44f ); break;
@@ -138,17 +164,15 @@ void RenderMonkeySemanticFeeder::updateMatrixForPredefinedSemantic( int whichSem
     }
 }
 
-void RenderMonkeySemanticFeeder::setMatrixForPredefinedSemantic( int whichSemantic ) {
-    predef_[ whichSemantic ]->setFloatArray( predefinedSemantics_Matrix44f_[ whichSemantic ], 16u );
 
-    //const float * ptr = predefinedSemantics_Matrix44f_[ whichSemantic ];
+void RenderMonkeySemanticFeeder::uploadValue( int whichSemantic, size_t count ) {
+    predefinedVariables_[ whichSemantic ]->setFloatArray( temporaryStorage16f[ whichSemantic ], count );
+
+    //const float * ptr = temporaryStorage16f[ whichSemantic ];
     //wchar_t tmp[256];
     //_snwprintf_s( tmp, 256, L"%d: %f %f %f %f [1] %f %f %f %f [2] %f %f %f %f [3] %f %f %f %f\n", whichSemantic, ptr[0], ptr[1], ptr[2], ptr[3], ptr[4], ptr[5], ptr[6], ptr[7], ptr[8], ptr[9], ptr[10], ptr[11], ptr[12], ptr[13], ptr[14], ptr[15] );
     //OutputDebugStr( tmp );
 }
 
-void RenderMonkeySemanticFeeder::setVec4ForPredefinedSemantic( int whichSemantic ) {
-    predef_[ whichSemantic ]->setFloatArray( predefinedSemantics_Matrix44f_[ whichSemantic ], 4u );
-}
 
 

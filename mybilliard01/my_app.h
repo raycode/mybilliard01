@@ -38,7 +38,9 @@ MY_SMART_PTR( EffectShaderFeeder );
 #include "MyInputListenerImp.h"
 #include "EffectShaderFeeder.h"
 #include "EffectShaderFeederNull.hpp"
+#include "RenderMonkeySemantics.hpp"
 #include "RenderMonkeySemanticFeeder.h"
+#include "RenderMonkeySharedSemanticsFeeder.h"
 #include "MyRenderEventListenerImp.h"
 #include "ConstString.h"
 
