@@ -71,6 +71,9 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
         case KEY_Z:
             beginAimBall();
             break;
+        case VK_SPACE:
+            shot();
+            break;
     }
 }
 
@@ -246,11 +249,12 @@ void MyInputListenerImp::beginAimBall()
     bAiming_ = true;
     bNeedToStoreDownPt_ = true;
     OutputDebugStr( L"begin aim ball.\n" );
+    getCamera()->setMovementToFixedHeight( 35.f );
 }
 void MyInputListenerImp::endAimBall()
 {
     bAiming_ = false;
-    OutputDebugStr( L"end aim ball.\n" );
+    getCamera()->setMovementToFixedHeight( 45.f );
 }
 
 void MyInputListenerImp::OnMove( int nX, int nY )
@@ -268,8 +272,8 @@ void MyInputListenerImp::OnMove( int nX, int nY )
 
         if( isCloseEnoughToAim( currentPosition, cueBallPos ) )
         {
-            getCamera()->rotateClockWiseByZ( diff.x * rotationSensitivity_, cueBallPos );
-            getCamera()->pitchDown( diff.y * pitchSensitivity_, cueBallPos );
+            getCamera()->moveClockWiseAroundBall( diff.x * rotationSensitivity_, cueBallPos );
+            getCamera()->lookAtBall( cueBallPos );
             return;
         }
     }
@@ -293,6 +297,10 @@ bool MyInputListenerImp::isCloseEnoughToAim( NxExtendedVec3 cameraPos, NxVec3 ba
     cameraPos -= ballPos;
     OutputDebugStr( (wstring(L"dist: ") + DebugHelper::getStringFromInt( (int) cameraPos.magnitude() ) + L"\n").c_str() );
     return cameraPos.magnitude() < aimableMaxDist_;
+}
+
+void MyInputListenerImp::shot() {
+    renderListener_->shotCueBall();
 }
 
 void MyInputListenerImp::selectBall( int xPos, int yPos )

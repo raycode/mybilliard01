@@ -51,9 +51,9 @@ public: // rotate
     void endPitchDown();
     void endPitchUp();
 
-public: // rotate by arbitrary position
-    void rotateClockWiseByZ( float angle, const NxVec3 & location );
-    void pitchDown( float angle, const NxVec3 & location );
+public: // looking at ball
+    void lookAtBall( const NxVec3 & locationOfBall );
+    void moveClockWiseAroundBall( float angle, const NxVec3 & location );
 
 private:
     Camera * colladaCamera_;

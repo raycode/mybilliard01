@@ -57,7 +57,7 @@ void MyCamera::pitchDown( float angle )
     rotate_.multiply( rotate_, rotateByRight );
 }
 
-void MyCamera::rotateClockWiseByZ( float angle, const NxVec3 & location )
+void MyCamera::moveClockWiseAroundBall( float angle, const NxVec3 & location )
 {
     NxMat34 transNegObj;
     transNegObj.M.id();
@@ -79,8 +79,14 @@ void MyCamera::rotateClockWiseByZ( float angle, const NxVec3 & location )
 
     const NxExtendedVec3 newCameraPosExt( (Extended) newCameraPos.x, (Extended) newCameraPos.y, (Extended) newCameraPos.z );
     setPosition( newCameraPosExt );
+}
 
-    NxVec3 dir = location - newCameraPos;
+void MyCamera::lookAtBall( const NxVec3 & locationOfBall )
+{
+    const NxExtendedVec3 cameraPosExt = getPosition();
+    const NxVec3 cameraPos( NxReal( cameraPosExt.x ), NxReal( cameraPosExt.y ), NxReal( cameraPosExt.z ) );
+    NxVec3 dir = locationOfBall - cameraPos;
+    dir.z += 1.f;
     dir.normalize();
     rotate_.setRow( 2, dir );
 
@@ -94,43 +100,6 @@ void MyCamera::rotateClockWiseByZ( float angle, const NxVec3 & location )
     up = right.cross( up );
     up.normalize();
     rotate_.setRow( 1, up );
-
-    //const NxVec3 diff = location - cameraPos;
-    //NxMat34 trans2;
-    //trans2.M.id();
-    //trans2.t = diff;
-
-    //float tmp[ 16 ];
-    //getViewMatrix44( tmp, true );
-    //NxMat34 viewMat, viewMatInv;
-    //viewMat.getRowMajor44( tmp );
-    //viewMat.getInverse( viewMatInv );
-
-    //NxMat34 rst;
-    //rst.multiply( rotateZ, trans2 );
-    //rst.multiply( rotateView, rst );
-    //rst.multiply( trans2, rst );
-    //rst.multiply( viewMatInv, rst );
-    //rotate_ = rst.M; // rotation is done
-
-    //NxMat34 rotOnly;
-    //rotOnly.M = rst.M;
-    //rotOnly.t.zero();
-    //NxMat34 rotInv;
-    //rotOnly.getInverse( rotInv );
-
-    //rst.multiply( rotInv, rst );
-    //const NxExtendedVec3 newCameraPos3( (Extended) rst.t.x, (Extended) rst.t.y, (Extended) rst.t.z );
-}
-
-void MyCamera::pitchDown( float angle, const NxVec3 & location )
-{
-    //NxVec3 right = getRightVector();
-    //NxQuat q;
-    //q.fromAngleAxis( angle, right );
-    //NxMat33 rotateByRight;
-    //rotateByRight.fromQuat( q );
-    //rotate_.multiply( rotate_, rotateByRight );
 }
 
 NxU32 MyCamera::move( NxVec3 dispVector, NxReal elapsedTime )
