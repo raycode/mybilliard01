@@ -13,12 +13,24 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
     assert( bPhys );
 
     initCamera( NxVec3( -80.f, 0.f, 50.f ), NxVec3( 1.f, 0.f, -0.5f ) );
+    initFindObjectFromPhysX();
 }
 
 void MyRenderEventListenerImp::initCamera( NxVec3 pos, NxVec3 dir ) {
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
     camera_ = MyCameraPtr( new MyCamera( colladaCamera, phys_.get(), pos, dir, bRightHandHardware_ ) );
     camera_->setMovementToFixedHeight( pos.z );
+}
+
+void MyRenderEventListenerImp::initFindObjectFromPhysX()
+{
+    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
+    {
+        NxActor * const actor = phys_->getActor( i );
+
+        if( convertString( actor->getName() ) == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
+        else if( convertString( actor->getName() ) == L"cue05" ) actors_[ ACTOR_STICK ] = actor;
+    }
 }
 
 void MyRenderEventListenerImp::init()
@@ -142,4 +154,8 @@ void MyRenderEventListenerImp::destroy()
 
 MyCamera * MyRenderEventListenerImp::getMyCamera() {
     return camera_.get();
+}
+
+NxVec3 MyRenderEventListenerImp::getBallPosition() {
+    return actors_[ ACTOR_CUE_BALL ]->getGlobalPosition();
 }

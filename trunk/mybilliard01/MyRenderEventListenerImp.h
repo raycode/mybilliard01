@@ -16,9 +16,11 @@ public:
     MyRenderEventListenerImp( wstring sceneFile, wstring physX_File );
 
     MyCamera * getMyCamera();
+    NxVec3 getBallPosition();
 
 private: // init
     void initCamera( NxVec3 pos, NxVec3 dir );
+    void initFindObjectFromPhysX();
     void initEffect( RenderBufferFactory * renderFactory );
     void initEffectLights();
 
@@ -33,6 +35,10 @@ private: // update
 private:
     ScenePtr scene_;
     MyPhysXPtr phys_;
+
+private: // physx
+    enum { ACTOR_CUE_BALL, ACTOR_STICK, SIZE_OF_ACTORS };
+    NxActor * actors_[ SIZE_OF_ACTORS ];
 
 private: // camera
     MyCameraPtr camera_;

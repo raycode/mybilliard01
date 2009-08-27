@@ -15,11 +15,15 @@
 #define KEY_D 68
 #define KEY_W 87
 #define KEY_F 70
+#define KEY_Z 90
 
 MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListener, ApplicationWindow * app )
 : renderListener_( renderListener )
 , app_( app )
-, m_bDrag( false )
+, bDrag_( false )
+, bAiming_( false )
+, bNeedToStoreDownPt_( false )
+, aimableMaxDist_( 60.f )
 {
     rotationSensitivity_ = 0.005f;
     pitchSensitivity_ = 0.05f;
@@ -29,7 +33,7 @@ MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListene
 void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
 #ifdef DEBUG_KEY_CODE
     wchar_t tmp[256];
-    _snwprintf_s( tmp, 256, L"key = %d\n", key );
+    _snwprintf_s( tmp, 256, L"key = %d (alt = %s)\n", key, bAlt ? L"true": L"false" );
     OutputDebugStr( tmp );
 #endif
     switch( key ) {
@@ -63,6 +67,9 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
             break;
         case KEY_F:
             app_->setWindowedMode( ! app_->isWindowedMode() );
+            break;
+        case KEY_Z:
+            beginAimBall();
             break;
     }
 }
@@ -98,6 +105,10 @@ void MyInputListenerImp::keyUp( unsigned int key, bool bAlt )
         case KEY_L:
             endRotateClockWiseByZ();
             break;
+        case KEY_Z:
+            endAimBall();
+            break;
+
     }
 }
 
@@ -138,6 +149,13 @@ void MyInputListenerImp::endMoveRight() {
 void MyInputListenerImp::endMoveBackward() {
     getCamera()->endMoveBackward();
 }
+void MyInputListenerImp::stopMoving() {
+    endMoveForward();
+    endMoveLeft();
+    endMoveRight();
+    endMoveBackward();
+}
+
 
 void MyInputListenerImp::beginRotateCounterClockWiseByZ() {
     getCamera()->beginRotateCounterClockWiseByZ();
@@ -164,36 +182,46 @@ void MyInputListenerImp::endPitchDown() {
 void MyInputListenerImp::endPitchUp() {
     getCamera()->endPitchUp();
 }
+void MyInputListenerImp::stopRotate() {
+    endRotateClockWiseByZ();
+    endRotateCounterClockWiseByZ();
+    endPitchDown();
+    endPitchUp();
+}
 
 
 bool MyInputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
 {
     // Current mouse position
-    int iMouseX = ( short )LOWORD( lParam );
-    int iMouseY = ( short )HIWORD( lParam );
+    const int iMouseX = ( short )LOWORD( lParam );
+    const int iMouseY = ( short )HIWORD( lParam );
 
     switch( uMsg )
     {
     case WM_LBUTTONDOWN:
     case WM_LBUTTONDBLCLK:
-        SetCapture( hWnd );
-        OnBegin( iMouseX, iMouseY );
+        {
+            SetCapture( hWnd );
+            OnBeginDrag( iMouseX, iMouseY );
+        }
         return TRUE;
 
     case WM_LBUTTONUP:
-        ReleaseCapture();
-        OnEnd();
+        {
+            ReleaseCapture();
+            OnEndDrag();
+        }
         return TRUE;
     case WM_CAPTURECHANGED:
         if( ( HWND )lParam != hWnd )
         {
             ReleaseCapture();
-            OnEnd();
+            OnEndDrag();
         }
         return TRUE;
 
     case WM_MOUSEMOVE:
-        if( MK_LBUTTON & wParam )
+        if( ( MK_LBUTTON & wParam ) || bAiming_ )
         {
             OnMove( iMouseX, iMouseY );
         }
@@ -202,15 +230,51 @@ bool MyInputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
     return true;
 }
 
-void MyInputListenerImp::OnBegin( int nX, int nY )
+void MyInputListenerImp::OnBeginDrag( int nX, int nY )
 {
-    m_bDrag = true;
+    bDrag_ = true;
     m_vDownPt = NxVec3( (float) nX, (float) nY, 0.f );
+}
+
+void MyInputListenerImp::OnEndDrag()
+{
+    bDrag_ = false;
+}
+
+void MyInputListenerImp::beginAimBall()
+{
+    bAiming_ = true;
+    bNeedToStoreDownPt_ = true;
+    OutputDebugStr( L"begin aim ball.\n" );
+}
+void MyInputListenerImp::endAimBall()
+{
+    bAiming_ = false;
+    OutputDebugStr( L"end aim ball.\n" );
 }
 
 void MyInputListenerImp::OnMove( int nX, int nY )
 {
-    if( m_bDrag )
+    if( bAiming_ )
+    {
+        m_vCurrentPt = NxVec3( (float) nX, (float) nY, 0.f );
+        if( bNeedToStoreDownPt_ ) { m_vDownPt = m_vCurrentPt; bNeedToStoreDownPt_ = false; }
+
+        const NxVec3 diff = m_vCurrentPt - m_vDownPt;
+        m_vDownPt = m_vCurrentPt;
+
+        const NxExtendedVec3 currentPosition = getCamera()->getPosition();
+        const NxVec3 cueBallPos = renderListener_->getBallPosition();
+
+        if( isCloseEnoughToAim( currentPosition, cueBallPos ) )
+        {
+            getCamera()->rotateClockWiseByZ( diff.x * rotationSensitivity_, cueBallPos );
+            getCamera()->pitchDown( diff.y * pitchSensitivity_, cueBallPos );
+            return;
+        }
+    }
+
+    if( bDrag_ )
     {
         m_vCurrentPt = NxVec3( (float) nX, (float) nY, 0.f );
         const NxVec3 diff = m_vCurrentPt - m_vDownPt;
@@ -221,14 +285,14 @@ void MyInputListenerImp::OnMove( int nX, int nY )
     }
 }
 
-void MyInputListenerImp::OnEnd()
-{
-    m_bDrag = false;
+MyCamera * MyInputListenerImp::getCamera() {
+    return renderListener_->getMyCamera();
 }
 
-MyCamera * MyInputListenerImp::getCamera()
-{
-    return renderListener_->getMyCamera();
+bool MyInputListenerImp::isCloseEnoughToAim( NxExtendedVec3 cameraPos, NxVec3 ballPos ) {
+    cameraPos -= ballPos;
+    OutputDebugStr( (wstring(L"dist: ") + DebugHelper::getStringFromInt( (int) cameraPos.magnitude() ) + L"\n").c_str() );
+    return cameraPos.magnitude() < aimableMaxDist_;
 }
 
 void MyInputListenerImp::selectBall( int xPos, int yPos )
