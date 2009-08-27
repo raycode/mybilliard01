@@ -167,7 +167,7 @@ NxActor * MyRenderEventListenerImp::getCueBall() {
 void MyRenderEventListenerImp::shotCueBall() {
     NxVec3 dir = getMyCamera()->getDirectionVector();
     dir.z = 0.f;
-    const float strength = 500.f;
+    const float strength = 10000.f;
     getCueBall()->addForce( dir * strength );
 }
 
