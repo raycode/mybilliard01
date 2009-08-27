@@ -17,6 +17,10 @@ public:
 
     MyCamera * getMyCamera();
     NxVec3 getBallPosition();
+    void shotCueBall();
+
+private:
+    NxActor * getCueBall();
 
 private: // init
     void initCamera( NxVec3 pos, NxVec3 dir );

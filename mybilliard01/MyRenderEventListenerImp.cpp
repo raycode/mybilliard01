@@ -12,7 +12,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
     assert( bScene );
     assert( bPhys );
 
-    initCamera( NxVec3( -80.f, 0.f, 50.f ), NxVec3( 1.f, 0.f, -0.5f ) );
+    initCamera( NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
     initFindObjectFromPhysX();
 }
 
@@ -157,5 +157,17 @@ MyCamera * MyRenderEventListenerImp::getMyCamera() {
 }
 
 NxVec3 MyRenderEventListenerImp::getBallPosition() {
-    return actors_[ ACTOR_CUE_BALL ]->getGlobalPosition();
+    return getCueBall()->getGlobalPosition();
 }
+
+NxActor * MyRenderEventListenerImp::getCueBall() {
+    return actors_[ ACTOR_CUE_BALL ];
+}
+
+void MyRenderEventListenerImp::shotCueBall() {
+    NxVec3 dir = getMyCamera()->getDirectionVector();
+    dir.z = 0.f;
+    const float strength = 500.f;
+    getCueBall()->addForce( dir * strength );
+}
+
