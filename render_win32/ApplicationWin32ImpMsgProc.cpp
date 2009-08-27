@@ -57,14 +57,19 @@ void CALLBACK ApplicationWin32Imp::MsgProcKeyboard(HWND hWnd, UINT uMsg, WPARAM 
 
     const bool bKeyDown = ( uMsg == WM_KEYDOWN || uMsg == WM_SYSKEYDOWN );
     const DWORD maskAlt = ( 1 << 29 );
-    const bool bAltDown = ( ( lParam & maskAlt ) != 0 );
+    const bool bAlt = ( ( lParam & maskAlt ) != 0 );
 
-    bKeys[ ( BYTE )( wParam & 0xFF ) ] = bKeyDown;
+    const BYTE whichKey = ( BYTE )( wParam & 0xFF ) ;
+    const bool bRepeated = ( bKeyDown == bKeys[ whichKey ] );
+    bKeys[ whichKey ] = bKeyDown;
 
-    if( bKeyDown )
-        g_app_->keyboardListener_->keyDown( ( UINT )wParam, bAltDown );
-    else
-        g_app_->keyboardListener_->keyUp( ( UINT )wParam, bAltDown );
+    if( false == bRepeated )
+    {
+        if( bKeyDown )
+            g_app_->keyboardListener_->keyDown( ( UINT )wParam, bAlt );
+        else
+            g_app_->keyboardListener_->keyUp( ( UINT )wParam, bAlt );
+    }
 }
 
 void CALLBACK ApplicationWin32Imp::MsgProcMouse(HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
