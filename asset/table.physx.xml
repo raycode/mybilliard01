@@ -6,7 +6,7 @@
         <hwConvexMax>2048</hwConvexMax>
       </NxPhysicsSDKDesc>
       <NxParameterDesc param="NX_PENALTY_FORCE" value="0.800000012"/>
-      <NxParameterDesc param="NX_SKIN_WIDTH" value="0.01"/>
+      <NxParameterDesc param="NX_SKIN_WIDTH" value="0.025"/>
       <NxParameterDesc param="NX_DEFAULT_SLEEP_LIN_VEL_SQUARED" value="0.022500001"/>
       <NxParameterDesc param="NX_DEFAULT_SLEEP_ANG_VEL_SQUARED" value="0.0196"/>
       <NxParameterDesc param="NX_BOUNCE_THRESHOLD" value="-2"/>
@@ -12950,9 +12950,9 @@
         <NxGroupsMask id="groupMask0" bits0="0" bits1="0" bits2="0" bits3="0"/>
         <NxGroupsMask id="groupMask1" bits0="0" bits1="0" bits2="0" bits3="0"/>
         <gravity>0 0 -9.81000042</gravity>
-        <maxTimestep>0</maxTimestep>
-        <maxIter>0</maxIter>
-        <timeStepMethod>NX_TIMESTEP_VARIABLE</timeStepMethod>
+        <maxTimestep>0.016666668</maxTimestep>
+        <maxIter>8</maxIter>
+        <timeStepMethod>NX_TIMESTEP_FIXED</timeStepMethod>
         <maxBounds>0 0 0  FLT_MAX FLT_MAX FLT_MAX</maxBounds>
         <NxSceneLimits id="limits">
           <maxNbActors>0</maxNbActors>
@@ -13013,7 +13013,7 @@
         <NxMaterialDesc id="Material_1" userProperties="" hasSpring="false" materialIndex="1">
           <dynamicFriction>0.300000012</dynamicFriction>
           <staticFriction>0.300000012</staticFriction>
-          <restitution>0</restitution>
+          <restitution>0.800000012</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -13028,7 +13028,7 @@
         <NxMaterialDesc id="Material_2" userProperties="" hasSpring="false" materialIndex="2">
           <dynamicFriction>0.300000012</dynamicFriction>
           <staticFriction>0.300000012</staticFriction>
-          <restitution>0</restitution>
+          <restitution>0.800000012</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -13043,7 +13043,7 @@
         <NxMaterialDesc id="Material_3" userProperties="" hasSpring="false" materialIndex="3">
           <dynamicFriction>0.300000012</dynamicFriction>
           <staticFriction>0.300000012</staticFriction>
-          <restitution>0</restitution>
+          <restitution>0.800000012</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -13058,7 +13058,7 @@
         <NxMaterialDesc id="Material_4" userProperties="" hasSpring="false" materialIndex="4">
           <dynamicFriction>0.300000012</dynamicFriction>
           <staticFriction>0.300000012</staticFriction>
-          <restitution>0</restitution>
+          <restitution>0.800000012</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -13073,7 +13073,7 @@
         <NxMaterialDesc id="Material_5" userProperties="" hasSpring="false" materialIndex="5">
           <dynamicFriction>0.300000012</dynamicFriction>
           <staticFriction>0.300000012</staticFriction>
-          <restitution>0</restitution>
+          <restitution>0.800000012</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -13223,7 +13223,7 @@
         <NxMaterialDesc id="Material_15" userProperties="" hasSpring="false" materialIndex="15">
           <dynamicFriction>0.300000012</dynamicFriction>
           <staticFriction>0.300000012</staticFriction>
-          <restitution>0</restitution>
+          <restitution>0.800000012</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -13357,7 +13357,7 @@
         </NxMaterialDesc>
         <NxMaterialDesc id="Material_24" userProperties="" hasSpring="false" materialIndex="24">
           <dynamicFriction>0.300000012</dynamicFriction>
-          <staticFriction>0.300000012</staticFriction>
+          <staticFriction>0.800000012</staticFriction>
           <restitution>0</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
@@ -13929,7 +13929,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -13996,7 +13996,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14063,7 +14063,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14130,7 +14130,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14197,7 +14197,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14264,7 +14264,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14283,7 +14283,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_6" userProperties="" hasBody="false" name="SIDEWOOD02">
-          <globalPose>0.00000006 1 0  -1 0.00000006 0  0 0 1  10.449981689 30.749992371 29.3860569</globalPose>
+          <globalPose>0 1 0  -1 0 0  0 0 1  10.449981689 30.749992371 29.3860569</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -14303,7 +14303,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="SIDEWOOD02">
-              <localPose>1 0 0  -0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 -0.00000006 0  0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -14331,7 +14331,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14350,7 +14350,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_7" userProperties="" hasBody="false" name="SIDEWOOD03">
-          <globalPose>0.00000006 1 0  -1 0.00000006 0  0 0 1  -37.550018311 30.749994278 29.3860569</globalPose>
+          <globalPose>0 1 0  -1 0 0  0 0 1  -37.550018311 30.749994278 29.3860569</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -14370,7 +14370,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="SIDEWOOD03">
-              <localPose>1 0 0  -0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 -0.00000006 0  0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -14398,7 +14398,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14417,7 +14417,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_8" userProperties="" hasBody="false" name="SIDEWOOD04">
-          <globalPose>0.00000006 1 0  -1 0.00000006 0  0 0 1  10.449983597 -25.250007629 29.3860569</globalPose>
+          <globalPose>0 1 0  -1 0 0  0 0 1  10.449983597 -25.250007629 29.3860569</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -14437,7 +14437,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="SIDEWOOD04">
-              <localPose>1 0 0  -0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 -0.00000006 0  0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -14465,7 +14465,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14484,7 +14484,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_9" userProperties="" hasBody="false" name="SIDEWOOD05">
-          <globalPose>0.00000006 1 0  -1 0.00000006 0  0 0 1  -37.550014496 -25.250009537 29.3860569</globalPose>
+          <globalPose>0 1 0  -1 0 0  0 0 1  -37.550014496 -25.250009537 29.3860569</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -14504,7 +14504,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="SIDEWOOD05">
-              <localPose>1 0 0  -0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 -0.00000006 0  0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -14532,7 +14532,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14599,7 +14599,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14618,7 +14618,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_11" userProperties="" hasBody="false" name="CORNER01">
-          <globalPose>0.00000006 -1 0  1 0.00000006 0  0 0 1  35.40763855 29.24438858 24.7610569</globalPose>
+          <globalPose>0 -1 0  1 0 0  0 0 1  35.40763855 29.24438858 24.7610569</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -14638,7 +14638,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="CORNER01">
-              <localPose>1 0 0  0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 0.00000006 0  -0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -14666,7 +14666,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14733,7 +14733,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14752,7 +14752,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_13" userProperties="" hasBody="false" name="CORNER04">
-          <globalPose>0.00000006 1 0  -1 0.00000006 0  0 0 1  -62.800018311 -23.750007629 24.7610569</globalPose>
+          <globalPose>0 1 0  -1 0 0  0 0 1  -62.800018311 -23.750007629 24.7610569</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -14772,7 +14772,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="CORNER04">
-              <localPose>1 0 0  -0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 -0.00000006 0  0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -14800,7 +14800,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14867,7 +14867,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -14934,7 +14934,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15001,7 +15001,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15068,7 +15068,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15135,7 +15135,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15202,7 +15202,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15269,7 +15269,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15336,7 +15336,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15403,7 +15403,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15470,7 +15470,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15537,7 +15537,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15604,7 +15604,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15623,7 +15623,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_26" userProperties="" hasBody="false" name="DOTS">
-          <globalPose>1 0 0  0 0.000000179 0.999999881  0 -0.999999881 0.000000179  -13.676912308 2.750720978 30.206069946</globalPose>
+          <globalPose>1 0 0  0 0.000000179 0.999999762  0 -0.999999762 0.000000179  -13.676912308 2.750720978 30.206069946</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -15643,7 +15643,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="DOTS">
-              <localPose>1 0 0  0 0.999999762 -0.000000193  0 0.000000193 0.999999762  0 0 0</localPose>
+              <localPose>1 0 0  0 0.999999464 -0.00000053  0 0.00000053 0.999999464  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -15671,7 +15671,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15690,7 +15690,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_27" userProperties="" hasBody="false" name="pocket02">
-          <globalPose>0.00000006 -1 0  1 0.00000006 0  0 0 1  34.070678711 27.88378334 25.913228989</globalPose>
+          <globalPose>0 -1 0  1 0 0  0 0 1  34.070678711 27.88378334 25.913228989</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -15710,7 +15710,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="pocket02">
-              <localPose>1 0 0  0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 0.00000006 0  -0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -15738,7 +15738,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15805,7 +15805,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15872,7 +15872,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -15891,7 +15891,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_30" userProperties="" hasBody="false" name="pocket04">
-          <globalPose>0.00000006 1 0  -1 0.00000006 0  0 0 1  -61.18693161 -22.400278091 25.913228989</globalPose>
+          <globalPose>0 1 0  -1 0 0  0 0 1  -61.18693161 -22.400278091 25.913228989</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -15911,7 +15911,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="pocket04">
-              <localPose>1 0 0  -0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 -0.00000006 0  0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -15939,7 +15939,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16006,7 +16006,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16073,7 +16073,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16092,13 +16092,13 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_33" userProperties="" hasBody="true" name="CUE_BALL">
-          <globalPose>-0.000000119 -0.00000006 -1  1 -0.00000006 -0.000000119  -0.00000003 -1 0.00000006  -45.050018311 -5.551513672 29.566030502</globalPose>
+          <globalPose>-0.000000119 -0.00000006 -1  1 -0.000000119 -0.00000006  -0.00000006 -1 0  -45.050018311 -5.551513672 29.566030502</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.987459779 -0.151667804 0.043817844  0.141154796 0.972513556 0.185182884  -0.070699729 -0.176675558 0.981726706  0.005361919 0.007020829 0.003775604</massLocalPose>
-            <massSpaceInertia>0.39791581 0.387740642 0.405323714</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.987459779 -0.151668042 0.043817908  0.141155005 0.972513497 0.185183123  -0.070699871 -0.176675767 0.981726587  0.005361919 0.007020829 0.003775604</massLocalPose>
+            <massSpaceInertia>4.894364834 4.769209862 4.985481739</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
-            <angularVelocity>0.00698132 0.00174533 0</angularVelocity>
+            <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
             <linearDamping>0</linearDamping>
             <angularDamping>0.050000001</angularDamping>
@@ -16142,7 +16142,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="CUE_BALL">
-              <localPose>1 0 0  0 1 0  -0 0 1  0 0 0</localPose>
+              <localPose>1 0 -0  0 1 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -16169,8 +16169,8 @@
               <materialIndex>34</materialIndex>
               <CCDSkeleton>CCD_skeleton0</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16189,7 +16189,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_34" userProperties="" hasBody="false" name="support">
-          <globalPose>1 0 0  0 0.000000179 -0.999999881  0 0.999999881 0.000000179  -13.579170227 3.249683619 23.991811752</globalPose>
+          <globalPose>1 0 0  0 0.000000179 -0.999999762  0 0.999999762 0.000000179  -13.579170227 3.249683619 23.991811752</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -16209,7 +16209,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="support">
-              <localPose>1 0 0  0 0.999999762 0.000000193  0 -0.000000193 0.999999762  0 0 0</localPose>
+              <localPose>1 0 0  0 0.999999464 0.00000053  0 -0.00000053 0.999999464  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -16237,7 +16237,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16304,7 +16304,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16371,7 +16371,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16390,7 +16390,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_37" userProperties="" hasBody="false" name="cue_holder">
-          <globalPose>0.00000006 -1 0  1 0.00000006 0  0 0 1  -12.534166336 21.460115433 19.905702591</globalPose>
+          <globalPose>0 -1 0  1 0 0  0 0 1  -12.534166336 21.460115433 19.905702591</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -16410,7 +16410,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="cue_holder">
-              <localPose>1 0 0  0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 0.00000006 0  -0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -16438,7 +16438,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16457,7 +16457,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_38" userProperties="" hasBody="false" name="cue_hold01">
-          <globalPose>0.00000006 -1 0  1 0.00000006 0  0 0 1  -12.534166336 -14.710130692 19.905702591</globalPose>
+          <globalPose>0 -1 0  1 0 0  0 0 1  -12.534166336 -14.710130692 19.905702591</globalPose>
           <density>0</density>
           <NxActorFlag id="flags">
             <NX_AF_DISABLE_COLLISION>false</NX_AF_DISABLE_COLLISION>
@@ -16477,7 +16477,7 @@
             </NxMeshShapeFlag>
             <meshPagingMode>NX_MESH_PAGING_MANUAL</meshPagingMode>
             <NxShapeDesc userProperties="" name="cue_hold01">
-              <localPose>1 0 0  0.000000025 1 0  0 0 1  0 0 0</localPose>
+              <localPose>0.99999994 0.00000006 0  -0.000000034 0.99999994 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -16505,7 +16505,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16572,7 +16572,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16591,7 +16591,7 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_40" userProperties="" hasBody="true" name="chalk">
-          <globalPose>1 0 0  0 0.998134792 -0.061048411  0 0.061048411 0.998134792  22.811668396 -24.475879669 30.610710144</globalPose>
+          <globalPose>1 0 0  0 0.998134792 -0.061048374  0 0.061048374 0.998134792  22.811668396 -24.475879669 30.610710144</globalPose>
           <NxBodyDesc id="body">
             <massLocalPose>1 -0.000000033 -0.000000048  -0.000000001 0.817994773 -0.575225651  0.000000059 0.575225651 0.817994773  0.000000005 0.000030346 0.049988542</massLocalPose>
             <massSpaceInertia>0.136501342 0.13650538 0.136500612</massSpaceInertia>
@@ -16669,7 +16669,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16688,9 +16688,9 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_41" userProperties="" hasBody="true" name="rack01">
-          <globalPose>-0.00000016 0.013089675 0.999914289  1 -0.000000029 0.000000179  0.00000006 0.999914289 -0.013089657  27.533773422 15.958526611 36.334106445</globalPose>
+          <globalPose>0.000000197 0.013089941 0.99991405  0.999999702 0.00000009 0.000000091  0.000000209 0.99991405 -0.013089656  27.533773422 15.958526611 36.334106445</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.872124374 0.000078245 0.489284277  -0.000115127 1 0.00004529  -0.489284277 -0.000095828 0.872124374  -0.008380537 -0.000277695 1.422411561</massLocalPose>
+            <massLocalPose>0.872124374 0.000078245 0.489284277  -0.000115128 1 0.000045291  -0.489284277 -0.00009583 0.872124374  -0.008380537 -0.000277693 1.422411561</massLocalPose>
             <massSpaceInertia>8.356795311 16.421031952 8.326739311</massSpaceInertia>
             <mass>1</mass>
             <linearVelocity>0 0 0</linearVelocity>
@@ -16738,7 +16738,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="rack01">
-              <localPose>1 -0 -0  -0 1 -0.000000001  0 0.000000001 1  0 0 0</localPose>
+              <localPose>1 0 -0  0 1 0  0 -0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -16766,7 +16766,7 @@
               <CCDSkeleton></CCDSkeleton>
               <shapeDensity>1</shapeDensity>
               <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16785,11 +16785,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_42" userProperties="" hasBody="true" name="ball01">
-          <globalPose>-0.352633715 0.064249054 -0.9335531  0.898459136 0.302116692 -0.318585336  0.261573166 -0.95110333 -0.164261654  14.777744293 3.307628393 29.580490112</globalPose>
+          <globalPose>-0.352633059 0.064249039 -0.933552384  0.898458421 0.302117318 -0.318585306  0.261573076 -0.951102614 -0.164261028  14.777744293 3.307628393 29.580490112</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.938741207 0.059128236 0.339512587  -0.047132984 0.99794203 -0.043476675  -0.34138459 0.024811104 0.939596176  0.002931927 0.00235163 0.003244657</massLocalPose>
-            <massSpaceInertia>0.404887736 0.388840884 0.411034822</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.938740909 0.059128225 0.339513332  -0.047132939 0.99794203 -0.043476712  -0.341385335 0.024811108 0.939595878  0.002931927 0.00235163 0.003244657</massLocalPose>
+            <massSpaceInertia>4.980119228 4.782742977 5.055728436</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -16835,7 +16835,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball01">
-              <localPose>1 -0.000000022 0.000000007  0.000000022 1 -0.000000007  -0.000000007 0.000000007 1  0 0 0</localPose>
+              <localPose>1 0.000000007 -0  -0.000000007 1 -0.000000007  -0 0.000000007 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -16862,8 +16862,8 @@
               <materialIndex>43</materialIndex>
               <CCDSkeleton>CCD_skeleton1</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16882,11 +16882,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_43" userProperties="" hasBody="true" name="ball09">
-          <globalPose>-0.741074443 0.117257729 -0.66110462  0.66071856 -0.04776071 -0.749112785  -0.119414061 -0.991952419 -0.042080138  9.281099319 2.238679647 29.580488205</globalPose>
+          <globalPose>-0.741073966 0.117257521 -0.6611045  0.660718381 -0.047760639 -0.749112546  -0.119414061 -0.991952121 -0.042079605  9.281099319 2.238679647 29.580488205</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.999240279 0.031332612 0.023176005  -0.024505315 0.967544436 -0.251509994  -0.030304279 0.250750989 0.967577219  0.002728073 0.010147552 -0.004040614</massLocalPose>
-            <massSpaceInertia>0.405262202 0.387794912 0.411129117</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.999240279 0.03133259 0.023176003  -0.024505291 0.967544436 -0.251510024  -0.030304272 0.250751019 0.967577159  0.002728073 0.010147552 -0.004040614</massLocalPose>
+            <massSpaceInertia>4.984724998 4.769877911 5.056888103</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -16932,7 +16932,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball09">
-              <localPose>1 -0.000000004 -0.000000015  0.000000004 1 0.000000006  0.000000015 -0.000000006 1  0 0 0</localPose>
+              <localPose>1 -0.000000007 -0.000000065  0.000000007 1 0.000000002  0.000000065 -0.000000002 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -16959,8 +16959,8 @@
               <materialIndex>44</materialIndex>
               <CCDSkeleton>CCD_skeleton2</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -16979,14 +16979,14 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_44" userProperties="" hasBody="true" name="ball02">
-          <globalPose>-0.438923299 0.224224806 0.870097399  -0.897728324 -0.068679996 -0.435162961  -0.037815988 -0.972114325 0.231438279  16.622177124 4.432822704 29.580486298</globalPose>
+          <globalPose>-0.438922167 0.224224567 0.870096684  -0.897727609 -0.068679228 -0.435162604  -0.037815839 -0.97211355 0.231438905  16.622177124 4.432822704 29.580486298</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.997662604 0.026513446 -0.06297946  -0.039954823 0.974027693 -0.222875878  0.055434532 0.224871263 0.972810328  0.002179448 -0.0117785 0.003769014</massLocalPose>
-            <massSpaceInertia>0.405084968 0.388188422 0.411129743</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.997662604 0.026513416 -0.062979363  -0.039954763 0.974027753 -0.222875699  0.055434451 0.224871069 0.972810328  0.002179448 -0.0117785 0.003769014</massLocalPose>
+            <massSpaceInertia>4.982545376 4.774717808 5.056895733</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
-            <wakeUpCounter>0.599999905</wakeUpCounter>
+            <wakeUpCounter>0.399999976</wakeUpCounter>
             <linearDamping>0</linearDamping>
             <angularDamping>0.050000001</angularDamping>
             <maxAngularVelocity>7</maxAngularVelocity>
@@ -17029,7 +17029,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball02">
-              <localPose>1 0.000000006 0.000000016  -0.000000006 1 0.000000007  -0.000000016 -0.000000007 1  0 0 0</localPose>
+              <localPose>1 -0.000000004 -0.000000019  0.000000004 1 0.000000007  0.000000019 -0.000000007 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17056,8 +17056,8 @@
               <materialIndex>45</materialIndex>
               <CCDSkeleton>CCD_skeleton3</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17076,11 +17076,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_45" userProperties="" hasBody="true" name="ball03">
-          <globalPose>-0.611230612 0.717166841 0.334766716  -0.214269012 0.257235736 -0.9422943  -0.761896193 -0.647689283 -0.003563698  11.122900009 3.292526722 29.580488205</globalPose>
+          <globalPose>-0.611229718 0.717166424 0.334766418  -0.214268744 0.257236183 -0.942293763  -0.761895776 -0.647688925 -0.003563209  11.122900009 3.292526722 29.580488205</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.969173253 0.026775055 0.244921103  -0.020350026 0.999380112 -0.028726632  -0.245538428 0.022856932 0.969117343  -0.008438897 -0.000799458 -0.002895134</massLocalPose>
-            <massSpaceInertia>0.404727042 0.389052659 0.411126494</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.969173491 0.02677506 0.244920045  -0.020350067 0.999380112 -0.028726589  -0.245537385 0.022856908 0.969117582  -0.008438897 -0.000799458 -0.002895134</massLocalPose>
+            <massSpaceInertia>4.978142738 4.785347939 5.056856632</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -17126,7 +17126,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball03">
-              <localPose>1 0 -0  0 1 0.000000017  0 -0.000000017 1  0 0 0</localPose>
+              <localPose>1 -0.000000015 -0  0.000000015 1 0.000000024  -0 -0.000000024 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17153,8 +17153,8 @@
               <materialIndex>46</materialIndex>
               <CCDSkeleton>CCD_skeleton4</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17173,11 +17173,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_46" userProperties="" hasBody="true" name="ball04">
-          <globalPose>0.301888287 0.73634702 -0.605521679  0.924127579 -0.069991447 0.375618696  0.234204382 -0.672974169 -0.701608181  11.080259323 1.176861882 29.580490112</globalPose>
+          <globalPose>0.301888973 0.736346364 -0.605521262  0.924126863 -0.069990762 0.375618428  0.234204084 -0.672973752 -0.70160681  11.080259323 1.176861882 29.580490112</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.999486148 -0.010083805 0.030426797  0.017954791 0.962461591 -0.270823449  -0.026553692 0.271230578 0.962148011  -0.000902696 -0.011426269 0.004203998</massLocalPose>
-            <massSpaceInertia>0.409924686 0.387909591 0.406493098</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.999486148 -0.010083812 0.030426621  0.017954759 0.962461472 -0.270823747  -0.026553515 0.271230876 0.962147951  -0.000902696 -0.011426269 0.004203998</massLocalPose>
+            <massSpaceInertia>5.042073727 4.771287918 4.999864578</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -17223,7 +17223,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball04">
-              <localPose>1 0 -0.000000007  0 1 0  0.000000007 0 1  0 0 0</localPose>
+              <localPose>1 -0.000000007 -0.000000015  0.000000007 1 0.000000015  0.000000015 -0.000000015 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17250,8 +17250,8 @@
               <materialIndex>47</materialIndex>
               <CCDSkeleton>CCD_skeleton5</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17270,11 +17270,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_47" userProperties="" hasBody="true" name="ball05">
-          <globalPose>-0.930307686 -0.243336916 0.274435639  -0.331439555 0.237282142 -0.913151145  0.157084689 -0.940470278 -0.301396936  16.649951935 2.31416297 29.580493927</globalPose>
+          <globalPose>-0.930305719 -0.243336752 0.274435312  -0.331439197 0.237283081 -0.913150191  0.157084584 -0.940469265 -0.301395744  16.649951935 2.31416297 29.580493927</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.803410351 -0.010928591 -0.59532547  0.001021507 0.999855399 -0.016976127  0.595424891 0.013030668 0.803305328  -0.000931703 -0.00231471 0.00536634</massLocalPose>
-            <massSpaceInertia>0.413522273 0.391407281 0.408716083</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.803412557 -0.010928596 -0.59532249  0.001021584 0.999855399 -0.016976116  0.59542191 0.013030653 0.803307533  -0.000931703 -0.00231471 0.00536634</massLocalPose>
+            <massSpaceInertia>5.086324692 4.814310074 5.027207375</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -17320,7 +17320,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball05">
-              <localPose>1 -0.000000007 0.000000006  0.000000007 1 -0.000000015  -0.000000006 0.000000015 1  0 0 0</localPose>
+              <localPose>1 -0.000000007 0.000000026  0.000000007 1 0.00000003  -0.000000026 -0.00000003 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17347,8 +17347,8 @@
               <materialIndex>48</materialIndex>
               <CCDSkeleton>CCD_skeleton6</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17367,11 +17367,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_48" userProperties="" hasBody="true" name="ball06">
-          <globalPose>0.806708515 0.532090604 0.257101119  -0.300648898 -0.005012088 0.953721702  0.508754969 -0.846672535 0.155929178  16.549621582 0.220063806 29.580482483</globalPose>
+          <globalPose>0.806708634 0.532090127 0.257101208  -0.300648808 -0.005011706 0.953721046  0.508754611 -0.846672058 0.155929521  16.549621582 0.220063806 29.580482483</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.759022653 0.161255836 0.630778253  -0.024855986 0.97531265 -0.219425142  -0.650589645 0.15087004 0.744292557  -0.002002756 -0.001173494 0.00482244</massLocalPose>
-            <massSpaceInertia>0.408410251 0.389074653 0.415731639</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.759022355 0.161255687 0.630778611  -0.024855837 0.97531271 -0.219424978  -0.650589883 0.150869936 0.744292259  -0.002002756 -0.001173494 0.00482244</massLocalPose>
+            <massSpaceInertia>5.023447037 4.785618305 5.113499641</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -17417,7 +17417,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball06">
-              <localPose>1 -0.000000015 -0.000000007  0.000000015 1 -0  0.000000007 -0 1  0 0 0</localPose>
+              <localPose>1 0 0  0 1 0  0 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17444,8 +17444,8 @@
               <materialIndex>49</materialIndex>
               <CCDSkeleton>CCD_skeleton7</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17464,11 +17464,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_49" userProperties="" hasBody="true" name="ball07">
-          <globalPose>0.90312469 -0.077727757 -0.422284514  0.300856799 0.81624043 0.493190348  0.306351095 -0.572459579 0.76055181  14.777048111 -0.883627415 29.580488205</globalPose>
+          <globalPose>0.90312469 -0.077727787 -0.422284305  0.300856709 0.816240549 0.49319002  0.306350887 -0.572459221 0.760551929  14.777048111 -0.883627415 29.580488205</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.83408016 0.177783534 -0.522210002  -0.223812178 0.974291205 -0.025783453  0.504200697 0.138382435 0.852427065  -0.002128456 0.002471548 -0.00347109</massLocalPose>
-            <massSpaceInertia>0.415284872 0.389889896 0.408672988</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.834080517 0.177783251 -0.522209525  -0.223811865 0.974291265 -0.025783598  0.504200339 0.138382286 0.852427363  -0.002128456 0.002471548 -0.00347109</massLocalPose>
+            <massSpaceInertia>5.108004093 4.795645237 5.026678085</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -17514,7 +17514,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball07">
-              <localPose>1 -0.000000007 0  0.000000007 1 0  0 0 1  0 0 0</localPose>
+              <localPose>1 0.000000007 -0.000000015  -0.000000007 1 0  0.000000015 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17541,8 +17541,8 @@
               <materialIndex>50</materialIndex>
               <CCDSkeleton>CCD_skeleton8</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17561,11 +17561,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_50" userProperties="" hasBody="true" name="ball08">
-          <globalPose>-0.73489821 -0.103095151 -0.670295537  0.336456001 0.802738905 -0.492349118  0.588831127 -0.587351441 -0.555244386  14.777050018 1.204444051 29.580486298</globalPose>
+          <globalPose>-0.734897256 -0.103095084 -0.670295179  0.336455792 0.802739024 -0.49234879  0.588830769 -0.587351024 -0.555243552  14.777050018 1.204444051 29.580486298</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.920741856 0.283100456 0.268493116  -0.270806402 0.959084451 -0.082588509  -0.280888438 0.003333039 0.959734678  -0.004827212 0.011567106 -0.000760456</massLocalPose>
-            <massSpaceInertia>0.40887183 0.387729973 0.407589227</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.920744717 0.28309989 0.268483937  -0.27080667 0.95908463 -0.082585655  -0.280878812 0.003333054 0.95973748  -0.004827212 0.011567106 -0.000760456</massLocalPose>
+            <massSpaceInertia>5.029123783 4.769078732 5.013347626</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -17611,7 +17611,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball08">
-              <localPose>1 -0 0.000000045  -0 1 0.000000015  -0.000000045 -0.000000015 1  0 0 0</localPose>
+              <localPose>1 0.000000015 -0.000000015  -0.000000015 1 0.000000015  0.000000015 -0.000000015 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17638,8 +17638,8 @@
               <materialIndex>51</materialIndex>
               <CCDSkeleton>CCD_skeleton9</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17658,14 +17658,14 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_51" userProperties="" hasBody="true" name="ball10">
-          <globalPose>-0.697790563 0.000000237 -0.716301739  0.397956282 0.831469417 -0.387671769  0.595582902 -0.555570543 -0.580191612  14.777048111 5.380600929 29.580490112</globalPose>
+          <globalPose>-0.697790802 0.00000025 -0.716301799  0.397956312 0.831469417 -0.387671798  0.595582962 -0.555570543 -0.580191791  14.777048111 5.380600929 29.580490112</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.995239139 -0.018373327 0.095715813  0.038170315 0.977100194 -0.20932813  -0.089677878 0.211985037 0.973149598  0.002983035 0.000626417 -0.002412897</massLocalPose>
-            <massSpaceInertia>0.405663073 0.387764782 0.411629885</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.995239079 -0.018373268 0.095716305  0.038170367 0.977100194 -0.209328189  -0.089678369 0.211985126 0.973149598  0.002983035 0.000626417 -0.002412897</massLocalPose>
+            <massSpaceInertia>4.989655972 4.769506931 5.063047886</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
-            <wakeUpCounter>0.633333266</wakeUpCounter>
+            <wakeUpCounter>0.399999976</wakeUpCounter>
             <linearDamping>0</linearDamping>
             <angularDamping>0.050000001</angularDamping>
             <maxAngularVelocity>7</maxAngularVelocity>
@@ -17708,7 +17708,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball10">
-              <localPose>1 0 -0.000000015  0 1 0.000000015  0.000000015 -0.000000015 1  0 0 0</localPose>
+              <localPose>1 0.00000003 0.000000015  -0.00000003 1 -0.000000015  -0.000000015 0.000000015 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17735,8 +17735,8 @@
               <materialIndex>52</materialIndex>
               <CCDSkeleton>CCD_skeleton10</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17755,11 +17755,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_52" userProperties="" hasBody="true" name="ball11">
-          <globalPose>0.057109244 0.354420185 -0.933340669  0.928349376 -0.36278531 -0.080957711  -0.367295355 -0.861842871 -0.349744171  16.604112625 -1.92766881 29.580486298</globalPose>
+          <globalPose>0.057109706 0.354420006 -0.933340311  0.928349018 -0.362784803 -0.080957629  -0.367295265 -0.861842453 -0.349743545  16.604112625 -1.92766881 29.580486298</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.784435332 -0.136281833 0.605052531  0.201703385 0.978584468 -0.041087285  -0.586495519 0.154271454 0.79512471  0.003496555 -0.002201963 0.001510148</massLocalPose>
-            <massSpaceInertia>0.415877074 0.391775727 0.41044426</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.784432471 -0.136281982 0.605056107  0.201703548 0.978584468 -0.041086052  -0.586499274 0.1542712 0.795122027  0.003496555 -0.002201963 0.001510148</massLocalPose>
+            <massSpaceInertia>5.115287781 4.818841457 5.048464775</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -17805,7 +17805,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball11">
-              <localPose>1 -0.000000015 -0.000000007  0.000000015 1 0.00000003  0.000000007 -0.00000003 1  0 0 0</localPose>
+              <localPose>1 0.000000015 -0.000000015  -0.000000015 1 0.000000015  0.000000015 -0.000000015 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17832,8 +17832,8 @@
               <materialIndex>53</materialIndex>
               <CCDSkeleton>CCD_skeleton11</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17852,11 +17852,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_53" userProperties="" hasBody="true" name="ball12">
-          <globalPose>0.078703232 0.721674144 0.687744379  -0.875692666 0.379739434 -0.298262388  -0.476411879 -0.578778446 0.661851346  12.890058517 4.359250069 29.580490112</globalPose>
+          <globalPose>0.078703053 0.721674204 0.687744439  -0.875692725 0.379739314 -0.298262447  -0.476411879 -0.578778505 0.661851346  12.890058517 4.359250069 29.580490112</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.969843149 0.011895149 -0.243439555  -0.008885764 0.999870002 0.013456343  0.243567973 -0.010887396 0.969822705  0.00841193 -0.000816318 -0.002943198</massLocalPose>
-            <massSpaceInertia>0.404690444 0.389069021 0.411123782</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.969843566 0.011895191 -0.243437856  -0.008885833 0.999870002 0.01345632  0.243566275 -0.010887377 0.969823122  0.00841193 -0.000816318 -0.002943198</massLocalPose>
+            <massSpaceInertia>4.977692604 4.785548687 5.056822777</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -17902,7 +17902,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball12">
-              <localPose>1 -0.000000015 -0.000000015  0.000000015 1 -0  0.000000015 -0 1  0 0 0</localPose>
+              <localPose>1 0.000000015 -0.000000015  -0.000000015 1 0  0.000000015 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -17929,8 +17929,8 @@
               <materialIndex>54</materialIndex>
               <CCDSkeleton>CCD_skeleton12</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -17949,14 +17949,14 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_54" userProperties="" hasBody="true" name="ball13">
-          <globalPose>0.886701345 -0.289665908 0.360353082  -0.249370426 0.356683522 0.900328398  -0.389326423 -0.888183832 0.244037643  12.935464859 2.240116119 29.580490112</globalPose>
+          <globalPose>0.886701405 -0.289665818 0.360353023  -0.249370396 0.356683642 0.900328219  -0.389326364 -0.888183653 0.244037822  12.935464859 2.240116119 29.580490112</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.998197377 -0.059962284 -0.002553241  0.058056451 0.975505412 -0.21217598  0.015213257 0.211645275 0.977228165  0.006976901 -0.000716426 0.002494443</massLocalPose>
-            <massSpaceInertia>0.405784935 0.387688518 0.411628962</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.998197377 -0.059962325 -0.002553215  0.058056496 0.975505412 -0.212175906  0.015213236 0.211645201 0.977228165  0.006976901 -0.000716426 0.002494443</massLocalPose>
+            <massSpaceInertia>4.991154671 4.768568993 5.063036442</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
-            <wakeUpCounter>0.527206361</wakeUpCounter>
+            <wakeUpCounter>0.399999976</wakeUpCounter>
             <linearDamping>0</linearDamping>
             <angularDamping>0.050000001</angularDamping>
             <maxAngularVelocity>7</maxAngularVelocity>
@@ -17999,7 +17999,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball13">
-              <localPose>1 0 -0.000000004  0 1 0  0.000000004 0 1  0 0 0</localPose>
+              <localPose>1 -0.000000015 -0  0.000000015 1 0.000000015  -0 -0.000000015 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -18026,8 +18026,8 @@
               <materialIndex>55</materialIndex>
               <CCDSkeleton>CCD_skeleton13</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -18046,11 +18046,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_55" userProperties="" hasBody="true" name="ball14">
-          <globalPose>-0.911330998 -0.296612918 -0.28547585  0.09232489 0.528529525 -0.843879521  0.401187956 -0.795410156 -0.454280555  12.904766083 0.140743375 29.580486298</globalPose>
+          <globalPose>-0.911330223 -0.29661274 -0.285475701  0.092324786 0.528529882 -0.843879044  0.401187778 -0.795409739 -0.454280168  12.904766083 0.140743375 29.580486298</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.935705841 0.352780908 -0.000459841  -0.352775693 0.935697675 0.004374682  0.001973576 -0.003931195 0.999990344  0.00697036 -0.009978815 -0.001960084</massLocalPose>
-            <massSpaceInertia>0.407079488 0.387004673 0.410365671</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.935705662 0.352781296 -0.000459884  -0.35277608 0.935697556 0.004374643  0.001973604 -0.003931142 0.999990344  0.006970361 -0.009978815 -0.001960084</massLocalPose>
+            <massSpaceInertia>5.007077694 4.760157585 5.047497749</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -18096,7 +18096,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball14">
-              <localPose>1 0.000000015 0.000000022  -0.000000015 1 0.00000003  -0.000000022 -0.00000003 1  0 0 0</localPose>
+              <localPose>1 -0.00000003 -0.000000015  0.00000003 1 -0.000000015  0.000000015 0.000000015 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -18123,8 +18123,8 @@
               <materialIndex>56</materialIndex>
               <CCDSkeleton>CCD_skeleton14</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -18143,11 +18143,11 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_56" userProperties="" hasBody="true" name="ball15">
-          <globalPose>-0.566406429 0.000000104 -0.824126065  0.442802429 -0.843391538 -0.304329932  -0.695061028 -0.537299454 0.47770232  16.55610466 6.488950253 29.58049202</globalPose>
+          <globalPose>-0.566406429 0.000000118 -0.824126065  0.442802459 -0.843391538 -0.304329962  -0.695060968 -0.537299514 0.47770232  16.55610466 6.488950253 29.58049202</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.999651968 0.006678206 -0.025522482  -0.011714001 0.979192972 -0.202592835  0.023638479 0.202821299 0.978930414  0.000113784 0.000785572 0.000431819</massLocalPose>
-            <massSpaceInertia>0.413221717 0.390583187 0.409591794</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.999651909 0.006678232 -0.025522796  -0.011714093 0.979192972 -0.202592924  0.023638779 0.202821389 0.978930354  0.000113784 0.000785572 0.000431819</massLocalPose>
+            <massSpaceInertia>5.082627296 4.804173946 5.037979603</massSpaceInertia>
+            <mass>12.300000191</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
             <wakeUpCounter>0.399999976</wakeUpCounter>
@@ -18193,7 +18193,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="ball15">
-              <localPose>1 -0.00000003 0.00000003  0.00000003 1 0.000000015  -0.00000003 -0.000000015 1  0 0 0</localPose>
+              <localPose>1 -0.000000015 0.000000015  0.000000015 1 0  -0.000000015 0 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -18220,8 +18220,8 @@
               <materialIndex>57</materialIndex>
               <CCDSkeleton>CCD_skeleton15</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>12.300000191</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
@@ -18240,14 +18240,14 @@
           <forceFieldMaterial>0</forceFieldMaterial>
         </NxActorDesc>
         <NxActorDesc id="Actor_57" userProperties="" hasBody="true" name="cue05">
-          <globalPose>0.258779645 0.965778708 -0.017452156  0.965925872 -0.258819133 -0.000000199  -0.004517143 -0.016857436 -0.99984777  -53.769073486 18.353462219 29.692918777</globalPose>
+          <globalPose>0.258779943 0.96577853 -0.017452156  0.965925634 -0.258819133 -0.0000002  -0.004517148 -0.016857436 -0.999847472  -53.769073486 18.353462219 29.692918777</globalPose>
           <NxBodyDesc id="body">
-            <massLocalPose>0.980816901 -0.000053903 -0.194931298  0.000137531 0.999999881 0.000415477  0.194931254 -0.000434316 0.980816782  -0.029060433 16.386219025 -0.007541996</massLocalPose>
-            <massSpaceInertia>188.360748291 0.36599189 188.36366272</massSpaceInertia>
-            <mass>1</mass>
+            <massLocalPose>0.980522931 -0.000053903 -0.196404681  0.000138155 0.999999881 0.00041527  0.196404651 -0.000434316 0.980522811  -0.029060433 16.386219025 -0.007541996</massLocalPose>
+            <massSpaceInertia>9418.0390625 18.299594879 9418.182617188</massSpaceInertia>
+            <mass>50</mass>
             <linearVelocity>0 0 0</linearVelocity>
             <angularVelocity>0 0 0</angularVelocity>
-            <wakeUpCounter>0.966666996</wakeUpCounter>
+            <wakeUpCounter>0.399999976</wakeUpCounter>
             <linearDamping>0</linearDamping>
             <angularDamping>0.050000001</angularDamping>
             <maxAngularVelocity>7</maxAngularVelocity>
@@ -18290,7 +18290,7 @@
               <NX_MESH_DOUBLE_SIDED>false</NX_MESH_DOUBLE_SIDED>
             </NxMeshShapeFlag>
             <NxShapeDesc userProperties="" name="cue05">
-              <localPose>1 0 -0  -0 1 -0.000000001  0 0.000000001 1  0 0 0</localPose>
+              <localPose>1 0 -0  -0 1 -0.000000001  -0 0.000000001 1  0 0 0</localPose>
               <NxShapeFlag id="shapeFlags">
                 <NX_TRIGGER_ON_ENTER>false</NX_TRIGGER_ON_ENTER>
                 <NX_TRIGGER_ON_LEAVE>false</NX_TRIGGER_ON_LEAVE>
@@ -18317,8 +18317,8 @@
               <materialIndex>58</materialIndex>
               <CCDSkeleton>CCD_skeleton16</CCDSkeleton>
               <shapeDensity>1</shapeDensity>
-              <shapeMass>1</shapeMass>
-              <skinWidth>0.01</skinWidth>
+              <shapeMass>50</shapeMass>
+              <skinWidth>0.025</skinWidth>
               <NxGroupsMask id="groupsMask" bits0="0" bits1="0" bits2="0" bits3="0"/>
               <NxShapeCompartmentType id="nonInteractingCompartmentTypes">
                 <NX_COMPARTMENT_SW_RIGIDBODY>false</NX_COMPARTMENT_SW_RIGIDBODY>
