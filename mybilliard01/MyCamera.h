@@ -9,12 +9,15 @@ public:
     void getViewMatrix44( float * returnMatrix44, bool bRowMajor );
 
     const NxExtendedVec3 & getPosition();
+    void setPosition( const NxExtendedVec3 & newPosition );
+
     NxVec3 getRightVector () const;
     NxVec3 getUpVector () const;
     NxVec3 getDirectionVector () const;
 
     void update( float elapsedTime );
 
+public: // move
     NxU32 move( NxVec3 dispVector, NxReal elapsedTime );
 
     void setMovingSpeed( float movingSpeed );
@@ -34,6 +37,7 @@ public:
     void endMoveRight();
     void endMoveBackward();
 
+public: // rotate
     void rotateClockWiseByZ( float angle );
     void pitchDown( float angle );
 
@@ -46,6 +50,10 @@ public:
     void beginPitchUp();
     void endPitchDown();
     void endPitchUp();
+
+public: // rotate by arbitrary position
+    void rotateClockWiseByZ( float angle, const NxVec3 & location );
+    void pitchDown( float angle, const NxVec3 & location );
 
 private:
     Camera * colladaCamera_;

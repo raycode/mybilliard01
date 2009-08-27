@@ -39,6 +39,7 @@ private: // move
     void endMoveLeft();
     void endMoveRight();
     void endMoveBackward();
+    void stopMoving();
 
 private: // rotate
     void beginRotateClockWiseByZ();
@@ -49,25 +50,39 @@ private: // rotate
     void beginPitchDown();
     void beginPitchUp();
     void endPitchDown();
+
     void endPitchUp();
+    void stopRotate();
 
     void selectBall( int xPos, int yPos );
 
 private: // mouse
-    void OnBegin( int nX, int nY );
+    void OnBeginDrag( int nX, int nY );
     void OnMove( int nX, int nY );
-    void OnEnd();
+    void OnEndDrag();
+
+private: // keyboard
+    void beginAimBall();
+    void endAimBall();
+
+    bool isCloseEnoughToAim( NxExtendedVec3 cameraPos, NxVec3 ballPos );
 
 private:
     MyRenderEventListenerImp * renderListener_;
     ApplicationWindow * app_;
 
 private: // mouse
-    bool m_bDrag;
+    bool bDrag_;
     NxVec3 m_vDownPt;           // starting point of rotation arc
     NxVec3 m_vCurrentPt;        // current point of rotation arc
     float rotationSensitivity_;
     float pitchSensitivity_;
+
+private: // keyboard
+    bool bAiming_;
+    bool bNeedToStoreDownPt_;
+    const double aimableMaxDist_;
+
 };
 
 
