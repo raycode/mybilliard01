@@ -6,16 +6,15 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 : scene_( new SceneImp() )
 , phys_( new MyPhysX() )
 , bRightHandHardware_( false )
+, bPaused_( false )
 {
     const bool bScene = scene_->load( sceneFile );
     const bool bPhys = phys_->loadXMLFile( physX_File );
     assert( bScene );
     assert( bPhys );
 
-    phys_->getScene()->setUserContactReport( & ballContactReport_ );
-
     initCamera( NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
-    initPhysObjects();
+    initPhysForBilliard();
 }
 
 void MyRenderEventListenerImp::initCamera( NxVec3 pos, NxVec3 dir ) {
@@ -24,16 +23,33 @@ void MyRenderEventListenerImp::initCamera( NxVec3 pos, NxVec3 dir ) {
     camera_->setMovementToFixedHeight( pos.z );
 }
 
-void MyRenderEventListenerImp::initPhysObjects()
+bool isActorBall( NxActor * actor )
 {
+    const wstring name = convertString( actor->getName() );
+    if( name == L"CUE_BALL" ) return true;
+    if( name.find( L"ball" ) == 0 ) return true;
+    return false;
+}
+void MyRenderEventListenerImp::initPhysForBilliard()
+{
+    phys_->getScene()->setActorGroupPairFlags(0,0, ballContactReport_.getContactReportFlags() );
+    phys_->getScene()->setUserContactReport( & ballContactReport_ );
+
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
     {
         NxActor * const actor = phys_->getActor( i );
 
         const wstring name = convertString( actor->getName() );
         if( name == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
-        else if( name == L"cue_stick" ) actors_[ ACTOR_STICK ] = actor;
+        if( name == L"cue_stick" ) actors_[ ACTOR_STICK ] = actor;
 
+        if( isActorBall( actor ) )
+        {
+            actor->raiseBodyFlag( NX_BF_FROZEN_POS_Z ); 
+            actor->raiseActorFlag( NX_AF_FORCE_CONE_FRICTION ); 
+            actor->setAngularDamping( 0.2f );
+            actor->setLinearDamping( 0.2f );
+        }
     }
 
     defaultCueBallPos_ = getCueBall()->getGlobalPosition();
@@ -93,19 +109,16 @@ void MyRenderEventListenerImp::updateEffectProjection()
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
 {
-    phys_->simulate( elapsedTime );
+    phys_->simulate( bPaused_ ? 0.f : elapsedTime );
     updateCamera( elapsedTime );
     updateEffect( elapsedTime );
     updateStickPosition();
-
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
     {
         NxActor * const actor = phys_->getActor( i );
+        if( false == isActorBall( actor )) continue;
 
-        const wstring name = convertString( actor->getName() );
-        if( name == L"CUE_BALL" || name.find( L"ball" ) == 0 ) {
-            //actor->addForce( NxVec3( 0.f, 0.f, -1.f * elapsedTime ), NX_IMPULSE );
-        }
+        //actor->addForce( NxVec3( 0.f, 0.f, -1.f ) * elapsedTime, NX_IMPULSE );
     }
     phys_->fetchResult();
 }
@@ -215,4 +228,9 @@ void MyRenderEventListenerImp::bringCueBallBack() {
     NxVec3 zero;
     zero.zero();
     getCueBall()->setLinearVelocity( zero );
+}
+
+void MyRenderEventListenerImp::pause( bool bPause )
+{
+    bPaused_ = bPause;
 }

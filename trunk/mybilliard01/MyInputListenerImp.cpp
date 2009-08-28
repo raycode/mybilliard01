@@ -10,6 +10,7 @@
 #define KEY_J 74
 #define KEY_K 75
 #define KEY_L 76
+#define KEY_P 80
 #define KEY_A 65
 #define KEY_S 83
 #define KEY_D 68
@@ -25,6 +26,7 @@ MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListene
 , bAiming_( false )
 , bNeedToStoreDownPt_( false )
 , aimableMaxDist_( 60.f )
+, bPause_( false )
 {
     rotationSensitivity_ = 0.005f;
     pitchSensitivity_ = 0.05f;
@@ -77,6 +79,9 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
             break;
         case KEY_R:
             bringCueBallBack();
+            break;
+        case KEY_P:
+            togglePause();
             break;
     }
 }
@@ -315,6 +320,10 @@ void MyInputListenerImp::bringCueBallBack() {
     renderListener_->bringCueBallBack();
 }
 
+void MyInputListenerImp::togglePause() {
+    bPause_ = ! bPause_;
+    renderListener_->pause( bPause_ );
+}
 void MyInputListenerImp::selectBall( int xPos, int yPos )
 {
 
