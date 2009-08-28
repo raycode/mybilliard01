@@ -85,6 +85,10 @@ private: // keyboard
     bool bNeedToStoreDownPt_;
     const double aimableMaxDist_;
 
+private: // pause
+    void togglePause();
+    bool bPause_;
+
 };
 
 

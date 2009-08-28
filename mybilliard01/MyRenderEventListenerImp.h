@@ -20,6 +20,7 @@ public:
     NxVec3 getBallPosition();
     void shotCueBall();
     void bringCueBallBack();
+    void pause( bool );
 
 private:
     NxActor * getCueBall();
@@ -27,7 +28,7 @@ private:
 
 private: // init
     void initCamera( NxVec3 pos, NxVec3 dir );
-    void initPhysObjects();
+    void initPhysForBilliard();
     void initEffect( RenderBufferFactory * renderFactory );
     void initEffectLights();
 
@@ -60,6 +61,7 @@ private: // camera
 
 private: // keyboard input
     NxVec3 defaultCueBallPos_;
+    bool bPaused_;
 
 private: // effect
     EffectShaderFeeder * createEffectFeeder( Node * node, RenderBufferFactory * renderFactory );

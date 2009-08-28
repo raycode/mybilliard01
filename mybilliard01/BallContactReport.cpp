@@ -2,6 +2,16 @@
 #include "my_app.h"
 
 
+NxContactPairFlag BallContactReport::getContactReportFlags()
+{
+    return ( NxContactPairFlag )(
+        NX_NOTIFY_FORCES |
+        NX_NOTIFY_ON_END_TOUCH |
+        NX_NOTIFY_ON_START_TOUCH |
+        NX_NOTIFY_ON_TOUCH
+    );
+}
+
 void BallContactReport::onContactNotify(NxContactPair& pair, NxU32 events)
 {
     switch( events )
@@ -17,29 +27,26 @@ void BallContactReport::onContactNotify(NxContactPair& pair, NxU32 events)
         break;
     default:
         OutputDebugStr( (wstring(L"UserContactReport: ") + DebugHelper::getStringFromInt(events) + L"\n").c_str() );
+        break;
     }
-}
-
-void BallContactReport::onContactStart( NxContactPair & pair )
-{
 }
 
 void BallContactReport::onContactEnd( NxContactPair & pair )
 {
-    for( size_t i = 0; i < 2; ++i )
-    {
-        if( pair.isDeletedActor[ i ] ) continue;
-        NxActor * const actor = pair.actors[ i ];
-        const wstring name = convertString( actor->getName() );
-        if( name != L"CUE_BALL" && name.find( L"ball" ) != 0 ) continue;
+}
 
-        const float jumping = actor->getLinearVelocity().z;
-        if( jumping > 0.f )
-            actor->addForce( NxVec3( 0.f, 0.f, -1.f * jumping ), NX_IMPULSE );
-    }
+bool BallContactReport::isActorBall( NxActor * actor )
+{
+    const wstring name = convertString( actor->getName() );
+    if( name == L"CUE_BALL" ) return true;
+    if( name.find( L"ball" ) == 0 ) return true;
+    return false;
 }
 
 void BallContactReport::onContactTouch( NxContactPair & pair )
 {
+}
 
+void BallContactReport::onContactStart( NxContactPair & pair )
+{
 }

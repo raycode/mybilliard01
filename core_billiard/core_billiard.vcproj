@@ -2,7 +2,7 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="abstract engine"
+	Name="abstract_engine"
 	ProjectGUID="{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}"
 	RootNamespace="core_billiard"
 	TargetFrameworkVersion="196613"

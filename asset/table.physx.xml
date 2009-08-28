@@ -11188,9 +11188,9 @@
           </NxMaterialFlag>
         </NxMaterialDesc>
         <NxMaterialDesc id="Material_1" userProperties="" hasSpring="false" materialIndex="1">
-          <dynamicFriction>0.5</dynamicFriction>
-          <staticFriction>0.899999976</staticFriction>
-          <restitution>0.699999988</restitution>
+          <dynamicFriction>0.400000006</dynamicFriction>
+          <staticFriction>0.699999988</staticFriction>
+          <restitution>0.5</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -11203,9 +11203,9 @@
           </NxMaterialFlag>
         </NxMaterialDesc>
         <NxMaterialDesc id="Material_2" userProperties="" hasSpring="false" materialIndex="2">
-          <dynamicFriction>0.5</dynamicFriction>
-          <staticFriction>0.899999976</staticFriction>
-          <restitution>0.699999988</restitution>
+          <dynamicFriction>0.400000006</dynamicFriction>
+          <staticFriction>0.699999988</staticFriction>
+          <restitution>0.5</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -11218,9 +11218,9 @@
           </NxMaterialFlag>
         </NxMaterialDesc>
         <NxMaterialDesc id="Material_3" userProperties="" hasSpring="false" materialIndex="3">
-          <dynamicFriction>0.5</dynamicFriction>
-          <staticFriction>0.899999976</staticFriction>
-          <restitution>0.699999988</restitution>
+          <dynamicFriction>0.400000006</dynamicFriction>
+          <staticFriction>0.699999988</staticFriction>
+          <restitution>0.5</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -11233,9 +11233,9 @@
           </NxMaterialFlag>
         </NxMaterialDesc>
         <NxMaterialDesc id="Material_4" userProperties="" hasSpring="false" materialIndex="4">
-          <dynamicFriction>0.5</dynamicFriction>
-          <staticFriction>0.899999976</staticFriction>
-          <restitution>0.699999988</restitution>
+          <dynamicFriction>0.400000006</dynamicFriction>
+          <staticFriction>0.699999988</staticFriction>
+          <restitution>0.5</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -11248,9 +11248,9 @@
           </NxMaterialFlag>
         </NxMaterialDesc>
         <NxMaterialDesc id="Material_5" userProperties="" hasSpring="false" materialIndex="5">
-          <dynamicFriction>0.5</dynamicFriction>
-          <staticFriction>0.899999976</staticFriction>
-          <restitution>0.699999988</restitution>
+          <dynamicFriction>0.400000006</dynamicFriction>
+          <staticFriction>0.699999988</staticFriction>
+          <restitution>0.5</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -11398,9 +11398,9 @@
           </NxMaterialFlag>
         </NxMaterialDesc>
         <NxMaterialDesc id="Material_15" userProperties="" hasSpring="false" materialIndex="15">
-          <dynamicFriction>0.5</dynamicFriction>
-          <staticFriction>0.899999976</staticFriction>
-          <restitution>0.699999988</restitution>
+          <dynamicFriction>0.400000006</dynamicFriction>
+          <staticFriction>0.699999988</staticFriction>
+          <restitution>0.5</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
@@ -11533,9 +11533,9 @@
           </NxMaterialFlag>
         </NxMaterialDesc>
         <NxMaterialDesc id="Material_24" userProperties="" hasSpring="false" materialIndex="24">
-          <dynamicFriction>0.100000001</dynamicFriction>
-          <staticFriction>0.5</staticFriction>
-          <restitution>0.5</restitution>
+          <dynamicFriction>0.400000006</dynamicFriction>
+          <staticFriction>0.400000006</staticFriction>
+          <restitution>0.02</restitution>
           <dynamicFrictionV>0</dynamicFrictionV>
           <staticFrictionV>0</staticFrictionV>
           <frictionCombineMode>NX_CM_AVERAGE</frictionCombineMode>
