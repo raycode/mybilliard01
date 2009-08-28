@@ -103,8 +103,8 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
         NxActor * const actor = phys_->getActor( i );
 
         const wstring name = convertString( actor->getName() );
-        if( name == L"CUE_BALL" && name.find( L"ball" ) == 0 ) {
-            actor->addForce( NxVec3( 0.f, 0.f, -10000.f ), NX_IMPULSE );
+        if( name == L"CUE_BALL" || name.find( L"ball" ) == 0 ) {
+            //actor->addForce( NxVec3( 0.f, 0.f, -1.f * elapsedTime ), NX_IMPULSE );
         }
     }
     phys_->fetchResult();
@@ -200,7 +200,7 @@ void MyRenderEventListenerImp::shotCueBall() {
     {
         NxVec3 dir = getMyCamera()->getDirectionVector();
         dir.z = 0.f;
-        const float strength = 10000000.f;
+        const float strength = 5000000.f;
         getCueBall()->addForce( dir * strength );
     }
 }

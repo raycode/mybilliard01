@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "my_app.h"
 
-#define DEBUG_KEY_CODE
+//#define DEBUG_KEY_CODE
 #define KEY_UP_ARROW 38
 #define KEY_LEFT_ARROW 37
 #define KEY_RIGHT_ARROW 39
