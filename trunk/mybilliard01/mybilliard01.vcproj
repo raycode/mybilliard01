@@ -411,6 +411,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="3. PhysX"
+				>
+				<File
+					RelativePath=".\BallContactReport.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\BallContactReport.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MyControllerHitReport.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MyUserContactReport.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Resource Files"

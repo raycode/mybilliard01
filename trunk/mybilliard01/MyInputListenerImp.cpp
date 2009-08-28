@@ -1,7 +1,7 @@
 #include "StdAfx.h"
 #include "my_app.h"
 
-//#define DEBUG_KEY_CODE
+#define DEBUG_KEY_CODE
 #define KEY_UP_ARROW 38
 #define KEY_LEFT_ARROW 37
 #define KEY_RIGHT_ARROW 39
@@ -16,6 +16,7 @@
 #define KEY_W 87
 #define KEY_F 70
 #define KEY_Z 90
+#define KEY_R 82
 
 MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListener, ApplicationWindow * app )
 : renderListener_( renderListener )
@@ -73,6 +74,9 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
             break;
         case VK_SPACE:
             shot();
+            break;
+        case KEY_R:
+            bringCueBallBack();
             break;
     }
 }
@@ -249,6 +253,10 @@ void MyInputListenerImp::beginAimBall()
     bAiming_ = true;
     bNeedToStoreDownPt_ = true;
     OutputDebugStr( L"begin aim ball.\n" );
+
+    const NxVec3 cueBallPos = renderListener_->getBallPosition();
+    getCamera()->lookAtBall( cueBallPos );
+    
     getCamera()->setMovementToFixedHeight( 35.f );
 }
 void MyInputListenerImp::endAimBall()
@@ -301,6 +309,10 @@ bool MyInputListenerImp::isCloseEnoughToAim( NxExtendedVec3 cameraPos, NxVec3 ba
 
 void MyInputListenerImp::shot() {
     renderListener_->shotCueBall();
+}
+
+void MyInputListenerImp::bringCueBallBack() {
+    renderListener_->bringCueBallBack();
 }
 
 void MyInputListenerImp::selectBall( int xPos, int yPos )

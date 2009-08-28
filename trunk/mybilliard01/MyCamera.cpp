@@ -9,7 +9,7 @@ MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys,
 , bRightHand_( bRightHand )
 , bConstrainMovementToHeight_( false )
 {
-    controller_ = phys_->addCapsuleCharacter( initPosition, 0.1f, 0.2f, 0.001f, NX_Z );
+    controller_ = phys_->addCapsuleCharacter( initPosition, 1.f, 3.f, 0.02f, NX_Z, &collisionReport_ );
 
     direction.normalize();
     NxVec3 up = NxVec3( 0.f, 0.f, 1.f );
@@ -37,8 +37,6 @@ void MyCamera::update( float elapsedTime )
     if( rotateTo_[ EROTATE_Z_CCW ] ) rotateClockWiseByZ( -2.f * elapsedTime );
     if( rotateTo_[ EROTATE_PITCH_UP ] ) pitchDown( -10.f * elapsedTime );
     if( rotateTo_[ EROTATE_PITCH_DOWN ] ) pitchDown( 10.f * elapsedTime );
-
-    phys_->UpdateControllers();
 }
 
 void MyCamera::rotateClockWiseByZ( float angle )
@@ -112,7 +110,7 @@ NxU32 MyCamera::move( NxVec3 dispVector, NxReal elapsedTime )
     if( isMovementConstrainedToHeight() ) d.z = 0.f;
 
     NxU32 collisionFlags;
-    controller_->move( d, collisionGroups, 0.000001f, collisionFlags, sharpness);
+    controller_->move( d, collisionGroups, 0.01f, collisionFlags, sharpness);
     return collisionFlags;
 }
 

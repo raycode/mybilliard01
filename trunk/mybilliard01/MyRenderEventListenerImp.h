@@ -15,16 +15,19 @@ public: // from RenderEventListener
 public:
     MyRenderEventListenerImp( wstring sceneFile, wstring physX_File );
 
+public:
     MyCamera * getMyCamera();
     NxVec3 getBallPosition();
     void shotCueBall();
+    void bringCueBallBack();
 
 private:
     NxActor * getCueBall();
+    NxActor * getStick();
 
 private: // init
     void initCamera( NxVec3 pos, NxVec3 dir );
-    void initFindObjectFromPhysX();
+    void initPhysObjects();
     void initEffect( RenderBufferFactory * renderFactory );
     void initEffectLights();
 
@@ -35,6 +38,7 @@ private: // update
     void updateCameraView();
     void updateCameraPosAndDir();
     void updateEffect( float elapsedTime );
+    void updateStickPosition();
 
 private:
     ScenePtr scene_;
@@ -44,6 +48,8 @@ private: // physx
     enum { ACTOR_CUE_BALL, ACTOR_STICK, SIZE_OF_ACTORS };
     NxActor * actors_[ SIZE_OF_ACTORS ];
 
+    BallContactReport ballContactReport_;
+
 private: // camera
     MyCameraPtr camera_;
     RowMajorMatrix44f matrixView_;
@@ -51,6 +57,9 @@ private: // camera
     RowMajorMatrix44f matrixProjectionView_;
     NxVec3 cameraPos_, cameraDir_;
     const bool bRightHandHardware_;
+
+private: // keyboard input
+    NxVec3 defaultCueBallPos_;
 
 private: // effect
     EffectShaderFeeder * createEffectFeeder( Node * node, RenderBufferFactory * renderFactory );

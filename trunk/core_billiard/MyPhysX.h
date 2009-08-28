@@ -17,13 +17,17 @@ public:
     bool isSimulationDone();
 
     NxController * addCapsuleCharacter( NxVec3 position, float radius, float height,
-        float skinWidth, NxHeightFieldAxis upDirection );
+        float skinWidth, NxHeightFieldAxis upDirection, NxUserControllerHitReport * report );
 
     NxU32 MoveCharacter(NxU32 characterIndex, const NxVec3& dispVector, NxF32 elapsedTime, NxU32 collisionGroups, NxF32 heightDelta);
     const NxExtendedVec3& GetCharacterPos(NxU32 characterIndex);
     bool ResetCharacterPos(NxU32 index, const NxVec3& pos);
-    void UpdateControllers();
     NxActor* GetCharacterActor(NxU32 characterIndex);
+
+    NxScene * getScene() { return scene_; }
+
+private:
+    void UpdateControllers();
 
 private:
     NxPhysicsSDK * physicsSDK_;

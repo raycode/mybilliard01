@@ -61,6 +61,8 @@ private:
     bool bRightHand_;
 
     NxController * controller_;
+    MyControllerHitReport collisionReport_;
+
     NxMat33 rotate_;
 
     enum { EMOVE_FORWARD, EMOVE_LEFT, EMOVE_RIGHT, EMOVE_BACKWARD, SIZE_OF_MOVE_DIRECTION };

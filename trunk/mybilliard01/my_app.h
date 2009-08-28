@@ -34,6 +34,9 @@ MY_SMART_PTR( MyInputListenerImp );
 MY_SMART_PTR( MyCamera );
 MY_SMART_PTR( EffectShaderFeeder );
 
+
+#include "MyControllerHitReport.hpp"
+#include "BallContactReport.h"
 #include "MyCamera.h"
 #include "MyInputListenerImp.h"
 #include "EffectShaderFeeder.h"
