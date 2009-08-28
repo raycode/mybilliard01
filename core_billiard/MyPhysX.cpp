@@ -17,7 +17,8 @@ MyPhysX::MyPhysX()
 
     // Create a scene
     NxSceneDesc sceneDesc;
-    sceneDesc.gravity = NxVec3(0.0f, 0.0f, -9.81f );
+    //sceneDesc.gravity = NxVec3(0.0f, 0.0f, -9.81f );
+    sceneDesc.gravity = NxVec3(0.0f, 0.0f, -9.81f * 5.f );
     scene_ = physicsSDK_->createScene(sceneDesc);
     if( NULL == scene_ ) throw exception();
 
@@ -78,12 +79,22 @@ NxActor * MyPhysX::getActor( size_t index ) {
 }
 
 void MyPhysX::simulate( float elapsedTime ) {
+    const float TimeStep = 1.0f / 60.0f;
+    scene_->setTiming( TimeStep, 8, NX_TIMESTEP_FIXED );
+
     scene_->simulate( elapsedTime );
     scene_->flushStream();
 }
 
 void MyPhysX::fetchResult() {
     scene_->fetchResults( NX_RIGID_BODY_FINISHED, true );
+
+    NxReal maxTimestep;
+    NxTimeStepMethod method;
+    NxU32 maxIter;
+    NxU32 numSubSteps;
+    scene_->getTiming(maxTimestep, maxIter, method, &numSubSteps);
+    if(numSubSteps)	UpdateControllers();
 }
 
 bool MyPhysX::isSimulationDone() {
@@ -91,7 +102,7 @@ bool MyPhysX::isSimulationDone() {
 }
 
 NxController * MyPhysX::addCapsuleCharacter( NxVec3 position, float radius, float height,
-                                     float skinWidth, NxHeightFieldAxis upDirection )
+                     float skinWidth, NxHeightFieldAxis upDirection, NxUserControllerHitReport * report )
 {
     NxCapsuleControllerDesc desc;
 
@@ -99,6 +110,7 @@ NxController * MyPhysX::addCapsuleCharacter( NxVec3 position, float radius, floa
     desc.skinWidth = skinWidth;
     desc.upDirection = upDirection;
     desc.slopeLimit = cosf( NxMath::degToRad( 45.0f ) );
+    desc.callback = report;
 
     desc.radius = radius;
     desc.height = height;

@@ -65,6 +65,7 @@ private: // keyboard
     void beginAimBall();
     void endAimBall();
     void shot();
+    void bringCueBallBack();
 
     bool isCloseEnoughToAim( NxExtendedVec3 cameraPos, NxVec3 ballPos );
 
