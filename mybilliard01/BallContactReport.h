@@ -9,8 +9,4 @@ private:
     void onContactStart( NxContactPair & pair );
     void onContactEnd( NxContactPair & pair );
     void onContactTouch( NxContactPair & pair );
-
-private:
-    typedef map< NxActor *, NxVec3 > AngularVectors;
-    AngularVectors angularVectors_;
 };

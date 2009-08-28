@@ -22,39 +22,21 @@ void BallContactReport::onContactNotify(NxContactPair& pair, NxU32 events)
 
 void BallContactReport::onContactStart( NxContactPair & pair )
 {
-    for( size_t i = 0; i < 2; ++i )
-    {
-        if( pair.isDeletedActor[ i ] ) continue;
-        NxActor * const actor = pair.actors[ i ];
-        const wstring name = convertString( actor->getName() );
-        if( name != L"CUE_BALL" && name.find( L"ball" ) != 0 ) continue;
-
-        angularVectors_.insert( AngularVectors::value_type( actor, actor->getAngularVelocity() ) );
-
-        NxVec3 zeroVelocity;
-        zeroVelocity.zero();
-        //actor->setAngularVelocity( zeroVelocity );
-    }
-
 }
 
 void BallContactReport::onContactEnd( NxContactPair & pair )
 {
     for( size_t i = 0; i < 2; ++i )
     {
-        NxActor * const actor = pair.actors[ i ];
         if( pair.isDeletedActor[ i ] ) continue;
+        NxActor * const actor = pair.actors[ i ];
         const wstring name = convertString( actor->getName() );
         if( name != L"CUE_BALL" && name.find( L"ball" ) != 0 ) continue;
 
-        AngularVectors::iterator iter = angularVectors_.find( actor );
-        if( iter == angularVectors_.end() ) continue;
-
-        actor->setAngularVelocity( iter->second );
-
-        angularVectors_.erase( iter );
+        const float jumping = actor->getLinearVelocity().z;
+        if( jumping > 0.f )
+            actor->addForce( NxVec3( 0.f, 0.f, -1.f * jumping ), NX_IMPULSE );
     }
-
 }
 
 void BallContactReport::onContactTouch( NxContactPair & pair )

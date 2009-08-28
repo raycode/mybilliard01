@@ -17,8 +17,8 @@ MyPhysX::MyPhysX()
 
     // Create a scene
     NxSceneDesc sceneDesc;
-    //sceneDesc.gravity = NxVec3(0.0f, 0.0f, -9.81f );
-    sceneDesc.gravity = NxVec3(0.0f, 0.0f, -9.81f * 5.f );
+    sceneDesc.gravity = NxVec3(0.0f, 0.0f, -9.81f );
+    //sceneDesc.gravity = NxVec3(0.0f, 0.0f, -9.81f * 5.f );
     scene_ = physicsSDK_->createScene(sceneDesc);
     if( NULL == scene_ ) throw exception();
 
