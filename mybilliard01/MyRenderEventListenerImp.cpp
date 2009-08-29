@@ -1,10 +1,10 @@
 #include "StdAfx.h"
 #include "my_app.h"
 
-
 MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring physX_File )
 : scene_( new SceneImp() )
 , phys_( new MyPhysX() )
+, ballContactReport_( this, this )
 , bRightHandHardware_( false )
 , bPaused_( false )
 {
@@ -24,21 +24,34 @@ void MyRenderEventListenerImp::initCamera( NxVec3 pos, NxVec3 dir ) {
     camera_->setMovementToFixedHeight( pos.z );
 }
 
-bool isActorBall( NxActor * actor )
-{
-    const wstring name = convertString( actor->getName() );
-    if( name == L"CUE_BALL" ) return true;
-    if( name.find( L"ball" ) == 0 ) return true;
-    return false;
+bool MyRenderEventListenerImp::isActorBall( NxActor * actor ) {
+    return ballActors_.find( actor ) != ballActors_.end();
 }
 
 void MyRenderEventListenerImp::initSound()
 {
-    SoundHandlePtr newSound = SoundHandlePtr( openAL_.createSoundHandle( ConstString::soundFilename_BallBounce() ), MyOpenAL::Destroyer( &openAL_ ) );
-    assert( NULL != newSound );
+#define LOAD_SOUND_HANLDE( HOW_MANY, WHICH_SOUND, WHICH_METHOD ) \
+    for( size_t i = 0; i < HOW_MANY; ++i ) loadSound( WHICH_SOUND, ConstString::WHICH_METHOD( i + 1 ) );
 
-    sounds_[ SOUND_BALL ].push_back( newSound );
-    ballContactReport_.setSound_BallBounce( newSound.get() );
+    LOAD_SOUND_HANLDE( 11, SOUND_BALL_STRONG, soundFilename_BallStrong );
+    LOAD_SOUND_HANLDE( 13, SOUND_BALL_WEAK, soundFilename_BallWeak );
+    LOAD_SOUND_HANLDE( 6, SOUND_BREAK, soundFilename_BallBreak );
+    LOAD_SOUND_HANLDE( 2, SOUND_CHALK, soundFilename_Chalk );
+    LOAD_SOUND_HANLDE( 20, SOUND_POCKET, soundFilename_Pocket );
+    LOAD_SOUND_HANLDE( 2, SOUND_CUE_STRONG, soundFilename_CueStrong );
+    LOAD_SOUND_HANLDE( 8, SOUND_CUE_WEAK, soundFilename_CueWeak );
+    LOAD_SOUND_HANLDE( 7, SOUND_BUMP, soundFilename_BounceOnRail );
+
+#undef LOAD_SOUND_HANLDE
+}
+
+bool MyRenderEventListenerImp::loadSound( int soundType, wstring filename )
+{
+    SoundHandlePtr newSound = SoundHandlePtr( openAL_.createSoundHandle( filename ), MyOpenAL::Destroyer( &openAL_ ) );
+    if( NULL == newSound ) return false;
+
+    sounds_[ soundType ].push_back( newSound );
+    return true;
 }
 
 void MyRenderEventListenerImp::initPhysForBilliard()
@@ -53,6 +66,8 @@ void MyRenderEventListenerImp::initPhysForBilliard()
         const wstring name = convertString( actor->getName() );
         if( name == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
         if( name == L"cue_stick" ) actors_[ ACTOR_STICK ] = actor;
+
+        if( name == L"CUE_BALL" || name.find( L"ball" ) == 0 ) ballActors_.insert( actor );
 
         if( isActorBall( actor ) )
         {
@@ -124,13 +139,6 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
     updateCamera( elapsedTime );
     updateEffect( elapsedTime );
     updateStickPosition();
-    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
-    {
-        NxActor * const actor = phys_->getActor( i );
-        if( false == isActorBall( actor )) continue;
-
-        //actor->addForce( NxVec3( 0.f, 0.f, -1.f ) * elapsedTime, NX_IMPULSE );
-    }
     phys_->fetchResult();
 }
 
@@ -178,6 +186,13 @@ void MyRenderEventListenerImp::updateStickPosition() {
     NxVec3 up = getMyCamera()->getUpVector();
     NxVec3 dir = getMyCamera()->getDirectionVector();
     getStick()->moveGlobalOrientation( NxMat33( right, up, dir ) );
+}
+
+SoundHandle * MyRenderEventListenerImp::getRandomSound( int soundType )
+{
+    uniform_int<int> unif( 0, sounds_[ soundType ].size() -1 );
+    const size_t index = unif( eng_ );
+    return sounds_[ soundType ].at( index ).get();
 }
 
 void MyRenderEventListenerImp::display( Render * render ) {

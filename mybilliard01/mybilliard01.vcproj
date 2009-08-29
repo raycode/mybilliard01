@@ -280,7 +280,7 @@
 						>
 						<Tool
 							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
+							UsePrecompiledHeader="2"
 						/>
 					</FileConfiguration>
 				</File>
@@ -345,6 +345,10 @@
 				Name="1. Main"
 				>
 				<File
+					RelativePath=".\ActorRecognizer.h"
+					>
+				</File>
+				<File
 					RelativePath=".\MyCamera.cpp"
 					>
 				</File>
@@ -388,6 +392,10 @@
 				</File>
 				<File
 					RelativePath=".\MyRenderEventListenerImp_createEffectFeeder.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\SoundRetriever.h"
 					>
 				</File>
 				<File

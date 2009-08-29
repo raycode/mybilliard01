@@ -3,6 +3,8 @@
 
 class MyRenderEventListenerImp
     : IMPLEMENTS_INTERFACE( RenderEventListener )
+    , IMPLEMENTS_INTERFACE( SoundRetriever )
+    , IMPLEMENTS_INTERFACE( ActorRecognizer )
 {
 public: // from RenderEventListener
     virtual void init() OVERRIDE;
@@ -11,6 +13,12 @@ public: // from RenderEventListener
     virtual void display( Render * ) OVERRIDE;
     virtual void displayLost() OVERRIDE;
     virtual void destroy() OVERRIDE;
+
+public: // from SoundRetriever
+    virtual SoundHandle * getRandomSound( int soundType ) OVERRIDE;
+
+public: // from ActorRecognizer
+    virtual bool isActorBall( NxActor * actor ) OVERRIDE;
 
 public:
     MyRenderEventListenerImp( wstring sceneFile, wstring physX_File );
@@ -33,6 +41,8 @@ private: // init
     void initEffect( RenderBufferFactory * renderFactory );
     void initEffectLights();
 
+    bool loadSound( int soundType, wstring filename );
+
 private: // update
     void updateCamera( float elapsedTime );
     void updateCameraProjection( float aspectRatio );
@@ -51,12 +61,14 @@ private: // physx
     enum { ACTOR_CUE_BALL, ACTOR_STICK, SIZE_OF_ACTORS };
     NxActor * actors_[ SIZE_OF_ACTORS ];
 
+    typedef set< NxActor * > BallActors;
+    BallActors ballActors_;
+
     BallContactReport ballContactReport_;
 
 private: // sound
-    enum SoundEnum { SOUND_BALL, SOUND_POCKET, SOUND_CUE, SOUND_BREAK, SOUND_BUMP, SIZE_OF_SOUND_ENUM };
     typedef vector< SoundHandlePtr > SimilarSoundHandles;
-    SimilarSoundHandles sounds_[ SIZE_OF_SOUND_ENUM ];
+    SimilarSoundHandles sounds_[ SoundRetriever::SIZE_OF_SOUND_ENUM ];
 
 private: // camera
     MyCameraPtr camera_;
@@ -86,6 +98,8 @@ private: // effect
     typedef map< wstring, ShaderVariablePtr > SharedVariables;
     SharedVariables sharedVariables_;
 
+private: // for random numbers
+    mt19937 eng_;
 };
 
 

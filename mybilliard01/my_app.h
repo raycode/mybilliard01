@@ -38,6 +38,8 @@ MY_SMART_PTR( MyCamera );
 MY_SMART_PTR( EffectShaderFeeder );
 
 
+#include "SoundRetriever.h"
+#include "ActorRecognizer.h"
 #include "MyControllerHitReport.hpp"
 #include "BallContactReport.h"
 #include "MyCamera.h"
