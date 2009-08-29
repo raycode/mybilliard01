@@ -7,6 +7,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 , ballContactReport_( this, this )
 , bRightHandHardware_( false )
 , bPaused_( false )
+, cueShotStrength_( 10000000.f )
 {
     const bool bScene = scene_->load( sceneFile );
     const bool bPhys = phys_->loadXMLFile( physX_File );
@@ -15,7 +16,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 
     initCamera( NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
     initSound();
-    initPhysForBilliard();
+    initPhys();
 }
 
 void MyRenderEventListenerImp::initCamera( NxVec3 pos, NxVec3 dir ) {
@@ -25,9 +26,14 @@ void MyRenderEventListenerImp::initCamera( NxVec3 pos, NxVec3 dir ) {
 }
 
 bool MyRenderEventListenerImp::isActorBall( NxActor * actor ) {
-    return ballActors_.find( actor ) != ballActors_.end();
+    return actorGroup_[ ACTORS_BALL ].find( actor ) != actorGroup_[ ACTORS_BALL ].end();
 }
-
+bool MyRenderEventListenerImp::isActorPocket( NxActor * actor ) {
+    return actorGroup_[ ACTORS_POCKET ].find( actor ) != actorGroup_[ ACTORS_POCKET ].end();
+}
+bool MyRenderEventListenerImp::isActorRail( NxActor * actor ) {
+    return actorGroup_[ ACTORS_RAIL ].find( actor ) != actorGroup_[ ACTORS_RAIL ].end();
+}
 void MyRenderEventListenerImp::initSound()
 {
 #define LOAD_SOUND_HANLDE( HOW_MANY, WHICH_SOUND, WHICH_METHOD ) \
@@ -54,31 +60,51 @@ bool MyRenderEventListenerImp::loadSound( int soundType, wstring filename )
     return true;
 }
 
-void MyRenderEventListenerImp::initPhysForBilliard()
+void MyRenderEventListenerImp::initPhys()
+{
+    initPhysContactReport();
+    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
+    {
+        NxActor * const actor = phys_->getActor( i );
+        initPhysActors( actor );
+        initPhysActorGroups( actor );
+        initPhysMaterial( actor );
+    }
+
+    defaultCueBallPos_ = getCueBall()->getGlobalPosition();
+}
+
+void MyRenderEventListenerImp::initPhysContactReport()
 {
     phys_->getScene()->setActorGroupPairFlags(0,0, ballContactReport_.getContactReportFlags() );
     phys_->getScene()->setUserContactReport( & ballContactReport_ );
 
-    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
+}
+
+void MyRenderEventListenerImp::initPhysActors( NxActor * actor )
+{
+    const wstring name = convertString( actor->getName() );
+    if( name == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
+    else if( name == L"cue_stick" ) actors_[ ACTOR_STICK ] = actor;
+}
+
+void MyRenderEventListenerImp::initPhysActorGroups( NxActor * actor )
+{
+    const wstring name = convertString( actor->getName() );
+    if( name == L"CUE_BALL" || name.find( L"ball" ) == 0 ) actorGroup_[ ACTORS_BALL ].insert( actor );
+    else if( name.find( L"pocket" ) == 0 ) actorGroup_[ ACTORS_POCKET ].insert( actor );
+    else if( name.find( L"rail" ) == 0 ) actorGroup_[ ACTORS_RAIL ].insert( actor );
+}
+
+void MyRenderEventListenerImp::initPhysMaterial( NxActor * actor )
+{
+    if( isActorBall( actor ) )
     {
-        NxActor * const actor = phys_->getActor( i );
-
-        const wstring name = convertString( actor->getName() );
-        if( name == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
-        if( name == L"cue_stick" ) actors_[ ACTOR_STICK ] = actor;
-
-        if( name == L"CUE_BALL" || name.find( L"ball" ) == 0 ) ballActors_.insert( actor );
-
-        if( isActorBall( actor ) )
-        {
-            actor->raiseBodyFlag( NX_BF_FROZEN_POS_Z ); 
-            actor->raiseActorFlag( NX_AF_FORCE_CONE_FRICTION ); 
-            actor->setAngularDamping( 1.f );
-            actor->setLinearDamping( 1.f );
-        }
+        actor->raiseBodyFlag( NX_BF_FROZEN_POS_Z ); 
+        actor->raiseActorFlag( NX_AF_FORCE_CONE_FRICTION ); 
+        actor->setAngularDamping( 1.f );
+        actor->setLinearDamping( 1.f );
     }
-
-    defaultCueBallPos_ = getCueBall()->getGlobalPosition();
 }
 
 void MyRenderEventListenerImp::init()
@@ -238,8 +264,7 @@ NxActor * MyRenderEventListenerImp::getStick() {
 void MyRenderEventListenerImp::shotCueBall() {
     NxVec3 dir = getMyCamera()->getDirectionVector();
     dir.z = 0.f;
-    const float strength = 50000000.f;
-    getCueBall()->addForce( dir * strength );
+    getCueBall()->addForce( dir * cueShotStrength_ );
 }
 
 void MyRenderEventListenerImp::bringCueBallBack() {
@@ -254,7 +279,10 @@ void MyRenderEventListenerImp::bringCueBallBack() {
     getCueBall()->setLinearVelocity( zero );
 }
 
-void MyRenderEventListenerImp::pause( bool bPause )
-{
+void MyRenderEventListenerImp::pause( bool bPause ) {
     bPaused_ = bPause;
+}
+
+bool MyRenderEventListenerImp::isPaused() {
+    return bPaused_;
 }

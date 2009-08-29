@@ -87,7 +87,6 @@ private: // keyboard
 
 private: // pause
     void togglePause();
-    bool bPause_;
 
 };
 

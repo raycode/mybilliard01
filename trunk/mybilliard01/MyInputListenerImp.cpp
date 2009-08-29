@@ -26,7 +26,6 @@ MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListene
 , bAiming_( false )
 , bNeedToStoreDownPt_( false )
 , aimableMaxDist_( 60.f )
-, bPause_( false )
 {
     rotationSensitivity_ = 0.005f;
     pitchSensitivity_ = 0.05f;
@@ -321,8 +320,7 @@ void MyInputListenerImp::bringCueBallBack() {
 }
 
 void MyInputListenerImp::togglePause() {
-    bPause_ = ! bPause_;
-    renderListener_->pause( bPause_ );
+    renderListener_->pause( ! renderListener_->isPaused() );
 }
 void MyInputListenerImp::selectBall( int xPos, int yPos )
 {
