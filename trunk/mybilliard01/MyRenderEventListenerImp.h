@@ -30,6 +30,7 @@ public:
     NxVec3 getBallPosition();
     void shotCueBall();
     void bringCueBallBack();
+    void restart();
     void pause( bool );
     bool isPaused();
 
@@ -46,10 +47,13 @@ private: // init
 
     bool loadSound( int soundType, wstring filename );
     void initPhysUserCallBacks();
-    void initPhysActors( NxActor * actor );
-    void initPhysActorGroups( NxActor * actor );
-    void initPhysMaterial( NxActor * actor );
-    void initPhysCCD( NxActor * actor );
+    void initPhysActors();
+    void initPhysActorGroups();
+    void initPhysBalls();
+
+    void initPhysBallMaterial( NxActor * actor );
+    void initPhysBallCCD( NxActor * actor );
+    void initPhysBallPosition( NxActor * actor );
 
 private: // update
     void updateCamera( float elapsedTime );
@@ -59,6 +63,10 @@ private: // update
     void updateCameraPosAndDir();
     void updateEffect( float elapsedTime );
     void updateStickPosition();
+
+private: // reset
+    const NxVec3 & getBallDefaultPosition( NxActor * );
+    void resetBall( NxActor * ball );
 
 private:
     ScenePtr scene_;
@@ -75,6 +83,10 @@ private: // physx
 
     BallContactReport ballContactReport_;
 
+private: // default setting
+    typedef map< NxActor *, NxVec3 > BallDefaultPositions;
+    BallDefaultPositions ballDefaultPositions_;
+
 private: // sound
     typedef vector< SoundHandlePtr > SimilarSoundHandles;
     SimilarSoundHandles sounds_[ SoundRetriever::SIZE_OF_SOUND_ENUM ];
@@ -88,7 +100,6 @@ private: // camera
     const bool bRightHandHardware_;
 
 private: // keyboard input
-    NxVec3 defaultCueBallPos_;
     bool bPaused_;
     const float cueShotStrength_;
 

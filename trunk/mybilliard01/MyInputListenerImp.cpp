@@ -77,7 +77,10 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
             shot();
             break;
         case KEY_R:
-            bringCueBallBack();
+            if( GetAsyncKeyState( VK_SHIFT ) != NULL )
+                restart();
+            else
+                bringCueBallBack();
             break;
         case KEY_P:
             togglePause();
@@ -322,6 +325,11 @@ void MyInputListenerImp::bringCueBallBack() {
 void MyInputListenerImp::togglePause() {
     renderListener_->pause( ! renderListener_->isPaused() );
 }
+
+void MyInputListenerImp::restart() {
+    renderListener_->restart();
+}
+
 void MyInputListenerImp::selectBall( int xPos, int yPos )
 {
 

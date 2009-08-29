@@ -63,6 +63,7 @@ private: // mouse
 
 private: // keyboard
     void beginAimBall();
+    void restart();
     void endAimBall();
     void shot();
     void bringCueBallBack();

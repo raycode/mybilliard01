@@ -34,6 +34,7 @@ bool MyRenderEventListenerImp::isActorPocket( NxActor * actor ) {
 bool MyRenderEventListenerImp::isActorRail( NxActor * actor ) {
     return actorGroup_[ ACTORS_RAIL ].find( actor ) != actorGroup_[ ACTORS_RAIL ].end();
 }
+
 void MyRenderEventListenerImp::initSound()
 {
 #define LOAD_SOUND_HANLDE( WHICH_SOUND, WHICH_METHOD ) \
@@ -64,56 +65,76 @@ bool MyRenderEventListenerImp::loadSound( int soundType, wstring filename )
 void MyRenderEventListenerImp::initPhys()
 {
     initPhysUserCallBacks();
-    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
-    {
-        NxActor * const actor = phys_->getActor( i );
-        initPhysActors( actor );
-        initPhysActorGroups( actor );
-        initPhysMaterial( actor );
-        initPhysCCD( actor );
-    }
-
-    defaultCueBallPos_ = getCueBall()->getGlobalPosition();
+    initPhysActors();
+    initPhysActorGroups();
+    initPhysBalls();
 }
 
 void MyRenderEventListenerImp::initPhysUserCallBacks() {
     phys_->setContactReportCallBack( & ballContactReport_ );
 }
 
-void MyRenderEventListenerImp::initPhysActors( NxActor * actor )
+void MyRenderEventListenerImp::initPhysActors()
 {
-    const wstring name = convertString( actor->getName() );
-    if( name == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
-    else if( name == L"cue_stick" ) actors_[ ACTOR_STICK ] = actor;
-    else if( name == L"rack01" ) actors_[ ACTOR_RACK ] = actor;
-}
-
-void MyRenderEventListenerImp::initPhysActorGroups( NxActor * actor )
-{
-    const wstring name = convertString( actor->getName() );
-    if( name == L"CUE_BALL" || name.find( L"ball" ) == 0 ) actorGroup_[ ACTORS_BALL ].insert( actor );
-    else if( name.find( L"pocket" ) == 0 ) actorGroup_[ ACTORS_POCKET ].insert( actor );
-    else if( name.find( L"rail" ) == 0 ) actorGroup_[ ACTORS_RAIL ].insert( actor );
-}
-
-void MyRenderEventListenerImp::initPhysMaterial( NxActor * actor )
-{
-    if( isActorBall( actor ) )
+    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
     {
-        actor->raiseBodyFlag( NX_BF_FROZEN_POS_Z ); 
-        actor->raiseActorFlag( NX_AF_FORCE_CONE_FRICTION ); 
-        actor->setAngularDamping( 1.f );
-        actor->setLinearDamping( 1.f );
+        NxActor * const actor = phys_->getActor( i );
+        const wstring name = convertString( actor->getName() );
+
+        if( name == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
+        else if( name == L"cue_stick" ) actors_[ ACTOR_STICK ] = actor;
+        else if( name == L"rack01" ) actors_[ ACTOR_RACK ] = actor;
     }
 }
 
-void MyRenderEventListenerImp::initPhysCCD( NxActor * actor )
+void MyRenderEventListenerImp::initPhysActorGroups()
 {
-    if( isActorBall( actor ) )
+    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
     {
-        actor->setCCDMotionThreshold( 2.f );
-        phys_->assignCCDSkeleton( actor );
+        NxActor * const actor = phys_->getActor( i );
+        const wstring name = convertString( actor->getName() );
+
+        if( name == L"CUE_BALL" || name.find( L"ball" ) == 0 ) actorGroup_[ ACTORS_BALL ].insert( actor );
+        else if( name.find( L"pocket" ) == 0 ) actorGroup_[ ACTORS_POCKET ].insert( actor );
+        else if( name.find( L"rail" ) == 0 ) actorGroup_[ ACTORS_RAIL ].insert( actor );
     }
+}
+
+void MyRenderEventListenerImp::initPhysBalls()
+{
+    MY_FOR_EACH( ActorGroup, ball, actorGroup_[ ACTORS_BALL ] )
+    {
+        initPhysBallMaterial( *ball );
+        initPhysBallCCD( *ball );
+        initPhysBallPosition( *ball );
+    }
+}
+
+void MyRenderEventListenerImp::initPhysBallMaterial( NxActor * actor )
+{
+    actor->raiseBodyFlag( NX_BF_FROZEN_POS_Z ); 
+    actor->raiseActorFlag( NX_AF_FORCE_CONE_FRICTION ); 
+    actor->setAngularDamping( 1.f );
+    actor->setLinearDamping( 1.f );
+    actor->putToSleep();
+}
+
+void MyRenderEventListenerImp::initPhysBallCCD( NxActor * actor )
+{
+    actor->setCCDMotionThreshold( 2.f );
+    phys_->assignCCDSkeleton( actor );
+}
+
+void MyRenderEventListenerImp::initPhysBallPosition( NxActor * actor )
+{
+    ballDefaultPositions_.insert( BallDefaultPositions::value_type( actor, actor->getGlobalPosition() ) );
+}
+
+const NxVec3 & MyRenderEventListenerImp::getBallDefaultPosition( NxActor * actor )
+{
+    BallDefaultPositions::const_iterator iter = ballDefaultPositions_.find( actor );
+    if( iter == ballDefaultPositions_.end() ) throw exception();
+    return iter->second;
 }
 
 void MyRenderEventListenerImp::init()
@@ -276,16 +297,29 @@ void MyRenderEventListenerImp::shotCueBall() {
     getCueBall()->addForce( dir * cueShotStrength_ );
 }
 
-void MyRenderEventListenerImp::bringCueBallBack() {
-    getCueBall()->setGlobalPosition( defaultCueBallPos_ );
-
+void MyRenderEventListenerImp::resetBall( NxActor * ball )
+{
     NxMat33 identity;
     identity.id();
-    getCueBall()->setGlobalOrientation( identity );
 
     NxVec3 zero;
     zero.zero();
-    getCueBall()->setLinearVelocity( zero );
+
+    ball->setGlobalPosition( getBallDefaultPosition( ball ) );
+    ball->setGlobalOrientation( identity );
+    ball->setLinearVelocity( zero );
+
+    initPhysBallMaterial( ball );
+}
+
+void MyRenderEventListenerImp::bringCueBallBack() {
+    resetBall( getCueBall() );
+}
+
+void MyRenderEventListenerImp::restart()
+{
+    MY_FOR_EACH( BallDefaultPositions, iter, ballDefaultPositions_ )
+        resetBall( iter->first );
 }
 
 void MyRenderEventListenerImp::pause( bool bPause ) {
