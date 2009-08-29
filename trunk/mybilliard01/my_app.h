@@ -5,6 +5,7 @@
 #include "resource.h"
 
 #include "../core_billiard/my_phys.h"
+#include "../core_billiard/my_open_al_imp.h"
 #include "../render_win32/my_render_win32_dx9_imp.h"
 
 #pragma warning( disable: 4201 )
@@ -23,6 +24,8 @@ using namespace my_render_win32_imp;
 using namespace my_render_win32_dx9_imp;
 
 using namespace my_phys;
+using namespace my_open_al;
+using namespace my_open_al_imp;
 
 class MyRenderEventListenerImp;
 class MyInputListenerImp;

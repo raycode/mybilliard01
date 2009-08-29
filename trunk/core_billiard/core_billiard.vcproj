@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/NxCharacter/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;;&quot;$(SolutionDir)/core_billiard/Tools/NxuStream2&quot;"
+				AdditionalIncludeDirectories="&quot;$(SolutionDir)/loki/include&quot;;&quot;$(SolutionDir)/collada_dom/include&quot;;&quot;$(SolutionDir)/collada_dom/include/1.4.1&quot;;&quot;$(SolutionDir)/tinyxml/include&quot;;&quot;$(SolutionDir)/PhysX/Cooking/include&quot;;&quot;$(SolutionDir)/PhysX/Foundation/include&quot;;&quot;$(SolutionDir)/PhysX/NxCharacter/include&quot;;&quot;$(SolutionDir)/PhysX/Physics/include&quot;;&quot;$(SolutionDir)/PhysX/PhysXLoader/include&quot;;&quot;$(SolutionDir)/PhysX/CommonCode/include&quot;;&quot;$(SolutionDir)/core_billiard/Tools/NxuStream2&quot;;&quot;$(SolutionDir)/OpenAL/include&quot;;&quot;$(SolutionDir)/OpenAL/include/al&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;DEBUG;PROFILE;_WINDOWS;DOM_DYNAMIC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -2277,6 +2277,50 @@
 					>
 				</File>
 			</Filter>
+		</Filter>
+		<Filter
+			Name="my_open_al"
+			>
+			<File
+				RelativePath=".\my_open_al.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyOpenAL.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyOpenAL.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundHandle.h"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="my_open_al_imp"
+			>
+			<File
+				RelativePath=".\my_open_al_imp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\MyOpenALImp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\MyOpenALImp.h"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundHandleImp.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\SoundHandleImp.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>

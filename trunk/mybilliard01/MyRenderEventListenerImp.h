@@ -28,6 +28,7 @@ private:
 
 private: // init
     void initCamera( NxVec3 pos, NxVec3 dir );
+    void initSound();
     void initPhysForBilliard();
     void initEffect( RenderBufferFactory * renderFactory );
     void initEffectLights();
@@ -44,12 +45,18 @@ private: // update
 private:
     ScenePtr scene_;
     MyPhysXPtr phys_;
+    MyOpenALImp openAL_;
 
 private: // physx
     enum { ACTOR_CUE_BALL, ACTOR_STICK, SIZE_OF_ACTORS };
     NxActor * actors_[ SIZE_OF_ACTORS ];
 
     BallContactReport ballContactReport_;
+
+private: // sound
+    enum SoundEnum { SOUND_BALL, SOUND_POCKET, SOUND_CUE, SOUND_BREAK, SOUND_BUMP, SIZE_OF_SOUND_ENUM };
+    typedef vector< SoundHandlePtr > SimilarSoundHandles;
+    SimilarSoundHandles sounds_[ SIZE_OF_SOUND_ENUM ];
 
 private: // camera
     MyCameraPtr camera_;
