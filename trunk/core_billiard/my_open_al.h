@@ -15,5 +15,5 @@ namespace my_open_al
 
 #include "Utilities.h"
 
-#include "MyOpenAL.h"
 #include "SoundHandle.h"
+#include "MyOpenAL.h"

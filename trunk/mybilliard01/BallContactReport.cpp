@@ -2,6 +2,14 @@
 #include "my_app.h"
 
 
+BallContactReport::BallContactReport( SoundRetriever * sound, ActorRecognizer * actorRecognizer )
+: sound_( sound )
+, actorRecognizer_( actorRecognizer )
+, numberOfSamples_BallBounce_( 0u )
+, averageForce_BallBounce_ ( 0.f )
+{
+}
+
 NxContactPairFlag BallContactReport::getContactReportFlags()
 {
     return ( NxContactPairFlag )(
@@ -31,16 +39,10 @@ void BallContactReport::onContactNotify(NxContactPair& pair, NxU32 events)
     }
 }
 
-bool BallContactReport::isActorBall( NxActor * actor )
-{
-    const wstring name = convertString( actor->getName() );
-    if( name == L"CUE_BALL" ) return true;
-    if( name.find( L"ball" ) == 0 ) return true;
-    return false;
-}
-
 void BallContactReport::onContactStart( NxContactPair & pair )
 {
+    for( size_t i = 0; i < 2; ++i ) if( pair.isDeletedActor[ i ] ) return;
+
     playSoundForBallBounce( pair );
 }
 
@@ -52,16 +54,15 @@ void BallContactReport::onContactEnd( NxContactPair & pair )
 {
 }
 
-void BallContactReport::setSound_BallBounce( SoundHandle * soundHandle ) {
-    sounds_[ SOUND_BALL ] = soundHandle;
-}
-
 void BallContactReport::playSoundForBallBounce( NxContactPair & pair )
 {
-    for( size_t i = 0; i < 2; ++i ) {
-        if( pair.isDeletedActor[ i ] ) return;
-        if( false == isActorBall( pair.actors[ i ] ) ) return;
-    }
+    for( size_t i = 0; i < 2; ++i ) if( false == actorRecognizer_->isActorBall( pair.actors[ i ] ) ) return;
 
-    sounds_[ SOUND_BALL ]->playSound();
+    const float strength = pair.sumFrictionForce.magnitude();
+    averageForce_BallBounce_ += strength / ( numberOfSamples_BallBounce_ + 1 );
+    numberOfSamples_BallBounce_ = std::min( numberOfSamples_BallBounce_ + 1, numeric_limits< size_t >::max() - 1 );
+
+    const bool bStrong = (strength >= averageForce_BallBounce_);
+    sound_->getRandomSound( bStrong ? SoundRetriever::SOUND_BALL_STRONG : SoundRetriever::SOUND_BALL_WEAK )->playSound();
+
 }

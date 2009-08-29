@@ -2286,10 +2286,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\MyOpenAL.cpp"
-				>
-			</File>
-			<File
 				RelativePath=".\MyOpenAL.h"
 				>
 			</File>

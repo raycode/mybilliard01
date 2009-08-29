@@ -1,5 +1,11 @@
 #pragma once
 
+#include <sstream>
+#include <iostream>
+#include <iomanip>
+#include <random>
+#include <set>
+
 #include "DXUT.h"
 #include "SDKmisc.h"
 #include "SDKmesh.h"

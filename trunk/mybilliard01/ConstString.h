@@ -13,7 +13,14 @@ namespace my_utility {
         static wstring effectFilenameByNodeName( wstring nodeName );
 
     public: // sound
-        static wstring soundFilename_BallBounce();
+        static wstring soundFilename_BallStrong( size_t index );
+        static wstring soundFilename_BallWeak( size_t index );
+        static wstring soundFilename_BallBreak( size_t index );
+        static wstring soundFilename_Chalk( size_t index );
+        static wstring soundFilename_Pocket( size_t index );
+        static wstring soundFilename_CueStrong( size_t index );
+        static wstring soundFilename_CueWeak( size_t index );
+        static wstring soundFilename_BounceOnRail( size_t index );
     };
 
 }

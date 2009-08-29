@@ -59,7 +59,7 @@ SoundHandle * MyOpenALImp::createSoundHandle( wstring filename )
     ALuint * const newSource = createSource( newBuffer );
     if( NULL == newSource ) return NULL;
 
-    SoundHandlePtr newSoundHandle = SoundHandlePtr( new SoundHandleImp( newSource ), MyOpenAL::Destroyer( this ) );
+    SoundHandlePtr newSoundHandle = SoundHandlePtr( new SoundHandleImp( newSource ) );
     if( NULL == newSoundHandle ) return NULL;
 
     soundHandles_.push_back( newSoundHandle );
