@@ -19,16 +19,14 @@ wstring ConstString::effectFilenameByNodeName( wstring nodeName ) {
     return effectShaderDirectory + defaultEffectFilename;
 }
 
-wstring ConstString::colladaPhysXFilename() {
-	return L"asset\\1ball1box.physx.dae";
-}
-
-wstring ConstString::colladaVisualAssetFilename() {
-	return L"asset\\1ball1box.dae";
-}
-
 wstring ConstString::dllDirectory() {
     return L"..\\dll";
+}
+
+wstring ConstString::soundFilename_BallBounce() {
+    const wstring filename = L"..\\asset\\sound\\ball.strong.01.wav";
+    assert( FileSystemHelper::isFileExist( filename ) );
+    return filename;
 }
 
 }

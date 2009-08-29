@@ -14,6 +14,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
     assert( bPhys );
 
     initCamera( NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
+    initSound();
     initPhysForBilliard();
 }
 
@@ -30,6 +31,16 @@ bool isActorBall( NxActor * actor )
     if( name.find( L"ball" ) == 0 ) return true;
     return false;
 }
+
+void MyRenderEventListenerImp::initSound()
+{
+    SoundHandlePtr newSound = SoundHandlePtr( openAL_.createSoundHandle( ConstString::soundFilename_BallBounce() ), MyOpenAL::Destroyer( &openAL_ ) );
+    assert( NULL != newSound );
+
+    sounds_[ SOUND_BALL ].push_back( newSound );
+    ballContactReport_.setSound_BallBounce( newSound.get() );
+}
+
 void MyRenderEventListenerImp::initPhysForBilliard()
 {
     phys_->getScene()->setActorGroupPairFlags(0,0, ballContactReport_.getContactReportFlags() );
@@ -47,8 +58,8 @@ void MyRenderEventListenerImp::initPhysForBilliard()
         {
             actor->raiseBodyFlag( NX_BF_FROZEN_POS_Z ); 
             actor->raiseActorFlag( NX_AF_FORCE_CONE_FRICTION ); 
-            actor->setAngularDamping( 0.2f );
-            actor->setLinearDamping( 0.2f );
+            actor->setAngularDamping( 1.f );
+            actor->setLinearDamping( 1.f );
         }
     }
 
@@ -210,12 +221,10 @@ NxActor * MyRenderEventListenerImp::getStick() {
 }
 
 void MyRenderEventListenerImp::shotCueBall() {
-    {
-        NxVec3 dir = getMyCamera()->getDirectionVector();
-        dir.z = 0.f;
-        const float strength = 5000000.f;
-        getCueBall()->addForce( dir * strength );
-    }
+    NxVec3 dir = getMyCamera()->getDirectionVector();
+    dir.z = 0.f;
+    const float strength = 50000000.f;
+    getCueBall()->addForce( dir * strength );
 }
 
 void MyRenderEventListenerImp::bringCueBallBack() {

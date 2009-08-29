@@ -31,10 +31,6 @@ void BallContactReport::onContactNotify(NxContactPair& pair, NxU32 events)
     }
 }
 
-void BallContactReport::onContactEnd( NxContactPair & pair )
-{
-}
-
 bool BallContactReport::isActorBall( NxActor * actor )
 {
     const wstring name = convertString( actor->getName() );
@@ -43,10 +39,29 @@ bool BallContactReport::isActorBall( NxActor * actor )
     return false;
 }
 
+void BallContactReport::onContactStart( NxContactPair & pair )
+{
+    playSoundForBallBounce( pair );
+}
+
 void BallContactReport::onContactTouch( NxContactPair & pair )
 {
 }
 
-void BallContactReport::onContactStart( NxContactPair & pair )
+void BallContactReport::onContactEnd( NxContactPair & pair )
 {
+}
+
+void BallContactReport::setSound_BallBounce( SoundHandle * soundHandle ) {
+    sounds_[ SOUND_BALL ] = soundHandle;
+}
+
+void BallContactReport::playSoundForBallBounce( NxContactPair & pair )
+{
+    for( size_t i = 0; i < 2; ++i ) {
+        if( pair.isDeletedActor[ i ] ) return;
+        if( false == isActorBall( pair.actors[ i ] ) ) return;
+    }
+
+    sounds_[ SOUND_BALL ]->playSound();
 }
