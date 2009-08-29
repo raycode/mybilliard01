@@ -9,10 +9,11 @@ public: // from SoundHandle
     virtual void pauseSound() OVERRIDE;
 
 public:
-    SoundHandleImp( ALuint * source );
+    SoundHandleImp( ALuint * source, wstring filename );
 
 private:
     ALuint * source_;
+    wstring filename_;
 
 };
 

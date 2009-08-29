@@ -3,8 +3,9 @@
 namespace my_open_al_imp {
 
 
-SoundHandleImp::SoundHandleImp( ALuint * source )
+SoundHandleImp::SoundHandleImp( ALuint * source, wstring filename )
 : source_( source )
+, filename_( filename )
 {}
 
 void SoundHandleImp::playSound() {
