@@ -16,7 +16,9 @@ private:
     void onContactTouch( NxContactPair & pair );
 
 private: // sound
-    void playSoundForBallBounce( NxContactPair & pair );
+    void playSound_BallBounce( NxContactPair & pair );
+    void playSound_Pocket( NxContactPair & pair );
+    void playSound_Bump( NxContactPair & pair );
 
 private:
     SoundRetriever * const sound_;

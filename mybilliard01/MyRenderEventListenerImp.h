@@ -19,6 +19,8 @@ public: // from SoundRetriever
 
 public: // from ActorRecognizer
     virtual bool isActorBall( NxActor * actor ) OVERRIDE;
+    virtual bool isActorPocket( NxActor * actor ) OVERRIDE;
+    virtual bool isActorRail( NxActor * actor ) OVERRIDE;
 
 public:
     MyRenderEventListenerImp( wstring sceneFile, wstring physX_File );
@@ -29,6 +31,7 @@ public:
     void shotCueBall();
     void bringCueBallBack();
     void pause( bool );
+    bool isPaused();
 
 private:
     NxActor * getCueBall();
@@ -37,11 +40,15 @@ private:
 private: // init
     void initCamera( NxVec3 pos, NxVec3 dir );
     void initSound();
-    void initPhysForBilliard();
+    void initPhys();
     void initEffect( RenderBufferFactory * renderFactory );
     void initEffectLights();
 
     bool loadSound( int soundType, wstring filename );
+    void initPhysContactReport();
+    void initPhysActors( NxActor * actor );
+    void initPhysActorGroups( NxActor * actor );
+    void initPhysMaterial( NxActor * actor );
 
 private: // update
     void updateCamera( float elapsedTime );
@@ -58,11 +65,12 @@ private:
     MyOpenALImp openAL_;
 
 private: // physx
-    enum { ACTOR_CUE_BALL, ACTOR_STICK, SIZE_OF_ACTORS };
-    NxActor * actors_[ SIZE_OF_ACTORS ];
+    enum { ACTOR_CUE_BALL, ACTOR_STICK, SIZE_OF_ACTOR };
+    NxActor * actors_[ SIZE_OF_ACTOR ];
 
-    typedef set< NxActor * > BallActors;
-    BallActors ballActors_;
+    enum { ACTORS_BALL, ACTORS_POCKET, ACTORS_RAIL, SIZE_OF_ACTOR_GROUP };
+    typedef set< NxActor * > ActorGroup;
+    ActorGroup actorGroup_[ SIZE_OF_ACTOR_GROUP ];
 
     BallContactReport ballContactReport_;
 
@@ -81,6 +89,7 @@ private: // camera
 private: // keyboard input
     NxVec3 defaultCueBallPos_;
     bool bPaused_;
+    const float cueShotStrength_;
 
 private: // effect
     EffectShaderFeeder * createEffectFeeder( Node * node, RenderBufferFactory * renderFactory );
