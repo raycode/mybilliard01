@@ -23,6 +23,7 @@ namespace my_phys {
     MY_SMART_PTR( MyPhysX );
 }
 
+#include "ContactReport.h"
 #include "MyPhysX.h"
 #include "ErrorStream.h"
 #include "Utilities.h"

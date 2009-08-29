@@ -1,14 +1,15 @@
 #pragma once
 
 
-class BallContactReport : public NxUserContactReport { // NxUserContactModify 
+class BallContactReport : IMPLEMENTS_INTERFACE( ContactReport ) {
 public: // from NxUserContactReport
-    virtual void  onContactNotify(NxContactPair& pair, NxU32 events);
+    virtual void  onContactNotify(NxContactPair& pair, NxU32 events) OVERRIDE;
+
+public: // from ContactReport 
+    virtual NxContactPairFlag getContactReportFlags() OVERRIDE;
 
 public: // init
     BallContactReport( SoundRetriever *, ActorRecognizer * );
-
-    NxContactPairFlag getContactReportFlags();
 
 private: // onContact
     void onContactStart( NxContactPair & pair );

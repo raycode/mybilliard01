@@ -3,11 +3,11 @@
 
 MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring physX_File )
 : scene_( new SceneImp() )
-, phys_( new MyPhysX() )
+, phys_( new MyPhysX( NxVec3(0.0f, 0.0f, -9.81f ) ) )
 , ballContactReport_( this, this )
 , bRightHandHardware_( false )
 , bPaused_( false )
-, cueShotStrength_( 10000000.f )
+, cueShotStrength_( 10000000.f * 1.f )
 {
     const bool bScene = scene_->load( sceneFile );
     const bool bPhys = phys_->loadXMLFile( physX_File );
@@ -63,22 +63,21 @@ bool MyRenderEventListenerImp::loadSound( int soundType, wstring filename )
 
 void MyRenderEventListenerImp::initPhys()
 {
-    initPhysContactReport();
+    initPhysUserCallBacks();
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
     {
         NxActor * const actor = phys_->getActor( i );
         initPhysActors( actor );
         initPhysActorGroups( actor );
         initPhysMaterial( actor );
+        initPhysCCD( actor );
     }
 
     defaultCueBallPos_ = getCueBall()->getGlobalPosition();
 }
 
-void MyRenderEventListenerImp::initPhysContactReport()
-{
-    phys_->getScene()->setActorGroupPairFlags(0,0, ballContactReport_.getContactReportFlags() );
-    phys_->getScene()->setUserContactReport( & ballContactReport_ );
+void MyRenderEventListenerImp::initPhysUserCallBacks() {
+    phys_->setContactReportCallBack( & ballContactReport_ );
 }
 
 void MyRenderEventListenerImp::initPhysActors( NxActor * actor )
@@ -86,6 +85,7 @@ void MyRenderEventListenerImp::initPhysActors( NxActor * actor )
     const wstring name = convertString( actor->getName() );
     if( name == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
     else if( name == L"cue_stick" ) actors_[ ACTOR_STICK ] = actor;
+    else if( name == L"rack01" ) actors_[ ACTOR_RACK ] = actor;
 }
 
 void MyRenderEventListenerImp::initPhysActorGroups( NxActor * actor )
@@ -104,6 +104,15 @@ void MyRenderEventListenerImp::initPhysMaterial( NxActor * actor )
         actor->raiseActorFlag( NX_AF_FORCE_CONE_FRICTION ); 
         actor->setAngularDamping( 1.f );
         actor->setLinearDamping( 1.f );
+    }
+}
+
+void MyRenderEventListenerImp::initPhysCCD( NxActor * actor )
+{
+    if( isActorBall( actor ) )
+    {
+        actor->setCCDMotionThreshold( 2.f );
+        phys_->assignCCDSkeleton( actor );
     }
 }
 
