@@ -81,7 +81,7 @@ void BallContactReport::playSound_Pocket( NxContactPair & pair )
     const bool bPocket2 = actorRecognizer_->isActorPocket( actor1 ) && actorRecognizer_->isActorBall( actor0 );
     if( false == bPocket1 && false == bPocket2 ) return;
 
-    sound_->getRandomSound( SoundRetriever::SOUND_POCKET );
+    sound_->getRandomSound( SoundRetriever::SOUND_POCKET )->playSound();
 }
 
 void BallContactReport::playSound_Bump( NxContactPair & pair )
@@ -92,6 +92,6 @@ void BallContactReport::playSound_Bump( NxContactPair & pair )
     const bool bBump2 = actorRecognizer_->isActorRail( actor1 ) && actorRecognizer_->isActorBall( actor0 );
     if( false == bBump1 && false == bBump2 ) return;
 
-    sound_->getRandomSound( SoundRetriever::SOUND_BUMP );
+    sound_->getRandomSound( SoundRetriever::SOUND_BUMP )->playSound();
 }
 

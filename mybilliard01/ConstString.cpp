@@ -30,56 +30,56 @@ wstring ConstString::soundFilename_BallStrong( size_t index )
 {
     wostringstream filename;
     filename << L"..\\asset\\sound\\ball.strong." << std::setw(2) << std::setfill<wchar_t>('0') << index << L".wav";
-    assert( FileSystemHelper::isFileExist( filename.str() ) );
+    if( false == FileSystemHelper::isFileExist( filename.str() ) ) return L"";
     return filename.str();
 }
 wstring ConstString::soundFilename_BallWeak( size_t index )
 {
     wostringstream filename;
     filename << L"..\\asset\\sound\\ball.weak." << std::setw(2) << std::setfill< wchar_t >('0') << index << L".wav";
-    assert( FileSystemHelper::isFileExist( filename.str() ) );
+    if( false == FileSystemHelper::isFileExist( filename.str() ) ) return L"";
     return filename.str();
 }
 wstring ConstString::soundFilename_BallBreak( size_t index )
 {
     wostringstream filename;
     filename << L"..\\asset\\sound\\break." << std::setw(2) << std::setfill< wchar_t >('0') << index << L".wav";
-    assert( FileSystemHelper::isFileExist( filename.str() ) );
+    if( false == FileSystemHelper::isFileExist( filename.str() ) ) return L"";
     return filename.str();
 }
 wstring ConstString::soundFilename_Chalk( size_t index )
 {
     wostringstream filename;
     filename << L"..\\asset\\sound\\chalk." << std::setw(2) << std::setfill< wchar_t >('0') << index << L".wav";
-    assert( FileSystemHelper::isFileExist( filename.str() ) );
+    if( false == FileSystemHelper::isFileExist( filename.str() ) ) return L"";
     return filename.str();
 }
 wstring ConstString::soundFilename_Pocket( size_t index )
 {
     wostringstream filename;
     filename << L"..\\asset\\sound\\pocket." << std::setw(2) << std::setfill< wchar_t >('0') << index << L".wav";
-    assert( FileSystemHelper::isFileExist( filename.str() ) );
+    if( false == FileSystemHelper::isFileExist( filename.str() ) ) return L"";
     return filename.str();
 }
 wstring ConstString::soundFilename_CueStrong( size_t index )
 {
     wostringstream filename;
     filename << L"..\\asset\\sound\\cue.strong." << std::setw(2) << std::setfill< wchar_t >('0') << index << L".wav";
-    assert( FileSystemHelper::isFileExist( filename.str() ) );
+    if( false == FileSystemHelper::isFileExist( filename.str() ) ) return L"";
     return filename.str();
 }
 wstring ConstString::soundFilename_CueWeak( size_t index )
 {
     wostringstream filename;
     filename << L"..\\asset\\sound\\cue.weak." << std::setw(2) << std::setfill< wchar_t >('0') << index << L".wav";
-    assert( FileSystemHelper::isFileExist( filename.str() ) );
+    if( false == FileSystemHelper::isFileExist( filename.str() ) ) return L"";
     return filename.str();
 }
 wstring ConstString::soundFilename_BounceOnRail( size_t index )
 {
     wostringstream filename;
     filename << L"..\\asset\\sound\\bump." << std::setw(2) << std::setfill< wchar_t >('0') << index << L".wav";
-    assert( FileSystemHelper::isFileExist( filename.str() ) );
+    if( false == FileSystemHelper::isFileExist( filename.str() ) ) return L"";
     return filename.str();
 }
 

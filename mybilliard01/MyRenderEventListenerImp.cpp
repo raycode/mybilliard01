@@ -36,17 +36,17 @@ bool MyRenderEventListenerImp::isActorRail( NxActor * actor ) {
 }
 void MyRenderEventListenerImp::initSound()
 {
-#define LOAD_SOUND_HANLDE( HOW_MANY, WHICH_SOUND, WHICH_METHOD ) \
-    for( size_t i = 0; i < HOW_MANY; ++i ) loadSound( WHICH_SOUND, ConstString::WHICH_METHOD( i + 1 ) );
+#define LOAD_SOUND_HANLDE( WHICH_SOUND, WHICH_METHOD ) \
+    for( size_t i = 0; i < 30; ++i ) { const wstring filename = ConstString::WHICH_METHOD( i + 1 ); if( false == filename.empty() ) loadSound( WHICH_SOUND, filename ); }
 
-    LOAD_SOUND_HANLDE( 11, SOUND_BALL_STRONG, soundFilename_BallStrong );
-    LOAD_SOUND_HANLDE( 13, SOUND_BALL_WEAK, soundFilename_BallWeak );
-    LOAD_SOUND_HANLDE( 6, SOUND_BREAK, soundFilename_BallBreak );
-    LOAD_SOUND_HANLDE( 2, SOUND_CHALK, soundFilename_Chalk );
-    LOAD_SOUND_HANLDE( 20, SOUND_POCKET, soundFilename_Pocket );
-    LOAD_SOUND_HANLDE( 2, SOUND_CUE_STRONG, soundFilename_CueStrong );
-    LOAD_SOUND_HANLDE( 8, SOUND_CUE_WEAK, soundFilename_CueWeak );
-    LOAD_SOUND_HANLDE( 7, SOUND_BUMP, soundFilename_BounceOnRail );
+    LOAD_SOUND_HANLDE( SOUND_BALL_STRONG, soundFilename_BallStrong );
+    LOAD_SOUND_HANLDE( SOUND_BALL_WEAK, soundFilename_BallWeak );
+    LOAD_SOUND_HANLDE( SOUND_BREAK, soundFilename_BallBreak );
+    LOAD_SOUND_HANLDE( SOUND_CHALK, soundFilename_Chalk );
+    LOAD_SOUND_HANLDE( SOUND_POCKET, soundFilename_Pocket );
+    LOAD_SOUND_HANLDE( SOUND_CUE_STRONG, soundFilename_CueStrong );
+    LOAD_SOUND_HANLDE( SOUND_CUE_WEAK, soundFilename_CueWeak );
+    LOAD_SOUND_HANLDE( SOUND_BUMP, soundFilename_BounceOnRail );
 
 #undef LOAD_SOUND_HANLDE
 }
@@ -54,6 +54,7 @@ void MyRenderEventListenerImp::initSound()
 bool MyRenderEventListenerImp::loadSound( int soundType, wstring filename )
 {
     SoundHandlePtr newSound = SoundHandlePtr( openAL_.createSoundHandle( filename ), MyOpenAL::Destroyer( &openAL_ ) );
+    assert( NULL != newSound );
     if( NULL == newSound ) return false;
 
     sounds_[ soundType ].push_back( newSound );
@@ -78,7 +79,6 @@ void MyRenderEventListenerImp::initPhysContactReport()
 {
     phys_->getScene()->setActorGroupPairFlags(0,0, ballContactReport_.getContactReportFlags() );
     phys_->getScene()->setUserContactReport( & ballContactReport_ );
-
 }
 
 void MyRenderEventListenerImp::initPhysActors( NxActor * actor )
