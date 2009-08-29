@@ -45,10 +45,11 @@ private: // init
     void initEffectLights();
 
     bool loadSound( int soundType, wstring filename );
-    void initPhysContactReport();
+    void initPhysUserCallBacks();
     void initPhysActors( NxActor * actor );
     void initPhysActorGroups( NxActor * actor );
     void initPhysMaterial( NxActor * actor );
+    void initPhysCCD( NxActor * actor );
 
 private: // update
     void updateCamera( float elapsedTime );
@@ -65,7 +66,7 @@ private:
     MyOpenALImp openAL_;
 
 private: // physx
-    enum { ACTOR_CUE_BALL, ACTOR_STICK, SIZE_OF_ACTOR };
+    enum { ACTOR_CUE_BALL, ACTOR_STICK, ACTOR_RACK, SIZE_OF_ACTOR };
     NxActor * actors_[ SIZE_OF_ACTOR ];
 
     enum { ACTORS_BALL, ACTORS_POCKET, ACTORS_RAIL, SIZE_OF_ACTOR_GROUP };

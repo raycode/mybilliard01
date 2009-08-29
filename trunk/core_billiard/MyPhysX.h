@@ -4,9 +4,10 @@ namespace my_phys {
 
 class MyPhysX {
 public:
-    MyPhysX();
+    MyPhysX( const NxVec3 & gravity );
     ~MyPhysX();
 
+public:
     bool loadXMLFile( wstring filename );
 
     size_t getNumberOfActors() const;
@@ -16,6 +17,7 @@ public:
     void fetchResult();
     bool isSimulationDone();
 
+public: // character
     NxController * addCapsuleCharacter( NxVec3 position, float radius, float height,
         float skinWidth, NxHeightFieldAxis upDirection, NxUserControllerHitReport * report );
 
@@ -24,9 +26,18 @@ public:
     bool ResetCharacterPos(NxU32 index, const NxVec3& pos);
     NxActor* GetCharacterActor(NxU32 characterIndex);
 
-    NxScene * getScene() { return scene_; }
+public: // user call back
+    void setContactReportCallBack( ContactReport * );
 
-private:
+public: // CCD
+    void assignCCDSkeleton( NxActor * );
+    void createMeshFromShape( NxSimpleTriangleMesh & triMesh, NxShape * shape );
+    void createMeshFromBoxShape( NxSimpleTriangleMesh & triMesh, const NxBoxShape * boxShape );
+    void createMeshFromSphereShape( NxSimpleTriangleMesh & triMesh, const NxSphereShape * sphereShape );
+    void createMeshFromConvexMeshShape( NxSimpleTriangleMesh & triMesh, const NxConvexShape * convexShape );
+    void freeSimpleMesh( const NxSimpleTriangleMesh & triMesh );
+
+private: // character
     void UpdateControllers();
 
 private:
@@ -40,6 +51,9 @@ private: // character
     
     typedef list< NxController * > Controllers;
     Controllers controllers_;
+
+private: // CCD
+    static void CreateMeshFromShape( NxSimpleTriangleMesh & triMesh, NxShape * shape );
 };
 
 
