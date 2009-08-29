@@ -10,7 +10,7 @@ public: // init
 
     NxContactPairFlag getContactReportFlags();
 
-private:
+private: // onContact
     void onContactStart( NxContactPair & pair );
     void onContactEnd( NxContactPair & pair );
     void onContactTouch( NxContactPair & pair );
@@ -19,6 +19,9 @@ private: // sound
     void playSound_BallBounce( NxContactPair & pair );
     void playSound_Pocket( NxContactPair & pair );
     void playSound_Bump( NxContactPair & pair );
+
+private: // action after some cases
+    void setBallFallDownOntoPocket( NxActor * ball );
 
 private:
     SoundRetriever * const sound_;
