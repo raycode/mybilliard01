@@ -82,6 +82,15 @@ void BallContactReport::playSound_Pocket( NxContactPair & pair )
     if( false == bPocket1 && false == bPocket2 ) return;
 
     sound_->getRandomSound( SoundRetriever::SOUND_POCKET )->playSound();
+
+    NxActor * const ballActor = ( bPocket1 ? actor1 : actor0 );
+    setBallFallDownOntoPocket( ballActor );
+}
+
+void BallContactReport::setBallFallDownOntoPocket( NxActor * ball )
+{
+    assert( actorRecognizer_->isActorBall( ball ) );
+    ball->clearBodyFlag( NX_BF_FROZEN_POS_Z ); 
 }
 
 void BallContactReport::playSound_Bump( NxContactPair & pair )
