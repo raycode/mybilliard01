@@ -71,4 +71,5 @@ namespace my_render_win32_dx9_imp {
 
 
 #define RETURN_FALSE_IF_FAILED( HR, MSG )   if( FAILED( HR ) ) { DXUT_ERR( MSG, HR ); return false; }
+#define RETURN_NULL_IF_FAILED( HR, MSG )   if( FAILED( HR ) ) { DXUT_ERR( MSG, HR ); return NULL; }
 

@@ -158,9 +158,7 @@ void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory
 
 void MyRenderEventListenerImp::initEffect( RenderBufferFactory * renderFactory )
 {
-    wchar_t tmp[256];
-    _snwprintf_s( tmp, 256, L"%d physics actors are found\n", phys_->getNumberOfActors() );
-    OutputDebugStr( tmp );
+    createShadowMap( renderFactory );
 
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
@@ -267,18 +265,35 @@ SoundHandle * MyRenderEventListenerImp::getRandomSound( int soundType )
 void MyRenderEventListenerImp::display( Render * render ) {
     render->clear_Color_Z( PixelColor( 0, 45, 50, 170 ), 1.0f );
     if( false == render->beginScene() ) return;
-
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
-    {
-        render->setRenderState()->setWireframe()->setSolid();
-        render->setRenderState()->setCull()->setClockWise();
-        MY_FOR_EACH_MOD( EffectShaderFeeders, iter, feeders_ )
-            (*iter)->display();
-    }
-    DXUT_EndPerfEvent();
 
+    preDisplay( render );
+    onDisplay( render );
+    postDisplay( render );
+
+    DXUT_EndPerfEvent();
     render->endScene();
 }   
+
+void MyRenderEventListenerImp::preDisplay( Render * render )
+{
+    //render->setRenderTarget( shadowMap_.get() );
+    //MY_FOR_EACH( EffectShaderFeeders, iter, feeders_ )
+    //    (*iter)->display_positionOnly();
+    //render->unsetRenderTarget();
+}
+
+void MyRenderEventListenerImp::onDisplay( Render * render )
+{
+    render->setRenderState()->setWireframe()->setSolid();
+    render->setRenderState()->setCull()->setClockWise();
+    MY_FOR_EACH( EffectShaderFeeders, iter, feeders_ )
+        (*iter)->display();
+}
+
+void MyRenderEventListenerImp::postDisplay( Render * render )
+{
+}
 
 void MyRenderEventListenerImp::displayLost() {
     sharedVariables_.clear();

@@ -6,7 +6,7 @@ namespace my_render_win32_dx9_imp {
 struct VertexBufferDX9Imp::Pimpl {
     static int updateOffset( StorageContainer_Array & group, int offset ) {
 
-        MY_FOR_EACH_MOD( StorageContainer_Array, iter, group ) {
+        MY_FOR_EACH_MODIFY( StorageContainer_Array, iter, group ) {
             iter->setOffset( offset );
             offset += (WORD) ( iter->empty() ? 0 : iter->sizeInByteForEach() );
         }
@@ -15,7 +15,7 @@ struct VertexBufferDX9Imp::Pimpl {
 
     static void writeOntoBuffer( float * buffer, StorageContainer_Array & group, size_t step ) {
 
-        MY_FOR_EACH_MOD( StorageContainer_Array, iter, group ) {
+        MY_FOR_EACH_MODIFY( StorageContainer_Array, iter, group ) {
             iter->copyOntoBuffer( buffer, step );
         }
     }

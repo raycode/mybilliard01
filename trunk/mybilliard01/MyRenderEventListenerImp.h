@@ -45,18 +45,33 @@ private: // init
     void initSound();
     void initPhys();
     void initEffect( RenderBufferFactory * renderFactory );
-    void initEffectLights();
     void initVisualOnlyObjects();
 
+    // init sound
     bool loadSound( int soundType, wstring filename );
+
+    // init effect
+    void initEffectLights();
+
+    // init phys
     void initPhysUserCallBacks();
     void initPhysMainActors();
     void initPhysActorGroups();
     void initPhysBalls();
 
+    // init phys ball
     void initPhysBallMaterial( NxActor * actor );
     void initPhysBallCCD( NxActor * actor );
     void initPhysBallPosition( NxActor * actor );
+
+private: // effect
+    void createShadowMap( RenderBufferFactory * );
+
+    EffectShaderFeeder * createEffectFeeder( Node *, RenderBufferFactory * );
+
+    void createSharedVariableFeeder();
+    void findSharedVariables( EffectShader * effect);
+    ShaderVariable * getSharedVariable( wstring name );
 
 private: // update
     void updateCamera( float elapsedTime );
@@ -67,6 +82,11 @@ private: // update
     void updateEffect( float elapsedTime );
     void updateStickPosition();
     void updateStickPower( float elapsedTime );
+
+private: // display
+    void preDisplay( Render * render );
+    void onDisplay( Render * render );
+    void postDisplay( Render * render );
 
 private: // reset
     const NxVec3 & getBallDefaultPosition( NxActor * );
@@ -114,11 +134,6 @@ private: // keyboard input
     float chargedStickPower_;
 
 private: // effect
-    EffectShaderFeeder * createEffectFeeder( Node * node, RenderBufferFactory * renderFactory );
-    void createSharedVariableFeeder();
-    void findSharedVariables( EffectShader * effect);
-    ShaderVariable * getSharedVariable( wstring name );
-
     typedef list< EffectShaderFeederPtr > EffectShaderFeeders;
     EffectShaderFeeders feeders_;
     EffectShaderFeederPtr sharedVaribleFeeder_;
@@ -128,6 +143,8 @@ private: // effect
 
     typedef map< wstring, ShaderVariablePtr > SharedVariables;
     SharedVariables sharedVariables_;
+
+    TexturePtr shadowMap_;
 
 private: // for random numbers
     mt19937 eng_;

@@ -16,6 +16,14 @@ public: // releser
         void operator()( ReleasableResourceDX9 * resource ) const {
             if( NULL == resource ) return;
             resource->releaseResource();
+        }
+    };
+
+    struct Destroyer
+    {
+        void operator()( ReleasableResourceDX9 * resource ) const {
+            if( NULL == resource ) return;
+            Releaser()( resource );
             delete resource;
         }
     };

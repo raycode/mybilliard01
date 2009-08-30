@@ -19,6 +19,9 @@ NULL_OBJECT( Render ) {
     virtual const RenderState * getRenderState() const OVERRIDE { return &nullRenderState_; }
     virtual RenderState * setRenderState() OVERRIDE { return &nullRenderState_; }
 
+    virtual void setRenderTarget( Texture * ) OVERRIDE {}
+    virtual void unsetRenderTarget() OVERRIDE {}
+
 private:
     RenderStateNull nullRenderState_;
 };

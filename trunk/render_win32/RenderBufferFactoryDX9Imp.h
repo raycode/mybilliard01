@@ -10,13 +10,11 @@ public: // from RenderBufferFactory
     virtual VertexBuffer * createVertexBuffer_dynamic( size_t numberOfPosition, const float * positions ) OVERRIDE;
     virtual VertexBuffer * createVertexBuffer_stream( size_t numberOfPosition, const float * positions ) OVERRIDE;
 
-    virtual Surface * getBackBuffer( size_t whichBackBuffer ) OVERRIDE;
-
     virtual Texture * createTexture( wstring filename ) OVERRIDE;
+    virtual Texture * createRenderTargetTexture( size_t width, size_t height ) OVERRIDE;
 
     virtual bool destroyEffectShader( EffectShader *) OVERRIDE;
     virtual bool destroyVertexBuffer( VertexBuffer *) OVERRIDE;
-    virtual bool destroySurface( Surface * ) OVERRIDE;
     virtual bool destroyTexture( Texture * ) OVERRIDE;
 
 public: // from RenderEventListener
@@ -58,10 +56,10 @@ private:
 
 private:
     enum { E_STATIC_VERTICES, E_DYNAMIC_VERTICES, E_STREAM_VERTICES,
-           E_SURFACES, E_TEXTURE, E_EFFECT_SHADERS, SIZE_OF_RESOURCETYPES };
+           E_TEXTURES, E_EFFECT_SHADERS, SIZE_OF_RESOURCE_TYPES };
     enum { EREADY_QUEUE, EACTIVE_QUEUE, SIZE_OF_QUEUE };
     typedef list< ReleasableResourceDX9Ptr > ReleasableResources;
-    ReleasableResources resources_[ SIZE_OF_RESOURCETYPES ][ SIZE_OF_QUEUE ];
+    ReleasableResources resources_[ SIZE_OF_RESOURCE_TYPES ][ SIZE_OF_QUEUE ];
     bool bNeedToUpdate_;
 
     MY_UNIT_TEST_BACKDOOR;

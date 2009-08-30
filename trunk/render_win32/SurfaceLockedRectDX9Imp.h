@@ -2,7 +2,7 @@
 namespace my_render_win32_dx9_imp {
 
 
-class SurfaceLockedRectDX9Imp : IMPLEMENTS_INTERFACE( SurfaceLockedRect ) {
+class SurfaceLockedRectDX9Imp : IMPLEMENTS_INTERFACE( SurfaceLockedRectDX9 ) {
 public: // from SurfaceLockedRect
     virtual int getPitch() OVERRIDE;
     virtual void * getBitPointer() OVERRIDE;

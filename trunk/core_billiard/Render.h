@@ -20,6 +20,9 @@ MY_INTERFACE Render {
     virtual const RenderState * getRenderState() const PURE;
     virtual RenderState * setRenderState() PURE;
 
+    virtual void setRenderTarget( Texture * ) PURE;
+    virtual void unsetRenderTarget() PURE;
+
 };
 
 }

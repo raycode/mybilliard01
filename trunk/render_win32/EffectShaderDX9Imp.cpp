@@ -116,19 +116,19 @@ bool EffectShaderDX9Imp::hasVariableBySemantic( wstring semantic )  {
 }
 
 EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableByIndex( size_t index ) {
-    EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_INDEX, index, NULL ), ReleasableResourceDX9::Releaser() );
+    EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_INDEX, index, NULL ), ReleasableResourceDX9::Destroyer() );
     if( false == activateEffectVariable( newVariable.get() ) ) return NULL;
     effectVariables_.push_back( newVariable );
     return newVariable.get();
 }
 EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableByName( wstring name ) {
-    EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_NAME, name, NULL ), ReleasableResourceDX9::Releaser() );
+    EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_NAME, name, NULL ), ReleasableResourceDX9::Destroyer() );
     if( false == activateEffectVariable( newVariable.get() ) ) return NULL;
     effectVariables_.push_back( newVariable );
     return newVariable.get();
 }
 EffectShaderVariable * EffectShaderDX9Imp::createEffectVariableBySemantic( wstring semantic ) {
-    EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_SEMANTIC, semantic, NULL ), ReleasableResourceDX9::Releaser() );
+    EffectShaderVariableDX9Ptr newVariable = EffectShaderVariableDX9Ptr( new EffectShaderVariableDX9Imp( EffectShaderVariableDX9Imp::ESEARCH_BY_SEMANTIC, semantic, NULL ), ReleasableResourceDX9::Destroyer() );
     if( false == activateEffectVariable( newVariable.get() ) ) return NULL;
     effectVariables_.push_back( newVariable );
     return newVariable.get();
@@ -147,7 +147,7 @@ ShaderVariable * EffectShaderDX9Imp::createVariableBySemantic( wstring semantic 
 EffectShaderVariableBlock * EffectShaderDX9Imp::createVariableBlock( EffectShaderVariableBlockCallBack * callBack )
 {
     if( NULL == callBack ) return NULL;
-    EffectShaderVariableBlockDX9Ptr newBlock = EffectShaderVariableBlockDX9Ptr( new EffectShaderVariableBlockDX9Imp( this, callBack ), ReleasableResourceDX9::Releaser() );
+    EffectShaderVariableBlockDX9Ptr newBlock = EffectShaderVariableBlockDX9Ptr( new EffectShaderVariableBlockDX9Imp( this, callBack ), ReleasableResourceDX9::Destroyer() );
 
     if( false == activateEffectVariable( newBlock.get() ) ) return NULL;
     effectVariables_.push_back( newBlock );
