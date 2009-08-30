@@ -1,2 +1,2 @@
-java -classpath smc.jar smc.Smc RenderListenerSMC.smc
+java -classpath ../smc.jar smc.Smc RenderListenerSMC.smc
 pause
