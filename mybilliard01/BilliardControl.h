@@ -17,7 +17,6 @@ MY_INTERFACE BilliardControl {
     virtual bool isPaused() PURE;
 
     virtual NxActor * getCueBall() PURE;
-    virtual NxActor * getStick() PURE;
 
     virtual bool isBallMoving() PURE;
 

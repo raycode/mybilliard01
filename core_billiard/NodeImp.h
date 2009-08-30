@@ -14,8 +14,8 @@ public: // from Node
     virtual bool hasNextSibling() OVERRIDE;
     virtual bool hasFirstChild() OVERRIDE;
 
-    virtual void update( float time ) OVERRIDE;
     virtual void display() OVERRIDE;
+    virtual void display_positionOnly() OVERRIDE;
 
 public:
     NodeImp();
@@ -27,12 +27,6 @@ public: // set
     void setSID( wstring sid );
 
     void appendInstanceGeometry( Instance * instanceGeometry );
-
-public: // update
-    void updateOrient( float time );
-    void updateLocalMatrix();
-
-public:
 
 private: // from Node
     wstring sid_;
@@ -47,10 +41,7 @@ private: // instance
 
 private: // render
     void renderInstanceGeometries();
-
-private:
-    bool isNeedToUpdate() const;
-    bool needToUpdateLocalMatrix_, needToUpdateLocalToWorldMatrix_;
+    void renderInstanceGeometries_positionOnly();
 };
 
 

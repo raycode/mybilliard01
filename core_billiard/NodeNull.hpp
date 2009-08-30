@@ -14,8 +14,8 @@ NULL_OBJECT( Node ), public BaseNull {
     virtual bool hasNextSibling() OVERRIDE { return false; }
     virtual bool hasFirstChild() OVERRIDE { return false; }
 
-    virtual void update( float elapsedTime ) OVERRIDE {}
     virtual void display() OVERRIDE {}
+    virtual void display_positionOnly() OVERRIDE {}
 
 };
 

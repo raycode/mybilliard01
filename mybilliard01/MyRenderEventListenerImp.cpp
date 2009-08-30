@@ -19,6 +19,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
     initCamera( NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
     initSound();
     initPhys();
+    initVisualOnlyObjects();
 }
 
 void MyRenderEventListenerImp::initCamera( NxVec3 pos, NxVec3 dir ) {
@@ -67,7 +68,7 @@ bool MyRenderEventListenerImp::loadSound( int soundType, wstring filename )
 void MyRenderEventListenerImp::initPhys()
 {
     initPhysUserCallBacks();
-    initPhysActors();
+    initPhysMainActors();
     initPhysActorGroups();
     initPhysBalls();
 }
@@ -76,7 +77,7 @@ void MyRenderEventListenerImp::initPhysUserCallBacks() {
     phys_->setContactReportCallBack( & ballContactReport_ );
 }
 
-void MyRenderEventListenerImp::initPhysActors()
+void MyRenderEventListenerImp::initPhysMainActors()
 {
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
     {
@@ -84,7 +85,6 @@ void MyRenderEventListenerImp::initPhysActors()
         const wstring name = convertString( actor->getName() );
 
         if( name == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
-        else if( name == L"cue_stick" ) actors_[ ACTOR_STICK ] = actor;
         else if( name == L"rack01" ) actors_[ ACTOR_RACK ] = actor;
     }
 }
@@ -137,6 +137,12 @@ const NxVec3 & MyRenderEventListenerImp::getBallDefaultPosition( NxActor * actor
     BallDefaultPositions::const_iterator iter = ballDefaultPositions_.find( actor );
     if( iter == ballDefaultPositions_.end() ) throw exception();
     return iter->second;
+}
+
+void MyRenderEventListenerImp::initVisualOnlyObjects()
+{
+    visualOnlyObjects_[ VISUAL_STICK ] = scene_->getNode( L"cue_stick" );
+    visualOnlyObjects_[ VISUAL_BACKGROUND ] = scene_->getNode( L"background" );
 }
 
 void MyRenderEventListenerImp::init()
@@ -236,15 +242,15 @@ void MyRenderEventListenerImp::updateEffect( float elapsedTime )
 }
 
 void MyRenderEventListenerImp::updateStickPosition() {
-    const NxExtendedVec3 cameraPos = getActiveCamera()->getPosition();
-    NxVec3 newStickPosition( (NxReal) cameraPos.x, (NxReal) cameraPos.y, (NxReal) cameraPos.z );
-    newStickPosition += getActiveCamera()->getRightVector() * 10.f;
-    getStick()->moveGlobalPosition( newStickPosition );
+    //const NxExtendedVec3 cameraPos = getActiveCamera()->getPosition();
+    //NxVec3 newStickPosition( (NxReal) cameraPos.x, (NxReal) cameraPos.y, (NxReal) cameraPos.z );
+    //newStickPosition += getActiveCamera()->getRightVector() * 10.f;
+    //getStick()->moveGlobalPosition( newStickPosition );
 
-    NxVec3 right = getActiveCamera()->getRightVector();
-    NxVec3 up = getActiveCamera()->getUpVector();
-    NxVec3 dir = getActiveCamera()->getDirectionVector();
-    getStick()->moveGlobalOrientation( NxMat33( right, up, dir ) );
+    //NxVec3 right = getActiveCamera()->getRightVector();
+    //NxVec3 up = getActiveCamera()->getUpVector();
+    //NxVec3 dir = getActiveCamera()->getDirectionVector();
+    //getStick()->moveGlobalOrientation( NxMat33( right, up, dir ) );
 }
 
 void MyRenderEventListenerImp::updateStickPower( float elapsedTime ) {
@@ -293,9 +299,6 @@ NxVec3 MyRenderEventListenerImp::getCueBallPosition() {
 
 NxActor * MyRenderEventListenerImp::getCueBall() {
     return actors_[ ACTOR_CUE_BALL ];
-}
-NxActor * MyRenderEventListenerImp::getStick() {
-    return actors_[ ACTOR_STICK ];
 }
 
 void MyRenderEventListenerImp::readyToHitCueBall() {

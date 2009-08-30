@@ -14,8 +14,8 @@ MY_INTERFACE Node : EXTENDS_INTERFACE( Base ) {
     virtual bool hasNextSibling() PURE;
     virtual bool hasFirstChild() PURE;
 
-    virtual void update( float elapsedTime ) PURE;
     virtual void display() PURE;
+    virtual void display_positionOnly() PURE;
 
 };
 
