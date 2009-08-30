@@ -7,7 +7,9 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 , ballContactReport_( this, this )
 , bRightHandHardware_( false )
 , bPaused_( false )
-, cueShotStrength_( 10000000.f * 1.f )
+, cueShotStrength_( 20000000.f * 1.f )
+, bChargingStickPower_( false )
+, chargedStickPower_( 0.f )
 {
     const bool bScene = scene_->load( sceneFile );
     const bool bPhys = phys_->loadXMLFile( physX_File );
@@ -21,7 +23,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 
 void MyRenderEventListenerImp::initCamera( NxVec3 pos, NxVec3 dir ) {
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    camera_ = MyCameraPtr( new MyCamera( colladaCamera, phys_.get(), pos, dir, bRightHandHardware_ ) );
+    camera_ = MyCameraPtr( new MyCamera( colladaCamera, phys_.get(), this, pos, dir, bRightHandHardware_ ) );
     camera_->setMovementToFixedHeight( pos.z );
 }
 
@@ -195,6 +197,7 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
     updateCamera( elapsedTime );
     updateEffect( elapsedTime );
     updateStickPosition();
+    updateStickPower( elapsedTime );
     phys_->fetchResult();
 }
 
@@ -233,15 +236,19 @@ void MyRenderEventListenerImp::updateEffect( float elapsedTime )
 }
 
 void MyRenderEventListenerImp::updateStickPosition() {
-    const NxExtendedVec3 cameraPos = getMyCamera()->getPosition();
+    const NxExtendedVec3 cameraPos = getActiveCamera()->getPosition();
     NxVec3 newStickPosition( (NxReal) cameraPos.x, (NxReal) cameraPos.y, (NxReal) cameraPos.z );
-    newStickPosition += getMyCamera()->getRightVector() * 10.f;
+    newStickPosition += getActiveCamera()->getRightVector() * 10.f;
     getStick()->moveGlobalPosition( newStickPosition );
 
-    NxVec3 right = getMyCamera()->getRightVector();
-    NxVec3 up = getMyCamera()->getUpVector();
-    NxVec3 dir = getMyCamera()->getDirectionVector();
+    NxVec3 right = getActiveCamera()->getRightVector();
+    NxVec3 up = getActiveCamera()->getUpVector();
+    NxVec3 dir = getActiveCamera()->getDirectionVector();
     getStick()->moveGlobalOrientation( NxMat33( right, up, dir ) );
+}
+
+void MyRenderEventListenerImp::updateStickPower( float elapsedTime ) {
+    if( bChargingStickPower_ ) chargedStickPower_ = std::min( elapsedTime + chargedStickPower_, 100.f );
 }
 
 SoundHandle * MyRenderEventListenerImp::getRandomSound( int soundType )
@@ -276,11 +283,11 @@ void MyRenderEventListenerImp::destroy()
 {
 }
 
-MyCamera * MyRenderEventListenerImp::getMyCamera() {
+MyCamera * MyRenderEventListenerImp::getActiveCamera() {
     return camera_.get();
 }
 
-NxVec3 MyRenderEventListenerImp::getBallPosition() {
+NxVec3 MyRenderEventListenerImp::getCueBallPosition() {
     return getCueBall()->getGlobalPosition();
 }
 
@@ -291,10 +298,21 @@ NxActor * MyRenderEventListenerImp::getStick() {
     return actors_[ ACTOR_STICK ];
 }
 
-void MyRenderEventListenerImp::shotCueBall() {
-    NxVec3 dir = getMyCamera()->getDirectionVector();
+void MyRenderEventListenerImp::readyToHitCueBall() {
+    bChargingStickPower_ = true;
+}
+
+float MyRenderEventListenerImp::getHowMuchPowerIsCharged() {
+    return chargedStickPower_;
+}
+
+void MyRenderEventListenerImp::hitCueBall() {
+    NxVec3 dir = getActiveCamera()->getDirectionVector();
     dir.z = 0.f;
-    getCueBall()->addForce( dir * cueShotStrength_ );
+    getCueBall()->addForce( dir * cueShotStrength_ * chargedStickPower_ );
+
+    bChargingStickPower_ = false;
+    chargedStickPower_ = 0.f;
 }
 
 void MyRenderEventListenerImp::resetBall( NxActor * ball )
@@ -328,4 +346,13 @@ void MyRenderEventListenerImp::pause( bool bPause ) {
 
 bool MyRenderEventListenerImp::isPaused() {
     return bPaused_;
+}
+
+bool MyRenderEventListenerImp::isBallMoving() {
+    MY_FOR_EACH( ActorGroup, iter, actorGroup_[ ACTORS_BALL ] ) {
+        NxActor * const actor = *iter;
+        if( actor->getLinearVelocity().magnitude() >= 50.f )
+            return true;
+    }
+    return false;
 }

@@ -18,18 +18,19 @@
 #define KEY_F 70
 #define KEY_Z 90
 #define KEY_R 82
+#define KEY_TAB 9
 
-MyInputListenerImp::MyInputListenerImp( MyRenderEventListenerImp * renderListener, ApplicationWindow * app )
-: renderListener_( renderListener )
+MyInputListenerImp::MyInputListenerImp( BilliardControl * billiardControl, ApplicationWindow * app )
+: billiardControl_( billiardControl )
 , app_( app )
-, bDrag_( false )
-, bAiming_( false )
-, bNeedToStoreDownPt_( false )
-, aimableMaxDist_( 60.f )
+, cameraState_( billiardControl->getActiveCamera()->getState() )
 {
-    rotationSensitivity_ = 0.005f;
-    pitchSensitivity_ = 0.05f;
-    getCamera()->setMovingSpeed( 20.f );
+    mouseState_.setCamera( billiardControl->getActiveCamera() );
+    mouseState_.setBilliardControl( billiardControl );
+    mouseState_.setPitchSensitivity( 0.05f );
+    mouseState_.setRotationSensitivity( 0.005f );
+    billiardControl->getActiveCamera()->setMovingSpeed( 20.f );
+    cameraState_->mode.changeToAimView();
 }
 
 void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
@@ -41,40 +42,48 @@ void MyInputListenerImp::keyDown( unsigned int key, bool bAlt ) {
     switch( key ) {
         case KEY_UP_ARROW:
         case KEY_W:
-            beginMoveForward();
+            if( cameraState_->isMoveView() ) cameraState_->move.beginMoveForward();
             break;
         case KEY_LEFT_ARROW:
         case KEY_A:
-            beginMoveLeft();
+            if( cameraState_->isMoveView() ) cameraState_->move.beginMoveLeft();
+            else if( cameraState_->isAimView() ) cameraState_->aim.beginAimRight();
+            else if( cameraState_->isTopView() ) cameraState_->top.beginRotateLeft();
             break;
         case KEY_RIGHT_ARROW:
         case KEY_D:
-            beginMoveRight();
+            if( cameraState_->isMoveView() ) cameraState_->move.beginMoveRight();
+            else if( cameraState_->isAimView() ) cameraState_->aim.beginAimLeft();
+            else if( cameraState_->isTopView() ) cameraState_->top.beginRotateRight();
             break;
         case KEY_DOWN_ARROW:
         case KEY_S:
-            beginMoveBackward();
+            if( cameraState_->isMoveView() ) cameraState_->move.beginMoveBackward();
             break;
+
         case KEY_H:
-            beginRotateCounterClockWiseByZ();
+            if( cameraState_->isMoveView() ) cameraState_->rotate.beginRotateCounterClockWiseByZ();
+            else if( cameraState_->isAimView() ) cameraState_->aim.beginAimRight();
             break;
-        case KEY_J:
-            beginPitchDown();
-            break;
-        case KEY_K:
-            beginPitchUp();
-            break;
+        case KEY_J: if( cameraState_->isMoveView() ) cameraState_->rotate.beginPitchDown(); break;
+        case KEY_K: if( cameraState_->isMoveView() ) cameraState_->rotate.beginPitchUp(); break;
         case KEY_L:
-            beginRotateClockWiseByZ();
+            if( cameraState_->isMoveView() ) cameraState_->rotate.beginRotateClockWiseByZ();
+            else if( cameraState_->isAimView() ) cameraState_->aim.beginAimLeft();
             break;
+
+        case KEY_TAB:
+            if( cameraState_->isMoveView() ) cameraState_->mode.changeToAimView();
+            else if( cameraState_->isAimView() ) cameraState_->mode.changeToTopView();
+            else if( cameraState_->isTopView() ) cameraState_->mode.changeToMoveView();
+            break;
+
         case KEY_F:
             app_->setWindowedMode( ! app_->isWindowedMode() );
             break;
-        case KEY_Z:
-            beginAimBall();
-            break;
         case VK_SPACE:
-            shot();
+            if( cameraState_->isAimView() )
+                cameraState_->aim.beginShoot();
             break;
         case KEY_R:
             if( GetAsyncKeyState( VK_SHIFT ) != NULL )
@@ -93,36 +102,39 @@ void MyInputListenerImp::keyUp( unsigned int key, bool bAlt )
     switch( key ) {
         case KEY_UP_ARROW: // up arrow
         case KEY_W:
-            endMoveForward();
+            if( cameraState_->isMoveView() ) cameraState_->move.endMoveForward();
             break;
         case KEY_LEFT_ARROW: // left arrow
         case KEY_A:
-            endMoveLeft();
+            if( cameraState_->isMoveView() ) cameraState_->move.endMoveLeft();
+            else if( cameraState_->isAimView() ) cameraState_->aim.endAimRight();
+            else if( cameraState_->isTopView() ) cameraState_->top.endRotateLeft();
             break;
         case KEY_RIGHT_ARROW: // right arrow
         case KEY_D:
-            endPitchDown();
-            endMoveRight();
+            if( cameraState_->isMoveView() ) cameraState_->move.endMoveRight();
+            else if( cameraState_->isAimView() ) cameraState_->aim.endAimLeft();
+            else if( cameraState_->isTopView() ) cameraState_->top.endRotateRight();
+            break;
         case KEY_DOWN_ARROW: // down arrow
         case KEY_S:
-            endMoveBackward();
-            break;
-        case KEY_H:
-            endRotateCounterClockWiseByZ();
-            break;
-        case KEY_J: // down
-            endPitchDown();
-            break;
-        case KEY_K: // up
-            endPitchUp();
-            break;
-        case KEY_L:
-            endRotateClockWiseByZ();
-            break;
-        case KEY_Z:
-            endAimBall();
+            if( cameraState_->isMoveView() ) cameraState_->move.endMoveBackward();
             break;
 
+        case KEY_H:
+            if( cameraState_->isMoveView() ) cameraState_->rotate.endRotateCounterClockWiseByZ();
+            else if( cameraState_->isAimView() ) cameraState_->aim.endAimRight();
+            break;
+        case KEY_J: if( cameraState_->isMoveView() ) cameraState_->rotate.endPitchDown(); break;
+        case KEY_K: if( cameraState_->isMoveView() ) cameraState_->rotate.endPitchUp(); break;
+        case KEY_L:
+            if( cameraState_->isMoveView() ) cameraState_->rotate.endRotateClockWiseByZ();
+            else if( cameraState_->isAimView() ) cameraState_->aim.endAimLeft();
+            break;
+
+        case VK_SPACE:
+            if( cameraState_->isAimView() ) cameraState_->aim.endShoot();
+            break;
     }
 }
 
@@ -136,72 +148,8 @@ void MyInputListenerImp::onMouseEvent(
         bool bSideButton2, 
         int nMouseWheelDelta ) 
 {
-    if( bLeftButton ) selectBall( xPos, yPos );
 }
 
-void MyInputListenerImp::beginMoveForward() {
-    getCamera()->beginMoveForward();
-}
-void MyInputListenerImp::beginMoveLeft() {
-    getCamera()->beginMoveLeft();
-}
-void MyInputListenerImp::beginMoveRight() {
-    getCamera()->beginMoveRight();
-}
-void MyInputListenerImp::beginMoveBackward() {
-    getCamera()->beginMoveBackward();
-}
-void MyInputListenerImp::endMoveForward() {
-    getCamera()->endMoveForward();
-}
-void MyInputListenerImp::endMoveLeft() {
-    getCamera()->endMoveLeft();
-}
-void MyInputListenerImp::endMoveRight() {
-    getCamera()->endMoveRight();
-}
-void MyInputListenerImp::endMoveBackward() {
-    getCamera()->endMoveBackward();
-}
-void MyInputListenerImp::stopMoving() {
-    endMoveForward();
-    endMoveLeft();
-    endMoveRight();
-    endMoveBackward();
-}
-
-
-void MyInputListenerImp::beginRotateCounterClockWiseByZ() {
-    getCamera()->beginRotateCounterClockWiseByZ();
-}
-void MyInputListenerImp::beginRotateClockWiseByZ() {
-    getCamera()->beginRotateClockWiseByZ();
-}
-void MyInputListenerImp::endRotateCounterClockWiseByZ() {
-    getCamera()->endRotateCounterClockWiseByZ();
-}
-void MyInputListenerImp::endRotateClockWiseByZ() {
-    getCamera()->endRotateClockWiseByZ();
-}
-
-void MyInputListenerImp::beginPitchDown() {
-    getCamera()->beginPitchDown();
-}
-void MyInputListenerImp::beginPitchUp() {
-    getCamera()->beginPitchUp();
-}
-void MyInputListenerImp::endPitchDown() {
-    getCamera()->endPitchDown();
-}
-void MyInputListenerImp::endPitchUp() {
-    getCamera()->endPitchUp();
-}
-void MyInputListenerImp::stopRotate() {
-    endRotateClockWiseByZ();
-    endRotateCounterClockWiseByZ();
-    endPitchDown();
-    endPitchUp();
-}
 
 
 bool MyInputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lParam )
@@ -214,124 +162,35 @@ bool MyInputListenerImp::MsgProc( HWND hWnd, UINT uMsg, WPARAM wParam, LPARAM lP
     {
     case WM_LBUTTONDOWN:
     case WM_LBUTTONDBLCLK:
-        {
-            SetCapture( hWnd );
-            OnBeginDrag( iMouseX, iMouseY );
-        }
+        mouseState_.MouseStateSMC::buttonDown( hWnd, iMouseX, iMouseY );
         return TRUE;
 
     case WM_LBUTTONUP:
-        {
-            ReleaseCapture();
-            OnEndDrag();
-        }
+        mouseState_.buttonUp();
         return TRUE;
+
     case WM_CAPTURECHANGED:
         if( ( HWND )lParam != hWnd )
-        {
-            ReleaseCapture();
-            OnEndDrag();
-        }
+            mouseState_.captureReleased();
         return TRUE;
 
     case WM_MOUSEMOVE:
-        if( ( MK_LBUTTON & wParam ) || bAiming_ )
-        {
-            OnMove( iMouseX, iMouseY );
-        }
+        mouseState_.MouseStateSMC::move( iMouseX, iMouseY );
         return TRUE;
     }
     return true;
 }
 
-void MyInputListenerImp::OnBeginDrag( int nX, int nY )
-{
-    bDrag_ = true;
-    m_vDownPt = NxVec3( (float) nX, (float) nY, 0.f );
-}
-
-void MyInputListenerImp::OnEndDrag()
-{
-    bDrag_ = false;
-}
-
-void MyInputListenerImp::beginAimBall()
-{
-    bAiming_ = true;
-    bNeedToStoreDownPt_ = true;
-    OutputDebugStr( L"begin aim ball.\n" );
-
-    const NxVec3 cueBallPos = renderListener_->getBallPosition();
-    getCamera()->lookAtBall( cueBallPos );
-    
-    getCamera()->setMovementToFixedHeight( 35.f );
-}
-void MyInputListenerImp::endAimBall()
-{
-    bAiming_ = false;
-    getCamera()->setMovementToFixedHeight( 45.f );
-}
-
-void MyInputListenerImp::OnMove( int nX, int nY )
-{
-    if( bAiming_ )
-    {
-        m_vCurrentPt = NxVec3( (float) nX, (float) nY, 0.f );
-        if( bNeedToStoreDownPt_ ) { m_vDownPt = m_vCurrentPt; bNeedToStoreDownPt_ = false; }
-
-        const NxVec3 diff = m_vCurrentPt - m_vDownPt;
-        m_vDownPt = m_vCurrentPt;
-
-        const NxExtendedVec3 currentPosition = getCamera()->getPosition();
-        const NxVec3 cueBallPos = renderListener_->getBallPosition();
-
-        if( isCloseEnoughToAim( currentPosition, cueBallPos ) )
-        {
-            getCamera()->moveClockWiseAroundBall( diff.x * rotationSensitivity_, cueBallPos );
-            getCamera()->lookAtBall( cueBallPos );
-            return;
-        }
-    }
-
-    if( bDrag_ )
-    {
-        m_vCurrentPt = NxVec3( (float) nX, (float) nY, 0.f );
-        const NxVec3 diff = m_vCurrentPt - m_vDownPt;
-        m_vDownPt = m_vCurrentPt;
-
-        getCamera()->rotateClockWiseByZ( diff.x * rotationSensitivity_ );
-        getCamera()->pitchDown( diff.y * pitchSensitivity_ );
-    }
-}
-
-MyCamera * MyInputListenerImp::getCamera() {
-    return renderListener_->getMyCamera();
-}
-
-bool MyInputListenerImp::isCloseEnoughToAim( NxExtendedVec3 cameraPos, NxVec3 ballPos ) {
-    cameraPos -= ballPos;
-    OutputDebugStr( (wstring(L"dist: ") + DebugHelper::getStringFromInt( (int) cameraPos.magnitude() ) + L"\n").c_str() );
-    return cameraPos.magnitude() < aimableMaxDist_;
-}
-
-void MyInputListenerImp::shot() {
-    renderListener_->shotCueBall();
-}
-
 void MyInputListenerImp::bringCueBallBack() {
-    renderListener_->bringCueBallBack();
+    billiardControl_->bringCueBallBack();
 }
 
 void MyInputListenerImp::togglePause() {
-    renderListener_->pause( ! renderListener_->isPaused() );
+    billiardControl_->pause( ! billiardControl_->isPaused() );
 }
 
 void MyInputListenerImp::restart() {
-    renderListener_->restart();
+    billiardControl_->restart();
 }
 
-void MyInputListenerImp::selectBall( int xPos, int yPos )
-{
-
-}
 

@@ -5,6 +5,7 @@ class MyRenderEventListenerImp
     : IMPLEMENTS_INTERFACE( RenderEventListener )
     , IMPLEMENTS_INTERFACE( SoundRetriever )
     , IMPLEMENTS_INTERFACE( ActorRecognizer )
+    , IMPLEMENTS_INTERFACE( BilliardControl )
 {
 public: // from RenderEventListener
     virtual void init() OVERRIDE;
@@ -22,22 +23,24 @@ public: // from ActorRecognizer
     virtual bool isActorPocket( NxActor * actor ) OVERRIDE;
     virtual bool isActorRail( NxActor * actor ) OVERRIDE;
 
+public: // from BilliardControl
+    virtual MyCamera * getActiveCamera() OVERRIDE;
+    virtual NxVec3 getCueBallPosition() OVERRIDE;
+    virtual void readyToHitCueBall() OVERRIDE;
+    virtual float getHowMuchPowerIsCharged() OVERRIDE;
+    virtual void hitCueBall() OVERRIDE;
+    virtual void bringCueBallBack() OVERRIDE;
+    virtual void restart() OVERRIDE;
+    virtual void pause( bool ) OVERRIDE;
+    virtual bool isPaused() OVERRIDE;
+    virtual NxActor * getCueBall() OVERRIDE;
+    virtual NxActor * getStick() OVERRIDE;
+    virtual bool isBallMoving() OVERRIDE;
+
 public:
     MyRenderEventListenerImp( wstring sceneFile, wstring physX_File );
 
-public:
-    MyCamera * getMyCamera();
-    NxVec3 getBallPosition();
-    void shotCueBall();
-    void bringCueBallBack();
-    void restart();
-    void pause( bool );
-    bool isPaused();
-
 private:
-    NxActor * getCueBall();
-    NxActor * getStick();
-
 private: // init
     void initCamera( NxVec3 pos, NxVec3 dir );
     void initSound();
@@ -63,6 +66,7 @@ private: // update
     void updateCameraPosAndDir();
     void updateEffect( float elapsedTime );
     void updateStickPosition();
+    void updateStickPower( float elapsedTime );
 
 private: // reset
     const NxVec3 & getBallDefaultPosition( NxActor * );
@@ -102,6 +106,8 @@ private: // camera
 private: // keyboard input
     bool bPaused_;
     const float cueShotStrength_;
+    bool bChargingStickPower_;
+    float chargedStickPower_;
 
 private: // effect
     EffectShaderFeeder * createEffectFeeder( Node * node, RenderBufferFactory * renderFactory );
