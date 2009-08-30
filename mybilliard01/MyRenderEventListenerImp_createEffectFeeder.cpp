@@ -2,6 +2,11 @@
 #include "my_app.h"
 
 
+void MyRenderEventListenerImp::createShadowMap( RenderBufferFactory * renderFactory ) {
+    shadowMap_ = TexturePtr( renderFactory->createRenderTargetTexture( 256, 256 ), RenderBufferFactory::Destroyer( renderFactory ) );
+    assert( NULL != shadowMap_ );
+}
+
 EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, RenderBufferFactory * renderFactory )
 {
     if( NULL == node ) return & nullToRender_;
@@ -12,7 +17,7 @@ EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, 
     assert( effect );
     if( NULL == effect ) return & nullToRender_;
 
-    EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( node, effect ) );
+    EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( node, effect, shadowMap_.get() ) );
     feeders_.push_back( newFeeder );
 
     findSharedVariables( effect.get() );

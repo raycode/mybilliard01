@@ -27,24 +27,11 @@ void RenderBufferFactoryDX9Imp::pushBackToActiveQueue( int resourceType, Releasa
     resources_[ resourceType ][ EACTIVE_QUEUE ].push_back( newResource );
 }
 
-Surface * RenderBufferFactoryDX9Imp::getBackBuffer( size_t whichBackBuffer ) {
-    IDirect3DSurface9 * newDXSurface;
-    const HRESULT hr = getD3D9Device()->GetBackBuffer( 0, whichBackBuffer, D3DBACKBUFFER_TYPE_MONO, &newDXSurface );
-    if( FAILED( hr ) ) {
-        DXUT_ERR( L"RenderWin32DX9Imp::getBackBuffer", hr );
-        return NULL;
-    }
-
-    SurfaceDX9Ptr newSurface = SurfaceDX9Ptr( new SurfaceDX9Imp( newDXSurface ) );
-    pushBackToActiveQueue( E_SURFACES, newSurface );
-    return newSurface.get();
-}
-
 bool RenderBufferFactoryDX9Imp::destroy( ReleasableResourceDX9 * victim )
 {
-    for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i ) {
+    for( size_t i = 0; i < SIZE_OF_RESOURCE_TYPES; ++i ) {
         for( size_t j = 0; j < SIZE_OF_QUEUE; ++j ) {
-            if( remove_only_one_pointer< ReleasableResources >( resources_[ ( SIZE_OF_RESOURCETYPES - 1 ) - i ][ j ], victim ) )
+            if( remove_only_one_pointer< ReleasableResources >( resources_[ ( SIZE_OF_RESOURCE_TYPES - 1 ) - i ][ j ], victim ) )
                 return true;
         }    
     }
@@ -52,9 +39,9 @@ bool RenderBufferFactoryDX9Imp::destroy( ReleasableResourceDX9 * victim )
 }
 
 void RenderBufferFactoryDX9Imp::destroyAll() {
-    for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i ) {
+    for( size_t i = 0; i < SIZE_OF_RESOURCE_TYPES; ++i ) {
         for( size_t j = 0; j < SIZE_OF_QUEUE; ++j ) {
-            resources_[ ( SIZE_OF_RESOURCETYPES - 1 ) - i ][ j ].clear();
+            resources_[ ( SIZE_OF_RESOURCE_TYPES - 1 ) - i ][ j ].clear();
         }    
     }
 }
@@ -64,10 +51,6 @@ bool RenderBufferFactoryDX9Imp::destroyEffectShader( EffectShader * victim ) {
 }
 
 bool RenderBufferFactoryDX9Imp::destroyVertexBuffer( VertexBuffer * victim ) {
-    return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
-}
-
-bool RenderBufferFactoryDX9Imp::destroySurface( Surface * victim ) {
     return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
 }
 
@@ -89,8 +72,7 @@ void RenderBufferFactoryDX9Imp::update( RenderBufferFactory *, float elapsedTime
 
 void RenderBufferFactoryDX9Imp::displayLost() {
     releaseResourceByType( E_EFFECT_SHADERS );
-    releaseResourceByType( E_TEXTURE );
-    releaseResourceByType( E_SURFACES );
+    releaseResourceByType( E_TEXTURES );
     releaseResourceByType( E_DYNAMIC_VERTICES );
     releaseResourceByType( E_STATIC_VERTICES );
  }
@@ -106,7 +88,7 @@ void RenderBufferFactoryDX9Imp::acquireResources()
     bNeedToUpdate_ = false;
 
     if( NULL == d3dEffectPool_ ) acquireEffectPool();
-    for( size_t i = 0; i < SIZE_OF_RESOURCETYPES; ++i )
+    for( size_t i = 0; i < SIZE_OF_RESOURCE_TYPES; ++i )
         acquireResourcesByType( i );
 }
 

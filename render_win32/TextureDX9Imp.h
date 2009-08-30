@@ -8,6 +8,9 @@ public: // from Texture
     virtual wstring getFilename() OVERRIDE;
 
 public: // from TextureDX9
+    virtual SurfaceDX9 * acquireSurface( size_t level ) OVERRIDE;
+    virtual bool releaseSurface( SurfaceDX9 * ) OVERRIDE;
+
     virtual LPDIRECT3DTEXTURE9 getTextureDX9() OVERRIDE;
 
 public: // from ReleasableResourceDX9
@@ -16,17 +19,38 @@ public: // from ReleasableResourceDX9
 
 public:
     TextureDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, wstring filename );
+    TextureDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t width, size_t height, size_t mipLevels, DWORD usage, D3DFORMAT, D3DPOOL );
 
 private:
     LPDIRECT3DDEVICE9 getD3D9Device();
+    SurfaceDX9 * findSurfaceFromAlreadyCreated( size_t level );
 
 private:
-    const wstring filename_;
     LPDIRECT3DDEVICE9 d3d9Device_;
+    const bool bFromFile_;
+
+    // from file
+    wstring filename_;
+
+    // from empty
+    size_t requiredWidth_, requiredHeight_, requiredMipLevels_;
+    DWORD requiredUsage_;
+    D3DFORMAT requiredFormat_;
+    D3DPOOL requiredPool_;
 
 private:
     MY_SMART_PTR( IDirect3DTexture9 );
     IDirect3DTexture9Ptr textureDX9_;
+
+private:
+    struct SurfaceDX9Info
+    {
+        SurfaceDX9Ptr ptr;
+        size_t level;
+    };
+
+    typedef list< SurfaceDX9Info > Surfaces;
+    Surfaces surfaces_;
 
 };
 

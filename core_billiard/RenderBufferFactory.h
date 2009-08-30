@@ -13,12 +13,9 @@ MY_INTERFACE RenderBufferFactory {
     virtual VertexBuffer * createVertexBuffer_dynamic( size_t numberOfPosition, const float * positions ) PURE; // agp memory
     virtual VertexBuffer * createVertexBuffer_stream( size_t numberOfPosition, const float * positions ) PURE; // system memory
 
-    // surface
-    virtual Surface * getBackBuffer( size_t whichBackBuffer ) PURE;
-
     // texture
     virtual Texture * createTexture( wstring filename ) PURE;
-
+    virtual Texture * createRenderTargetTexture( size_t width, size_t height ) PURE;
 
     // Font
     // Sprite
@@ -26,7 +23,6 @@ MY_INTERFACE RenderBufferFactory {
     // destroy
     virtual bool destroyEffectShader( EffectShader *) PURE;
     virtual bool destroyVertexBuffer( VertexBuffer *) PURE;
-    virtual bool destroySurface( Surface * ) PURE;
     virtual bool destroyTexture( Texture * ) PURE;
 
 public: // releaser

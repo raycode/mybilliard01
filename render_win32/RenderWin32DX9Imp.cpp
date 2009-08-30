@@ -182,7 +182,7 @@ void RenderWin32DX9Imp::s_destroy( void* pUserContext ) {
 bool RenderWin32DX9Imp::IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat,
                                      D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext )
 {
-    // Skip backbuffer formats that don't support alpha blending
+    // Skip backBuffer formats that don't support alpha blending
     IDirect3D9* pD3D = DXUTGetD3D9Object();
     if( FAILED( pD3D->CheckDeviceFormat( pCaps->AdapterOrdinal, pCaps->DeviceType,
         AdapterFormat, D3DUSAGE_QUERY_POSTPIXELSHADER_BLENDING,
@@ -305,5 +305,35 @@ RenderState * RenderWin32DX9Imp::setRenderState()
 {
     return renderState_.get();
 }
+
+void RenderWin32DX9Imp::setRenderTarget( Texture * texture )
+{
+    // TODO : I need to find out better way than dynamic_cast
+    assert( texture );
+    TextureDX9 * const texDX9 = dynamic_cast< TextureDX9 * >( texture );
+    getD3D9Device()->SetRenderTarget( 0u, texDX9->acquireSurface( 0u )->getSurfaceDX9() );
+}
+
+void RenderWin32DX9Imp::unsetRenderTarget() 
+{
+    SurfaceDX9Ptr backBuffer = SurfaceDX9Ptr( acquireBackBuffer( 0 ), RenderWin32DX9::Releaser( this ) );
+    getD3D9Device()->SetRenderTarget( 0, backBuffer->getSurfaceDX9() );
+}
+
+SurfaceDX9 * RenderWin32DX9Imp::acquireBackBuffer( size_t whichBackBuffer )
+{
+    IDirect3DSurface9 * newDXSurface;
+    const HRESULT hr = getD3D9Device()->GetBackBuffer( 0, whichBackBuffer, D3DBACKBUFFER_TYPE_MONO, &newDXSurface );
+    RETURN_NULL_IF_FAILED( hr, L"RenderWin32DX9Imp::acquireBackBuffer" );
+
+    SurfaceDX9Ptr newSurface = SurfaceDX9Ptr( new SurfaceDX9Imp( IDirect3DSurface9Ptr( newDXSurface ) ) );
+    backBuffers_.push_back( newSurface );
+    return newSurface.get();
+}
+
+bool RenderWin32DX9Imp::releaseBackBuffer( SurfaceDX9 * backBuffer ) {
+    return remove_only_one_pointer( backBuffers_, backBuffer );
+}
+
 
 }

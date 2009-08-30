@@ -1728,14 +1728,6 @@
 						RelativePath=".\RenderEventListener.h"
 						>
 					</File>
-					<File
-						RelativePath=".\Surface.h"
-						>
-					</File>
-					<File
-						RelativePath=".\SurfaceLockedRect.h"
-						>
-					</File>
 				</Filter>
 				<Filter
 					Name="2. Scene"
