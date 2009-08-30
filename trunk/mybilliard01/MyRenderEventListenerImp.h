@@ -34,7 +34,6 @@ public: // from BilliardControl
     virtual void pause( bool ) OVERRIDE;
     virtual bool isPaused() OVERRIDE;
     virtual NxActor * getCueBall() OVERRIDE;
-    virtual NxActor * getStick() OVERRIDE;
     virtual bool isBallMoving() OVERRIDE;
 
 public:
@@ -47,10 +46,11 @@ private: // init
     void initPhys();
     void initEffect( RenderBufferFactory * renderFactory );
     void initEffectLights();
+    void initVisualOnlyObjects();
 
     bool loadSound( int soundType, wstring filename );
     void initPhysUserCallBacks();
-    void initPhysActors();
+    void initPhysMainActors();
     void initPhysActorGroups();
     void initPhysBalls();
 
@@ -78,7 +78,7 @@ private:
     MyOpenALImp openAL_;
 
 private: // physx
-    enum { ACTOR_CUE_BALL, ACTOR_STICK, ACTOR_RACK, SIZE_OF_ACTOR };
+    enum { ACTOR_CUE_BALL, ACTOR_RACK, SIZE_OF_ACTOR };
     NxActor * actors_[ SIZE_OF_ACTOR ];
 
     enum { ACTORS_BALL, ACTORS_POCKET, ACTORS_RAIL, SIZE_OF_ACTOR_GROUP };
@@ -94,6 +94,10 @@ private: // default setting
 private: // sound
     typedef vector< SoundHandlePtr > SimilarSoundHandles;
     SimilarSoundHandles sounds_[ SoundRetriever::SIZE_OF_SOUND_ENUM ];
+
+private: // visual only
+    enum { VISUAL_BACKGROUND, VISUAL_STICK, SIZE_OF_VISUAL_OBJECTS };
+    Node * visualOnlyObjects_[ SIZE_OF_VISUAL_OBJECTS ];
 
 private: // camera
     MyCameraPtr camera_;

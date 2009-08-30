@@ -21,8 +21,10 @@ Geometry * GeometryFactoryImp::createGeometry( domGeometryRef geo ) {
     Geometry * const newGeo = createGeometry( id, name, uri );
     if( NULL == newGeo ) return NULL;
 
-    const bool bMesh = readGeometryMesh( newGeo->getMesh(), mesh );
-    if( false == bMesh ) {
+    const bool bMesh = readGeometryMesh( newGeo->getMesh(), mesh, false );
+    const bool bMesh_positionOnly = readGeometryMesh( newGeo->getMesh_positionOnly(), mesh, true );
+    assert( bMesh && bMesh_positionOnly );
+    if( false == bMesh || false == bMesh_positionOnly ) {
         destroyGeometry( newGeo );
         return NULL;
     }
@@ -68,14 +70,6 @@ bool GeometryFactoryImp::destroyGeometry( Geometry * ptr ) {
         geometries_.erase( iter );
         return true;
     }
-    return false;
-}
-
-bool GeometryFactoryImp::readGeometryConvexMesh( GeometryMesh *, domConvex_meshRef ) {
-    return false;
-}
-
-bool GeometryFactoryImp::readGeometrySpline( GeometryMesh *, domSplineRef ) {
     return false;
 }
 

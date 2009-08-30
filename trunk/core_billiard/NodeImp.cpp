@@ -5,7 +5,6 @@ namespace my_render_imp {
 
 NodeImp::NodeImp()
     : parent_(NULL), nextSibling_( NULL ), firstChildren_( NULL ), nbChildren_( 0 )
-    ,needToUpdateLocalMatrix_( true ), needToUpdateLocalToWorldMatrix_( true )
 {
 }
 
@@ -63,49 +62,36 @@ void NodeImp::appendChild( NodeImp * child ) {
     nbChildren_++; 
 }
 
-
-
-void NodeImp::update( float time ) {
-    if( false == isNeedToUpdate() ) return;
-
-    updateOrient( time );
-
-    NodeImp * kids = firstChildren_;
-    while( kids ) {
-        kids->update( time );
-        kids = kids->nextSibling_;
-    }
-}
-
 void NodeImp::display() {
     renderInstanceGeometries();
+
+    for( Node * child = getFirstChild(); NULL != child; child = child->getNextSibling() ) 
+        child->display();
+}
+
+void NodeImp::display_positionOnly() {
+    renderInstanceGeometries_positionOnly();
+
+    for( Node * child = getFirstChild(); NULL != child; child = child->getNextSibling() ) 
+        child->display_positionOnly();
 }
 
 void NodeImp::renderInstanceGeometries() {
     MY_FOR_EACH( Instances, igeo, instanceGeometries_ ) {
         Geometry * const geo = renderDowncast< Geometry >( (*igeo)->getResolvedReference() );
+        assert( geo );
         if( NULL == geo ) continue;
         geo->display();
     }
 }
 
-void NodeImp::updateOrient( float time ) {
-    if( time > 0 ) {
-
+void NodeImp::renderInstanceGeometries_positionOnly() {
+    MY_FOR_EACH( Instances, igeo, instanceGeometries_ ) {
+        Geometry * const geo = renderDowncast< Geometry >( (*igeo)->getResolvedReference() );
+        assert( geo );
+        if( NULL == geo ) continue;
+        geo->display_positionOnly();
     }
-
-    if( needToUpdateLocalMatrix_ ) {
-        updateLocalMatrix();
-        needToUpdateLocalMatrix_ = false;
-    }
-}
-
-bool NodeImp::isNeedToUpdate() const {
-    return needToUpdateLocalMatrix_ == true || needToUpdateLocalToWorldMatrix_ == true;
-}
-
-void NodeImp::updateLocalMatrix() {
-
 }
 
 void NodeImp::appendInstanceGeometry( Instance * instanceGeometry ) {
