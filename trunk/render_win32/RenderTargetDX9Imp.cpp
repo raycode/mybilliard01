@@ -52,8 +52,6 @@ bool RenderTargetDX9Imp::display( Render * render, RenderTargetCallBack * callBa
 
 bool RenderTargetDX9Imp::acquireResource()
 {
-    if( NULL != texture_ ) return true;
-
     if( false == texture_->acquireResource() ) return false;
     if( false == depthStensil_->acquireResource() ) return false;
 

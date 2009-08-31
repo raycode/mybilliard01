@@ -25,7 +25,7 @@ TextureDX9Imp::TextureDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t width, size_t
 
 bool TextureDX9Imp::acquireResource()
 {
-    if( NULL == textureDX9_ ) return true;
+    if( NULL != textureDX9_ ) return true;
 
     LPDIRECT3DTEXTURE9 newTexDX9;
     if( isFromFile() )

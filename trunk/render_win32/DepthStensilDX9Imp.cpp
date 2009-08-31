@@ -14,8 +14,6 @@ DepthStensilDX9Imp::DepthStensilDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t wid
 
 bool DepthStensilDX9Imp::acquireResource()
 {
-    if( NULL != surface_ ) return true;
-
     LPDIRECT3DSURFACE9 newSurfaceDX9;
     const DXUTDeviceSettings d3dSettings = DXUTGetDeviceSettings();
     const HRESULT hr = getD3D9Device()->CreateDepthStencilSurface(
