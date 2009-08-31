@@ -11,11 +11,12 @@ public: // from RenderBufferFactory
     virtual VertexBuffer * createVertexBuffer_stream( size_t numberOfPosition, const float * positions ) OVERRIDE;
 
     virtual Texture * createTexture( wstring filename ) OVERRIDE;
-    virtual Texture * createRenderTargetTexture( size_t width, size_t height ) OVERRIDE;
+    virtual RenderTarget * createRenderTarget( size_t width, size_t height ) OVERRIDE;
 
     virtual bool destroyEffectShader( EffectShader *) OVERRIDE;
     virtual bool destroyVertexBuffer( VertexBuffer *) OVERRIDE;
     virtual bool destroyTexture( Texture * ) OVERRIDE;
+    virtual bool destroyRenderTarget( RenderTarget * ) OVERRIDE;
 
 public: // from RenderEventListener
     virtual void init() OVERRIDE;
@@ -56,7 +57,7 @@ private:
 
 private:
     enum { E_STATIC_VERTICES, E_DYNAMIC_VERTICES, E_STREAM_VERTICES,
-           E_TEXTURES, E_EFFECT_SHADERS, SIZE_OF_RESOURCE_TYPES };
+           E_RENDER_TARGETS, E_TEXTURES, E_EFFECT_SHADERS, SIZE_OF_RESOURCE_TYPES };
     enum { EREADY_QUEUE, EACTIVE_QUEUE, SIZE_OF_QUEUE };
     typedef list< ReleasableResourceDX9Ptr > ReleasableResources;
     ReleasableResources resources_[ SIZE_OF_RESOURCE_TYPES ][ SIZE_OF_QUEUE ];

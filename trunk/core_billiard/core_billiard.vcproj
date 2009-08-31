@@ -1728,6 +1728,14 @@
 						RelativePath=".\RenderEventListener.h"
 						>
 					</File>
+					<File
+						RelativePath=".\RenderTarget.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderTargetCallBack.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="2. Scene"

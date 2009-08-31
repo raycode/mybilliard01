@@ -12,6 +12,9 @@ namespace my_render {
     class Render;
     class RenderEventListener;
 
+    class RenderTarget;
+    class RenderTargetCallBack;
+
     class RenderState;
     class RenderState_Wireframe;
     class RenderState_Cull;
@@ -54,6 +57,8 @@ namespace my_render {
     MY_SMART_PTR( KeyboardEventListener );
     MY_SMART_PTR( Render );
     MY_SMART_PTR( RenderState );
+    MY_SMART_PTR( RenderTarget );
+    MY_SMART_PTR( RenderTargetCallBack );
     MY_SMART_PTR( RenderEventListener );
     MY_SMART_PTR( VertexBuffer );
     MY_SMART_PTR( Texture );
@@ -82,6 +87,9 @@ namespace my_render {
     MY_SMART_PTR( CameraPerspective );
     MY_SMART_PTR( CameraOrthographic );
 }
+
+#include "RenderTargetCallBack.h"
+#include "RenderTarget.h"
 
 #include "ApplicationWindow.h"
 #include "MouseEventListener.h"

@@ -19,6 +19,8 @@ namespace my_render_win32_dx9_imp {
 
     class SurfaceLockedRectDX9Imp;
     class SurfaceDX9Imp;
+    class RenderTargetDX9Imp;
+    class DepthStensilDX9Imp;
 
     class VertexBufferDX9Imp;
     class TextureDX9Imp;
@@ -36,6 +38,8 @@ namespace my_render_win32_dx9_imp {
 
     MY_SMART_PTR( SurfaceDX9Imp );
     MY_SMART_PTR( SurfaceLockedRectDX9Imp );
+    MY_SMART_PTR( RenderTargetDX9Imp );
+    MY_SMART_PTR( DepthStensilDX9Imp );
 
     MY_SMART_PTR( VertexBufferDX9Imp );
     MY_SMART_PTR( TextureDX9Imp );
@@ -54,6 +58,8 @@ namespace my_render_win32_dx9_imp {
 
 #include "SurfaceLockedRectDX9Imp.h"
 #include "SurfaceDX9Imp.h"
+#include "RenderTargetDX9Imp.h"
+#include "DepthStensilDX9Imp.h"
 
 #include "VertexBufferDX9Imp.h"
 #include "TextureDX9Imp.h"

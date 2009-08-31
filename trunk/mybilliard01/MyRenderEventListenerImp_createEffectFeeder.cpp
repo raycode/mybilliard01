@@ -3,8 +3,10 @@
 
 
 void MyRenderEventListenerImp::createShadowMap( RenderBufferFactory * renderFactory ) {
-    shadowMap_ = TexturePtr( renderFactory->createRenderTargetTexture( 256, 256 ), RenderBufferFactory::Destroyer( renderFactory ) );
-    assert( NULL != shadowMap_ );
+    shadowRenderTarget_ = RenderTargetPtr( renderFactory->createRenderTarget( 256, 256 ), RenderBufferFactory::Destroyer( renderFactory ) );
+    shadowFeeder_ = GlobalEffectShaderFeederPtr( new ShadowMapEffectShaderFeeder() );
+    assert( NULL != shadowRenderTarget_ );
+    assert( NULL != shadowFeeder_ );
 }
 
 EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, RenderBufferFactory * renderFactory )
@@ -17,7 +19,7 @@ EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, 
     assert( effect );
     if( NULL == effect ) return & nullToRender_;
 
-    EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( node, effect, shadowMap_.get() ) );
+    EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( node, effect, shadowRenderTarget_->getTexture() ) );
     feeders_.push_back( newFeeder );
 
     findSharedVariables( effect.get() );
@@ -49,7 +51,7 @@ ShaderVariable * MyRenderEventListenerImp::getSharedVariable( wstring name ) {
 void MyRenderEventListenerImp::createSharedVariableFeeder() 
 {
     RenderMonkeySharedSemanticsFeeder * const sharedVaribleFeeder = new RenderMonkeySharedSemanticsFeeder();
-    sharedVaribleFeeder_ = EffectShaderFeederPtr( sharedVaribleFeeder );
+    sharedVaribleFeeder_ = GlobalEffectShaderFeederPtr( sharedVaribleFeeder );
 
     MY_FOR_EACH( SharedVariables, iter, sharedVariables_ )
         sharedVaribleFeeder->appendSharedVariable( iter->second.get() );

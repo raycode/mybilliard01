@@ -3,7 +3,7 @@ namespace my_render_win32_dx9_imp {
 
 
 class SurfaceDX9Imp : IMPLEMENTS_INTERFACE( SurfaceDX9 ) {
-public: // from Surface
+public: // from SurfaceDX9
     virtual SurfaceLockedRectDX9 * lockRect( int left, int top, int right, int bottom, int flag ) OVERRIDE;
     virtual SurfaceLockedRectDX9 * lockWhole( int flag ) OVERRIDE;
  

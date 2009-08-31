@@ -1,12 +1,11 @@
 #pragma once
 
 
-class RenderMonkeySharedSemanticsFeeder : IMPLEMENTS_INTERFACE( EffectShaderFeeder ) {
+class RenderMonkeySharedSemanticsFeeder : IMPLEMENTS_INTERFACE( GlobalEffectShaderFeeder ) {
 public: // from EffectShaderFeeder
-    virtual void display() OVERRIDE {}
+    virtual void display( NxActor * ) OVERRIDE {}
     virtual void updateProjection( const RowMajorMatrix44f & matProj ) OVERRIDE;
     virtual void updateMatrix(
-        NxActor * mustBeNull,
         const NxVec3 & cameraPos,
         const NxVec3 & cameraDir,
         const RowMajorMatrix44f & matView,
