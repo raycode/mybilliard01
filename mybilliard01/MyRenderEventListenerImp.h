@@ -39,19 +39,15 @@ public: // from BilliardControl
 public:
     MyRenderEventListenerImp( wstring sceneFile, wstring physX_File );
 
-private:
 private: // init
-    void initCamera( NxVec3 pos, NxVec3 dir );
+    void initCamera( size_t index, NxVec3 pos, NxVec3 dir );
+    void initLight( size_t index, NxVec3 pos, NxVec3 dir );
     void initSound();
     void initPhys();
-    void initEffect( RenderBufferFactory * renderFactory );
     void initVisualOnlyObjects();
 
     // init sound
     bool loadSound( int soundType, wstring filename );
-
-    // init effect
-    void initEffectLights();
 
     // init phys
     void initPhysUserCallBacks();
@@ -64,22 +60,18 @@ private: // init
     void initPhysBallCCD( NxActor * actor );
     void initPhysBallPosition( NxActor * actor );
 
-private: // effect
-    void createShadowMap( RenderBufferFactory * );
-
-    EffectShaderFeeder * createEffectFeeder( Node *, RenderBufferFactory * );
-
-    void createSharedVariableFeeder();
-    void findSharedVariables( EffectShader * effect);
-    ShaderVariable * getSharedVariable( wstring name );
+private: // reset
+    void resetEffect( RenderBufferFactory * renderFactory );
+    void resetCameraProjection( float aspectRatio );
+    void resetLightProjection( float aspectRatio );
+    void resetEffectProjection();
 
 private: // update
-    void updateCamera( float elapsedTime );
-    void updateCameraProjection( float aspectRatio );
-    void updateEffectProjection();
-    void updateCameraView();
-    void updateCameraPosAndDir();
+    void updateCamera( size_t index, float elapsedTime );
+    void updateCameraView( size_t index );
+    void updateCameraPosAndDir( size_t index );
     void updateEffect( float elapsedTime );
+    void updateEffectLights();
     void updateStickPosition();
     void updateStickPower( float elapsedTime );
 
@@ -91,6 +83,13 @@ private: // display
 private: // reset
     const NxVec3 & getBallDefaultPosition( NxActor * );
     void resetBall( NxActor * ball );
+
+private: // effect
+    void createShadowMap( RenderBufferFactory * );
+    EffectShaderFeeder * createEffectFeeder( Node *, RenderBufferFactory * );
+    void createSharedVariableFeeder();
+    void findSharedVariables( EffectShader * effect);
+    ShaderVariable * getSharedVariable( wstring name );
 
 private:
     ScenePtr scene_;
@@ -120,11 +119,13 @@ private: // visual only
     Node * visualOnlyObjects_[ SIZE_OF_VISUAL_OBJECTS ];
 
 private: // camera
-    MyCameraPtr camera_;
-    RowMajorMatrix44f matrixView_;
-    RowMajorMatrix44f matrixProjection_;
-    RowMajorMatrix44f matrixProjectionView_;
-    NxVec3 cameraPos_, cameraDir_;
+    enum { CAMERA0, LIGHT0, SIZE_OF_CAMERA_ENUM };
+    MyCameraPtr camera_[ SIZE_OF_CAMERA_ENUM ];
+    RowMajorMatrix44f matrixView_[ SIZE_OF_CAMERA_ENUM ];
+    RowMajorMatrix44f matrixProjection_[ SIZE_OF_CAMERA_ENUM ];
+    RowMajorMatrix44f matrixProjectionView_[ SIZE_OF_CAMERA_ENUM ];
+    NxVec3 cameraPos_[ SIZE_OF_CAMERA_ENUM ];
+    NxVec3 cameraDir_[ SIZE_OF_CAMERA_ENUM ];
     const bool bRightHandHardware_;
 
 private: // keyboard input
@@ -136,7 +137,7 @@ private: // keyboard input
 private: // effect
     typedef list< EffectShaderFeederPtr > EffectShaderFeeders;
     EffectShaderFeeders feeders_;
-    EffectShaderFeederPtr sharedVaribleFeeder_;
+    GlobalEffectShaderFeederPtr sharedVaribleFeeder_;
 
     EffectShaderFeederNull nullToRender_;
     ShaderVariableNull nullShaderVariable_;
@@ -144,7 +145,9 @@ private: // effect
     typedef map< wstring, ShaderVariablePtr > SharedVariables;
     SharedVariables sharedVariables_;
 
-    TexturePtr shadowMap_;
+private: // shadow
+    RenderTargetPtr shadowRenderTarget_;
+    GlobalEffectShaderFeederPtr shadowFeeder_;
 
 private: // for random numbers
     mt19937 eng_;

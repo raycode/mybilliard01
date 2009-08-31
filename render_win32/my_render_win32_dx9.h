@@ -23,6 +23,8 @@ namespace my_render_win32_dx9 {
     class EffectShaderVariableBlockDX9;
     class SurfaceLockedRectDX9;
     class SurfaceDX9;
+    class RenderTargetDX9;
+    class DepthStensilDX9;
 
     class RenderStateDX9;
     class RenderState_WireframeDX9;
@@ -42,6 +44,8 @@ namespace my_render_win32_dx9 {
     MY_SMART_PTR( EffectShaderVariableBlockDX9 );
     MY_SMART_PTR( SurfaceLockedRectDX9 );
     MY_SMART_PTR( SurfaceDX9 );
+    MY_SMART_PTR( RenderTargetDX9 );
+    MY_SMART_PTR( DepthStensilDX9 );
 
     MY_SMART_PTR( RenderStateDX9 );
     MY_SMART_PTR( RenderState_WireframeDX9 );
@@ -64,6 +68,8 @@ namespace my_render_win32_dx9 {
 #include "EffectShaderVariableBlockDX9.h"
 #include "SurfaceLockedRectDX9.h"
 #include "SurfaceDX9.h"
+#include "RenderTargetDX9.h"
+#include "DepthStensilDX9.h"
 
 #include "RenderStateDX9.h"
 #include "RenderState_WireframeDX9.h"

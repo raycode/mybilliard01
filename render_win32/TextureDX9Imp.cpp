@@ -25,31 +25,29 @@ TextureDX9Imp::TextureDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t width, size_t
 
 bool TextureDX9Imp::acquireResource()
 {
-    if( NULL == textureDX9_ )
+    if( NULL == textureDX9_ ) return true;
+
+    LPDIRECT3DTEXTURE9 newTexDX9;
+    if( isFromFile() )
     {
-        LPDIRECT3DTEXTURE9 newTexDX9;
-
-        if( isFromFile() )
-        {
-            const HRESULT hr = D3DXCreateTextureFromFileEx( getD3D9Device(), filename_.c_str(),
-                D3DX_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0,
-                D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT,
-                0, NULL, NULL, & newTexDX9 );
-            RETURN_FALSE_IF_FAILED( hr, L"TextureDX9Imp::acquireResource" );
-        }
-        else
-        {
-            const HRESULT hr = D3DXCreateTexture( getD3D9Device(),
-                requiredWidth_, requiredHeight_, requiredMipLevels_, requiredUsage_,
-                requiredFormat_, requiredPool_, & newTexDX9 );
-            RETURN_FALSE_IF_FAILED( hr, L"TextureDX9Imp::acquireResource" );
-        }
-
-        textureDX9_ = IDirect3DTexture9Ptr( newTexDX9, ComReleaser< IDirect3DTexture9 >() );
-
-        MY_FOR_EACH( Surfaces, iter, surfaces_ )
-            acquireSurface( iter->level );
+        const HRESULT hr = D3DXCreateTextureFromFileEx( getD3D9Device(), filename_.c_str(),
+            D3DX_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT, 0,
+            D3DFMT_UNKNOWN, D3DPOOL_DEFAULT, D3DX_DEFAULT, D3DX_DEFAULT,
+            0, NULL, NULL, & newTexDX9 );
+        RETURN_FALSE_IF_FAILED( hr, L"TextureDX9Imp::acquireResource" );
     }
+    else
+    {
+        const HRESULT hr = D3DXCreateTexture( getD3D9Device(),
+            requiredWidth_, requiredHeight_, requiredMipLevels_, requiredUsage_,
+            requiredFormat_, requiredPool_, & newTexDX9 );
+        RETURN_FALSE_IF_FAILED( hr, L"TextureDX9Imp::acquireResource" );
+    }
+
+    textureDX9_ = IDirect3DTexture9Ptr( newTexDX9, ComReleaser< IDirect3DTexture9 >() );
+
+    MY_FOR_EACH( Surfaces, iter, surfaces_ )
+        acquireSurface( iter->level );
     return true;
 }
 

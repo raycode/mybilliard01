@@ -31,12 +31,18 @@ class MyRenderEventListenerImp;
 class MyInputListenerImp;
 class MyCamera;
 class EffectShaderFeeder;
+class GlobalEffectShaderFeeder;
 
 MY_SMART_PTR( MyRenderEventListenerImp );
 MY_SMART_PTR( MyInputListenerImp );
 MY_SMART_PTR( MyCamera );
 MY_SMART_PTR( EffectShaderFeeder );
+MY_SMART_PTR( GlobalEffectShaderFeeder );
 
+
+#include "GlobalEffectShaderFeeder.h"
+#include "ShadowMapEffectShaderFeeder.h"
+#include "MyShadowDisplayer.h"
 
 #include "BilliardControl.h"
 

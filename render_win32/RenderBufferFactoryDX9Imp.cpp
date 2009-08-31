@@ -58,6 +58,10 @@ bool RenderBufferFactoryDX9Imp::destroyTexture( Texture * victim ) {
     return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
 }
 
+bool RenderBufferFactoryDX9Imp::destroyRenderTarget( RenderTarget * victim ) {
+    return destroy( dynamic_cast< ReleasableResourceDX9 * >( victim ) ); 
+}
+
 void RenderBufferFactoryDX9Imp::init() {
     if( NULL == d3dEffectPool_ ) acquireEffectPool();
 }

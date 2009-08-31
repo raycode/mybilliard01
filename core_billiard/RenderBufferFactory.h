@@ -15,7 +15,9 @@ MY_INTERFACE RenderBufferFactory {
 
     // texture
     virtual Texture * createTexture( wstring filename ) PURE;
-    virtual Texture * createRenderTargetTexture( size_t width, size_t height ) PURE;
+
+    // render target
+    virtual RenderTarget * createRenderTarget( size_t width, size_t height ) PURE;
 
     // Font
     // Sprite
@@ -24,6 +26,7 @@ MY_INTERFACE RenderBufferFactory {
     virtual bool destroyEffectShader( EffectShader *) PURE;
     virtual bool destroyVertexBuffer( VertexBuffer *) PURE;
     virtual bool destroyTexture( Texture * ) PURE;
+    virtual bool destroyRenderTarget( RenderTarget * ) PURE;
 
 public: // releaser
 
@@ -32,6 +35,7 @@ public: // releaser
     public:
         void operator()( Texture * texture ) { owner_->destroyTexture( texture ); }
         void operator()( EffectShader * effect ) { owner_->destroyEffectShader( effect ); }
+        void operator()( RenderTarget * rt ) { owner_->destroyRenderTarget( rt ); }
 
     public: Destroyer( RenderBufferFactory * owner ) : owner_( owner ) {}
     private: RenderBufferFactory * const owner_;

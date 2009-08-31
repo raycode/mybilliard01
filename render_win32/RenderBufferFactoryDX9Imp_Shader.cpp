@@ -47,7 +47,8 @@ Texture * RenderBufferFactoryDX9Imp::createTexture( wstring filename )
     return newTexture.get();
 }
 
-TextureDX9Ptr RenderBufferFactoryDX9Imp::findTextureFromAlreadyCreated( wstring filename ) {
+TextureDX9Ptr RenderBufferFactoryDX9Imp::findTextureFromAlreadyCreated( wstring filename )
+{
     for( size_t i = 0; i < SIZE_OF_QUEUE; ++i )
     {
         MY_FOR_EACH( ReleasableResources, iter, resources_[ E_TEXTURES ][ i ] )
@@ -62,17 +63,17 @@ TextureDX9Ptr RenderBufferFactoryDX9Imp::findTextureFromAlreadyCreated( wstring 
     return TextureDX9Ptr();
 }
 
-Texture * RenderBufferFactoryDX9Imp::createRenderTargetTexture( size_t width, size_t height )
+RenderTarget * RenderBufferFactoryDX9Imp::createRenderTarget( size_t width, size_t height )
 {
     // I'm not sure how to allow users to specify format here.
-    TextureDX9Ptr newRenderTarget = TextureDX9Ptr( new TextureDX9Imp( getD3D9Device(), width, height, 1, D3DUSAGE_RENDERTARGET, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT ), ReleasableResourceDX9::Destroyer() );
+    RenderTargetDX9Ptr newRenderTarget = RenderTargetDX9Ptr( new RenderTargetDX9Imp( getD3D9Device(), width, height ), ReleasableResourceDX9::Destroyer() );
     if( NULL == newRenderTarget ) return NULL;
 
     const bool bAcquire = newRenderTarget->acquireResource();
     assert( bAcquire );
     if( false == bAcquire ) return NULL;
 
-    pushBackToActiveQueue( E_TEXTURES, newRenderTarget );
+    pushBackToActiveQueue( E_RENDER_TARGETS, newRenderTarget );
     return newRenderTarget.get();
 }
 

@@ -339,6 +339,30 @@
 						RelativePath=".\EffectShaderFeederNull.hpp"
 						>
 					</File>
+					<File
+						RelativePath=".\GlobalEffectShaderFeeder.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="3. Shadow Map"
+					>
+					<File
+						RelativePath=".\MyShadowDisplayer.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\MyShadowDisplayer.h"
+						>
+					</File>
+					<File
+						RelativePath=".\ShadowMapEffectShaderFeeder.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ShadowMapEffectShaderFeeder.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter

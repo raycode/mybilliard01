@@ -8,7 +8,6 @@ void RenderMonkeySharedSemanticsFeeder::updateProjection( const RowMajorMatrix44
 }
 
 void RenderMonkeySharedSemanticsFeeder::updateMatrix(
-    NxActor *,
     const NxVec3 & cameraPos,
     const NxVec3 & cameraDir,
     const RowMajorMatrix44f & matView,
