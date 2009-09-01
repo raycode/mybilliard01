@@ -22,6 +22,16 @@ namespace my_render_win32_imp {
                 + getStringFromFloat( val.y ) + L", "
                 + getStringFromFloat( val.z ) + L" )";
         }
+
+        static bool isSameVec3( NxVec3 lhs, NxVec3 rhs, float epsilon ) {
+            return isSameFloat( lhs.x, rhs.x, epsilon ) &&
+                isSameFloat( lhs.y, rhs.y, epsilon ) &&
+                isSameFloat( lhs.z, rhs.z, epsilon );
+        }
+
+        static bool isSameFloat( float lhs, float rhs, float epsilon ) {
+             return (lhs + epsilon) > rhs && (lhs - epsilon) < rhs;
+        }
     };
 
 }

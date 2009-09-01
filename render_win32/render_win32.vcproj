@@ -457,6 +457,16 @@
 					<File
 						RelativePath=".\DepthStensilDX9Imp.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="DXUT.h"
+								PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\DepthStensilDX9Imp.h"
@@ -465,6 +475,16 @@
 					<File
 						RelativePath=".\RenderTargetDX9Imp.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="DXUT.h"
+								PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\RenderTargetDX9Imp.h"
@@ -509,6 +529,16 @@
 					<File
 						RelativePath=".\TextureDX9Imp.cpp"
 						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="DXUT.h"
+								PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+							/>
+						</FileConfiguration>
 					</File>
 					<File
 						RelativePath=".\TextureDX9Imp.h"

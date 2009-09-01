@@ -3,7 +3,7 @@
 using namespace RenderMonkeySemantics;
 
 
-RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShaderPtr effect, Texture * shadowMap )
+RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShader * effect, Texture * shadowMap )
 : node_( node )
 , effect_( effect )
 , shadowMap_( shadowMap )
@@ -65,7 +65,7 @@ bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemanti
     EffectShaderVariable * const variableForSemantic = effect_->createEffectVariableBySemantic( nameOfSemantic );
 
     if( variableForSemantic->isShared() ) {
-        Shader::Destroyer( effect_.get() )( variableForSemantic );
+        Shader::Destroyer( (Shader*) effect_ )( variableForSemantic );
         return false;
     }
 

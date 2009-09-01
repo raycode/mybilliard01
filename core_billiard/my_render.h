@@ -38,6 +38,8 @@ namespace my_render {
     class Node;
     class Camera;
 
+    class CameraMatrix;
+
     class ColladaFactory;
     class NodeFactory;
     class GeometryFactory;
@@ -75,6 +77,7 @@ namespace my_render {
     MY_SMART_PTR( Base );
     MY_SMART_PTR( Node );
     MY_SMART_PTR( Camera );
+    MY_SMART_PTR( CameraMatrix );
     MY_SMART_PTR( ColladaFactory );
     MY_SMART_PTR( NodeFactory );
     MY_SMART_PTR( GeometryFactory );
@@ -87,6 +90,9 @@ namespace my_render {
     MY_SMART_PTR( CameraPerspective );
     MY_SMART_PTR( CameraOrthographic );
 }
+
+#include "WM4Math.h"
+#include "RowMajorMatrix44.h"
 
 #include "RenderTargetCallBack.h"
 #include "RenderTarget.h"
@@ -131,6 +137,7 @@ namespace my_render {
 #include "NodeNull.hpp"
 #include "Camera.h"
 
+#include "CameraMatrix.h"
 #include "ColladaFactory.h"
 #include "NodeFactory.h"
 #include "GeometryFactory.h"
@@ -145,3 +152,4 @@ namespace my_render {
 #include "CameraFactory.h"
 #include "CameraPerspective.h"
 #include "CameraOrthographic.h"
+

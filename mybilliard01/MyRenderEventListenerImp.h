@@ -63,15 +63,11 @@ private: // init
 private: // reset
     void resetEffect( RenderBufferFactory * renderFactory );
     void resetCameraProjection( float aspectRatio );
-    void resetLightProjection( float aspectRatio );
     void resetEffectProjection();
 
 private: // update
-    void updateCamera( size_t index, float elapsedTime );
-    void updateCameraView( size_t index );
-    void updateCameraPosAndDir( size_t index );
+    void updateLight();
     void updateEffect( float elapsedTime );
-    void updateEffectLights();
     void updateStickPosition();
     void updateStickPower( float elapsedTime );
 
@@ -104,6 +100,9 @@ private: // physx
     typedef set< NxActor * > ActorGroup;
     ActorGroup actorGroup_[ SIZE_OF_ACTOR_GROUP ];
 
+    typedef map< NxActor *, Node * > NodeMap;
+    NodeMap nodeMap_;
+
     BallContactReport ballContactReport_;
 
 private: // default setting
@@ -118,15 +117,12 @@ private: // visual only
     enum { VISUAL_BACKGROUND, VISUAL_STICK, SIZE_OF_VISUAL_OBJECTS };
     Node * visualOnlyObjects_[ SIZE_OF_VISUAL_OBJECTS ];
 
-private: // camera
-    enum { CAMERA0, LIGHT0, SIZE_OF_CAMERA_ENUM };
-    MyCameraPtr camera_[ SIZE_OF_CAMERA_ENUM ];
-    RowMajorMatrix44f matrixView_[ SIZE_OF_CAMERA_ENUM ];
-    RowMajorMatrix44f matrixProjection_[ SIZE_OF_CAMERA_ENUM ];
-    RowMajorMatrix44f matrixProjectionView_[ SIZE_OF_CAMERA_ENUM ];
-    NxVec3 cameraPos_[ SIZE_OF_CAMERA_ENUM ];
-    NxVec3 cameraDir_[ SIZE_OF_CAMERA_ENUM ];
-    const bool bRightHandHardware_;
+private: // camera and light matrix
+    enum { CAMERA0, SIZE_OF_CAMERA_ENUM };
+    MyCameraPtr cameras_[ SIZE_OF_CAMERA_ENUM ];
+
+    enum { LIGHT0, SIZE_OF_LIGHT_ENUM };
+    CameraMatrixPtr lights_[ SIZE_OF_LIGHT_ENUM ];
 
 private: // keyboard input
     bool bPaused_;
@@ -146,11 +142,12 @@ private: // effect
     SharedVariables sharedVariables_;
 
 private: // shadow
-    RenderTargetPtr shadowRenderTarget_;
+    RenderTarget * shadowRenderTarget_;
     GlobalEffectShaderFeederPtr shadowFeeder_;
+    MyShadowCallBackPtr shadowCallBack_;
 
 private: // for random numbers
-    mt19937 eng_;
+    mt19937 randomEngine;
 };
 
 

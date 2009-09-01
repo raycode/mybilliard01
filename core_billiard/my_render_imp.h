@@ -25,6 +25,7 @@ namespace my_render_imp {
     class CameraFactoryImp;
     class CameraPerspectiveImp;
     class CameraOrthographicImp;
+    class CameraMatrixImp;
 
     class InstanceImp;
     class ColladaFactoryImp;
@@ -44,6 +45,7 @@ namespace my_render_imp {
     MY_SMART_PTR( CameraFactoryImp );
     MY_SMART_PTR( CameraPerspectiveImp );
     MY_SMART_PTR( CameraOrthographicImp );
+    MY_SMART_PTR( CameraMatrixImp );
 
     template< typename T > 
     inline T* renderDowncast( Base * abstractObject ) {
@@ -74,6 +76,5 @@ namespace my_render_imp {
 #include "CameraOrthographicImp.h"
 #include "CameraImp.h"
 #include "CameraFactoryImp.h"
+#include "CameraMatrixImp.h"
 
-#include "WM4Math.h"
-#include "RowMajorMatrix44.h"

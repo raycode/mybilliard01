@@ -1,6 +1,6 @@
 #include "RowMajorMatrix44.h"
 #include "WM4Math.h"
-namespace my_render_imp {
+namespace my_render {
 
 // Wild Magic Source Code
 // David Eberly

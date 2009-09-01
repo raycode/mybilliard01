@@ -23,7 +23,7 @@ bool DepthStensilDX9Imp::acquireResource()
         discard_, & newSurfaceDX9, NULL );
     RETURN_FALSE_IF_FAILED( hr, L"DepthStensilDX9Imp::acquireResource" );
 
-    surface_ = SurfaceDX9Ptr( new SurfaceDX9Imp( IDirect3DSurface9Ptr( newSurfaceDX9 ) ) );
+    surface_ = SurfaceDX9Ptr( new SurfaceDX9Imp( IDirect3DSurface9Ptr( newSurfaceDX9, ComReleaser< IDirect3DSurface9 >() ) ) );
     return true;
 }
 

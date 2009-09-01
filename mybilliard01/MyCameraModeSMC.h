@@ -25,7 +25,7 @@ private:
     BilliardControl * billiardControl_;
 
     bool bNeedToBeRestored_;
-    NxExtendedVec3 position_;
+    NxVec3 position_;
     NxMat33 rotate_;
 };
 

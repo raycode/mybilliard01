@@ -88,7 +88,7 @@ void MouseStateSMC::onDrag_()
     {
         const NxVec3 cueBallPos = billiardControl_->getCueBallPosition();
         getCamera()->moveClockWiseAroundPoint( moveDiffX_ * getRotationSensitivity(), cueBallPos );
-        getCamera()->lookAt( cueBallPos );
+        getCamera()->lookAt( cueBallPos, NxVec3( 0.f, 0.f, 1.f ) );
     }
 }
 

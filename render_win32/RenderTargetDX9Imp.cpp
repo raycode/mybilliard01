@@ -21,7 +21,7 @@ bool RenderTargetDX9Imp::display( Render * render, RenderTargetCallBack * callBa
     const HRESULT hr1 = getD3D9Device()->GetRenderTarget( 0, &oldRenderTarget );
     RETURN_FALSE_IF_FAILED( hr1, L"RenderTargetDX9Imp::display" );
 
-    LPDIRECT3DSURFACE9 surface;
+    LPDIRECT3DSURFACE9 surface = NULL;
     const HRESULT hr2 = getTextureDX9()->getTextureDX9()->GetSurfaceLevel( 0, & surface );
     if( SUCCEEDED( hr2 ) )
     {
@@ -60,8 +60,8 @@ bool RenderTargetDX9Imp::acquireResource()
 
 void RenderTargetDX9Imp::releaseResource()
 {
-    texture_.reset();
-    depthStensil_.reset();
+    depthStensil_->releaseResource();
+    texture_->releaseResource();
 }
 
 LPDIRECT3DDEVICE9 RenderTargetDX9Imp::getD3D9Device() {

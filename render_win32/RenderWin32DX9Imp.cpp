@@ -300,27 +300,13 @@ RenderState * RenderWin32DX9Imp::setRenderState()
     return renderState_.get();
 }
 
-void RenderWin32DX9Imp::setRenderTarget( Texture * texture )
-{
-    // TODO : I need to find out better way than dynamic_cast
-    assert( texture );
-    TextureDX9 * const texDX9 = dynamic_cast< TextureDX9 * >( texture );
-    getD3D9Device()->SetRenderTarget( 0u, texDX9->acquireSurface( 0u )->getSurfaceDX9() );
-}
-
-void RenderWin32DX9Imp::unsetRenderTarget() 
-{
-    SurfaceDX9Ptr backBuffer = SurfaceDX9Ptr( acquireBackBuffer( 0 ), RenderWin32DX9::Releaser( this ) );
-    getD3D9Device()->SetRenderTarget( 0, backBuffer->getSurfaceDX9() );
-}
-
 SurfaceDX9 * RenderWin32DX9Imp::acquireBackBuffer( size_t whichBackBuffer )
 {
     IDirect3DSurface9 * newDXSurface;
     const HRESULT hr = getD3D9Device()->GetBackBuffer( 0, whichBackBuffer, D3DBACKBUFFER_TYPE_MONO, &newDXSurface );
     RETURN_NULL_IF_FAILED( hr, L"RenderWin32DX9Imp::acquireBackBuffer" );
 
-    SurfaceDX9Ptr newSurface = SurfaceDX9Ptr( new SurfaceDX9Imp( IDirect3DSurface9Ptr( newDXSurface ) ) );
+    SurfaceDX9Ptr newSurface = SurfaceDX9Ptr( new SurfaceDX9Imp( IDirect3DSurface9Ptr( newDXSurface, ComReleaser< IDirect3DSurface9 >() ) ) );
     backBuffers_.push_back( newSurface );
     return newSurface.get();
 }

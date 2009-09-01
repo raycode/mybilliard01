@@ -27,22 +27,26 @@ using namespace my_phys;
 using namespace my_open_al;
 using namespace my_open_al_imp;
 
+
 class MyRenderEventListenerImp;
 class MyInputListenerImp;
 class MyCamera;
 class EffectShaderFeeder;
 class GlobalEffectShaderFeeder;
 
+class MyShadowCallBack;
+
+
 MY_SMART_PTR( MyRenderEventListenerImp );
 MY_SMART_PTR( MyInputListenerImp );
 MY_SMART_PTR( MyCamera );
 MY_SMART_PTR( EffectShaderFeeder );
 MY_SMART_PTR( GlobalEffectShaderFeeder );
-
+MY_SMART_PTR( MyShadowCallBack );
 
 #include "GlobalEffectShaderFeeder.h"
 #include "ShadowMapEffectShaderFeeder.h"
-#include "MyShadowDisplayer.h"
+#include "MyShadowCallBack.h"
 
 #include "BilliardControl.h"
 

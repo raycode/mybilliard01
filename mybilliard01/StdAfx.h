@@ -15,3 +15,4 @@
 #include "tinyxml.h"
 
 #include "targetver.h"
+#include "../DXUT/Core/DXUT.h"

@@ -5,7 +5,6 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 : scene_( new SceneImp() )
 , phys_( new MyPhysX( NxVec3(0.0f, 0.0f, -9.81f ) ) )
 , ballContactReport_( this, this )
-, bRightHandHardware_( false )
 , bPaused_( false )
 , cueShotStrength_( 20000000.f * 1.f )
 , bChargingStickPower_( false )
@@ -17,7 +16,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
     assert( bPhys );
 
     initCamera( CAMERA0, NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
-    initLight( LIGHT0, NxVec3( -40.f, 0.f, 80.f ), NxVec3( 0.f, -1.f, -2.f ) );
+    initLight( LIGHT0, NxVec3( -13.f, -10.f, 140.f ), NxVec3( 0.f, 0.090536f, -0.995893f ) );
     initSound();
     initPhys();
     initVisualOnlyObjects();
@@ -25,13 +24,15 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 
 void MyRenderEventListenerImp::initCamera( size_t index, NxVec3 pos, NxVec3 dir ) {
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    camera_[ index ] = MyCameraPtr( new MyCamera( colladaCamera, phys_.get(), this, pos, dir, bRightHandHardware_ ) );
-    camera_[ index ]->setMovementToFixedHeight( pos.z );
+    cameras_[ index ] = MyCameraPtr( new MyCamera( colladaCamera, phys_.get(), this, pos, dir, false ) );
+    cameras_[ index ]->setMovementToFixedHeight( pos.z );
 }
 
 void MyRenderEventListenerImp::initLight( size_t index, NxVec3 pos, NxVec3 dir ) {
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    camera_[ index ] = MyCameraPtr( new MyCamera( colladaCamera, phys_.get(), this, pos, dir, bRightHandHardware_ ) );
+    lights_[ index ] = CameraMatrixPtr( new CameraMatrixImp( colladaCamera, false ) );
+    lights_[ index ]->setPosition( pos );
+    lights_[ index ]->setDirectionVector( dir );
 }
 
 bool MyRenderEventListenerImp::isActorBall( NxActor * actor ) {
@@ -159,7 +160,6 @@ void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory
     resetEffect( renderFactory );
     scene_->setRenderFactory( renderFactory );
     resetCameraProjection( (float) width / (float) height );
-    resetLightProjection( (float) width / (float) height );
     resetEffectProjection();
 }
 
@@ -174,84 +174,80 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory 
         Node * const node = scene_->getNode( nodeName );
 
         actor->userData = createEffectFeeder( node, renderFactory );
+
+        if( NULL != node ) nodeMap_.insert( NodeMap::value_type( actor, node ) );
     }
 
     createSharedVariableFeeder();
 }
 
 void MyRenderEventListenerImp::resetCameraProjection( float aspectRatio ) {
-    camera_[ CAMERA0 ]->setAspect( aspectRatio );
-    camera_[ CAMERA0 ]->getProjectionMatrix44( matrixProjection_[ CAMERA0 ], bRightHandHardware_, true );
-}
-
-void MyRenderEventListenerImp::resetLightProjection( float aspectRatio ) {
-    camera_[ LIGHT0 ]->setAspect( aspectRatio );
-    camera_[ LIGHT0 ]->getProjectionMatrix44( matrixProjection_[ LIGHT0 ], bRightHandHardware_, true );
+    getActiveCamera()->setAspect( aspectRatio );
 }
 
 void MyRenderEventListenerImp::resetEffectProjection()
 {
-    sharedVaribleFeeder_->updateProjection( matrixProjection_[ CAMERA0 ] );
-    shadowFeeder_->updateProjection( matrixProjection_[ LIGHT0 ] );
+    sharedVaribleFeeder_->updateProjection( getActiveCamera()->getProjectionMatrix() );
+
+    //shadowFeeder_->updateProjection( lights_[ LIGHT0 ]->getProjectionMatrix() );
 
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
         EffectShaderFeeder * const feeder = (EffectShaderFeeder *) (actor->userData);
-        feeder->updateProjection( matrixProjection_[ CAMERA0 ] );
+        feeder->updateProjection( getActiveCamera()->getProjectionMatrix() );
     }
 }
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
 {
     phys_->simulate( bPaused_ ? 0.f : elapsedTime );
-    for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i )
-        updateCamera( i, elapsedTime );
+    getActiveCamera()->update( elapsedTime );
+    updateLight();
     updateEffect( elapsedTime );
     updateStickPower( elapsedTime );
     updateStickPosition();
     phys_->fetchResult();
 }
 
-void MyRenderEventListenerImp::updateCamera( size_t index, float elapsedTime ) {
-    camera_[ index ]->update( elapsedTime );
-    updateCameraView( index );
-    updateCameraPosAndDir( index );
-}
-
-void MyRenderEventListenerImp::updateCameraView( size_t index )
+void MyRenderEventListenerImp::updateLight()
 {
-    camera_[ index ]->getViewMatrix44( matrixView_[ index ], true );
-    matrixProjectionView_[ index ] = matrixProjection_[ index ] * matrixView_[ index ];
-}
+    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i ) {
+        const NxVec3 position = lights_[ i ]->getPosition();
+        const NxVec3 direction = lights_[ i ]->getDirectionVector();
+        const RowMajorMatrix44f matrixView = lights_[ i ]->getViewMatrix();
+        const RowMajorMatrix44f matrixProjectionView = lights_[ i ]->getProjectionMatrix() * matrixView;
 
-void MyRenderEventListenerImp::updateCameraPosAndDir( size_t index )
-{
-    const NxExtendedVec3 pos = camera_[ index ]->getPosition();
-    cameraPos_[ index ] = NxVec3( (NxReal) pos.x, (NxReal) pos.y, (NxReal) pos.z );
-    cameraDir_[ index ] = camera_[ index ]->getDirectionVector();
+        //shadowFeeder_->updateMatrix( position, direction, matrixView, matrixProjectionView );
+
+        //wstringstream variableName;
+        //variableName << L"Light" << i << L"_Position";
+        //float tmp[ 4 ];
+        //tmp[ 0 ] = position.x;
+        //tmp[ 1 ] = position.y;
+        //tmp[ 2 ] = position.z;
+        //tmp[ 3 ] = 1.f;
+        //getSharedVariable( variableName.str() )->setFloatArray( tmp, 4u );
+    }
+    float aaa[] = { -40.000f, 0.000f, 80.000f, 1.f};
+    getSharedVariable( L"Light0_Position" )->setFloatArray( aaa, 4u );
 }
 
 void MyRenderEventListenerImp::updateEffect( float elapsedTime )
 {
-    sharedVaribleFeeder_->updateMatrix( cameraPos_[ CAMERA0 ], cameraDir_[ CAMERA0 ],
-        matrixView_[ CAMERA0 ], matrixProjectionView_[ CAMERA0 ] );
-    shadowFeeder_->updateMatrix( cameraPos_[ LIGHT0 ], cameraDir_[ LIGHT0 ],
-        matrixView_[ LIGHT0 ], matrixProjectionView_[ LIGHT0 ] );
+    const NxVec3 position = getActiveCamera()->getPosition();
+    const NxVec3 direction = getActiveCamera()->getDirectionVector();
+    const RowMajorMatrix44f matrixView = getActiveCamera()->getViewMatrix();
+    const RowMajorMatrix44f matrixProjectionView = getActiveCamera()->getProjectionMatrix() * matrixView;
+
+    sharedVaribleFeeder_->updateMatrix( position, direction, matrixView, matrixProjectionView );
 
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
         EffectShaderFeeder * const feeder = (EffectShaderFeeder *) (actor->userData);
-        feeder->updateMatrix( actor, cameraPos_[ CAMERA0 ], cameraDir_[ CAMERA0 ],
-            matrixView_[ CAMERA0 ], matrixProjectionView_[ CAMERA0 ] );
+        feeder->updateMatrix( actor, position, direction, matrixView, matrixProjectionView );
     }
-
-    updateEffectLights();
 }
 
-void MyRenderEventListenerImp::updateEffectLights() {
-    const float light0_position[] = { -40.f, 0.f, 80.f, 1.f };
-    getSharedVariable( L"Light0_Position" )->setFloatArray( light0_position, 4u );
-}
 
 void MyRenderEventListenerImp::updateStickPosition() {
     //const NxExtendedVec3 cameraPos = getActiveCamera()->getPosition();
@@ -272,7 +268,7 @@ void MyRenderEventListenerImp::updateStickPower( float elapsedTime ) {
 SoundHandle * MyRenderEventListenerImp::getRandomSound( int soundType )
 {
     uniform_int<int> unif( 0, sounds_[ soundType ].size() -1 );
-    const size_t index = unif( eng_ );
+    const size_t index = unif( randomEngine );
     return sounds_[ soundType ].at( index ).get();
 }
 
@@ -281,7 +277,7 @@ void MyRenderEventListenerImp::display( Render * render ) {
     if( false == render->beginScene() ) return;
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
 
-    preDisplay( render );
+//    preDisplay( render );
     onDisplay( render );
     postDisplay( render );
 
@@ -289,9 +285,8 @@ void MyRenderEventListenerImp::display( Render * render ) {
     render->endScene();
 }   
 
-void MyRenderEventListenerImp::preDisplay( Render * render )
-{
-    shadowRenderTarget_->display( render, RenderTargetCallBackPtr( new MyShadowDisplayer( shadowFeeder_.get(), actorGroup_[ ACTORS_BALL ] ) ).get() );
+void MyRenderEventListenerImp::preDisplay( Render * render ) {
+    shadowRenderTarget_->display( render, shadowCallBack_.get() );
 }
 
 void MyRenderEventListenerImp::onDisplay( Render * render )
@@ -316,7 +311,7 @@ void MyRenderEventListenerImp::destroy()
 }
 
 MyCamera * MyRenderEventListenerImp::getActiveCamera() {
-    return camera_[ CAMERA0 ].get();
+    return cameras_[ CAMERA0 ].get();
 }
 
 NxVec3 MyRenderEventListenerImp::getCueBallPosition() {

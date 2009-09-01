@@ -22,6 +22,10 @@ wstring ConstString::effectFilenameByNodeName( wstring nodeName ) {
     return effectShaderDirectory + defaultEffectFilename;
 }
 
+wstring ConstString::shadowMapEffectShaderFilename() {
+    return L"../asset/shaders/shadow_map.fx";
+}
+
 wstring ConstString::dllDirectory() {
     return L"..\\dll";
 }
