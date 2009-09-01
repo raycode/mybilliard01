@@ -177,6 +177,7 @@ void EffectShaderDX9Imp::acquireTextures()
         const bool bTexture = ( textureVariable->isTexture() || textureVariable->isTexture1D() ||
             textureVariable->isTexture2D() || textureVariable->isTextureCube() );
         if( false == bTexture ) continue;
+        if( textureVariable->isShared() ) continue;
 
         for( size_t j = 0; j < textureVariable->getNumberOfAnnotations(); ++j ) {
             EffectShaderAnnotationPtr anno = EffectShaderAnnotationPtr( textureVariable->createAnnotationByIndex( j ), EffectShaderVariable::Destroyer( textureVariable.get() ) );

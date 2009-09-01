@@ -196,7 +196,7 @@ void MyRenderEventListenerImp::resetEffectProjection()
 }
 
 void MyRenderEventListenerImp::resetSharedVariables() {
-    getSharedVariable( L"shadowMap" )->setTexture( shadowRenderTarget_->getTexture() );
+    getSharedVariable( L"shadow_Tex" )->setTexture( shadowRenderTarget_->getTexture() );
 }
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )

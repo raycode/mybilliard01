@@ -118,7 +118,17 @@ sampler2D baseMap = sampler_state
    MAGFILTER = LINEAR;
    MIPFILTER = LINEAR;
 };
-sampler2D shadowMap;
+
+shared texture shadow_Tex;
+sampler2D shadowMap = sampler_state
+{
+   Texture = (shadow_Tex);
+   ADDRESSU = WRAP;
+   ADDRESSV = WRAP;
+   MINFILTER = LINEAR;
+   MAGFILTER = LINEAR;
+   MIPFILTER = LINEAR;
+};
 
 struct PS_INPUT 
 {
