@@ -1,20 +1,29 @@
 #pragma once
 
-class MyCamera {
+class MyCamera : public CameraMatrix {
+public: // from CameraMatrix
+    virtual NxVec3 getPosition() OVERRIDE;
+    virtual void setPosition( const NxVec3 & newPosition ) OVERRIDE;
+
+    virtual NxVec3 getRightVector () OVERRIDE;
+    virtual NxVec3 getUpVector () OVERRIDE;
+    virtual NxVec3 getDirectionVector () OVERRIDE;
+
+    virtual void setRotationMatrix( const NxMat33 & ) OVERRIDE;
+
+    virtual RowMajorMatrix44f getProjectionMatrix() OVERRIDE;
+    virtual RowMajorMatrix44f getViewMatrix() OVERRIDE;
+
+    virtual void rotateClockWiseByZ( float angle ) OVERRIDE;
+
+    virtual void pitchDown( float angle ) OVERRIDE;
+
+    virtual void lookAt( const NxVec3 & whereToLookAt, const NxVec3 & requestedUp ) OVERRIDE;
+
 public:
     MyCamera( Camera * colladaCamera, MyPhysX * phys, BilliardControl * billiardControl, NxVec3 initPosition, NxVec3 direction, bool bRightHand );
 
     void setAspect( float aspectRatio );
-    RowMajorMatrix44f getProjectionMatrix();
-    RowMajorMatrix44f getViewMatrix();
-
-    const NxVec3 & getPosition();
-    void setPosition( NxVec3 newPosition );
-
-    NxVec3 getRightVector () const;
-    NxVec3 getUpVector () const;
-    NxVec3 getDirectionVector () const;
-    void setRotationMatrix( const NxMat33 & );
 
     void update( float elapsedTime );
 
@@ -29,12 +38,7 @@ public: // move
     void setMovementFreeFromHeightContrain();
     float getConstrainedHeight();
 
-public: // rotate
-    void rotateClockWiseByZ( float angle );
-    void pitchDown( float angle );
-
 public: // looking at ball
-    void lookAt( const NxVec3 & locationOfBall, NxVec3 up );
     void moveClockWiseAroundPoint( float angle, const NxVec3 & location );
 
 private: // update
