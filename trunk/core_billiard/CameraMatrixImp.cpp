@@ -78,6 +78,7 @@ RowMajorMatrix44f CameraMatrixImp::getViewMatrix() {
         matView[ 2 ][ i ] = dir.get()[ i ];
         matView[ i ][ 3 ] = trans.get()[ i ];
     }
+    matView[ 3 ][ 3 ] = 1.f;
     return matView;
 }
 RowMajorMatrix44f CameraMatrixImp::getProjectionViewMatrix() {
