@@ -32,7 +32,7 @@ struct VS_INPUT
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
-   float4 PositionOnUV :    TEXCOORD0;   
+   float2 PositionOnUV :    TEXCOORD0;   
 };
 
 VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -41,7 +41,8 @@ VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
    float4 pos = mul( Input.Position, matWorldViewProjection );
    Output.Position = pos;
-   Output.PositionOnUV = pos;
+   Output.PositionOnUV.x = pos.z;
+   Output.PositionOnUV.y = pos.w;
 
    return( Output );
    
@@ -50,12 +51,14 @@ VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 struct PS_INPUT 
 {
-   float4 PositionOnUV :        TEXCOORD0;
+   float2 PositionOnUV :        TEXCOORD0;
 };
 
 float4 Shadow_Map_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
-   float4 Output = Input.PositionOnUV.z;
+   float4 Output;
+   Output.rgb = Input.PositionOnUV.x / Input.PositionOnUV.y;
+   Output.a = 1.f;
    return Output;
 }
 

@@ -16,7 +16,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
     assert( bPhys );
 
     initCamera( CAMERA0, NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
-    initLight( LIGHT0, NxVec3( -13.f, -10.f, 140.f ), NxVec3( 0.f, 0.090536f, -0.995893f ) );
+    initLight( LIGHT0, NxVec3( -13.f, 10.f, 140.f ), NxVec3( 0.f, -0.090536f, -0.995893f ) );
     initSound();
     initPhys();
     initVisualOnlyObjects();
@@ -159,8 +159,9 @@ void MyRenderEventListenerImp::init()
 void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory, int x, int y, int width, int height ) {
     resetEffect( renderFactory );
     scene_->setRenderFactory( renderFactory );
-    resetCameraProjection( (float) width / (float) height );
+    getActiveCamera()->setAspect( (float) width / (float) height );
     resetEffectProjection();
+    resetSharedVariables();
 }
 
 void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory )
@@ -181,10 +182,6 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory 
     createSharedVariableFeeder();
 }
 
-void MyRenderEventListenerImp::resetCameraProjection( float aspectRatio ) {
-    getActiveCamera()->setAspect( aspectRatio );
-}
-
 void MyRenderEventListenerImp::resetEffectProjection()
 {
     sharedVaribleFeeder_->updateProjection( getActiveCamera()->getProjectionMatrix() );
@@ -196,6 +193,10 @@ void MyRenderEventListenerImp::resetEffectProjection()
         EffectShaderFeeder * const feeder = (EffectShaderFeeder *) (actor->userData);
         feeder->updateProjection( getActiveCamera()->getProjectionMatrix() );
     }
+}
+
+void MyRenderEventListenerImp::resetSharedVariables() {
+    getSharedVariable( L"shadowMap" )->setTexture( shadowRenderTarget_->getTexture() );
 }
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
@@ -217,19 +218,17 @@ void MyRenderEventListenerImp::updateLight()
         const RowMajorMatrix44f matrixView = lights_[ i ]->getViewMatrix();
         const RowMajorMatrix44f matrixProjectionView = lights_[ i ]->getProjectionMatrix() * matrixView;
 
-        //shadowFeeder_->updateMatrix( position, direction, matrixView, matrixProjectionView );
+        shadowFeeder_->updateMatrix( position, direction, matrixView, matrixProjectionView );
 
-        //wstringstream variableName;
-        //variableName << L"Light" << i << L"_Position";
-        //float tmp[ 4 ];
-        //tmp[ 0 ] = position.x;
-        //tmp[ 1 ] = position.y;
-        //tmp[ 2 ] = position.z;
-        //tmp[ 3 ] = 1.f;
-        //getSharedVariable( variableName.str() )->setFloatArray( tmp, 4u );
+        wstringstream variableName;
+        variableName << L"Light" << i << L"_Position";
+        float tmp[ 4 ];
+        tmp[ 0 ] = position.x;
+        tmp[ 1 ] = position.y;
+        tmp[ 2 ] = position.z;
+        tmp[ 3 ] = 1.f;
+        getSharedVariable( variableName.str() )->setFloatArray( tmp, 4u );
     }
-    float aaa[] = { -40.000f, 0.000f, 80.000f, 1.f};
-    getSharedVariable( L"Light0_Position" )->setFloatArray( aaa, 4u );
 }
 
 void MyRenderEventListenerImp::updateEffect( float elapsedTime )
@@ -277,7 +276,7 @@ void MyRenderEventListenerImp::display( Render * render ) {
     if( false == render->beginScene() ) return;
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
 
-//    preDisplay( render );
+    preDisplay( render );
     onDisplay( render );
     postDisplay( render );
 

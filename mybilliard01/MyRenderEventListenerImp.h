@@ -62,8 +62,8 @@ private: // init
 
 private: // reset
     void resetEffect( RenderBufferFactory * renderFactory );
-    void resetCameraProjection( float aspectRatio );
     void resetEffectProjection();
+    void resetSharedVariables();
 
 private: // update
     void updateLight();

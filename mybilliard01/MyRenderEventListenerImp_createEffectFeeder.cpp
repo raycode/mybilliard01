@@ -30,7 +30,7 @@ EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, 
     assert( effect );
     if( NULL == effect ) return & nullToRender_;
 
-    EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( node, effect, shadowRenderTarget_->getTexture() ) );
+    EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( node, effect ) );
     feeders_.push_back( newFeeder );
 
     findSharedVariables( effect );

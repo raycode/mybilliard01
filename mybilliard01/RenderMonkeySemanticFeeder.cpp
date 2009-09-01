@@ -3,10 +3,9 @@
 using namespace RenderMonkeySemantics;
 
 
-RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShader * effect, Texture * shadowMap )
+RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShader * effect )
 : node_( node )
 , effect_( effect )
-, shadowMap_( shadowMap )
 {
     assert( node_ );
     assert( effect_ );
