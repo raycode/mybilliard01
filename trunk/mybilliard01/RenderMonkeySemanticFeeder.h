@@ -21,7 +21,7 @@ public: // from EffectShaderFeeder
         const RowMajorMatrix44f & matProjView ) OVERRIDE;
 
 public:
-    RenderMonkeySemanticFeeder( Node *, EffectShader *, Texture * shadowMap );
+    RenderMonkeySemanticFeeder( Node *, EffectShader * );
 
 private: // update and set
     void initPredefinedSemantics();
@@ -32,7 +32,6 @@ private: // update and set
 private: // input
     Node * const node_;
     EffectShader * const effect_;
-    Texture * const shadowMap_;
 
 private: // input - matrices
     NxVec3 cameraPos_, cameraDir_;

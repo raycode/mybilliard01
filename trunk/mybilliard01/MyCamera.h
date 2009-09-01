@@ -1,6 +1,9 @@
 #pragma once
 
-class MyCamera : public CameraMatrixImp {
+class MyCamera
+    : public CameraMatrixImp
+    , IMPLEMENTS_INTERFACE( CameraMatrix )
+{
 public: // from CameraMatrix
     virtual NxVec3 getPosition() OVERRIDE;
     virtual void setPosition( const NxVec3 & newPosition ) OVERRIDE;

@@ -15,12 +15,12 @@
 //**************************************************************//
 
 //--------------------------------------------------------------//
-// Textured Phong
+// slate
 //--------------------------------------------------------------//
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string Textured_Phong_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
+string slate_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
 shared float4 Light0_Position
 <
@@ -55,7 +55,7 @@ struct VS_OUTPUT
    
 };
 
-VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
+VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
@@ -118,6 +118,7 @@ sampler2D baseMap = sampler_state
    MAGFILTER = LINEAR;
    MIPFILTER = LINEAR;
 };
+sampler2D shadowMap;
 
 struct PS_INPUT 
 {
@@ -128,7 +129,7 @@ struct PS_INPUT
    
 };
 
-float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
+float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
    float3 fvLightDirection = normalize( Input.LightDirection );
    float3 fvNormal         = normalize( Input.Normal );
@@ -137,6 +138,8 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvReflection     = normalize( ( ( 2.0f * fvNormal ) * ( fNDotL ) ) - fvLightDirection ); 
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
+   
+   float fvDepthFromShadowMap      = tex2D( shadowMap, Input.Texcoord ).x;
    
    float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
    
@@ -150,14 +153,14 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 
 
 //--------------------------------------------------------------//
-// Technique Section for Textured Phong
+// Technique Section for slate
 //--------------------------------------------------------------//
-technique Textured_Phong
+technique slate
 {
    pass Pass_0
    {
-      VertexShader = compile vs_1_1 Textured_Phong_Pass_0_Vertex_Shader_vs_main();
-      PixelShader = compile ps_2_0 Textured_Phong_Pass_0_Pixel_Shader_ps_main();
+      VertexShader = compile vs_1_1 slate_Pass_0_Vertex_Shader_vs_main();
+      PixelShader = compile ps_2_0 slate_Pass_0_Pixel_Shader_ps_main();
    }
 
 }

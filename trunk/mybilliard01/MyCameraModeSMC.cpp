@@ -31,7 +31,6 @@ void MyCameraModeSMC::changeToTopView_()
     getCamera()->setMovementFreeFromHeightContrain();
     getCamera()->setPosition( NxVec3( -13.f, -10.f, 140.f ) );
     getCamera()->lookAt( NxVec3( -13.f, 0.f, 30.f ), NxVec3( 0.f, 0.f, 1.f ) );
-    OutputDebugStr( (DebugHelper::getStringFromVec3(getCamera()->getDirectionVector()) + L"\n").c_str() );
 }
 void MyCameraModeSMC::changeToAimView_()
 {
