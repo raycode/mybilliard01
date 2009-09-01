@@ -1,6 +1,6 @@
 #pragma once
 
-class MyCamera : public CameraMatrix {
+class MyCamera : public CameraMatrixImp {
 public: // from CameraMatrix
     virtual NxVec3 getPosition() OVERRIDE;
     virtual void setPosition( const NxVec3 & newPosition ) OVERRIDE;
@@ -11,7 +11,7 @@ public: // from CameraMatrix
 
     virtual void setRotationMatrix( const NxMat33 & ) OVERRIDE;
 
-    virtual RowMajorMatrix44f getProjectionMatrix() OVERRIDE;
+    //virtual RowMajorMatrix44f getProjectionMatrix() OVERRIDE;
     virtual RowMajorMatrix44f getViewMatrix() OVERRIDE;
 
     virtual void rotateClockWiseByZ( float angle ) OVERRIDE;
