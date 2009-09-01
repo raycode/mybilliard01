@@ -63,11 +63,6 @@ bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemanti
 
     EffectShaderVariable * const variableForSemantic = effect_->createEffectVariableBySemantic( nameOfSemantic );
 
-    if( variableForSemantic->isShared() ) {
-        Shader::Destroyer( (Shader*) effect_ )( variableForSemantic );
-        return false;
-    }
-
     predefinedVariables_[ whichSemantic ] = variableForSemantic;
     whereToStore.push_back( whichSemantic );
     return true;

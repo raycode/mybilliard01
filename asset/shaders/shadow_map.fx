@@ -22,7 +22,7 @@
 //--------------------------------------------------------------//
 string Shadow_Map_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
-float4x4 matWorldViewProjection : WorldViewProjection;
+shared float4x4 Light0_WorldLightProjection : WorldViewProjection;
 
 struct VS_INPUT 
 {
@@ -39,8 +39,10 @@ VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
-   float4 pos = mul( Input.Position, matWorldViewProjection );
+   float4 pos = mul( Input.Position, Light0_WorldLightProjection );
+
    Output.Position = pos;
+
    Output.PositionOnUV.x = pos.z;
    Output.PositionOnUV.y = pos.w;
 
@@ -57,7 +59,7 @@ struct PS_INPUT
 float4 Shadow_Map_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
    float4 Output;
-   Output.rgb = Input.PositionOnUV.x / Input.PositionOnUV.y;
+   Output.rgb = Input.PositionOnUV[ 0 ] / Input.PositionOnUV[ 1 ];
    Output.a = 1.f;
    return Output;
 }

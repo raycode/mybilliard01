@@ -26,7 +26,7 @@ private:
 
 private:
     RowMajorMatrix44f matProjView_;
-    ShaderVariable * matWVP_;
+    ShaderVariable * const matWVP_;
 
 };
 
