@@ -169,7 +169,7 @@ void MyCamera::moveClockWiseAroundPoint( float angle, const NxVec3 & location )
     setPosition( newCameraPos );
 }
 
-void MyCamera::lookAt( const NxVec3 & locationOfBall, NxVec3 up )
+void MyCamera::lookAt( const NxVec3 & locationOfBall, const NxVec3 & up )
 {
     NxVec3 dir = locationOfBall - getPosition();
     dir.normalize();
@@ -180,9 +180,9 @@ void MyCamera::lookAt( const NxVec3 & locationOfBall, NxVec3 up )
     right.normalize();
     rotate_.setRow( 0, right );
 
-    up = right.cross( up );
-    up.normalize();
-    rotate_.setRow( 1, up );
+    NxVec3 normalizedUp = right.cross( up );
+    normalizedUp.normalize();
+    rotate_.setRow( 1, normalizedUp );
 }
 
 NxU32 MyCamera::move( NxVec3 dispVector, NxReal elapsedTime )
@@ -251,13 +251,13 @@ RowMajorMatrix44f MyCamera::getViewMatrix()
     return rst;
 }
 
-NxVec3 MyCamera::getRightVector () const {
+NxVec3 MyCamera::getRightVector () {
     return rotate_.getRow( 0 );
 }
-NxVec3 MyCamera::getUpVector () const {
+NxVec3 MyCamera::getUpVector () {
     return rotate_.getRow( 1 );
 }
-NxVec3 MyCamera::getDirectionVector () const {
+NxVec3 MyCamera::getDirectionVector () {
     return rotate_.getRow( 2 );
 }
 void MyCamera::setRotationMatrix( const NxMat33 & rotate ) {
@@ -275,12 +275,13 @@ RowMajorMatrix44f MyCamera::getProjectionMatrix() {
     return rst;
 }
 
-const NxVec3 & MyCamera::getPosition() {
+NxVec3 MyCamera::getPosition() {
     NxExtendedVec3 posExt = controller_->getFilteredPosition();
     pos_ = NxVec3( (NxReal) posExt.x, (NxReal) posExt.y, (NxReal) posExt.z );
     return pos_;
 }
-void MyCamera::setPosition( NxVec3 newPosition ) {
+void MyCamera::setPosition( const NxVec3 & newPos ) {
+    NxVec3 newPosition = newPos;
     if( isMovementConstrainedToHeight() )
         newPosition.z = getConstrainedHeight();
     NxExtendedVec3 newPosExt( (NxReal) newPosition.x, (NxReal) newPosition.y, (NxReal) newPosition.z );
