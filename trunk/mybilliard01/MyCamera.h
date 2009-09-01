@@ -5,11 +5,11 @@ public:
     MyCamera( Camera * colladaCamera, MyPhysX * phys, BilliardControl * billiardControl, NxVec3 initPosition, NxVec3 direction, bool bRightHand );
 
     void setAspect( float aspectRatio );
-    void getProjectionMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor );
-    void getViewMatrix44( float * returnMatrix44, bool bRowMajor );
+    RowMajorMatrix44f getProjectionMatrix();
+    RowMajorMatrix44f getViewMatrix();
 
-    const NxExtendedVec3 & getPosition();
-    void setPosition( NxExtendedVec3 newPosition );
+    const NxVec3 & getPosition();
+    void setPosition( NxVec3 newPosition );
 
     NxVec3 getRightVector () const;
     NxVec3 getUpVector () const;
@@ -34,7 +34,7 @@ public: // rotate
     void pitchDown( float angle );
 
 public: // looking at ball
-    void lookAt( const NxVec3 & locationOfBall );
+    void lookAt( const NxVec3 & locationOfBall, NxVec3 up );
     void moveClockWiseAroundPoint( float angle, const NxVec3 & location );
 
 private: // update
@@ -70,5 +70,7 @@ private: // move
 
 private: // camera state
     MyCameraState state_;
+
+    NxVec3 pos_;
 };
 

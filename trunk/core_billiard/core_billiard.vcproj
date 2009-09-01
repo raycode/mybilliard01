@@ -1801,9 +1801,49 @@
 			<Filter
 				Name="7. Others"
 				>
+				<File
+					RelativePath=".\RowMajorMatrix44.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\RowMajorMatrix44.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RowMajorMatrix44.inl"
+					>
+				</File>
+				<File
+					RelativePath=".\WM4Math.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+							UsePrecompiledHeader="0"
+						/>
+					</FileConfiguration>
+				</File>
+				<File
+					RelativePath=".\WM4Math.h"
+					>
+				</File>
+				<File
+					RelativePath=".\WM4Math.inl"
+					>
+				</File>
 			</Filter>
 			<Filter
-				Name="9. Precompiled"
+				Name="9. Package Headers"
 				>
 				<File
 					RelativePath=".\my_render.cpp"
@@ -1907,6 +1947,10 @@
 				</File>
 				<File
 					RelativePath=".\CameraFactory.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraMatrix.h"
 					>
 				</File>
 				<File
@@ -2053,49 +2097,9 @@
 			<Filter
 				Name="8. Others"
 				>
-				<File
-					RelativePath=".\RowMajorMatrix44.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\RowMajorMatrix44.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RowMajorMatrix44.inl"
-					>
-				</File>
-				<File
-					RelativePath=".\WM4Math.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="0"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\WM4Math.h"
-					>
-				</File>
-				<File
-					RelativePath=".\WM4Math.inl"
-					>
-				</File>
 			</Filter>
 			<Filter
-				Name="9. Precompiled"
+				Name="9. Package Headers"
 				>
 				<File
 					RelativePath=".\my_render_imp.h"
@@ -2262,6 +2266,14 @@
 				</File>
 				<File
 					RelativePath=".\CameraImp.h"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraMatrixImp.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraMatrixImp.h"
 					>
 				</File>
 				<File

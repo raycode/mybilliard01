@@ -3,10 +3,21 @@
 
 
 void MyRenderEventListenerImp::createShadowMap( RenderBufferFactory * renderFactory ) {
-    shadowRenderTarget_ = RenderTargetPtr( renderFactory->createRenderTarget( 256, 256 ), RenderBufferFactory::Destroyer( renderFactory ) );
-    shadowFeeder_ = GlobalEffectShaderFeederPtr( new ShadowMapEffectShaderFeeder() );
+    const wstring filename = ConstString::shadowMapEffectShaderFilename();
+    EffectShader * const effect = renderFactory->createEffectShader( filename );
+    assert( effect );
+    if( NULL == effect ) return;
+
+    shadowRenderTarget_ = renderFactory->createRenderTarget( 256, 256 );
     assert( NULL != shadowRenderTarget_ );
-    assert( NULL != shadowFeeder_ );
+
+    ShadowMapEffectShaderFeeder * const feeder =  new ShadowMapEffectShaderFeeder( effect );
+    assert( NULL != feeder );
+
+    shadowCallBack_ = MyShadowCallBackPtr( new MyShadowCallBack( feeder, &(actorGroup_[ ACTORS_BALL ]), & nodeMap_ ) );
+    feeder->addEffectCallBack( shadowCallBack_.get() );
+
+    shadowFeeder_ = GlobalEffectShaderFeederPtr( feeder );
 }
 
 EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, RenderBufferFactory * renderFactory )
@@ -15,14 +26,14 @@ EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, 
     const wstring nodeName = node->getName();
 
     const wstring effectFilename = ConstString::effectFilenameByNodeName( nodeName );
-    EffectShaderPtr const effect = EffectShaderPtr( renderFactory->createEffectShader( effectFilename ), RenderBufferFactory::Destroyer( renderFactory ) );
+    EffectShader * const effect = renderFactory->createEffectShader( effectFilename );
     assert( effect );
     if( NULL == effect ) return & nullToRender_;
 
     EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( node, effect, shadowRenderTarget_->getTexture() ) );
     feeders_.push_back( newFeeder );
 
-    findSharedVariables( effect.get() );
+    findSharedVariables( effect );
     return newFeeder.get();
 }
 

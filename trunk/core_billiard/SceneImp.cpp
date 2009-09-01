@@ -61,12 +61,17 @@ bool SceneImp::load( wstring filename ) {
 
 void SceneImp::updateDevice() {
     MY_FOR_EACH( Geometries, geo, geometries_ ) {
-        GeometryMesh * const mesh = (*geo)->getMesh();
-        const size_t numPrim = mesh->getNumberOfPrimitives();
-        for( size_t i = 0; i < numPrim; ++i ) {
-            GeometryMeshPrimitive * const prim = mesh->getPrimitive( i );
-            prim->buildDeviceBuffer_onStatic( renderFactory_ );
-        }
+        updateDevice_GeometryMesh( (*geo)->getMesh() );
+        updateDevice_GeometryMesh( (*geo)->getMesh_positionOnly() );
+    }
+}
+
+void SceneImp::updateDevice_GeometryMesh( GeometryMesh * mesh )
+{
+    const size_t numPrim = mesh->getNumberOfPrimitives();
+    for( size_t i = 0; i < numPrim; ++i ) {
+        GeometryMeshPrimitive * const prim = mesh->getPrimitive( i );
+        prim->buildDeviceBuffer_onStatic( renderFactory_ );
     }
 }
 

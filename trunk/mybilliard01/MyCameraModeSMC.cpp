@@ -29,20 +29,21 @@ void MyCameraModeSMC::changeToTopView_()
     bNeedToBeRestored_ = true;
 
     getCamera()->setMovementFreeFromHeightContrain();
-    getCamera()->setPosition( NxExtendedVec3( -13., -10., 140. ) );
-    getCamera()->lookAt( NxVec3( -13.f, 0.f, 30.f ) );
+    getCamera()->setPosition( NxVec3( -13.f, -10.f, 140.f ) );
+    getCamera()->lookAt( NxVec3( -13.f, 0.f, 30.f ), NxVec3( 0.f, 0.f, 1.f ) );
+    OutputDebugStr( (DebugHelper::getStringFromVec3(getCamera()->getDirectionVector()) + L"\n").c_str() );
 }
 void MyCameraModeSMC::changeToAimView_()
 {
     if( bNeedToBeRestored_ ) restoreCameraPosition();
     getCamera()->setMovementToFixedHeight( 35.f );
-    getCamera()->lookAt( billiardControl_->getCueBallPosition() );
+    getCamera()->lookAt( billiardControl_->getCueBallPosition(), NxVec3( 0.f, 0.f, 1.f ) );
 }
 void MyCameraModeSMC::changeToMoveView_()
 {
     if( bNeedToBeRestored_ ) restoreCameraPosition();
     getCamera()->setMovementToFixedHeight( 45.f );
-    getCamera()->lookAt( NxVec3( -13.f, 0.f, 30.f ) );
+    getCamera()->lookAt( NxVec3( -13.f, 0.f, 30.f ), NxVec3( 0.f, 0.f, 1.f ) );
 }
 void MyCameraModeSMC::quit_()
 {

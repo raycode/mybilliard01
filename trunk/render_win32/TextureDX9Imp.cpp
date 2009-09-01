@@ -78,7 +78,7 @@ SurfaceDX9 * TextureDX9Imp::acquireSurface( size_t level )
 
     SurfaceDX9Info tmp;
     tmp.level = level;
-    tmp.ptr = SurfaceDX9Ptr( new SurfaceDX9Imp( IDirect3DSurface9Ptr( newSurfaceDX9 ) ) );
+    tmp.ptr = SurfaceDX9Ptr( new SurfaceDX9Imp( IDirect3DSurface9Ptr( newSurfaceDX9, ComReleaser< IDirect3DSurface9 >() ) ) );
     surfaces_.push_back( tmp );
     return tmp.ptr.get();
 }

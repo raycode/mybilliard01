@@ -10,7 +10,10 @@ namespace my_utility {
 	    static wstring windowTitle();
 	    static wstring colladaPhysXFilename();
 	    static wstring colladaVisualAssetFilename();
+
+    public: // effect
         static wstring effectFilenameByNodeName( wstring nodeName );
+        static wstring shadowMapEffectShaderFilename();
 
     public: // sound
         static wstring soundFilename_BallStrong( size_t index );

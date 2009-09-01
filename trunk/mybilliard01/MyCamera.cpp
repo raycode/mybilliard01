@@ -46,7 +46,7 @@ void MyCamera::updateAimPosition() {
     dir.z = -0.3f;
     const NxVec3 aimPoint = state_.getAimPoint();
     const NxVec3 newPos = aimPoint - dir * getAimDistance();
-    setPosition( NxExtendedVec3( (Extended) newPos.x, (Extended) newPos.y, (Extended) newPos.z ) );
+    setPosition( newPos );
 }
 
 void MyCamera::updateAimRotate( float elapsedTime )
@@ -62,12 +62,10 @@ void MyCamera::updateAimRotate( float elapsedTime )
 
 void MyCamera::updateAimLookAt()
 {
-    const NxExtendedVec3 cameraPosExt = getPosition();
-    const NxVec3 cameraPos( (NxReal) cameraPosExt.x, (NxReal) cameraPosExt.y, (NxReal) cameraPosExt.z );
     const NxVec3 aimPoint = state_.getAimPoint();
     NxVec3 lookAtPoint = aimPoint;
-    lookAtPoint.z += (cameraPos - aimPoint).magnitude() * 0.05f;
-    lookAt( lookAtPoint );
+    lookAtPoint.z += (getPosition() - aimPoint).magnitude() * 0.05f;
+    lookAt( lookAtPoint, NxVec3( 0.f, 0.f, 1.f ) );
 }
 
 void MyCamera::updateMoveViewMove( float elapsedTime )
@@ -165,26 +163,17 @@ void MyCamera::moveClockWiseAroundPoint( float angle, const NxVec3 & location )
     NxMat34 matObj;
     matObj.multiply( rotateZ, transNegObj );
 
-    const NxExtendedVec3 cameraPosExt = getPosition();
-    const NxVec3 cameraPos( NxReal( cameraPosExt.x ), NxReal( cameraPosExt.y ), NxReal( cameraPosExt.z ) );
-
     NxVec3 newCameraPos;
-    matObj.multiply( cameraPos, newCameraPos );
+    matObj.multiply( getPosition(), newCameraPos );
     newCameraPos += location;
-
-    const NxExtendedVec3 newCameraPosExt( (Extended) newCameraPos.x, (Extended) newCameraPos.y, (Extended) newCameraPos.z );
-    setPosition( newCameraPosExt );
+    setPosition( newCameraPos );
 }
 
-void MyCamera::lookAt( const NxVec3 & locationOfBall )
+void MyCamera::lookAt( const NxVec3 & locationOfBall, NxVec3 up )
 {
-    const NxExtendedVec3 cameraPosExt = getPosition();
-    const NxVec3 cameraPos( NxReal( cameraPosExt.x ), NxReal( cameraPosExt.y ), NxReal( cameraPosExt.z ) );
-    NxVec3 dir = locationOfBall - cameraPos;
+    NxVec3 dir = locationOfBall - getPosition();
     dir.normalize();
     rotate_.setRow( 2, dir );
-
-    NxVec3 up( 0.f, 0.f, 1.f );
 
     NxVec3 right;
     right = dir.cross( up );
@@ -222,9 +211,10 @@ bool MyCamera::isMovementConstrainedToHeight() {
 void MyCamera::setMovementToFixedHeight( float height ) {
     bConstrainMovementToHeight_ = true;
     height_ = height;
-    NxExtendedVec3 newPos = getPosition();
+    NxVec3 newPos = getPosition();
     newPos.z = height;
-    controller_->setPosition( newPos );
+    NxExtendedVec3 newPosExt( (Extended) newPos.x, (Extended) newPos.y, (Extended) newPos.z );
+    controller_->setPosition( newPosExt );
 }
 void MyCamera::setMovementFreeFromHeightContrain() {
     bConstrainMovementToHeight_ = false;
@@ -234,7 +224,7 @@ float MyCamera::getConstrainedHeight() {
 }
 
 
-void MyCamera::getViewMatrix44( float * returnMatrix44, bool bRowMajor )
+RowMajorMatrix44f MyCamera::getViewMatrix()
 {
     NxVec3 dir = getDirectionVector();
     dir.normalize();
@@ -256,12 +246,9 @@ void MyCamera::getViewMatrix44( float * returnMatrix44, bool bRowMajor )
     rowMajorView.M.setRow( 2, dir );
     rowMajorView.t = trans;
 
-    if( bRowMajor ) {
-        rowMajorView.getRowMajor44( returnMatrix44 );
-
-    } else {
-        rowMajorView.getColumnMajor44( returnMatrix44 );
-    }
+    RowMajorMatrix44f rst;
+    rowMajorView.getRowMajor44( rst );
+    return rst;
 }
 
 NxVec3 MyCamera::getRightVector () const {
@@ -282,17 +269,22 @@ void MyCamera::setAspect( float aspectRatio )
     colladaCamera_->getPerspectiveCamera()->setAspect( aspectRatio );
 }
 
-void MyCamera::getProjectionMatrix44( float * returnMatrix44, bool bRightHand, bool bRowMajor ) {
-    colladaCamera_->getProjectionMatrix44( returnMatrix44, bRightHand, bRowMajor );
+RowMajorMatrix44f MyCamera::getProjectionMatrix() {
+    RowMajorMatrix44f rst;
+    colladaCamera_->getProjectionMatrix44( rst, false, true );
+    return rst;
 }
 
-const NxExtendedVec3 & MyCamera::getPosition() {
-    return controller_->getFilteredPosition();
+const NxVec3 & MyCamera::getPosition() {
+    NxExtendedVec3 posExt = controller_->getFilteredPosition();
+    pos_ = NxVec3( (NxReal) posExt.x, (NxReal) posExt.y, (NxReal) posExt.z );
+    return pos_;
 }
-void MyCamera::setPosition( NxExtendedVec3 newPosition ) {
+void MyCamera::setPosition( NxVec3 newPosition ) {
     if( isMovementConstrainedToHeight() )
         newPosition.z = getConstrainedHeight();
-    controller_->setPosition( newPosition );
+    NxExtendedVec3 newPosExt( (NxReal) newPosition.x, (NxReal) newPosition.y, (NxReal) newPosition.z );
+    controller_->setPosition( newPosExt );
 }
 
 

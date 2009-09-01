@@ -48,8 +48,10 @@ private: // default
     void setDefaultsAfterLoad();
     void addDefaultCameraWhenThereIsNoCamera();
 
-private:
+private: // update
     void updateDevice();
+    void updateDevice_GeometryMesh( GeometryMesh * mesh );
+
     daeElementRef idLookup( wstring id );
 
 private: // dae file

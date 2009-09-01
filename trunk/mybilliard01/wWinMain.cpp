@@ -23,6 +23,8 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
     ApplicationWin32 * const app = new ApplicationWin32Imp();
     {
+        Render * const render = new RenderWin32DX9Imp();
+
         MyRenderEventListenerImp * renderEvent = new MyRenderEventListenerImp(
             L"..\\asset\\table.dae",
             L"..\\asset\\table.physx.xml"
@@ -30,8 +32,6 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
 
         MyInputListenerImp * inputListener = new MyInputListenerImp( renderEvent, app );
 
-
-        Render * const render = new RenderWin32DX9Imp();
         render->addRenderEventListener( renderEvent );
 
         app->setRender( render );
@@ -44,9 +44,9 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
         app->setScreenTitle( ConstString::windowTitle() );
         app->start();
 
-        delete render;
         delete inputListener;
         delete renderEvent;
+        delete render;
     }
     delete app;
 
