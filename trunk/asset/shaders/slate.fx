@@ -22,6 +22,12 @@
 //--------------------------------------------------------------//
 string slate_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
+shared float4 fvEyePosition : ViewPosition;
+shared float4x4 matView : View;
+float4x4 matWorldViewProjection : WorldViewProjection;
+float4x4 matWorld : World;
+float4x4 matWorldView : WorldView;
+
 shared float4 Light0_Position
 <
    string UIName = "Light0_Position";
@@ -31,11 +37,12 @@ shared float4 Light0_Position
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
 > = float4( 0.00, 0.00, -400.00, 1.00 );
-shared float4 fvEyePosition : ViewPosition;
-shared float4x4 matView : View;
-float4x4 matWorldViewProjection : WorldViewProjection;
-float4x4 matWorld : World;
-float4x4 matWorldView : WorldView;
+shared float4x4 Light0_WorldLightProjection
+<
+   string UIName = "Light0_WorldLightProjection";
+   string UIWidget = "Numeric";
+   bool UIVisible =  false;
+> = float4x4( 1.00, 0.00, 0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 1.00 );
 
 struct VS_INPUT 
 {
@@ -47,12 +54,12 @@ struct VS_INPUT
 
 struct VS_OUTPUT 
 {
-   float4 Position :        POSITION0;
-   float2 Texcoord :        TEXCOORD0;
-   float3 ViewDirection :   TEXCOORD1;
-   float3 LightDirection :  TEXCOORD2;
-   float3 Normal :          TEXCOORD3;
-   
+   float4 Position :           POSITION0;
+   float2 Texcoord :           TEXCOORD0;
+   float3 ViewDirection :      TEXCOORD1;
+   float3 LightDirection :     TEXCOORD2;
+   float3 Normal :             TEXCOORD3;
+   float4 PositionFromLight0 : TEXCOORD4;   
 };
 
 VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -72,7 +79,10 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
    float3 fvNormal         = Input.Normal;
    Output.Normal           = mul( fvNormal, matWorldView );
-
+   
+   float4 posFromLight0    = mul( Input.Position, Light0_WorldLightProjection );
+   Output.PositionFromLight0 = posFromLight0;
+   
    return( Output );
    
 }
@@ -132,11 +142,11 @@ sampler2D shadowMap = sampler_state
 
 struct PS_INPUT 
 {
-   float2 Texcoord :        TEXCOORD0;
-   float3 ViewDirection :   TEXCOORD1;
-   float3 LightDirection:   TEXCOORD2;
-   float3 Normal :          TEXCOORD3;
-   
+   float2 Texcoord :           TEXCOORD0;
+   float3 ViewDirection :      TEXCOORD1;
+   float3 LightDirection:      TEXCOORD2;
+   float3 Normal :             TEXCOORD3;
+   float4 PositionFromLight0 : TEXCOORD4;   
 };
 
 float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
@@ -149,12 +159,18 @@ float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
    
-   float fvDepthFromShadowMap      = tex2D( shadowMap, Input.Texcoord ).x;
-   
+   float2 ShadowMap0_UV;
+   ShadowMap0_UV.x         = Input.PositionFromLight0.x / Input.PositionFromLight0.w;
+   ShadowMap0_UV.y         = Input.PositionFromLight0.y / Input.PositionFromLight0.w;
+
+   float fvDepthOnShadowMap0 = tex2D( shadowMap, ShadowMap0_UV );
+   float fvDepthFromLight0 = Input.PositionFromLight0.z / Input.PositionFromLight0.w;
+   bool bUnderShadow = ( fvDepthOnShadowMap0 < fvDepthFromLight0 );
+
    float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
    
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
-   float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
+   float4 fvTotalDiffuse   = (bUnderShadow ? 0.1f : (fvDiffuse * fNDotL)) * fvBaseColor;
    float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
    
    return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
