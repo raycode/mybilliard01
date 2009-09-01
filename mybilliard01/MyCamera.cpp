@@ -4,7 +4,8 @@
 
 MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys, BilliardControl * billiardControl,
                    NxVec3 initPosition, NxVec3 direction, bool bRightHand )
-: colladaCamera_( cameraCollada )
+: CameraMatrixImp( cameraCollada, bRightHand )
+, colladaCamera_( cameraCollada )
 , bRightHand_( bRightHand )
 , bConstrainMovementToHeight_( false )
 , state_( this, billiardControl )
@@ -267,12 +268,6 @@ void MyCamera::setRotationMatrix( const NxMat33 & rotate ) {
 void MyCamera::setAspect( float aspectRatio )
 {
     colladaCamera_->getPerspectiveCamera()->setAspect( aspectRatio );
-}
-
-RowMajorMatrix44f MyCamera::getProjectionMatrix() {
-    RowMajorMatrix44f rst;
-    colladaCamera_->getProjectionMatrix44( rst, false, true );
-    return rst;
 }
 
 NxVec3 MyCamera::getPosition() {
