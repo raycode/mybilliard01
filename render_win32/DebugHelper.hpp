@@ -32,6 +32,13 @@ namespace my_render_win32_imp {
         static bool isSameFloat( float lhs, float rhs, float epsilon ) {
              return (lhs + epsilon) > rhs && (lhs - epsilon) < rhs;
         }
+
+        static bool isSameMatrix( RowMajorMatrix44f lhs, RowMajorMatrix44f rhs, float epsilon ) {
+            for( size_t i = 0; i < 4; ++i )
+                for( size_t j = 0; j < 4; ++j )
+                    if( false == isSameFloat( lhs[ i ][ j ], rhs[ i ][ j ], epsilon ) ) return false;
+            return true;
+        }
     };
 
 }

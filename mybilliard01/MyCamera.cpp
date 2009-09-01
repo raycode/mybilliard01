@@ -6,18 +6,20 @@ MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys, BilliardControl * bi
                    NxVec3 initPosition, NxVec3 direction, bool bRightHand )
 : CameraMatrixImp( cameraCollada, bRightHand )
 , colladaCamera_( cameraCollada )
-, bRightHand_( bRightHand )
 , bConstrainMovementToHeight_( false )
 , state_( this, billiardControl )
 {
     controller_ = phys->addCapsuleCharacter( initPosition, 1.f, 3.f, 0.02f, NX_Z, &collisionReport_ );
 
     direction.normalize();
-    NxVec3 up = NxVec3( 0.f, 0.f, 1.f );
-    NxVec3 right = ( bRightHand ? up.cross( direction ) : direction.cross( up ) );
-    rotate_ = NxMat33( right, up, direction );
+    setDirectionVector( direction );
 
-    movingSpeed_ = 5.f;
+    NxVec3 up( 0., 0.f, 1.f );
+    setUpVector( up );
+
+    setRightVector( direction.cross( up ) );
+
+    setMovingSpeed( 5.f );
 }
 
 void MyCamera::update( float elapsedTime )
@@ -135,22 +137,6 @@ MyCameraState * MyCamera::getState()
     return & state_;
 }
 
-void MyCamera::rotateClockWiseByZ( float angle )
-{
-    NxMat33 rotateZ;
-    rotateZ.rotZ( angle );
-    rotate_.multiply( rotate_, rotateZ );
-}
-void MyCamera::pitchDown( float angle )
-{
-    NxVec3 right = getRightVector();
-    NxQuat q;
-    q.fromAngleAxis( angle, right );
-    NxMat33 rotateByRight;
-    rotateByRight.fromQuat( q );
-    rotate_.multiply( rotate_, rotateByRight );
-}
-
 void MyCamera::moveClockWiseAroundPoint( float angle, const NxVec3 & location )
 {
     NxMat34 transNegObj;
@@ -168,22 +154,6 @@ void MyCamera::moveClockWiseAroundPoint( float angle, const NxVec3 & location )
     matObj.multiply( getPosition(), newCameraPos );
     newCameraPos += location;
     setPosition( newCameraPos );
-}
-
-void MyCamera::lookAt( const NxVec3 & locationOfBall, const NxVec3 & up )
-{
-    NxVec3 dir = locationOfBall - getPosition();
-    dir.normalize();
-    rotate_.setRow( 2, dir );
-
-    NxVec3 right;
-    right = dir.cross( up );
-    right.normalize();
-    rotate_.setRow( 0, right );
-
-    NxVec3 normalizedUp = right.cross( up );
-    normalizedUp.normalize();
-    rotate_.setRow( 1, normalizedUp );
 }
 
 NxU32 MyCamera::move( NxVec3 dispVector, NxReal elapsedTime )
@@ -224,56 +194,13 @@ float MyCamera::getConstrainedHeight() {
     return height_;
 }
 
-
-RowMajorMatrix44f MyCamera::getViewMatrix()
-{
-    NxVec3 dir = getDirectionVector();
-    dir.normalize();
-
-    NxVec3 up = getRightVector().cross( dir );
-    up.normalize();
-
-    NxVec3 right = dir.cross( up );
-    right.normalize();
-
-    NxVec3 trans;
-    trans.x = (NxReal) - getPosition().dot( right );
-    trans.y = (NxReal) - getPosition().dot( up );
-    trans.z = (NxReal) - getPosition().dot( dir );
-
-    NxMat34 rowMajorView;
-    rowMajorView.M.setRow( 0, right );
-    rowMajorView.M.setRow( 1, up );
-    rowMajorView.M.setRow( 2, dir );
-    rowMajorView.t = trans;
-
-    RowMajorMatrix44f rst;
-    rowMajorView.getRowMajor44( rst );
-    return rst;
-}
-
-NxVec3 MyCamera::getRightVector () {
-    return rotate_.getRow( 0 );
-}
-NxVec3 MyCamera::getUpVector () {
-    return rotate_.getRow( 1 );
-}
-NxVec3 MyCamera::getDirectionVector () {
-    return rotate_.getRow( 2 );
-}
-void MyCamera::setRotationMatrix( const NxMat33 & rotate ) {
-    rotate_ = rotate;
-}
-
-void MyCamera::setAspect( float aspectRatio )
-{
+void MyCamera::setAspect( float aspectRatio ) {
     colladaCamera_->getPerspectiveCamera()->setAspect( aspectRatio );
 }
 
 NxVec3 MyCamera::getPosition() {
     NxExtendedVec3 posExt = controller_->getFilteredPosition();
-    pos_ = NxVec3( (NxReal) posExt.x, (NxReal) posExt.y, (NxReal) posExt.z );
-    return pos_;
+    return NxVec3( (NxReal) posExt.x, (NxReal) posExt.y, (NxReal) posExt.z );
 }
 void MyCamera::setPosition( const NxVec3 & newPos ) {
     NxVec3 newPosition = newPos;
