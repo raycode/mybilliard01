@@ -95,26 +95,9 @@ float4 fvAmbient
    string UIWidget = "Color";
    bool UIVisible =  true;
 > = float4( 0.77, 0.76, 0.76, 1.00 );
-float4 fvSpecular
-<
-   string UIName = "fvSpecular";
-   string UIWidget = "Color";
-   bool UIVisible =  true;
-> = float4( 0.49, 0.49, 0.49, 1.00 );
-float4 fvDiffuse
-<
-   string UIName = "fvDiffuse";
-   string UIWidget = "Color";
-   bool UIVisible =  true;
-> = float4( 0.89, 0.88, 0.85, 1.00 );
-float fSpecularPower
-<
-   string UIName = "fSpecularPower";
-   string UIWidget = "Numeric";
-   bool UIVisible =  true;
-   float UIMin = 1.00;
-   float UIMax = 100.00;
-> = float( 25.00 );
+float4 fvSpecular;
+float4 fvDiffuse;
+float fSpecularPower;
 texture base_Tex
 <
    string ResourceName = "..\\textures\\green.jpg";
@@ -128,17 +111,7 @@ sampler2D baseMap = sampler_state
    MAGFILTER = LINEAR;
    MIPFILTER = LINEAR;
 };
-
-shared texture shadow_Tex;
-sampler2D shadowMap = sampler_state
-{
-   Texture = (shadow_Tex);
-   ADDRESSU = WRAP;
-   ADDRESSV = WRAP;
-   MINFILTER = LINEAR;
-   MAGFILTER = LINEAR;
-   MIPFILTER = LINEAR;
-};
+sampler2D shadowMap;
 
 struct PS_INPUT 
 {
@@ -158,20 +131,20 @@ float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvReflection     = normalize( ( ( 2.0f * fvNormal ) * ( fNDotL ) ) - fvLightDirection ); 
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
-   
-   float2 ShadowMap0_UV;
-   ShadowMap0_UV.x         = Input.PositionFromLight0.x / Input.PositionFromLight0.w;
-   ShadowMap0_UV.y         = Input.PositionFromLight0.y / Input.PositionFromLight0.w;
 
-   float fvDepthOnShadowMap0 = tex2D( shadowMap, ShadowMap0_UV );
+   float2 ShadowMap0_UV;
+   ShadowMap0_UV.xy        = (Input.PositionFromLight0.xy / Input.PositionFromLight0.w) / 2.f + 0.5;
+
+   float4 fvDepthOnShadowMap0 = tex2D( shadowMap, ShadowMap0_UV );
    float fvDepthFromLight0 = Input.PositionFromLight0.z / Input.PositionFromLight0.w;
-   bool bUnderShadow = ( fvDepthOnShadowMap0 < fvDepthFromLight0 );
+//   bool bUnderShadow       = ( fvDepthOnShadowMap0.r < fvDepthFromLight0 );
+   bool bUnderShadow       = true;
 
    float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
    
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
    float4 fvTotalDiffuse   = (bUnderShadow ? 0.1f : (fvDiffuse * fNDotL)) * fvBaseColor;
-   float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
+   float4 fvTotalSpecular  = (bUnderShadow ? 0.f : (fvSpecular * pow( fRDotV, fSpecularPower ) ) );
    
    return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
 }
