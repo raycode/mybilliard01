@@ -16,7 +16,7 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
     assert( bPhys );
 
     initCamera( CAMERA0, NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
-    initLight( LIGHT0, NxVec3( -13.f, 10.f, 140.f ), NxVec3( 0.f, -0.090536f, -0.995893f ) );
+    initLight( LIGHT0, NxVec3( -13.f, -10.f, 140.f ), NxVec3( 0.f, 0.090536f, -0.995893f ) );
     initSound();
     initPhys();
     initVisualOnlyObjects();
@@ -161,7 +161,6 @@ void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory
     scene_->setRenderFactory( renderFactory );
     getActiveCamera()->setAspect( (float) width / (float) height );
     resetEffectProjection();
-    resetSharedVariables();
 }
 
 void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory )
@@ -193,10 +192,6 @@ void MyRenderEventListenerImp::resetEffectProjection()
         EffectShaderFeeder * const feeder = (EffectShaderFeeder *) (actor->userData);
         feeder->updateProjection( getActiveCamera()->getProjectionMatrix() );
     }
-}
-
-void MyRenderEventListenerImp::resetSharedVariables() {
-    getSharedVariable( L"shadow_Tex" )->setTexture( shadowRenderTarget_->getTexture() );
 }
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
