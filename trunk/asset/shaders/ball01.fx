@@ -96,7 +96,7 @@ float4 fvDiffuse
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.64, 0.64, 0.61, 1.00 );
+> = float4( 0.97, 0.96, 0.93, 1.00 );
 float fSpecularPower
 <
    string UIName = "fSpecularPower";
@@ -104,7 +104,7 @@ float fSpecularPower
    bool UIVisible =  true;
    float UIMin = 1.00;
    float UIMax = 100.00;
-> = float( 32.00 );
+> = float( 64.00 );
 texture base_Tex
 <
    string ResourceName = "..\\textures\\poolb1.jpg";
@@ -142,7 +142,7 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    
    float4 fvBaseColor            = tex2D( baseMap, Input.Texcoord );
    
-   return ( fvAmbient + diffuseAttn * fvDiffuse + specularAttn * fvSpecular ) * fvBaseColor;
+   return ( fvAmbient + diffuseAttn * fvDiffuse ) * fvBaseColor + specularAttn * fvSpecular;
 }
 
 

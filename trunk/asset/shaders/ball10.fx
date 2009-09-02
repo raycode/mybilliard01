@@ -30,7 +30,7 @@ shared float4 Light0_Position
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
-> = float4( 0.00, 0.00, -400.00, 1.00 );
+> = float4( 0.00, 400.00, 0.00, 1.00 );
 shared float4 fvEyePosition : ViewPosition;
 shared float4x4 matView : View;
 float4x4 matWorldViewProjection : WorldViewProjection;
@@ -84,7 +84,7 @@ float4 fvAmbient
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.77, 0.76, 0.76, 1.00 );
+> = float4( 0.27, 0.26, 0.26, 1.00 );
 float4 fvSpecular
 <
    string UIName = "fvSpecular";
@@ -96,7 +96,7 @@ float4 fvDiffuse
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.89, 0.88, 0.85, 1.00 );
+> = float4( 0.70, 0.69, 0.66, 1.00 );
 float fSpecularPower
 <
    string UIName = "fSpecularPower";
