@@ -4,7 +4,7 @@ namespace my_render_win32_dx9_imp {
 
 class RenderTargetDX9Imp : IMPLEMENTS_INTERFACE( RenderTargetDX9 ) {
 public: // from RenderTarget
-    virtual bool display( Render * render, RenderTargetCallBack * ) OVERRIDE;
+    virtual bool displayOnRenderTarget( Render * render, RenderTargetCallBack * ) OVERRIDE;
 
     virtual Texture * getTexture() OVERRIDE;
 

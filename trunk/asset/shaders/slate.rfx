@@ -915,7 +915,7 @@
       <RmRegistryBranch NAME="Effect Workspace.slate" API="" XML_VERSION="RenderMonkey 1.71">
        <RmRegistryBranch NAME="Disassembly" API="" XML_VERSION="RenderMonkey 1.71"/>
        <RmStringVariable NAME="Editing Shader" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-Pixel Shader]]></RmTextDataBlock></RmStringVariable>
+Vertex Shader]]></RmTextDataBlock></RmStringVariable>
        <RmStringVariable NAME="Editing Pass" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 Pass 0]]></RmTextDataBlock></RmStringVariable>
        <RmIntegerVariable NAME="Y" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="22" MIN="-10" MAX="10" CLAMP="FALSE"/>
@@ -1025,7 +1025,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-2/9/2009 1:10:34]]></RmTextDataBlock></RmStringVariable>
+2/9/2009 2:29:22]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1067,7 +1067,7 @@ float4x4 matWorld;
 float4x4 matWorldView;
 
 shared float4 Light0_Position;
-shared float4x4 Light0_WorldLightProjection;
+float4x4 Light0_WorldLightProjection;
 
 struct VS_INPUT 
 {

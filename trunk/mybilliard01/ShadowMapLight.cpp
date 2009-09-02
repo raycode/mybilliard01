@@ -3,18 +3,21 @@
 
 
 ShadowMapLight::ShadowMapLight( float zNear, float zFar, bool bRightHand, NxVec3 pos, NxVec3 dir, NxVec3 up, wstring effectFilename )
-: CameraMatrixImp( projectionOnlyCamera_ = new CameraImp(), bRightHand )
+: projectionOnlyCamera_( new CameraImp() )
 , effectFilename_( effectFilename )
 {
+
+    cameraMatrix_ = CameraMatrixPtr( new CameraMatrixImp( projectionOnlyCamera_.get(), bRightHand ) );
+
     projectionOnlyCamera_->setAsPerspective( true );
     CameraPerspective * const perspective = projectionOnlyCamera_->getPerspectiveCamera();
     perspective->setZNear( zNear );
     perspective->setZFar( zFar );
 
-    setPosition( pos );
-    setDirectionVector( dir );
-    setUpVector( up );
-    setRightVector( dir.cross( up ) );
+    cameraMatrix_->setPosition( pos );
+    cameraMatrix_->setDirectionVector( dir );
+    cameraMatrix_->setUpVector( up );
+    cameraMatrix_->setRightVector( dir.cross( up ) );
 }
 
 void ShadowMapLight::resetRenderBufferFactory( RenderBufferFactory * renderFactory, const NodeMap * whoDrawShadow )
@@ -37,17 +40,24 @@ void ShadowMapLight::resetRenderBufferFactory( RenderBufferFactory * renderFacto
 
 void ShadowMapLight::updateMatrix()
 {
-    const RowMajorMatrix44f matrixView = getViewMatrix();
-    const RowMajorMatrix44f matrixProjectionView = getProjectionMatrix() * matrixView;
-    shadowFeeder_->updateMatrix( getPosition(), getDirectionVector(), matrixView, matrixProjectionView );
+    const RowMajorMatrix44f matrixView = cameraMatrix_->getViewMatrix();
+    const RowMajorMatrix44f matrixProjectionView = cameraMatrix_->getProjectionMatrix() * matrixView;
+    shadowFeeder_->updateMatrix( cameraMatrix_->getPosition(), cameraMatrix_->getDirectionVector(), matrixView, matrixProjectionView );
 }
 
 void ShadowMapLight::renderShadowMap( Render * render ) {
-    shadowCallBack_->drawOnRenderTarget( render );
-    //shadowRenderTarget_->drawOnRenderTarget( render, shadowCallBack_.get() );
+    //shadowCallBack_->displayOnRenderTarget( render );
+    shadowRenderTarget_->displayOnRenderTarget( render, shadowCallBack_.get() );
 }
 
 Texture * ShadowMapLight::getRenderTarget() {
     return shadowRenderTarget_->getTexture();
 }
 
+NxVec3 ShadowMapLight::getPosition() {
+    return cameraMatrix_->getPosition();
+}
+
+RowMajorMatrix44f ShadowMapLight::getProjectionViewMatrix() {
+    return cameraMatrix_->getProjectionViewMatrix();
+}

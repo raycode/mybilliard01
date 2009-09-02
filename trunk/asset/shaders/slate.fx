@@ -37,7 +37,7 @@ shared float4 Light0_Position
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
 > = float4( 0.00, 0.00, -400.00, 1.00 );
-shared float4x4 Light0_WorldLightProjection
+float4x4 Light0_WorldLightProjection
 <
    string UIName = "Light0_WorldLightProjection";
    string UIWidget = "Numeric";

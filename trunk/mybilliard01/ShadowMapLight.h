@@ -1,10 +1,7 @@
 #pragma once
 
 
-class ShadowMapLight
-    : public CameraMatrixImp
-    , IMPLEMENTS_INTERFACE( CameraMatrix )
-{
+class ShadowMapLight {
 public:
     typedef map< NxActor *, Node * > NodeMap;
 
@@ -18,11 +15,16 @@ public:
 
     Texture * getRenderTarget();
 
+    NxVec3 getPosition();
+
+    RowMajorMatrix44f getProjectionViewMatrix();
+
 public:
     ShadowMapLight( float zNear, float zFar, bool bRightHand, NxVec3 pos, NxVec3 dir, NxVec3 up, wstring effectFilename );
 
 private:
-    CameraImp * projectionOnlyCamera_;
+    CameraMatrixPtr cameraMatrix_;
+    CameraImpPtr projectionOnlyCamera_;
     wstring effectFilename_;
 
 private:

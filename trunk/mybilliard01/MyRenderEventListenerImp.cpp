@@ -239,8 +239,20 @@ void MyRenderEventListenerImp::updateEffect( float elapsedTime )
 
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
+        RowMajorMatrix44f matrixWorld;
+        actor->getGlobalPose().getRowMajor44( matrixWorld );
+
         EffectShaderFeeder * const feeder = (EffectShaderFeeder *) (actor->userData);
-        feeder->updateMatrix( actor, position, direction, matrixView, matrixProjectionView );
+        feeder->updateCameraMatrix( position, direction, matrixWorld, matrixView, matrixProjectionView );
+
+        for( size_t j = 0; j < SIZE_OF_LIGHT_ENUM; ++j )
+        {
+            wstringstream lightVariableName;
+            lightVariableName << L"Light" << j << L"_WorldLightProjection";
+            const RowMajorMatrix44f matrixProjectionLightWorld = shadowMaps_[ j ]->getProjectionViewMatrix() * matrixWorld;
+
+            feeder->updateMatrix( lightVariableName.str(), matrixProjectionLightWorld );
+        }
     }
 }
 
@@ -274,7 +286,7 @@ void MyRenderEventListenerImp::display( Render * render ) {
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
 
     preDisplay( render );
-//    onDisplay( render );
+    onDisplay( render );
     postDisplay( render );
 
     DXUT_EndPerfEvent();
