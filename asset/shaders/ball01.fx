@@ -30,7 +30,7 @@ shared float4 Light0_Position
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
-> = float4( 0.00, 0.00, -400.00, 1.00 );
+> = float4( 0.00, 4000.00, 0.00, 1.00 );
 shared float4 fvEyePosition : ViewPosition;
 shared float4x4 matView : View;
 float4x4 matWorldViewProjection : WorldViewProjection;
@@ -84,19 +84,19 @@ float4 fvAmbient
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.77, 0.76, 0.76, 1.00 );
+> = float4( 0.19, 0.19, 0.19, 1.00 );
 float4 fvSpecular
 <
    string UIName = "fvSpecular";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.49, 0.49, 0.49, 1.00 );
+> = float4( 0.72, 0.72, 0.72, 1.00 );
 float4 fvDiffuse
 <
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.89, 0.88, 0.85, 1.00 );
+> = float4( 0.64, 0.64, 0.61, 1.00 );
 float fSpecularPower
 <
    string UIName = "fSpecularPower";
@@ -104,7 +104,7 @@ float fSpecularPower
    bool UIVisible =  true;
    float UIMin = 1.00;
    float UIMax = 100.00;
-> = float( 25.00 );
+> = float( 32.00 );
 texture base_Tex
 <
    string ResourceName = "..\\textures\\poolb1.jpg";
@@ -130,21 +130,19 @@ struct PS_INPUT
 
 float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
-   float3 fvLightDirection = normalize( Input.LightDirection );
-   float3 fvNormal         = normalize( Input.Normal );
-   float  fNDotL           = dot( fvNormal, fvLightDirection ); 
+   const float3 lightDirection   = normalize( Input.LightDirection );
+   const float3 normal           = normalize( Input.Normal );
+   const float  N_Dot_L          = dot( normal, lightDirection ); 
+   const float  diffuseAttn      = clamp( N_Dot_L, 0.f, 1.f );
+
+   const float3 reflection       = normalize( ( ( 2.f * normal ) * ( N_Dot_L ) ) - lightDirection ); 
+   const float3 viewDirection    = normalize( Input.ViewDirection );
+   const float  R_Dot_V          = dot( reflection, viewDirection );
+   const float  specularAttn     = pow( clamp( R_Dot_V, 0.00001f, 1.f ), fSpecularPower );
    
-   float3 fvReflection     = normalize( ( ( 2.0f * fvNormal ) * ( fNDotL ) ) - fvLightDirection ); 
-   float3 fvViewDirection  = normalize( Input.ViewDirection );
-   float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
+   float4 fvBaseColor            = tex2D( baseMap, Input.Texcoord );
    
-   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
-   
-   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
-   float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
-   float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
-   
-   return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
+   return ( fvAmbient + diffuseAttn * fvDiffuse + specularAttn * fvSpecular ) * fvBaseColor;
 }
 
 

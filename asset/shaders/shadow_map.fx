@@ -55,10 +55,10 @@ float4 Shadow_Map_Pass_0_Pixel_Shader_ps_main( float1 inDepth: TEXCOORD0 ) : COL
     // Output the depth as computed by
     // the vertex shader
     float4 Depth;
-    Depth.w = 1.0;
-    Depth.x = floor( inDepth.x * 127 ) / 127;
-    Depth.y = floor( ( inDepth.x - Depth.x ) * 127 * 127 ) / 127;
-    Depth.z = 0;
+    Depth.a = 1.f;
+    Depth.r = floor( inDepth[ 0 ] * 127.f ) / 127.f;
+    Depth.g = floor( ( inDepth[ 0 ] - Depth.r ) * 127.f * 127.f ) / 127.f;
+    Depth.b = 0.f;
     return Depth;
 }
 
