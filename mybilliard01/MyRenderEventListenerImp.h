@@ -61,10 +61,11 @@ private: // init
     void initPhysBallPosition( NxActor * actor );
 
 private: // reset
+    void resetShadowMap( RenderBufferFactory * );
     void resetEffect( RenderBufferFactory * renderFactory );
-    void resetEffectProjection();
 
 private: // update
+    void updateProjection( float aspect );
     void updateLight();
     void updateEffect( float elapsedTime );
     void updateStickPosition();
@@ -80,7 +81,6 @@ private: // reset
     void resetBall( NxActor * ball );
 
 private: // effect
-    void createShadowMap( RenderBufferFactory * );
     EffectShaderFeeder * createEffectFeeder( Node *, RenderBufferFactory * );
     void createSharedVariableFeeder();
     void findSharedVariables( EffectShader * effect);
@@ -116,12 +116,9 @@ private: // visual only
     enum { VISUAL_BACKGROUND, VISUAL_STICK, SIZE_OF_VISUAL_OBJECTS };
     Node * visualOnlyObjects_[ SIZE_OF_VISUAL_OBJECTS ];
 
-private: // camera and light matrix
+private: // camera
     enum { CAMERA0, SIZE_OF_CAMERA_ENUM };
     MyCameraPtr cameras_[ SIZE_OF_CAMERA_ENUM ];
-
-    enum { LIGHT0, SIZE_OF_LIGHT_ENUM };
-    CameraMatrixPtr lights_[ SIZE_OF_LIGHT_ENUM ];
 
 private: // keyboard input
     bool bPaused_;
@@ -140,10 +137,9 @@ private: // effect
     typedef map< wstring, ShaderVariablePtr > SharedVariables;
     SharedVariables sharedVariables_;
 
-private: // shadow
-    RenderTarget * shadowRenderTarget_;
-    GlobalEffectShaderFeederPtr shadowFeeder_;
-    MyShadowCallBackPtr shadowCallBack_;
+private: // shadow map
+    enum { LIGHT0, SIZE_OF_LIGHT_ENUM };
+    ShadowMapLightPtr shadowMaps_[ SIZE_OF_LIGHT_ENUM ];
 
 private: // for random numbers
     mt19937 randomEngine;

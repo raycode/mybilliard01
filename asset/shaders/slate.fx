@@ -59,7 +59,7 @@ struct VS_OUTPUT
    float3 ViewDirection :      TEXCOORD1;
    float3 LightDirection :     TEXCOORD2;
    float3 Normal :             TEXCOORD3;
-   float4 PositionFromLight0 : TEXCOORD4;   
+   float3 PositionFromLight0 : TEXCOORD4;   
 };
 
 VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -81,7 +81,7 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    Output.Normal           = mul( fvNormal, matWorldView );
    
    float4 posFromLight0    = mul( Input.Position, Light0_WorldLightProjection );
-   Output.PositionFromLight0 = posFromLight0;
+   Output.PositionFromLight0.xyz = (posFromLight0.xyz / posFromLight0.w);
    
    return( Output );
    
@@ -95,9 +95,26 @@ float4 fvAmbient
    string UIWidget = "Color";
    bool UIVisible =  true;
 > = float4( 0.77, 0.76, 0.76, 1.00 );
-float4 fvSpecular;
-float4 fvDiffuse;
-float fSpecularPower;
+float4 fvSpecular
+<
+   string UIName = "fvSpecular";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.49, 0.49, 0.49, 1.00 );
+float4 fvDiffuse
+<
+   string UIName = "fvDiffuse";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.89, 0.88, 0.85, 1.00 );
+float fSpecularPower
+<
+   string UIName = "fSpecularPower";
+   string UIWidget = "Numeric";
+   bool UIVisible =  true;
+   float UIMin = 1.00;
+   float UIMax = 100.00;
+> = float( 25.00 );
 texture base_Tex
 <
    string ResourceName = "..\\textures\\green.jpg";
@@ -111,7 +128,14 @@ sampler2D baseMap = sampler_state
    MAGFILTER = LINEAR;
    MIPFILTER = LINEAR;
 };
-sampler2D shadowMap;
+texture shadow0_Tex
+<
+   string ResourceName = "..\\textures\\shadow_map_captured.png";
+>;
+sampler2D shadowMap0 = sampler_state
+{
+   Texture = (shadow0_Tex);
+};
 
 struct PS_INPUT 
 {
@@ -119,7 +143,7 @@ struct PS_INPUT
    float3 ViewDirection :      TEXCOORD1;
    float3 LightDirection:      TEXCOORD2;
    float3 Normal :             TEXCOORD3;
-   float4 PositionFromLight0 : TEXCOORD4;   
+   float3 PositionFromLight0 : TEXCOORD4;   
 };
 
 float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
@@ -132,19 +156,17 @@ float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
 
-   float2 ShadowMap0_UV;
-   ShadowMap0_UV.xy        = (Input.PositionFromLight0.xy / Input.PositionFromLight0.w) / 2.f + 0.5;
-
-   float4 fvDepthOnShadowMap0 = tex2D( shadowMap, ShadowMap0_UV );
-   float fvDepthFromLight0 = Input.PositionFromLight0.z / Input.PositionFromLight0.w;
-//   bool bUnderShadow       = ( fvDepthOnShadowMap0.r < fvDepthFromLight0 );
-   bool bUnderShadow       = true;
-
    float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
    
+   float4 colorOnShadowMap0 = tex2D( shadowMap0, Input.PositionFromLight0.xy );
+   float depthOnShadowMap0 = colorOnShadowMap0.r
+                              + colorOnShadowMap0.g/127
+                              + colorOnShadowMap0.b / ( 127 * 127 );
+   float fUnderShadow      = ( Input.PositionFromLight0.z > depthOnShadowMap0 ) ? 0.1f : 1.f;
+
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
-   float4 fvTotalDiffuse   = (bUnderShadow ? 0.1f : (fvDiffuse * fNDotL)) * fvBaseColor;
-   float4 fvTotalSpecular  = (bUnderShadow ? 0.f : (fvSpecular * pow( fRDotV, fSpecularPower ) ) );
+   float4 fvTotalDiffuse   = ( fvDiffuse * fNDotL * fUnderShadow ) * fvBaseColor;
+   float4 fvTotalSpecular  = ( fvSpecular * pow( fRDotV, fSpecularPower ) ) * fUnderShadow;
    
    return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
 }

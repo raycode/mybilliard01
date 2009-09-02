@@ -363,6 +363,14 @@
 						RelativePath=".\ShadowMapEffectShaderFeeder.h"
 						>
 					</File>
+					<File
+						RelativePath=".\ShadowMapLight.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\ShadowMapLight.h"
+						>
+					</File>
 				</Filter>
 			</Filter>
 			<Filter

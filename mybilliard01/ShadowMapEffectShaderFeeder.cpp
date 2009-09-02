@@ -6,6 +6,7 @@ ShadowMapEffectShaderFeeder::ShadowMapEffectShaderFeeder( EffectShader * effect 
 : effect_( effect )
 , matWVP_( effect->createVariableByName( L"Light0_WorldLightProjection" ) )
 {
+    assert( matWVP_ );
 }
 
 void ShadowMapEffectShaderFeeder::display( NxActor * actor )

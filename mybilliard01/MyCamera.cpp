@@ -2,8 +2,8 @@
 #include "my_app.h"
 
 
-MyCamera::MyCamera( Camera * cameraCollada, MyPhysX * phys, BilliardControl * billiardControl,
-                   NxVec3 initPosition, NxVec3 direction, bool bRightHand )
+MyCamera::MyCamera( Camera * cameraCollada, bool bRightHand,
+                   MyPhysX * phys, BilliardControl * billiardControl, NxVec3 initPosition, NxVec3 direction )
 : CameraMatrixImp( cameraCollada, bRightHand )
 , colladaCamera_( cameraCollada )
 , bConstrainMovementToHeight_( false )

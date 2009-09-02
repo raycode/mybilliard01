@@ -32,39 +32,35 @@ struct VS_INPUT
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
-   float4 Depth :           TEXCOORD0;   
+   float1 Depth :           TEXCOORD0;   
 };
 
 VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
-   float4 pos = mul( Input.Position, Light0_WorldLightProjection );
+   float4 pos      = mul( Input.Position, Light0_WorldLightProjection );
 
    Output.Position = pos;
-   Output.Position.xy = (pos.xy / 2.f) + 0.5f;
 
-   Output.Depth = pos.z / pos.w;
+   Output.Depth    = pos.z / pos.w;
 
    return( Output );
    
 }
 
 
-struct PS_INPUT 
+float4 Shadow_Map_Pass_0_Pixel_Shader_ps_main( float1 inDepth: TEXCOORD0 ) : COLOR0
 {
-   float4 Depth :        TEXCOORD0;
-};
-
-float4 Shadow_Map_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
-{
-   float4 Output;
-   Output.rgb = Input.Depth.x;
-   Output.a = 1.f;
-   return Output;
+    // Output the depth as computed by
+    // the vertex shader
+    float4 Depth;
+    Depth.w = 1.0;
+    Depth.x = floor( inDepth.x * 127 ) / 127;
+    Depth.y = floor( ( inDepth.x - Depth.x ) * 127 * 127 ) / 127;
+    Depth.z = 0;
+    return Depth;
 }
-
-
 
 //--------------------------------------------------------------//
 // Technique Section for Shadow Map
