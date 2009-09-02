@@ -1005,7 +1005,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-1/9/2009 15:17:18]]></RmTextDataBlock></RmStringVariable>
+2/9/2009 0:40:43]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1016,7 +1016,7 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
    </RmRegistryBranch>
   </RmRegistryBranch>
   <RmDirectXEffect NAME="Shadow Map" API="D3D" ACTIVE_CAMERA="">
-   <RmMatrixVariable NAME="Light0_WorldLightProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldViewProjection" VALUE_0="0.998580" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="2.414214" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.001001" VALUE_11="197.273163" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="1.000000" VALUE_15="198.075897"/>
+   <RmMatrixVariable NAME="Light0_WorldLightProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldViewProjection" VALUE_0="0.998580" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="2.414214" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.001001" VALUE_11="157.425949" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="1.000000" VALUE_15="158.268524"/>
    <RmStreamMap NAME="Stream Mapping" API="">
     <RmStream NAME="Stream" API="" STRIDE="32">
      <RmStreamChannel NAME="Position_0" API="" DATA_SIZE="12" DATA_TYPE="2" REGISTER="0" USAGE="0" USAGE_INDEX="0" ATTRIBUTE_NAME="rm_Vertex"/>
@@ -1038,19 +1038,18 @@ struct VS_INPUT
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
-   float4 Depth :           TEXCOORD0;   
+   float1 Depth :           TEXCOORD0;   
 };
 
 VS_OUTPUT vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
-   float4 pos = mul( Input.Position, Light0_WorldLightProjection );
+   float4 pos      = mul( Input.Position, Light0_WorldLightProjection );
 
    Output.Position = pos;
-   Output.Position.xy = (pos.xy / 2.f) + 0.5f;
 
-   Output.Depth = pos.z / pos.w;
+   Output.Depth    = pos.z / pos.w;
 
    return( Output );
    
@@ -1060,20 +1059,17 @@ VS_OUTPUT vs_main( VS_INPUT Input )
      <RmShaderConstant NAME="Light0_WorldLightProjection" API="" REGISTER="0"/>
     </RmHLSLShader>
     <RmHLSLShader NAME="Pixel Shader" API="D3D" PIXEL_SHADER="TRUE" TARGET="ps_2_0" ENTRY_POINT="ps_main" COMPILER_FLAGS="0"><RmShaderCode TYPE="TEXT"><![CDATA[
-struct PS_INPUT 
+float4 ps_main( float1 inDepth: TEXCOORD0 ) : COLOR0
 {
-   float4 Depth :        TEXCOORD0;
-};
-
-float4 ps_main( PS_INPUT Input ) : COLOR0
-{
-   float4 Output;
-   Output.rgb = Input.Depth.x;
-   Output.a = 1.f;
-   return Output;
+    // Output the depth as computed by
+    // the vertex shader
+    float4 Depth;
+    Depth.w = 1.0;
+    Depth.x = floor( inDepth.x * 127 ) / 127;
+    Depth.y = floor( ( inDepth.x - Depth.x ) * 127 * 127 ) / 127;
+    Depth.z = 0;
+    return Depth;
 }
-
-
 ]]></RmShaderCode></RmHLSLShader>
     <RmStreamMapReference NAME="Stream Mapping" API=""/>
    </RmPass>

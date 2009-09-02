@@ -2,24 +2,6 @@
 #include "my_app.h"
 
 
-void MyRenderEventListenerImp::createShadowMap( RenderBufferFactory * renderFactory ) {
-    const wstring filename = ConstString::shadowMapEffectShaderFilename();
-    EffectShader * const effect = renderFactory->createEffectShader( filename );
-    assert( effect );
-    if( NULL == effect ) return;
-
-    shadowRenderTarget_ = renderFactory->createRenderTarget( 256, 256 );
-    assert( NULL != shadowRenderTarget_ );
-
-    ShadowMapEffectShaderFeeder * const feeder =  new ShadowMapEffectShaderFeeder( effect );
-    assert( NULL != feeder );
-
-    shadowCallBack_ = MyShadowCallBackPtr( new MyShadowCallBack( feeder, &(actorGroup_[ ACTORS_BALL ]), & nodeMap_ ) );
-    feeder->addEffectCallBack( shadowCallBack_.get() );
-
-    shadowFeeder_ = GlobalEffectShaderFeederPtr( feeder );
-}
-
 EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, RenderBufferFactory * renderFactory )
 {
     if( NULL == node ) return & nullToRender_;
@@ -32,8 +14,12 @@ EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( Node * node, 
 
     EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( node, effect ) );
 
-    if( effect->hasVariableByName( L"shadow_Tex" ) )
-        effect->createVariableByName( L"shadow_Tex" )->setTexture( shadowRenderTarget_->getTexture() );
+    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i ) {
+        wstringstream shadowTexName;
+        shadowTexName << L"shadow" << i << L"_Tex";
+        if( effect->hasVariableByName( shadowTexName.str() ) )
+            effect->createVariableByName( shadowTexName.str() )->setTexture( shadowMaps_[ i ]->getRenderTarget() );
+    }
 
     findSharedVariables( effect );
 

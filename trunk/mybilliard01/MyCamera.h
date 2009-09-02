@@ -9,7 +9,7 @@ public: // from CameraMatrix
     virtual void setPosition( const NxVec3 & newPosition ) OVERRIDE;
 
 public:
-    MyCamera( Camera * colladaCamera, MyPhysX * phys, BilliardControl * billiardControl, NxVec3 initPosition, NxVec3 direction, bool bRightHand );
+    MyCamera( Camera * colladaCamera, bool bRightHand, MyPhysX * phys, BilliardControl * billiardControl, NxVec3 initPosition, NxVec3 direction );
 
     void setAspect( float aspectRatio );
 

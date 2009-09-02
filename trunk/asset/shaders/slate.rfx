@@ -1025,7 +1025,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-1/9/2009 17:56:39]]></RmTextDataBlock></RmStringVariable>
+2/9/2009 1:10:34]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1048,7 +1048,7 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
    <RmColorVariable NAME="fvDiffuse" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.886275" VALUE_1="0.875996" VALUE_2="0.845159" VALUE_3="1.000000"/>
    <RmColorVariable NAME="fvSpecular" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.490196" VALUE_1="0.488722" VALUE_2="0.488722" VALUE_3="1.000000"/>
    <Rm2DTextureVariable NAME="base" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" FILE_NAME="..\textures\green.jpg" ORIGIN="0"/>
-   <Rm2DTextureVariable NAME="shadow" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\textures\shadow_map_captured.bmp" ORIGIN="0"/>
+   <Rm2DTextureVariable NAME="shadow0" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\textures\shadow_map_captured.png" ORIGIN="0"/>
    <RmStreamMap NAME="Stream Mapping" API="">
     <RmStream NAME="Stream" API="" STRIDE="32">
      <RmStreamChannel NAME="Position_0" API="" DATA_SIZE="12" DATA_TYPE="2" REGISTER="0" USAGE="0" USAGE_INDEX="0" ATTRIBUTE_NAME="rm_Vertex"/>
@@ -1084,7 +1084,7 @@ struct VS_OUTPUT
    float3 ViewDirection :      TEXCOORD1;
    float3 LightDirection :     TEXCOORD2;
    float3 Normal :             TEXCOORD3;
-   float4 PositionFromLight0 : TEXCOORD4;   
+   float3 PositionFromLight0 : TEXCOORD4;   
 };
 
 VS_OUTPUT vs_main( VS_INPUT Input )
@@ -1106,7 +1106,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    Output.Normal           = mul( fvNormal, matWorldView );
    
    float4 posFromLight0    = mul( Input.Position, Light0_WorldLightProjection );
-   Output.PositionFromLight0 = posFromLight0;
+   Output.PositionFromLight0.xyz = (posFromLight0.xyz / posFromLight0.w);
    
    return( Output );
    
@@ -1128,7 +1128,7 @@ float4 fvSpecular;
 float4 fvDiffuse;
 float fSpecularPower;
 sampler2D baseMap;
-sampler2D shadowMap;
+sampler2D shadowMap0;
 
 struct PS_INPUT 
 {
@@ -1136,7 +1136,7 @@ struct PS_INPUT
    float3 ViewDirection :      TEXCOORD1;
    float3 LightDirection:      TEXCOORD2;
    float3 Normal :             TEXCOORD3;
-   float4 PositionFromLight0 : TEXCOORD4;   
+   float3 PositionFromLight0 : TEXCOORD4;   
 };
 
 float4 ps_main( PS_INPUT Input ) : COLOR0
@@ -1149,19 +1149,17 @@ float4 ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
 
-   float2 ShadowMap0_UV;
-   ShadowMap0_UV.xy        = (Input.PositionFromLight0.xy / Input.PositionFromLight0.w) / 2.f + 0.5;
-
-   float4 fvDepthOnShadowMap0 = tex2D( shadowMap, ShadowMap0_UV );
-   float fvDepthFromLight0 = Input.PositionFromLight0.z / Input.PositionFromLight0.w;
-//   bool bUnderShadow       = ( fvDepthOnShadowMap0.r < fvDepthFromLight0 );
-   bool bUnderShadow       = true;
-
    float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
    
+   float4 colorOnShadowMap0 = tex2D( shadowMap0, Input.PositionFromLight0.xy );
+   float depthOnShadowMap0 = colorOnShadowMap0.r
+                              + colorOnShadowMap0.g/127
+                              + colorOnShadowMap0.b / ( 127 * 127 );
+   float fUnderShadow      = ( Input.PositionFromLight0.z > depthOnShadowMap0 ) ? 0.1f : 1.f;
+
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
-   float4 fvTotalDiffuse   = (bUnderShadow ? 0.1f : (fvDiffuse * fNDotL)) * fvBaseColor;
-   float4 fvTotalSpecular  = (bUnderShadow ? 0.f : (fvSpecular * pow( fRDotV, fSpecularPower ) ) );
+   float4 fvTotalDiffuse   = ( fvDiffuse * fNDotL * fUnderShadow ) * fvBaseColor;
+   float4 fvTotalSpecular  = ( fvSpecular * pow( fRDotV, fSpecularPower ) ) * fUnderShadow;
    
    return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
 }
@@ -1169,7 +1167,11 @@ float4 ps_main( PS_INPUT Input ) : COLOR0
 
 ]]></RmShaderCode>
      <RmSampler NAME="baseMap" API="" REGISTER="0"/>
+     <RmSampler NAME="shadowMap0" API="" REGISTER="1"/>
      <RmShaderConstant NAME="fvAmbient" API="" REGISTER="0"/>
+     <RmShaderConstant NAME="fvDiffuse" API="" REGISTER="2"/>
+     <RmShaderConstant NAME="fvSpecular" API="" REGISTER="1"/>
+     <RmShaderConstant NAME="fSpecularPower" API="" REGISTER="3"/>
     </RmHLSLShader>
     <RmStreamMapReference NAME="Stream Mapping" API=""/>
     <RmTextureObject NAME="baseMap" API="D3D" STATE_INDEX="0" VERTEX_TEXTURE="FALSE">
@@ -1180,8 +1182,8 @@ float4 ps_main( PS_INPUT Input ) : COLOR0
      <RmState NAME="D3DSAMP_MAGFILTER" API="D3D" STATE="5" VALUE="2" USAGE="SAMPLER_STATE"/>
      <RmState NAME="D3DSAMP_MIPFILTER" API="D3D" STATE="7" VALUE="2" USAGE="SAMPLER_STATE"/>
     </RmTextureObject>
-    <RmTextureObject NAME="shadowMap" API="D3D" STATE_INDEX="1" VERTEX_TEXTURE="FALSE">
-     <RmTextureReference NAME="shadow" API=""/>
+    <RmTextureObject NAME="shadowMap0" API="D3D" STATE_INDEX="1" VERTEX_TEXTURE="FALSE">
+     <RmTextureReference NAME="shadow0" API=""/>
     </RmTextureObject>
    </RmPass>
   </RmDirectXEffect>

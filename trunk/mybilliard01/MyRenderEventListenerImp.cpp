@@ -24,15 +24,12 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 
 void MyRenderEventListenerImp::initCamera( size_t index, NxVec3 pos, NxVec3 dir ) {
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    cameras_[ index ] = MyCameraPtr( new MyCamera( colladaCamera, phys_.get(), this, pos, dir, false ) );
+    cameras_[ index ] = MyCameraPtr( new MyCamera( colladaCamera, false, phys_.get(), this, pos, dir ) );
     cameras_[ index ]->setMovementToFixedHeight( pos.z );
 }
 
 void MyRenderEventListenerImp::initLight( size_t index, NxVec3 pos, NxVec3 dir ) {
-    Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    lights_[ index ] = CameraMatrixPtr( new CameraMatrixImp( colladaCamera, false ) );
-    lights_[ index ]->setPosition( pos );
-    lights_[ index ]->setDirectionVector( dir );
+    shadowMaps_[ index ] = ShadowMapLightPtr( new ShadowMapLight( 100.f, 200.f, false, pos, dir, NxVec3( 0.f, 0.f, 1.f ), ConstString::shadowMapEffectShaderFilename() ) );
 }
 
 bool MyRenderEventListenerImp::isActorBall( NxActor * actor ) {
@@ -157,16 +154,14 @@ void MyRenderEventListenerImp::init()
 }
 
 void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory, int x, int y, int width, int height ) {
+    resetShadowMap( renderFactory );
     resetEffect( renderFactory );
     scene_->setRenderFactory( renderFactory );
-    getActiveCamera()->setAspect( (float) width / (float) height );
-    resetEffectProjection();
+    updateProjection( (float) width / (float) height );
 }
 
 void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory )
 {
-    createShadowMap( renderFactory );
-
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
 
@@ -181,11 +176,19 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory 
     createSharedVariableFeeder();
 }
 
-void MyRenderEventListenerImp::resetEffectProjection()
+void MyRenderEventListenerImp::resetShadowMap( RenderBufferFactory * renderFactory ) {
+    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
+        shadowMaps_[ i ]->resetRenderBufferFactory( renderFactory, & nodeMap_ );
+}
+
+void MyRenderEventListenerImp::updateProjection( float aspect )
 {
+    getActiveCamera()->setAspect( aspect );
+
     sharedVaribleFeeder_->updateProjection( getActiveCamera()->getProjectionMatrix() );
 
-    //shadowFeeder_->updateProjection( lights_[ LIGHT0 ]->getProjectionMatrix() );
+    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
+        shadowMaps_[ i ]->updateProjection( aspect );
 
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
         NxActor * const actor = phys_->getActor( i );
@@ -207,16 +210,15 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
 
 void MyRenderEventListenerImp::updateLight()
 {
-    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i ) {
-        const NxVec3 position = lights_[ i ]->getPosition();
-        const NxVec3 direction = lights_[ i ]->getDirectionVector();
-        const RowMajorMatrix44f matrixView = lights_[ i ]->getViewMatrix();
-        const RowMajorMatrix44f matrixProjectionView = lights_[ i ]->getProjectionMatrix() * matrixView;
+    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
+    {
+        shadowMaps_[ i ]->updateMatrix();
 
-        shadowFeeder_->updateMatrix( position, direction, matrixView, matrixProjectionView );
+        const NxVec3 position = shadowMaps_[ i ]->getPosition();
 
         wstringstream variableName;
         variableName << L"Light" << i << L"_Position";
+
         float tmp[ 4 ];
         tmp[ 0 ] = position.x;
         tmp[ 1 ] = position.y;
@@ -272,7 +274,7 @@ void MyRenderEventListenerImp::display( Render * render ) {
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
 
     preDisplay( render );
-    onDisplay( render );
+//    onDisplay( render );
     postDisplay( render );
 
     DXUT_EndPerfEvent();
@@ -280,7 +282,8 @@ void MyRenderEventListenerImp::display( Render * render ) {
 }   
 
 void MyRenderEventListenerImp::preDisplay( Render * render ) {
-    shadowRenderTarget_->display( render, shadowCallBack_.get() );
+    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
+        shadowMaps_[ i ]->renderShadowMap( render );
 }
 
 void MyRenderEventListenerImp::onDisplay( Render * render )
