@@ -25,8 +25,8 @@ string slate_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program
 shared float4 fvEyePosition : ViewPosition;
 shared float4x4 matView : View;
 float4x4 matWorldViewProjection : WorldViewProjection;
-float4x4 matWorld : World;
 float4x4 matWorldView : WorldView;
+float4x4 matWorld : World;
 
 shared float4 Light0_Position
 <
@@ -81,7 +81,8 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    Output.Normal           = mul( fvNormal, matWorldView );
    
    float4 posFromLight0    = mul( Input.Position, Light0_WorldLightProjection );
-   Output.PositionFromLight0.xyz = (posFromLight0.xyz / posFromLight0.w);
+   Output.PositionFromLight0.z = posFromLight0.z / posFromLight0.w;
+   Output.PositionFromLight0.xy = ( posFromLight0.xy / posFromLight0.w ) / 2.f + 0.5f;
    
    return( Output );
    
@@ -89,45 +90,12 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 
 
-float4 fvAmbient
-<
-   string UIName = "fvAmbient";
-   string UIWidget = "Color";
-   bool UIVisible =  true;
-> = float4( 0.77, 0.76, 0.76, 1.00 );
-float4 fvSpecular
-<
-   string UIName = "fvSpecular";
-   string UIWidget = "Color";
-   bool UIVisible =  true;
-> = float4( 0.49, 0.49, 0.49, 1.00 );
-float4 fvDiffuse
-<
-   string UIName = "fvDiffuse";
-   string UIWidget = "Color";
-   bool UIVisible =  true;
-> = float4( 0.89, 0.88, 0.85, 1.00 );
-float fSpecularPower
-<
-   string UIName = "fSpecularPower";
-   string UIWidget = "Numeric";
-   bool UIVisible =  true;
-   float UIMin = 1.00;
-   float UIMax = 100.00;
-> = float( 25.00 );
-texture base_Tex
-<
-   string ResourceName = "..\\textures\\green.jpg";
->;
-sampler2D baseMap = sampler_state
-{
-   Texture = (base_Tex);
-   ADDRESSU = WRAP;
-   ADDRESSV = WRAP;
-   MINFILTER = LINEAR;
-   MAGFILTER = LINEAR;
-   MIPFILTER = LINEAR;
-};
+float4 fvAmbient;
+float4 fvSpecular;
+float4 fvDiffuse;
+float fSpecularPower;
+float depthBias;
+sampler2D baseMap;
 texture shadow0_Tex
 <
    string ResourceName = "..\\textures\\shadow_map_captured.png";
@@ -135,6 +103,9 @@ texture shadow0_Tex
 sampler2D shadowMap0 = sampler_state
 {
    Texture = (shadow0_Tex);
+   MINFILTER = LINEAR;
+   MIPFILTER = LINEAR;
+   MAGFILTER = LINEAR;
 };
 
 struct PS_INPUT 
@@ -159,16 +130,22 @@ float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
    
    float4 colorOnShadowMap0 = tex2D( shadowMap0, Input.PositionFromLight0.xy );
-   float depthOnShadowMap0 = colorOnShadowMap0.r
-                              + colorOnShadowMap0.g/127
-                              + colorOnShadowMap0.b / ( 127 * 127 );
-   float fUnderShadow      = ( Input.PositionFromLight0.z > depthOnShadowMap0 ) ? 0.1f : 1.f;
+   float depthOnShadowMap0 = colorOnShadowMap0.r + colorOnShadowMap0.g / 127.f;
 
-   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
-   float4 fvTotalDiffuse   = ( fvDiffuse * fNDotL * fUnderShadow ) * fvBaseColor;
-   float4 fvTotalSpecular  = ( fvSpecular * pow( fRDotV, fSpecularPower ) ) * fUnderShadow;
+   float depthFromLight0   = ( floor( Input.PositionFromLight0.z * 127.f * 127.f ) / ( 127.f * 127.f ) );
+   return 1.f / (abs( depthFromLight0 - depthOnShadowMap0 ) * 100.f + 1.f);
+
    
-   return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
+//    return fvBaseColor / ( abs( depthOnShadowMap0 - depthFromLight0 ) + 1.f );
+
+//   float depthFromLight0   = ( floor( Input.PositionFromLight0.z * 127 * 127 ) / ( 127 * 127 ) ) + depthBias;
+//   float fUnderShadow      = ( depthFromLight0 > depthOnShadowMap0 ) ? 0.f : 1.f;
+
+//   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
+//   float4 fvTotalDiffuse   = ( fvDiffuse * fNDotL * fUnderShadow ) * fvBaseColor;
+//   float4 fvTotalSpecular  = ( fvSpecular * pow( fRDotV, fSpecularPower ) ) * fUnderShadow;
+   
+//   return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
 }
 
 
