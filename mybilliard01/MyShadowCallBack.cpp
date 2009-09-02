@@ -8,7 +8,7 @@ MyShadowCallBack::MyShadowCallBack( GlobalEffectShaderFeeder * feeder, const Nod
 {
 }
 
-void MyShadowCallBack::drawOnRenderTarget( Render * render )
+void MyShadowCallBack::displayOnRenderTarget( Render * render )
 {
     render->clear_Color_Z( PixelColor( 0.f, 0.f, 0.f, 0.f ), 1.f );
     render->setRenderState()->setWireframe()->setSolid();

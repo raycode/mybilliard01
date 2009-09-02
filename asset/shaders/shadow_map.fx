@@ -22,7 +22,7 @@
 //--------------------------------------------------------------//
 string Shadow_Map_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
-shared float4x4 Light0_WorldLightProjection : WorldViewProjection;
+float4x4 Light0_WorldLightProjection : WorldViewProjection;
 
 struct VS_INPUT 
 {

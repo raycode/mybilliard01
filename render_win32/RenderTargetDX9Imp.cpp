@@ -13,7 +13,7 @@ RenderTargetDX9Imp::RenderTargetDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t wid
     depthStensil_ = DepthStensilDX9Ptr( new DepthStensilDX9Imp( d3d9Device, width, height, false, D3DPOOL_DEFAULT ), ReleasableResourceDX9::Destroyer() );
 }
 
-bool RenderTargetDX9Imp::display( Render * render, RenderTargetCallBack * callBack )
+bool RenderTargetDX9Imp::displayOnRenderTarget( Render * render, RenderTargetCallBack * callBack )
 {
     assert( callBack );
 
@@ -36,7 +36,7 @@ bool RenderTargetDX9Imp::display( Render * render, RenderTargetCallBack * callBa
 
     {
         CDXUTPerfEventGenerator g( DXUT_PERFEVENTCOLOR, L"Render Target" );
-        callBack->drawOnRenderTarget( render );
+        callBack->displayOnRenderTarget( render );
     }
 
     if( oldDepthStensil )

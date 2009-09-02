@@ -5,7 +5,7 @@ class MyShadowCallBack
     , IMPLEMENTS_INTERFACE( EffectShaderCallBack )
 {
 public: // from RenderTargetCallBack
-    virtual void drawOnRenderTarget( Render * ) OVERRIDE;
+    virtual void displayOnRenderTarget( Render * ) OVERRIDE;
 
 public: // from EffectShaderCallBack
     void displayPass( size_t pass ) OVERRIDE;

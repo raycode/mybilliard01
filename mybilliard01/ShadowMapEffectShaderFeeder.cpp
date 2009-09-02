@@ -16,7 +16,6 @@ void ShadowMapEffectShaderFeeder::display( NxActor * actor )
 
     float matWVP[ 16 ];
     (matProjView_ * matWorld).GetColumnMajor( matWVP );
-
     matWVP_->setFloatArray( matWVP, 16u );
 
     effect_->renderWithTechnique( effectCallBack_ );

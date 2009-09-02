@@ -16,14 +16,14 @@ void RenderMonkeySemanticFeeder::updateProjection( const RowMajorMatrix44f & mat
     matProj_ = matProj;
 }
 
-void RenderMonkeySemanticFeeder::updateMatrix(
-    NxActor * actor,
+void RenderMonkeySemanticFeeder::updateCameraMatrix(
     const NxVec3 & cameraPos,
     const NxVec3 & cameraDir,
+    const RowMajorMatrix44f & matWorld,
     const RowMajorMatrix44f & matView,
     const RowMajorMatrix44f & matProjView )
 {
-    actor->getGlobalPose().getRowMajor44( matWorld_ );
+    matWorld_ = matWorld;
 
     cameraPos_ = cameraPos;
     cameraDir_ = cameraDir;
@@ -35,6 +35,15 @@ void RenderMonkeySemanticFeeder::updateMatrix(
 
     MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Vec4_ )
         updateVec4ForPredefinedSemantic( *iter );
+}
+
+void RenderMonkeySemanticFeeder::updateMatrix( wstring variableName, const RowMajorMatrix44f & matValue )
+{
+    if( false == effect_->hasVariableByName( variableName ) ) return;
+
+    float columnMajor[ 16 ];
+    matValue.GetColumnMajor( columnMajor );
+    effect_->createEffectVariableByName( variableName )->setFloatArray( columnMajor, 16u );
 }
 
 void RenderMonkeySemanticFeeder::display()
