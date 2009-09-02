@@ -84,7 +84,7 @@ float4 fvAmbient
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.77, 0.76, 0.76, 1.00 );
+> = float4( 0.33, 0.32, 0.32, 1.00 );
 float4 fvSpecular
 <
    string UIName = "fvSpecular";
@@ -96,7 +96,7 @@ float4 fvDiffuse
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.89, 0.88, 0.85, 1.00 );
+> = float4( 0.56, 0.55, 0.53, 1.00 );
 float fSpecularPower
 <
    string UIName = "fSpecularPower";

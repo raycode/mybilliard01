@@ -30,7 +30,7 @@ shared float4 Light0_Position
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
-> = float4( 0.00, 0.00, -400.00, 1.00 );
+> = float4( 0.00, 40000.00, 0.00, 1.00 );
 shared float4 fvEyePosition : ViewPosition;
 shared float4x4 matView : View;
 float4x4 matWorldViewProjection : WorldViewProjection;
@@ -84,19 +84,19 @@ float4 fvAmbient
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.77, 0.76, 0.76, 1.00 );
+> = float4( 0.20, 0.20, 0.20, 1.00 );
 float4 fvSpecular
 <
    string UIName = "fvSpecular";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.49, 0.49, 0.49, 1.00 );
+> = float4( 0.53, 0.52, 0.52, 1.00 );
 float4 fvDiffuse
 <
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.89, 0.88, 0.85, 1.00 );
+> = float4( 0.68, 0.68, 0.65, 1.00 );
 float fSpecularPower
 <
    string UIName = "fSpecularPower";
@@ -104,7 +104,7 @@ float fSpecularPower
    bool UIVisible =  true;
    float UIMin = 1.00;
    float UIMax = 100.00;
-> = float( 25.00 );
+> = float( 64.00 );
 texture base_Tex
 <
    string ResourceName = "..\\textures\\poolb3.jpg";
@@ -142,7 +142,7 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    
    float4 fvBaseColor            = tex2D( baseMap, Input.Texcoord );
    
-   return ( fvAmbient + diffuseAttn * fvDiffuse + specularAttn * fvSpecular ) * fvBaseColor;
+   return ( fvAmbient + diffuseAttn * fvDiffuse ) * fvBaseColor + specularAttn * fvSpecular;
 }
 
 
