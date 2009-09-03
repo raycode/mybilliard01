@@ -37,16 +37,7 @@ void RenderMonkeySemanticFeeder::updateCameraMatrix(
         updateVec4ForPredefinedSemantic( *iter );
 }
 
-void RenderMonkeySemanticFeeder::updateMatrix( wstring variableName, const RowMajorMatrix44f & matValue )
-{
-    if( false == effect_->hasVariableByName( variableName ) ) return;
-
-    float columnMajor[ 16 ];
-    matValue.GetColumnMajor( columnMajor );
-    effect_->createEffectVariableByName( variableName )->setFloatArray( columnMajor, 16u );
-}
-
-void RenderMonkeySemanticFeeder::display()
+void RenderMonkeySemanticFeeder::displayWithEffect()
 {
     //OutputDebugStr( wstring( L"Node name: " + node_->getName() + L"\n" ).c_str() );
 
@@ -61,7 +52,7 @@ void RenderMonkeySemanticFeeder::display()
 
 void RenderMonkeySemanticFeeder::displayPass( size_t pass )
 {
-    DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"Effect display for each pass" );
+    DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"Effect displayWithEffect for each pass" );
     node_->display();
     DXUT_EndPerfEvent();
 }
@@ -178,5 +169,8 @@ void RenderMonkeySemanticFeeder::uploadValue( int whichSemantic, size_t count ) 
     //OutputDebugStr( tmp );
 }
 
+EffectShader * RenderMonkeySemanticFeeder::getEffectShader() {
+    return effect_;
+}
 
 

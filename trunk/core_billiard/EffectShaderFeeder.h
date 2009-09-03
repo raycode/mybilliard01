@@ -1,10 +1,11 @@
 #pragma once
+namespace my_render {
 
 
 MY_INTERFACE EffectShaderFeeder {
     virtual ~EffectShaderFeeder() {}
 
-    virtual void display() PURE;
+    virtual void displayWithEffect() PURE;
 
     virtual void updateProjection( const RowMajorMatrix44f & matProj ) PURE;
 
@@ -15,9 +16,9 @@ MY_INTERFACE EffectShaderFeeder {
         const RowMajorMatrix44f & matView,
         const RowMajorMatrix44f & matProjView ) PURE;
 
-    virtual void updateMatrix(
-        wstring variableName,
-        const RowMajorMatrix44f & matValue ) PURE;
+    virtual EffectShader * getEffectShader() PURE;
 
 };
+
+}
 

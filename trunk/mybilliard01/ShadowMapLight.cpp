@@ -42,7 +42,7 @@ void ShadowMapLight::updateMatrix()
 {
     const RowMajorMatrix44f matrixView = cameraMatrix_->getViewMatrix();
     const RowMajorMatrix44f matrixProjectionView = cameraMatrix_->getProjectionMatrix() * matrixView;
-    shadowFeeder_->updateMatrix( cameraMatrix_->getPosition(), cameraMatrix_->getDirectionVector(), matrixView, matrixProjectionView );
+    shadowFeeder_->updateCameraMatrix( cameraMatrix_->getPosition(), cameraMatrix_->getDirectionVector(), matrixView, matrixProjectionView );
 }
 
 void ShadowMapLight::renderShadowMap( Render * render ) {

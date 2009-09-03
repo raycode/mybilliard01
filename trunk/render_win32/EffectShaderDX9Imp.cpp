@@ -182,6 +182,7 @@ void EffectShaderDX9Imp::acquireTextures()
         for( size_t j = 0; j < textureVariable->getNumberOfAnnotations(); ++j ) {
             EffectShaderAnnotationPtr anno = EffectShaderAnnotationPtr( textureVariable->createAnnotationByIndex( j ), EffectShaderVariable::Destroyer( textureVariable.get() ) );
             if( false == anno->isString() ) continue;
+            if( L"ResourceName" != anno->getAnnotationName() ) continue;
 
             const wstring textureFilename = FileSystemHelper::getFullname( anno->getString() );
             TexturePtr newTex = TexturePtr( renderFactory_->createTexture( textureFilename ), RenderBufferFactory::Destroyer( renderFactory_ ) );

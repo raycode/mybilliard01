@@ -7,7 +7,7 @@ void RenderMonkeySharedSemanticsFeeder::updateProjection( const RowMajorMatrix44
     matProj_ = matProj;
 }
 
-void RenderMonkeySharedSemanticsFeeder::updateMatrix(
+void RenderMonkeySharedSemanticsFeeder::updateCameraMatrix(
     const NxVec3 & cameraPos,
     const NxVec3 & cameraDir,
     const RowMajorMatrix44f & matView,

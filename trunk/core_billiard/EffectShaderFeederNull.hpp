@@ -1,9 +1,10 @@
 #pragma once
+namespace my_render {
 
 
 NULL_OBJECT( EffectShaderFeeder ) {
 
-    void display() OVERRIDE {}
+    void displayWithEffect() OVERRIDE {}
 
     virtual void updateProjection( const RowMajorMatrix44f & matProj ) OVERRIDE {}
 
@@ -14,9 +15,9 @@ NULL_OBJECT( EffectShaderFeeder ) {
         const RowMajorMatrix44f & matView,
         const RowMajorMatrix44f & matProjView ) OVERRIDE {}
 
-    virtual void updateMatrix(
-        wstring variableName,
-        const RowMajorMatrix44f & matValue ) OVERRIDE {}
+    virtual EffectShader * getEffectShader() OVERRIDE { return NULL; }
 
 };
+
+}
 

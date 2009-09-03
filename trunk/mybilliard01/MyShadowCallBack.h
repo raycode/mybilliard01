@@ -15,6 +15,10 @@ public:
 
     MyShadowCallBack( GlobalEffectShaderFeeder * feeder, const NodeMap * );
 
+public: // effect pass
+    void display_pass0();
+    void display_pass1();
+
 private:
     GlobalEffectShaderFeeder * feeder_;
     const NodeMap * const nodeMap_;

@@ -31,7 +31,6 @@ using namespace my_open_al_imp;
 class MyRenderEventListenerImp;
 class MyInputListenerImp;
 class MyCamera;
-class EffectShaderFeeder;
 class GlobalEffectShaderFeeder;
 class ShadowMapLight;
 
@@ -41,7 +40,6 @@ class MyShadowCallBack;
 MY_SMART_PTR( MyRenderEventListenerImp );
 MY_SMART_PTR( MyInputListenerImp );
 MY_SMART_PTR( MyCamera );
-MY_SMART_PTR( EffectShaderFeeder );
 MY_SMART_PTR( GlobalEffectShaderFeeder );
 MY_SMART_PTR( MyShadowCallBack );
 MY_SMART_PTR( ShadowMapLight );
@@ -76,8 +74,7 @@ using namespace smc;
 #include "MyCamera.h"
 #include "BallContactReport.h"
 #include "MyInputListenerImp.h"
-#include "EffectShaderFeeder.h"
-#include "EffectShaderFeederNull.hpp"
+
 #include "RenderMonkeySemantics.hpp"
 #include "RenderMonkeySemanticFeeder.h"
 #include "RenderMonkeySharedSemanticsFeeder.h"

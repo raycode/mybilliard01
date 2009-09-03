@@ -9,7 +9,7 @@ public: // from EffectShaderCallBack
     void displayPass( size_t pass ) OVERRIDE;
 
 public: // from EffectShaderFeeder
-    void display() OVERRIDE;
+    void displayWithEffect() OVERRIDE;
 
     virtual void updateProjection( const RowMajorMatrix44f & matProj ) OVERRIDE;
 
@@ -20,9 +20,7 @@ public: // from EffectShaderFeeder
         const RowMajorMatrix44f & matView,
         const RowMajorMatrix44f & matProjView ) OVERRIDE;
 
-    virtual void updateMatrix(
-        wstring variableName,
-        const RowMajorMatrix44f & matValue ) OVERRIDE;
+    virtual EffectShader * getEffectShader() OVERRIDE;
 
 public:
     RenderMonkeySemanticFeeder( Node *, EffectShader * );

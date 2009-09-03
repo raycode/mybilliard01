@@ -956,6 +956,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
      </RmRegistryBranch>
      <RmRegistryBranch NAME="RmRenderTargetEditor" API="" XML_VERSION="RenderMonkey 1.71">
       <RmRegistryBranch NAME="EditNodeRepository" API="" XML_VERSION="RenderMonkey 1.71"/>
+      <RmRegistryBranch NAME="NodeRepository" API="" XML_VERSION="RenderMonkey 1.71"/>
      </RmRegistryBranch>
      <RmRegistryBranch NAME="RmRenderStateBlockEditor" API="" XML_VERSION="RenderMonkey 1.71">
       <RmRegistryBranch NAME="EditNodeRepository" API="" XML_VERSION="RenderMonkey 1.71"/>
@@ -1041,7 +1042,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-2/9/2009 22:50:45]]></RmTextDataBlock></RmStringVariable>
+2/9/2009 23:41:21]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1052,13 +1053,13 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
    </RmRegistryBranch>
   </RmRegistryBranch>
   <RmDirectXEffect NAME="slate" API="D3D" ACTIVE_CAMERA="">
-   <RmMatrixVariable NAME="matWorldViewProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldViewProjection" VALUE_0="0.867047" VALUE_1="-0.007449" VALUE_2="-0.495313" VALUE_3="-0.000006" VALUE_4="0.077170" VALUE_5="2.410955" VALUE_6="0.098827" VALUE_7="-0.000005" VALUE_8="0.495538" VALUE_9="-0.051450" VALUE_10="0.868215" VALUE_11="199.199265" VALUE_12="0.495043" VALUE_13="-0.051399" VALUE_14="0.867347" VALUE_15="200.000061"/>
-   <RmMatrixVariable NAME="matView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="View" VALUE_0="0.868281" VALUE_1="-0.007460" VALUE_2="-0.496017" VALUE_3="-0.000006" VALUE_4="0.031965" VALUE_5="0.998650" VALUE_6="0.040936" VALUE_7="-0.000002" VALUE_8="0.495043" VALUE_9="-0.051399" VALUE_10="0.867347" VALUE_11="200.000061" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
+   <RmMatrixVariable NAME="matWorldViewProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldViewProjection" VALUE_0="-0.226368" VALUE_1="-0.033846" VALUE_2="-0.971995" VALUE_3="-0.000003" VALUE_4="-0.267317" VALUE_5="2.399274" VALUE_6="-0.021289" VALUE_7="0.000001" VALUE_8="0.968621" VALUE_9="0.105885" VALUE_10="-0.229270" VALUE_11="199.199249" VALUE_12="0.967652" VALUE_13="0.105779" VALUE_14="-0.229041" VALUE_15="200.000046"/>
+   <RmMatrixVariable NAME="matView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="View" VALUE_0="-0.226690" VALUE_1="-0.033894" VALUE_2="-0.973377" VALUE_3="-0.000003" VALUE_4="-0.110726" VALUE_5="0.993812" VALUE_6="-0.008818" VALUE_7="0.000000" VALUE_8="0.967652" VALUE_9="0.105779" VALUE_10="-0.229041" VALUE_11="200.000046" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
    <RmFloatVariable NAME="fSpecularPower" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="2.000000" MIN="1.000000" MAX="100.000000" CLAMP="TRUE"/>
    <RmMatrixVariable NAME="matWorld" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="World" VALUE_0="1.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="1.000000" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.000000" VALUE_11="0.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
-   <RmVectorVariable NAME="fvEyePosition" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewPosition" VALUE_0="-99.008537" VALUE_1="10.279725" VALUE_2="-173.469482" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
+   <RmVectorVariable NAME="fvEyePosition" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewPosition" VALUE_0="-193.530518" VALUE_1="-21.155876" VALUE_2="45.808105" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
    <RmVectorVariable NAME="Light0_Position" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.000000" VALUE_1="0.000000" VALUE_2="-400.000000" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
-   <RmMatrixVariable NAME="matWorldView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldView" VALUE_0="0.868281" VALUE_1="-0.007460" VALUE_2="-0.496017" VALUE_3="-0.000006" VALUE_4="0.031965" VALUE_5="0.998650" VALUE_6="0.040936" VALUE_7="-0.000002" VALUE_8="0.495043" VALUE_9="-0.051399" VALUE_10="0.867347" VALUE_11="200.000061" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
+   <RmMatrixVariable NAME="matWorldView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldView" VALUE_0="-0.226690" VALUE_1="-0.033894" VALUE_2="-0.973377" VALUE_3="-0.000003" VALUE_4="-0.110726" VALUE_5="0.993812" VALUE_6="-0.008818" VALUE_7="0.000000" VALUE_8="0.967652" VALUE_9="0.105779" VALUE_10="-0.229041" VALUE_11="200.000046" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
    <RmMatrixVariable NAME="Light0_WorldLightProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="1.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="1.000000" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.000000" VALUE_11="0.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
    <RmFloatVariable NAME="depthBias" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="0.010000" MIN="-1.000000" MAX="1.000000" CLAMP="FALSE"/>
    <RmColorVariable NAME="fvDiffuse" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.886275" VALUE_1="0.875996" VALUE_2="0.845159" VALUE_3="1.000000"/>
@@ -1151,38 +1152,35 @@ float depthBias;
 sampler2D baseMap;
 sampler2D shadowMap0;
 
+float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
+{
+   const float4 colorOnShadowMap = tex2D( shadowMap, texCoord );
+   const float  depthOnShadowMap = colorOnShadowMap.r
+                                 + colorOnShadowMap.g / 127.f;
+                                 + colorOnShadowMap.b / ( 127.f * 127.f );
+   return depthOnShadowMap;
+}
+
 struct PS_INPUT 
 {
-   float2 Texcoord :           TEXCOORD0;
-   float3 ViewDirection :      TEXCOORD1;
-   float3 LightDirection:      TEXCOORD2;
-   float3 Normal :             TEXCOORD3;
    float3 PositionFromLight0 : TEXCOORD4;   
 };
 
 float4 ps_main( PS_INPUT Input ) : COLOR0
 {
-   const float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
+   const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight0.xy );
+   const float  actualDepth       = Input.PositionFromLight0.z - depthBias;
+   const bool   bUnderShadow      = actualDepth > depthOnShadowMap0;
 
-   const float4 colorOnShadowMap0 = tex2D( shadowMap0, Input.PositionFromLight0.xy );
-   const float  depthOnShadowMap0 = colorOnShadowMap0.r + colorOnShadowMap0.g / 127.f
-                                  + colorOnShadowMap0.b / ( 127.f * 127.f )
-                                  + depthBias;
-   const float  actualDepth       = Input.PositionFromLight0.z;
+   const float4 colorOutShadow    = ( fvAmbient + fvDiffuse );
+   const float4 colorUnderShadow  = fvAmbient;
 
-   const float4 colorOutShadow    = ( fvAmbient + fvDiffuse ) * fvBaseColor;
-   const float4 colorUnderShadow  = fvAmbient * fvBaseColor;
-
-   const float bUnderShadow = ceil( clamp( actualDepth - depthOnShadowMap0, 0, 1 ) );
-   const float4 actualColor1 = bUnderShadow * colorUnderShadow;
-   const float4 actualColor2 = ( 1.f - bUnderShadow ) * colorOutShadow;
-   return actualColor1 + actualColor2;
+   return ( bUnderShadow ? colorUnderShadow : colorOutShadow );
 }
 
 
 ]]></RmShaderCode>
-     <RmSampler NAME="baseMap" API="" REGISTER="0"/>
-     <RmSampler NAME="shadowMap0" API="" REGISTER="1"/>
+     <RmSampler NAME="shadowMap0" API="" REGISTER="0"/>
      <RmShaderConstant NAME="fvAmbient" API="" REGISTER="0"/>
      <RmShaderConstant NAME="fvDiffuse" API="" REGISTER="1"/>
      <RmShaderConstant NAME="depthBias" API="" REGISTER="2"/>
