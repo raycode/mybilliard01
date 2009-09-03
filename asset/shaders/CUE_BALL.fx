@@ -30,7 +30,7 @@ shared float4 Light0_Position
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
-> = float4( 0.00, 0.00, -400.00, 1.00 );
+> = float4( 0.00, 400.00, 0.00, 1.00 );
 shared float4 fvEyePosition : ViewPosition;
 shared float4x4 matView : View;
 float4x4 matWorldViewProjection : WorldViewProjection;
@@ -81,7 +81,7 @@ float4 fvAmbient
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.42, 0.42, 0.42, 1.00 );
+> = float4( 0.10, 0.11, 0.11, 1.00 );
 float4 fvSpecular
 <
    string UIName = "fvSpecular";
@@ -93,7 +93,7 @@ float4 fvDiffuse
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.35, 0.34, 0.33, 1.00 );
+> = float4( 0.73, 0.72, 0.70, 1.00 );
 float fSpecularPower
 <
    string UIName = "fSpecularPower";
@@ -101,7 +101,7 @@ float fSpecularPower
    bool UIVisible =  true;
    float UIMin = 1.00;
    float UIMax = 100.00;
-> = float( 32.00 );
+> = float( 16.00 );
 sampler2D baseMap;
 
 struct PS_INPUT 
@@ -124,7 +124,7 @@ float4 CUE_BALL_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    const float  R_Dot_V          = dot( reflection, viewDirection );
    const float  specularAttn     = pow( clamp( R_Dot_V, 0.00001f, 1.f ), fSpecularPower );
    
-   return fvAmbient + diffuseAttn * fvDiffuse + specularAttn * fvSpecular;
+   return ( fvAmbient + diffuseAttn * fvDiffuse ) + specularAttn * fvSpecular;
 }
 
 

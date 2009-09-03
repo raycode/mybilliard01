@@ -1005,7 +1005,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-2/9/2009 13:20:17]]></RmTextDataBlock></RmStringVariable>
+2/9/2009 17:56:19]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1061,13 +1061,11 @@ VS_OUTPUT vs_main( VS_INPUT Input )
     <RmHLSLShader NAME="Pixel Shader" API="D3D" PIXEL_SHADER="TRUE" TARGET="ps_2_0" ENTRY_POINT="ps_main" COMPILER_FLAGS="0"><RmShaderCode TYPE="TEXT"><![CDATA[
 float4 ps_main( float1 inDepth: TEXCOORD0 ) : COLOR0
 {
-    // Output the depth as computed by
-    // the vertex shader
     float4 Depth;
-    Depth.a = 1.f;
     Depth.r = floor( inDepth[ 0 ] * 127.f ) / 127.f;
     Depth.g = floor( ( inDepth[ 0 ] - Depth.r ) * 127.f * 127.f ) / 127.f;
     Depth.b = 0.f;
+    Depth.a = 1.f;
     return Depth;
 }
 ]]></RmShaderCode></RmHLSLShader>

@@ -41,7 +41,7 @@ public:
 
 private: // init
     void initCamera( size_t index, NxVec3 pos, NxVec3 dir );
-    void initLight( size_t index, NxVec3 pos, NxVec3 dir );
+    void initLight( size_t index, float nearZ, float farZ, NxVec3 pos, NxVec3 dir );
     void initSound();
     void initPhys();
     void initVisualOnlyObjects();

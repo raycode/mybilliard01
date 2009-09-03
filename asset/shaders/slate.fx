@@ -81,8 +81,10 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    Output.Normal           = mul( fvNormal, matWorldView );
    
    float4 posFromLight0    = mul( Input.Position, Light0_WorldLightProjection );
+
+   Output.PositionFromLight0.x = ( posFromLight0.x / posFromLight0.w + 1 ) * 0.5f;
+   Output.PositionFromLight0.y = (-posFromLight0.y / posFromLight0.w + 1 ) * 0.5f;
    Output.PositionFromLight0.z = posFromLight0.z / posFromLight0.w;
-   Output.PositionFromLight0.xy = ( posFromLight0.xy / posFromLight0.w ) / 2.f + 0.5f;
    
    return( Output );
    
@@ -90,12 +92,53 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 
 
-float4 fvAmbient;
-float4 fvSpecular;
-float4 fvDiffuse;
-float fSpecularPower;
-float depthBias;
-sampler2D baseMap;
+float4 fvAmbient
+<
+   string UIName = "fvAmbient";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.17, 0.17, 0.17, 1.00 );
+float4 fvSpecular
+<
+   string UIName = "fvSpecular";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.16, 0.16, 0.16, 1.00 );
+float4 fvDiffuse
+<
+   string UIName = "fvDiffuse";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.89, 0.88, 0.85, 1.00 );
+float fSpecularPower
+<
+   string UIName = "fSpecularPower";
+   string UIWidget = "Numeric";
+   bool UIVisible =  true;
+   float UIMin = 1.00;
+   float UIMax = 100.00;
+> = float( 2.00 );
+float depthBias
+<
+   string UIName = "depthBias";
+   string UIWidget = "Numeric";
+   bool UIVisible =  true;
+   float UIMin = -1.00;
+   float UIMax = 1.00;
+> = float( 0.01 );
+texture base_Tex
+<
+   string ResourceName = "..\\textures\\green.jpg";
+>;
+sampler2D baseMap = sampler_state
+{
+   Texture = (base_Tex);
+   ADDRESSU = WRAP;
+   ADDRESSV = WRAP;
+   MINFILTER = LINEAR;
+   MAGFILTER = LINEAR;
+   MIPFILTER = LINEAR;
+};
 texture shadow0_Tex
 <
    string ResourceName = "..\\textures\\shadow_map_captured.png";
@@ -119,33 +162,37 @@ struct PS_INPUT
 
 float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
-   float3 fvLightDirection = normalize( Input.LightDirection );
-   float3 fvNormal         = normalize( Input.Normal );
-   float  fNDotL           = dot( fvNormal, fvLightDirection ); 
-   
-   float3 fvReflection     = normalize( ( ( 2.0f * fvNormal ) * ( fNDotL ) ) - fvLightDirection ); 
-   float3 fvViewDirection  = normalize( Input.ViewDirection );
-   float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
+   const float3 lightDirection   = normalize( Input.LightDirection );
+   const float3 normal           = normalize( Input.Normal );
+   const float  N_Dot_L          = dot( normal, lightDirection ); 
+   const float  diffuseAttn      = clamp( N_Dot_L, 0.f, 1.f );
 
-   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
-   
-   float4 colorOnShadowMap0 = tex2D( shadowMap0, Input.PositionFromLight0.xy );
-   float depthOnShadowMap0 = colorOnShadowMap0.r + colorOnShadowMap0.g / 127.f;
+   const float3 reflection       = normalize( ( ( 2.f * normal ) * ( N_Dot_L ) ) - lightDirection ); 
+   const float3 viewDirection    = normalize( Input.ViewDirection );
+   const float  R_Dot_V          = dot( reflection, viewDirection );
+   const float  specularAttn     = pow( clamp( R_Dot_V, 0.00001f, 1.f ), fSpecularPower );
 
-   float depthFromLight0   = ( floor( Input.PositionFromLight0.z * 127.f * 127.f ) / ( 127.f * 127.f ) );
-   return 1.f / (abs( depthFromLight0 - depthOnShadowMap0 ) * 100.f + 1.f);
+   const float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
 
-   
-//    return fvBaseColor / ( abs( depthOnShadowMap0 - depthFromLight0 ) + 1.f );
+   const float4 colorOnShadowMap0 = tex2D( shadowMap0, Input.PositionFromLight0.xy );
+   const float  depthOnShadowMap0 = colorOnShadowMap0.r + colorOnShadowMap0.g / 127.f
+                                  + colorOnShadowMap0.b / ( 127.f * 127.f )
+                                  + depthBias;
+   const float  actualDepth       = Input.PositionFromLight0.z;
 
-//   float depthFromLight0   = ( floor( Input.PositionFromLight0.z * 127 * 127 ) / ( 127 * 127 ) ) + depthBias;
-//   float fUnderShadow      = ( depthFromLight0 > depthOnShadowMap0 ) ? 0.f : 1.f;
+   const float4 colorOutShadow    = ( fvAmbient + diffuseAttn * fvDiffuse ) * fvBaseColor
+                                  + specularAttn * fvSpecular;
+   const float4 colorUnderShadow  = fvAmbient * fvBaseColor;
 
-//   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
-//   float4 fvTotalDiffuse   = ( fvDiffuse * fNDotL * fUnderShadow ) * fvBaseColor;
-//   float4 fvTotalSpecular  = ( fvSpecular * pow( fRDotV, fSpecularPower ) ) * fUnderShadow;
-   
-//   return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
+//   return colorOnShadowMap0;
+//   return depthOnShadowMap0;
+//   return actualDepth;
+//   return colorUnderShadow;
+//   return color;
+
+   const float4 actualColor1 = ceil( actualDepth - depthOnShadowMap0 ) * colorUnderShadow;
+   const float4 actualColor2 = ceil( depthOnShadowMap0 - actualDepth ) * colorOutShadow;
+   return actualColor1 + actualColor2;
 }
 
 

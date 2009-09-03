@@ -52,13 +52,11 @@ VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 float4 Shadow_Map_Pass_0_Pixel_Shader_ps_main( float1 inDepth: TEXCOORD0 ) : COLOR0
 {
-    // Output the depth as computed by
-    // the vertex shader
     float4 Depth;
-    Depth.a = 1.f;
     Depth.r = floor( inDepth[ 0 ] * 127.f ) / 127.f;
     Depth.g = floor( ( inDepth[ 0 ] - Depth.r ) * 127.f * 127.f ) / 127.f;
     Depth.b = 0.f;
+    Depth.a = 1.f;
     return Depth;
 }
 
