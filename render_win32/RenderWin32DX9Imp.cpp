@@ -9,7 +9,7 @@ namespace my_render_win32_dx9_imp {
 
 #ifdef DEBUG
 #define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
-#define DEBUG_PS   // Uncomment this line to debug D3D9 pixel shaders 
+//#define DEBUG_PS   // Uncomment this line to debug D3D9 pixel shaders 
 #endif
 
 RenderWin32DX9Imp::RenderWin32DX9Imp()
