@@ -20,6 +20,8 @@ MY_INTERFACE Render {
     virtual const RenderState * getRenderState() const PURE;
     virtual RenderState * setRenderState() PURE;
 
+    virtual size_t getWidth() PURE;
+    virtual size_t getHeight() PURE;
 };
 
 }

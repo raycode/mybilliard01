@@ -6,7 +6,11 @@ class MyRenderEventListenerImp
     , IMPLEMENTS_INTERFACE( SoundRetriever )
     , IMPLEMENTS_INTERFACE( ActorRecognizer )
     , IMPLEMENTS_INTERFACE( BilliardControl )
+    , IMPLEMENTS_INTERFACE( RenderTargetCallBack )
 {
+public: // from RenderTargetCallBack
+    virtual void displayOnRenderTargetCallBack( Render * render ) OVERRIDE;
+
 public: // from RenderEventListener
     virtual void init() OVERRIDE;
     virtual void displayReset( RenderBufferFactory *, int x, int y, int width, int height ) OVERRIDE;
@@ -73,8 +77,6 @@ private: // update
 
 private: // display
     void preDisplay( Render * render );
-    void onDisplay( Render * render );
-    void postDisplay( Render * render );
 
 private: // reset
     const NxVec3 & getBallDefaultPosition( NxActor * );
@@ -85,7 +87,7 @@ private: // effect
     void createSharedVariableFeeder();
     void findSharedVariables( EffectShader * effect);
     ShaderVariable * getSharedVariable( wstring name );
-    void createQuadVertexBuffer( RenderBufferFactory * renderFactory );
+    void createPostEffects( RenderBufferFactory * );
 
 private:
     ScenePtr scene_;
@@ -138,7 +140,7 @@ private: // effect
     typedef map< wstring, ShaderVariable * > SharedVariables;
     SharedVariables sharedVariables_;
 
-    VertexBuffer * quadVertexBuffer_;
+    PostEffectPtr blurEffect_, hdrEffect_, ssaoEffect_;
 
 private: // shadow map
     enum { LIGHT0, SIZE_OF_LIGHT_ENUM };

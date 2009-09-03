@@ -14,6 +14,9 @@ namespace my_utility {
     public: // effect
         static wstring effectFilenameByNodeName( wstring nodeName );
         static wstring shadowMapEffectShaderFilename();
+        static wstring effectFilename_Blur();
+        static wstring effectFilename_HDR();
+        static wstring effectFilename_SSAO();
 
     public: // sound
         static wstring soundFilename_BallStrong( size_t index );

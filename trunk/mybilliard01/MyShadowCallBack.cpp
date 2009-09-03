@@ -8,7 +8,7 @@ MyShadowCallBack::MyShadowCallBack( GlobalEffectShaderFeeder * feeder, const Nod
 {
 }
 
-void MyShadowCallBack::displayOnRenderTarget( Render * render )
+void MyShadowCallBack::displayOnRenderTargetCallBack( Render * render )
 {
     render->clear_Color_Z( PixelColor( 0.f, 0.f, 0.f, 0.f ), 1.f );
     render->setRenderState()->setWireframe()->setSolid();
@@ -25,21 +25,7 @@ void MyShadowCallBack::displayOnRenderTarget( Render * render )
     }
 }
 
-void MyShadowCallBack::displayPass( size_t pass )
-{
-    switch( pass )
-    {
-        case 0: display_pass0(); break;
-        case 1: display_pass1(); break;
-        default: assert( L"Something wrong." && false ); break;
-    }
-}
-
-void MyShadowCallBack::display_pass0() {
+void MyShadowCallBack::displayPass( size_t pass ) {
     currentNode_->display_positionOnly();
 }
 
-void MyShadowCallBack::display_pass1() {
-    // draw a quad
-    currentNode_->display_positionOnly();
-}

@@ -36,7 +36,7 @@ bool RenderTargetDX9Imp::displayOnRenderTarget( Render * render, RenderTargetCal
 
     {
         CDXUTPerfEventGenerator g( DXUT_PERFEVENTCOLOR, L"Render Target" );
-        callBack->displayOnRenderTarget( render );
+        callBack->displayOnRenderTargetCallBack( render );
     }
 
     if( oldDepthStensil )

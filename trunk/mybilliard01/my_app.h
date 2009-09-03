@@ -33,6 +33,7 @@ class MyInputListenerImp;
 class MyCamera;
 class GlobalEffectShaderFeeder;
 class ShadowMapLight;
+class PostEffectImp;
 
 class MyShadowCallBack;
 
@@ -43,11 +44,14 @@ MY_SMART_PTR( MyCamera );
 MY_SMART_PTR( GlobalEffectShaderFeeder );
 MY_SMART_PTR( MyShadowCallBack );
 MY_SMART_PTR( ShadowMapLight );
+MY_SMART_PTR( PostEffectImp );
+
 
 #include "GlobalEffectShaderFeeder.h"
 #include "ShadowMapEffectShaderFeeder.h"
 #include "MyShadowCallBack.h"
 #include "ShadowMapLight.h"
+#include "PostEffectImp.h"
 
 #include "BilliardControl.h"
 

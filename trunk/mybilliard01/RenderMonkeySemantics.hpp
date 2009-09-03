@@ -7,6 +7,10 @@ namespace RenderMonkeySemantics {
 
     enum { ViewPosition,
         ViewDirection,
+
+        ViewportWidthInverse,
+        ViewportHeightInverse,
+
         MATRIX_SEMANTIC( World ),
         MATRIX_SEMANTIC( View ),
         MATRIX_SEMANTIC( Projection ),

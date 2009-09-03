@@ -1998,6 +1998,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\PostEffect.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Shader.h"
 					>
 				</File>

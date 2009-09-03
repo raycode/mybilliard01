@@ -7,6 +7,9 @@ public: // from Texture
     virtual bool isFromFile() OVERRIDE;
     virtual wstring getFilename() OVERRIDE;
 
+    virtual size_t getWidth() OVERRIDE;
+    virtual size_t getHeight() OVERRIDE;
+
 public: // from TextureDX9
     virtual SurfaceDX9 * acquireSurface( size_t level ) OVERRIDE;
     virtual bool releaseSurface( SurfaceDX9 * ) OVERRIDE;

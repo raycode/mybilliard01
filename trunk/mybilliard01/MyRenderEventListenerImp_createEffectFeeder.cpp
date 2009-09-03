@@ -77,13 +77,18 @@ void MyRenderEventListenerImp::createSharedVariableFeeder()
     }
 }
 
-void MyRenderEventListenerImp::createQuadVertexBuffer( RenderBufferFactory * renderFactory ) {
-    float quadVertices[] = {
-        -1.f,  1.f, 0.f,
-         1.f,  1.f, 0.f,
-        -1.f, -1.f, 0.f,
-         1.f, -1.f, 0.f
-    };
+void MyRenderEventListenerImp::createPostEffects( RenderBufferFactory * renderFactory )
+{
+    blurEffect_ = PostEffectPtr( new PostEffectImp( renderFactory, ConstString::effectFilename_Blur(),
+        512, 512, L"outputWidthInverse", L"outputHeightInverse",
+        L"inputTexture_Tex", L"inputWidthInverse", L"inputHeightInverse" ) );
 
-    quadVertexBuffer_ = renderFactory->createVertexBuffer_static( 4u, quadVertices );
+    hdrEffect_ = PostEffectPtr( new PostEffectImp( renderFactory, ConstString::effectFilename_HDR(),
+        1024, 1024, L"outputWidthInverse", L"outputHeightInverse",
+        L"inputTexture_Tex", L"inputWidthInverse", L"inputHeightInverse" ) );
+
+    ssaoEffect_ = PostEffectPtr( new PostEffectImp( renderFactory, ConstString::effectFilename_SSAO(),
+        1024, 1024, L"outputWidthInverse", L"outputHeightInverse",
+        L"inputTexture_Tex", L"inputWidthInverse", L"inputHeightInverse" ) );
 }
+

@@ -174,7 +174,7 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory 
     }
 
     createSharedVariableFeeder();
-    createQuadVertexBuffer( renderFactory );
+    createPostEffects( renderFactory );
 }
 
 void MyRenderEventListenerImp::resetShadowMap( RenderBufferFactory * renderFactory ) {
@@ -280,33 +280,34 @@ SoundHandle * MyRenderEventListenerImp::getRandomSound( int soundType )
 }
 
 void MyRenderEventListenerImp::display( Render * render ) {
-    render->clear_Color_Z( PixelColor( 0, 45, 50, 170 ), 1.0f );
     if( false == render->beginScene() ) return;
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
 
     preDisplay( render );
-    onDisplay( render );
-    postDisplay( render );
+    hdrEffect_->displayOnRenderTarget( render, this );
+    ssaoEffect_->displayOnRenderTarget( render, hdrEffect_.get() );
+    ssaoEffect_->displayOnRenderTargetCallBack( render );
 
     DXUT_EndPerfEvent();
     render->endScene();
 }   
 
-void MyRenderEventListenerImp::preDisplay( Render * render ) {
+void MyRenderEventListenerImp::preDisplay( Render * render )
+{
     for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
-        shadowMaps_[ i ]->renderShadowMap( render );
+    {
+        ShadowMapLight * const shadowMap = shadowMaps_[ i ].get();
+        shadowMap->renderShadowMap( render );
+    }
 }
 
-void MyRenderEventListenerImp::onDisplay( Render * render )
+void MyRenderEventListenerImp::displayOnRenderTargetCallBack( Render * render )
 {
+    render->clear_Color_Z( PixelColor( 0, 45, 50, 170 ), 1.0f );
     render->setRenderState()->setWireframe()->setSolid();
     render->setRenderState()->setCull()->setClockWise();
     MY_FOR_EACH( EffectShaderFeeders, iter, feeders_ )
         (*iter)->displayWithEffect();
-}
-
-void MyRenderEventListenerImp::postDisplay( Render * render )
-{
 }
 
 void MyRenderEventListenerImp::displayLost() {
