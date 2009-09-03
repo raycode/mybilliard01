@@ -97,27 +97,15 @@ float4 fvAmbient
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.17, 0.17, 0.17, 1.00 );
-float4 fvSpecular
-<
-   string UIName = "fvSpecular";
-   string UIWidget = "Color";
-   bool UIVisible =  true;
-> = float4( 0.16, 0.16, 0.16, 1.00 );
+> = float4( 0.43, 0.42, 0.42, 1.00 );
+float4 fvSpecular;
 float4 fvDiffuse
 <
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
 > = float4( 0.89, 0.88, 0.85, 1.00 );
-float fSpecularPower
-<
-   string UIName = "fSpecularPower";
-   string UIWidget = "Numeric";
-   bool UIVisible =  true;
-   float UIMin = 1.00;
-   float UIMax = 100.00;
-> = float( 2.00 );
+float fSpecularPower;
 float depthBias
 <
    string UIName = "depthBias";
@@ -162,16 +150,6 @@ struct PS_INPUT
 
 float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
-   const float3 lightDirection   = normalize( Input.LightDirection );
-   const float3 normal           = normalize( Input.Normal );
-   const float  N_Dot_L          = dot( normal, lightDirection ); 
-   const float  diffuseAttn      = clamp( N_Dot_L, 0.f, 1.f );
-
-   const float3 reflection       = normalize( ( ( 2.f * normal ) * ( N_Dot_L ) ) - lightDirection ); 
-   const float3 viewDirection    = normalize( Input.ViewDirection );
-   const float  R_Dot_V          = dot( reflection, viewDirection );
-   const float  specularAttn     = pow( clamp( R_Dot_V, 0.00001f, 1.f ), fSpecularPower );
-
    const float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
 
    const float4 colorOnShadowMap0 = tex2D( shadowMap0, Input.PositionFromLight0.xy );
@@ -180,18 +158,12 @@ float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
                                   + depthBias;
    const float  actualDepth       = Input.PositionFromLight0.z;
 
-   const float4 colorOutShadow    = ( fvAmbient + diffuseAttn * fvDiffuse ) * fvBaseColor
-                                  + specularAttn * fvSpecular;
+   const float4 colorOutShadow    = ( fvAmbient + fvDiffuse ) * fvBaseColor;
    const float4 colorUnderShadow  = fvAmbient * fvBaseColor;
 
-//   return colorOnShadowMap0;
-//   return depthOnShadowMap0;
-//   return actualDepth;
-//   return colorUnderShadow;
-//   return color;
-
-   const float4 actualColor1 = ceil( actualDepth - depthOnShadowMap0 ) * colorUnderShadow;
-   const float4 actualColor2 = ceil( depthOnShadowMap0 - actualDepth ) * colorOutShadow;
+   const float bUnderShadow = ceil( clamp( actualDepth - depthOnShadowMap0, 0, 1 ) );
+   const float4 actualColor1 = bUnderShadow * colorUnderShadow;
+   const float4 actualColor2 = ( 1.f - bUnderShadow ) * colorOutShadow;
    return actualColor1 + actualColor2;
 }
 
