@@ -5,11 +5,11 @@ class ShadowMapEffectShaderFeeder
     : IMPLEMENTS_INTERFACE( GlobalEffectShaderFeeder )
 {
 public: // from GlobalEffectShaderFeeder
-    virtual void display( NxActor * ) OVERRIDE;
+    virtual void displayWithEffect( const RowMajorMatrix44f & matWorld ) OVERRIDE;
 
     virtual void updateProjection( const RowMajorMatrix44f & matProj ) OVERRIDE;
 
-    virtual void updateMatrix(
+    virtual void updateCameraMatrix(
         const NxVec3 & lightPos,
         const NxVec3 & lightDir,
         const RowMajorMatrix44f & matView,

@@ -114,19 +114,7 @@ float depthBias
    float UIMin = -1.00;
    float UIMax = 1.00;
 > = float( 0.01 );
-texture base_Tex
-<
-   string ResourceName = "..\\textures\\green.jpg";
->;
-sampler2D baseMap = sampler_state
-{
-   Texture = (base_Tex);
-   ADDRESSU = WRAP;
-   ADDRESSV = WRAP;
-   MINFILTER = LINEAR;
-   MAGFILTER = LINEAR;
-   MIPFILTER = LINEAR;
-};
+sampler2D baseMap;
 texture shadow0_Tex
 <
    string ResourceName = "..\\textures\\shadow_map_captured.png";
@@ -139,32 +127,30 @@ sampler2D shadowMap0 = sampler_state
    MAGFILTER = LINEAR;
 };
 
+float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
+{
+   const float4 colorOnShadowMap = tex2D( shadowMap, texCoord );
+   const float  depthOnShadowMap = colorOnShadowMap.r
+                                 + colorOnShadowMap.g / 127.f;
+                                 + colorOnShadowMap.b / ( 127.f * 127.f );
+   return depthOnShadowMap;
+}
+
 struct PS_INPUT 
 {
-   float2 Texcoord :           TEXCOORD0;
-   float3 ViewDirection :      TEXCOORD1;
-   float3 LightDirection:      TEXCOORD2;
-   float3 Normal :             TEXCOORD3;
    float3 PositionFromLight0 : TEXCOORD4;   
 };
 
 float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
-   const float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
+   const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight0.xy );
+   const float  actualDepth       = Input.PositionFromLight0.z - depthBias;
+   const bool   bUnderShadow      = actualDepth > depthOnShadowMap0;
 
-   const float4 colorOnShadowMap0 = tex2D( shadowMap0, Input.PositionFromLight0.xy );
-   const float  depthOnShadowMap0 = colorOnShadowMap0.r + colorOnShadowMap0.g / 127.f
-                                  + colorOnShadowMap0.b / ( 127.f * 127.f )
-                                  + depthBias;
-   const float  actualDepth       = Input.PositionFromLight0.z;
+   const float4 colorOutShadow    = ( fvAmbient + fvDiffuse );
+   const float4 colorUnderShadow  = fvAmbient;
 
-   const float4 colorOutShadow    = ( fvAmbient + fvDiffuse ) * fvBaseColor;
-   const float4 colorUnderShadow  = fvAmbient * fvBaseColor;
-
-   const float bUnderShadow = ceil( clamp( actualDepth - depthOnShadowMap0, 0, 1 ) );
-   const float4 actualColor1 = bUnderShadow * colorUnderShadow;
-   const float4 actualColor2 = ( 1.f - bUnderShadow ) * colorOutShadow;
-   return actualColor1 + actualColor2;
+   return ( bUnderShadow ? colorUnderShadow : colorOutShadow );
 }
 
 

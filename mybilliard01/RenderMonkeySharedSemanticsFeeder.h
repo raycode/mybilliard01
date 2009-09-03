@@ -3,9 +3,9 @@
 
 class RenderMonkeySharedSemanticsFeeder : IMPLEMENTS_INTERFACE( GlobalEffectShaderFeeder ) {
 public: // from EffectShaderFeeder
-    virtual void display( NxActor * ) OVERRIDE {}
+    virtual void displayWithEffect( const RowMajorMatrix44f & matWorld ) OVERRIDE {}
     virtual void updateProjection( const RowMajorMatrix44f & matProj ) OVERRIDE;
-    virtual void updateMatrix(
+    virtual void updateCameraMatrix(
         const NxVec3 & cameraPos,
         const NxVec3 & cameraDir,
         const RowMajorMatrix44f & matView,

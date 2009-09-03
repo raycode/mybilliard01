@@ -15,4 +15,6 @@ namespace RenderMonkeySemantics {
         MATRIX_SEMANTIC( WorldViewProjection ),
         SIZE_OF_SEMANTICS };
 
+#undef MATRIX_SEMANTIC
+
 };

@@ -9,11 +9,8 @@ ShadowMapEffectShaderFeeder::ShadowMapEffectShaderFeeder( EffectShader * effect 
     assert( matWVP_ );
 }
 
-void ShadowMapEffectShaderFeeder::display( NxActor * actor )
+void ShadowMapEffectShaderFeeder::displayWithEffect( const RowMajorMatrix44f & matWorld )
 {
-    RowMajorMatrix44f matWorld;
-    actor->getGlobalPose().getRowMajor44( matWorld );
-
     float matWVP[ 16 ];
     (matProjView_ * matWorld).GetColumnMajor( matWVP );
     matWVP_->setFloatArray( matWVP, 16u );
@@ -24,7 +21,7 @@ void ShadowMapEffectShaderFeeder::display( NxActor * actor )
 void ShadowMapEffectShaderFeeder::updateProjection( const RowMajorMatrix44f & matProj ) {
 }
 
-void ShadowMapEffectShaderFeeder::updateMatrix(
+void ShadowMapEffectShaderFeeder::updateCameraMatrix(
                           const NxVec3 & lightPos,
                           const NxVec3 & lightDir,
                           const RowMajorMatrix44f & matView,

@@ -332,14 +332,6 @@
 					Name="1. Abstract"
 					>
 					<File
-						RelativePath=".\EffectShaderFeeder.h"
-						>
-					</File>
-					<File
-						RelativePath=".\EffectShaderFeederNull.hpp"
-						>
-					</File>
-					<File
 						RelativePath=".\GlobalEffectShaderFeeder.h"
 						>
 					</File>

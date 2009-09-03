@@ -85,6 +85,7 @@ private: // effect
     void createSharedVariableFeeder();
     void findSharedVariables( EffectShader * effect);
     ShaderVariable * getSharedVariable( wstring name );
+    void createQuadVertexBuffer( RenderBufferFactory * renderFactory );
 
 private:
     ScenePtr scene_;
@@ -134,12 +135,20 @@ private: // effect
     EffectShaderFeederNull nullToRender_;
     ShaderVariableNull nullShaderVariable_;
 
-    typedef map< wstring, ShaderVariablePtr > SharedVariables;
+    typedef map< wstring, ShaderVariable * > SharedVariables;
     SharedVariables sharedVariables_;
+
+    VertexBuffer * quadVertexBuffer_;
 
 private: // shadow map
     enum { LIGHT0, SIZE_OF_LIGHT_ENUM };
     ShadowMapLightPtr shadowMaps_[ SIZE_OF_LIGHT_ENUM ];
+
+    typedef ShaderVariable * Light_Position_Variables;
+    Light_Position_Variables light_Position_Variables_[ SIZE_OF_LIGHT_ENUM ];
+
+    typedef map< EffectShaderFeeder *, ShaderVariable * > Light_WVP_Variables;
+    Light_WVP_Variables light_WVP_Variables_[ SIZE_OF_LIGHT_ENUM ];
 
 private: // for random numbers
     mt19937 randomEngine;

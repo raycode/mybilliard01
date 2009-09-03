@@ -174,6 +174,7 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory 
     }
 
     createSharedVariableFeeder();
+    createQuadVertexBuffer( renderFactory );
 }
 
 void MyRenderEventListenerImp::resetShadowMap( RenderBufferFactory * renderFactory ) {
@@ -214,17 +215,13 @@ void MyRenderEventListenerImp::updateLight()
     {
         shadowMaps_[ i ]->updateMatrix();
 
-        const NxVec3 position = shadowMaps_[ i ]->getPosition();
-
-        wstringstream variableName;
-        variableName << L"Light" << i << L"_Position";
-
         float tmp[ 4 ];
+        const NxVec3 position = shadowMaps_[ i ]->getPosition();
         tmp[ 0 ] = position.x;
         tmp[ 1 ] = position.y;
         tmp[ 2 ] = position.z;
         tmp[ 3 ] = 1.f;
-        getSharedVariable( variableName.str() )->setFloatArray( tmp, 4u );
+        light_Position_Variables_[ i ]->setFloatArray( tmp, 4u );
     }
 }
 
@@ -235,9 +232,10 @@ void MyRenderEventListenerImp::updateEffect( float elapsedTime )
     const RowMajorMatrix44f matrixView = getActiveCamera()->getViewMatrix();
     const RowMajorMatrix44f matrixProjectionView = getActiveCamera()->getProjectionMatrix() * matrixView;
 
-    sharedVaribleFeeder_->updateMatrix( position, direction, matrixView, matrixProjectionView );
+    sharedVaribleFeeder_->updateCameraMatrix( position, direction, matrixView, matrixProjectionView );
 
-    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
+    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
+    {
         NxActor * const actor = phys_->getActor( i );
         RowMajorMatrix44f matrixWorld;
         actor->getGlobalPose().getRowMajor44( matrixWorld );
@@ -247,11 +245,12 @@ void MyRenderEventListenerImp::updateEffect( float elapsedTime )
 
         for( size_t j = 0; j < SIZE_OF_LIGHT_ENUM; ++j )
         {
-            wstringstream lightVariableName;
-            lightVariableName << L"Light" << j << L"_WorldLightProjection";
-            const RowMajorMatrix44f matrixProjectionLightWorld = shadowMaps_[ j ]->getProjectionViewMatrix() * matrixWorld;
+            Light_WVP_Variables::const_iterator iter = light_WVP_Variables_[ j ].find( feeder );
+            if( iter == light_WVP_Variables_[ j ].end() ) continue;
 
-            feeder->updateMatrix( lightVariableName.str(), matrixProjectionLightWorld );
+            const RowMajorMatrix44f matrixProjectionLightWorld
+                = shadowMaps_[ j ]->getProjectionViewMatrix() * matrixWorld;
+            iter->second->setFloatArray( matrixProjectionLightWorld, 16u );
         }
     }
 }
@@ -303,7 +302,7 @@ void MyRenderEventListenerImp::onDisplay( Render * render )
     render->setRenderState()->setWireframe()->setSolid();
     render->setRenderState()->setCull()->setClockWise();
     MY_FOR_EACH( EffectShaderFeeders, iter, feeders_ )
-        (*iter)->display();
+        (*iter)->displayWithEffect();
 }
 
 void MyRenderEventListenerImp::postDisplay( Render * render )
