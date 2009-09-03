@@ -364,6 +364,18 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="4. Post effect"
+					>
+					<File
+						RelativePath=".\PostEffectImp.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\PostEffectImp.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="1. Main"

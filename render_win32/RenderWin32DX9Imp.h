@@ -58,6 +58,9 @@ public: // from Render
     virtual const RenderState * getRenderState() const OVERRIDE;
     virtual RenderState * setRenderState() OVERRIDE;
 
+    virtual size_t getWidth() OVERRIDE;
+    virtual size_t getHeight() OVERRIDE;
+
 private: // static members
     static bool CALLBACK IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext );
     static bool CALLBACK ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSettings, void* pUserContext );

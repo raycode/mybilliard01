@@ -29,6 +29,7 @@ namespace my_render {
     class EffectShaderVariableBlock;
     class EffectShaderVariableBlockCallBack;
     class EffectShaderFeeder;
+    class PostEffect;
 
     class VertexBuffer;
     class RenderBufferFactory;
@@ -74,6 +75,7 @@ namespace my_render {
     MY_SMART_PTR( EffectShaderCallBack );
     MY_SMART_PTR( EffectShader );
     MY_SMART_PTR( EffectShaderFeeder );
+    MY_SMART_PTR( PostEffect );
     MY_SMART_PTR( RenderBufferFactory );
     MY_SMART_PTR( Scene );
     MY_SMART_PTR( Base );
@@ -121,6 +123,7 @@ namespace my_render {
 #include "EffectShader.h"
 #include "EffectShaderFeeder.h"
 #include "EffectShaderFeederNull.hpp"
+#include "PostEffect.h"
 
 #include "RenderState_Wireframe.h"
 #include "RenderState_WireframeNull.hpp"

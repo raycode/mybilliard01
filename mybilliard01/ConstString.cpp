@@ -26,6 +26,18 @@ wstring ConstString::shadowMapEffectShaderFilename() {
     return L"../asset/shaders/shadow_map.fx";
 }
 
+wstring ConstString::effectFilename_Blur() {
+    return L"../asset/shaders/blur.fx";
+}
+
+wstring ConstString::effectFilename_HDR() {
+    return L"../asset/shaders/hdr.fx";
+}
+
+wstring ConstString::effectFilename_SSAO() {
+    return L"../asset/shaders/ssao.fx";
+}
+
 wstring ConstString::dllDirectory() {
     return L"..\\dll";
 }

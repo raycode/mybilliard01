@@ -107,5 +107,17 @@ wstring TextureDX9Imp::getFilename() {
     return filename_;
 }
 
+size_t TextureDX9Imp::getWidth() {
+    D3DSURFACE_DESC desc;
+    textureDX9_->GetLevelDesc( 0, & desc );
+    return desc.Width;
+}
+
+size_t TextureDX9Imp::getHeight() {
+    D3DSURFACE_DESC desc;
+    textureDX9_->GetLevelDesc( 0, & desc );
+    return desc.Height;
+}
+
 
 }
