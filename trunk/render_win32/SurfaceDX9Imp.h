@@ -13,11 +13,15 @@ public: // from SurfaceDX9
 
     virtual LPDIRECT3DSURFACE9 getSurfaceDX9() OVERRIDE;
 
+    virtual size_t getWidth() OVERRIDE;
+    virtual size_t getHeight() OVERRIDE;
+
 public:
     SurfaceDX9Imp( IDirect3DSurface9Ptr );
 
 private:
     IDirect3DSurface9Ptr dx9Surface_;
+    D3DSURFACE_DESC desc_;
     SurfaceLockedRectDX9Ptr lockedRect_;
 };
 

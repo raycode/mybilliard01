@@ -51,7 +51,7 @@ void ShadowMapLight::renderShadowMap( Render * render ) {
 }
 
 Texture * ShadowMapLight::getRenderTarget() {
-    return shadowRenderTarget_->getTexture();
+    return shadowRenderTarget_->getRenderTargetTexture();
 }
 
 NxVec3 ShadowMapLight::getPosition() {

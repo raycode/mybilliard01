@@ -1736,6 +1736,10 @@
 						RelativePath=".\RenderTargetCallBack.h"
 						>
 					</File>
+					<File
+						RelativePath=".\RenderTargetChain.h"
+						>
+					</File>
 				</Filter>
 				<Filter
 					Name="2. Scene"
@@ -1995,10 +1999,6 @@
 				</File>
 				<File
 					RelativePath=".\EffectShaderVariableBlockCallBack.h"
-					>
-				</File>
-				<File
-					RelativePath=".\PostEffect.h"
 					>
 				</File>
 				<File

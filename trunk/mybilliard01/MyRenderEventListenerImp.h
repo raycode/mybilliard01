@@ -140,7 +140,7 @@ private: // effect
     typedef map< wstring, ShaderVariable * > SharedVariables;
     SharedVariables sharedVariables_;
 
-    PostEffectPtr blurEffect_, hdrEffect_, ssaoEffect_;
+    RenderTargetChainPtr blurEffect_, hdrEffect_, ssaoEffect_;
 
 private: // shadow map
     enum { LIGHT0, SIZE_OF_LIGHT_ENUM };

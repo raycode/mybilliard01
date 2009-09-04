@@ -12,13 +12,17 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 {
     const bool bScene = scene_->load( sceneFile );
     const bool bPhys = phys_->loadXMLFile( physX_File );
-    assert( bScene );
-    assert( bPhys );
+    THROW_UNLESS( bScene, exception() );
+    THROW_UNLESS( bPhys, exception() );
 
     initCamera( CAMERA0, NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
+    initPhys();
+}
+
+void MyRenderEventListenerImp::init()
+{
     initLight( LIGHT0, 80.f, 200.f, NxVec3( -13.f, 10.f, 140.f ), NxVec3( 0.f, -0.090536f, -0.995893f ) );
     initSound();
-    initPhys();
     initVisualOnlyObjects();
 }
 
@@ -29,17 +33,7 @@ void MyRenderEventListenerImp::initCamera( size_t index, NxVec3 pos, NxVec3 dir 
 }
 
 void MyRenderEventListenerImp::initLight( size_t index, float nearZ, float farZ, NxVec3 pos, NxVec3 dir ) {
-    shadowMaps_[ index ] = ShadowMapLightPtr( new ShadowMapLight( nearZ, farZ, false, pos, dir, NxVec3( 0.f, 0.f, 1.f ), ConstString::shadowMapEffectShaderFilename() ) );
-}
-
-bool MyRenderEventListenerImp::isActorBall( NxActor * actor ) {
-    return actorGroup_[ ACTORS_BALL ].find( actor ) != actorGroup_[ ACTORS_BALL ].end();
-}
-bool MyRenderEventListenerImp::isActorPocket( NxActor * actor ) {
-    return actorGroup_[ ACTORS_POCKET ].find( actor ) != actorGroup_[ ACTORS_POCKET ].end();
-}
-bool MyRenderEventListenerImp::isActorRail( NxActor * actor ) {
-    return actorGroup_[ ACTORS_RAIL ].find( actor ) != actorGroup_[ ACTORS_RAIL ].end();
+    shadowMaps_[ index ] = ShadowMapLightPtr( new ShadowMapLight( nearZ, farZ, false, pos, dir, NxVec3( 0.f, 0.f, 1.f ), ConstString::effectFilename_positionOnly() ) );
 }
 
 void MyRenderEventListenerImp::initSound()
@@ -88,8 +82,8 @@ void MyRenderEventListenerImp::initPhysMainActors()
         NxActor * const actor = phys_->getActor( i );
         const wstring name = convertString( actor->getName() );
 
-        if( name == L"CUE_BALL" ) actors_[ ACTOR_CUE_BALL ] = actor;
-        else if( name == L"rack01" ) actors_[ ACTOR_RACK ] = actor;
+        if( name == ConstString::name_CueBall() ) actors_[ ACTOR_CUE_BALL ] = actor;
+        else if( name == ConstString::name_Rack() ) actors_[ ACTOR_RACK ] = actor;
     }
 }
 
@@ -100,9 +94,14 @@ void MyRenderEventListenerImp::initPhysActorGroups()
         NxActor * const actor = phys_->getActor( i );
         const wstring name = convertString( actor->getName() );
 
-        if( name == L"CUE_BALL" || name.find( L"ball" ) == 0 ) actorGroup_[ ACTORS_BALL ].insert( actor );
-        else if( name.find( L"pocket" ) == 0 ) actorGroup_[ ACTORS_POCKET ].insert( actor );
-        else if( name.find( L"rail" ) == 0 ) actorGroup_[ ACTORS_RAIL ].insert( actor );
+        if( name == ConstString::name_CueBall() ||
+            name.find( ConstString::name_Ball_prefix() ) == 0 ) actorGroup_[ ACTORS_BALL ].insert( actor );
+
+        else if( name.find( ConstString::name_Pocket_prefix() ) == 0 )
+            actorGroup_[ ACTORS_POCKET ].insert( actor );
+
+        else if( name.find( ConstString::name_Rail_prefix() ) == 0 )
+            actorGroup_[ ACTORS_RAIL ].insert( actor );
     }
 }
 
@@ -145,138 +144,8 @@ const NxVec3 & MyRenderEventListenerImp::getBallDefaultPosition( NxActor * actor
 
 void MyRenderEventListenerImp::initVisualOnlyObjects()
 {
-    visualOnlyObjects_[ VISUAL_STICK ] = scene_->getNode( L"cue_stick" );
-    visualOnlyObjects_[ VISUAL_BACKGROUND ] = scene_->getNode( L"background" );
-}
-
-void MyRenderEventListenerImp::init()
-{
-}
-
-void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory, int x, int y, int width, int height ) {
-    resetShadowMap( renderFactory );
-    resetEffect( renderFactory );
-    scene_->setRenderFactory( renderFactory );
-    updateProjection( (float) width / (float) height );
-}
-
-void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory )
-{
-    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
-        NxActor * const actor = phys_->getActor( i );
-
-        const wstring nodeName = convertString( actor->getName() );
-        Node * const node = scene_->getNode( nodeName );
-
-        actor->userData = createEffectFeeder( node, renderFactory );
-
-        if( NULL != node ) nodeMap_.insert( NodeMap::value_type( actor, node ) );
-    }
-
-    createSharedVariableFeeder();
-    createPostEffects( renderFactory );
-}
-
-void MyRenderEventListenerImp::resetShadowMap( RenderBufferFactory * renderFactory ) {
-    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
-        shadowMaps_[ i ]->resetRenderBufferFactory( renderFactory, & nodeMap_ );
-}
-
-void MyRenderEventListenerImp::updateProjection( float aspect )
-{
-    getActiveCamera()->setAspect( aspect );
-
-    sharedVaribleFeeder_->updateProjection( getActiveCamera()->getProjectionMatrix() );
-
-    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
-        shadowMaps_[ i ]->updateProjection( aspect );
-
-    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
-        NxActor * const actor = phys_->getActor( i );
-        EffectShaderFeeder * const feeder = (EffectShaderFeeder *) (actor->userData);
-        feeder->updateProjection( getActiveCamera()->getProjectionMatrix() );
-    }
-}
-
-void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
-{
-    phys_->simulate( bPaused_ ? 0.f : elapsedTime );
-    getActiveCamera()->update( elapsedTime );
-    updateLight();
-    updateEffect( elapsedTime );
-    updateStickPower( elapsedTime );
-    updateStickPosition();
-    phys_->fetchResult();
-}
-
-void MyRenderEventListenerImp::updateLight()
-{
-    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
-    {
-        shadowMaps_[ i ]->updateMatrix();
-
-        float tmp[ 4 ];
-        const NxVec3 position = shadowMaps_[ i ]->getPosition();
-        tmp[ 0 ] = position.x;
-        tmp[ 1 ] = position.y;
-        tmp[ 2 ] = position.z;
-        tmp[ 3 ] = 1.f;
-        light_Position_Variables_[ i ]->setFloatArray( tmp, 4u );
-    }
-}
-
-void MyRenderEventListenerImp::updateEffect( float elapsedTime )
-{
-    const NxVec3 position = getActiveCamera()->getPosition();
-    const NxVec3 direction = getActiveCamera()->getDirectionVector();
-    const RowMajorMatrix44f matrixView = getActiveCamera()->getViewMatrix();
-    const RowMajorMatrix44f matrixProjectionView = getActiveCamera()->getProjectionMatrix() * matrixView;
-
-    sharedVaribleFeeder_->updateCameraMatrix( position, direction, matrixView, matrixProjectionView );
-
-    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
-    {
-        NxActor * const actor = phys_->getActor( i );
-        RowMajorMatrix44f matrixWorld;
-        actor->getGlobalPose().getRowMajor44( matrixWorld );
-
-        EffectShaderFeeder * const feeder = (EffectShaderFeeder *) (actor->userData);
-        feeder->updateCameraMatrix( position, direction, matrixWorld, matrixView, matrixProjectionView );
-
-        for( size_t j = 0; j < SIZE_OF_LIGHT_ENUM; ++j )
-        {
-            Light_WVP_Variables::const_iterator iter = light_WVP_Variables_[ j ].find( feeder );
-            if( iter == light_WVP_Variables_[ j ].end() ) continue;
-
-            const RowMajorMatrix44f matrixProjectionLightWorld
-                = shadowMaps_[ j ]->getProjectionViewMatrix() * matrixWorld;
-            iter->second->setFloatArray( matrixProjectionLightWorld, 16u );
-        }
-    }
-}
-
-
-void MyRenderEventListenerImp::updateStickPosition() {
-    //const NxExtendedVec3 cameraPos = getActiveCamera()->getPosition();
-    //NxVec3 newStickPosition( (NxReal) cameraPos.x, (NxReal) cameraPos.y, (NxReal) cameraPos.z );
-    //newStickPosition += getActiveCamera()->getRightVector() * 10.f;
-    //getStick()->moveGlobalPosition( newStickPosition );
-
-    //NxVec3 right = getActiveCamera()->getRightVector();
-    //NxVec3 up = getActiveCamera()->getUpVector();
-    //NxVec3 dir = getActiveCamera()->getDirectionVector();
-    //getStick()->moveGlobalOrientation( NxMat33( right, up, dir ) );
-}
-
-void MyRenderEventListenerImp::updateStickPower( float elapsedTime ) {
-    if( bChargingStickPower_ ) chargedStickPower_ = std::min( elapsedTime + chargedStickPower_, 100.f );
-}
-
-SoundHandle * MyRenderEventListenerImp::getRandomSound( int soundType )
-{
-    uniform_int<int> unif( 0, sounds_[ soundType ].size() -1 );
-    const size_t index = unif( randomEngine );
-    return sounds_[ soundType ].at( index ).get();
+    visualOnlyObjects_[ VISUAL_STICK ] = scene_->getNode( ConstString::name_CueStick() );
+    visualOnlyObjects_[ VISUAL_BACKGROUND ] = scene_->getNode( ConstString::name_Background() );
 }
 
 void MyRenderEventListenerImp::display( Render * render ) {
@@ -284,9 +153,7 @@ void MyRenderEventListenerImp::display( Render * render ) {
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
 
     preDisplay( render );
-    hdrEffect_->displayOnRenderTarget( render, this );
-    ssaoEffect_->displayOnRenderTarget( render, hdrEffect_.get() );
-    ssaoEffect_->displayOnRenderTargetCallBack( render );
+    displayOnRenderTargetCallBack( render );
 
     DXUT_EndPerfEvent();
     render->endScene();
@@ -389,3 +256,15 @@ bool MyRenderEventListenerImp::isBallMoving() {
     }
     return false;
 }
+
+bool MyRenderEventListenerImp::isActorBall( NxActor * actor ) {
+    return actorGroup_[ ACTORS_BALL ].find( actor ) != actorGroup_[ ACTORS_BALL ].end();
+}
+bool MyRenderEventListenerImp::isActorPocket( NxActor * actor ) {
+    return actorGroup_[ ACTORS_POCKET ].find( actor ) != actorGroup_[ ACTORS_POCKET ].end();
+}
+bool MyRenderEventListenerImp::isActorRail( NxActor * actor ) {
+    return actorGroup_[ ACTORS_RAIL ].find( actor ) != actorGroup_[ ACTORS_RAIL ].end();
+}
+
+

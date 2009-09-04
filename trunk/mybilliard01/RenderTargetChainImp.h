@@ -1,7 +1,7 @@
 #pragma once
 
 
-class PostEffectImp
+class RenderTargetChainImp
     : IMPLEMENTS_INTERFACE( RenderTargetChain )
     , IMPLEMENTS_INTERFACE( EffectShaderCallBack )
 {
@@ -16,7 +16,7 @@ public: // from EffectShaderCallBack
     virtual void displayPass( size_t pass ) OVERRIDE;
 
 public:
-    PostEffectImp( RenderBufferFactory *, wstring effectFilename,
+    RenderTargetChainImp( RenderBufferFactory *, wstring effectFilename,
         size_t width, size_t height, wstring outputWidthInverse, wstring outputHeightInverse,
         wstring inputTextureName, wstring inputWidthInverse, wstring inputHeightInverse );
 

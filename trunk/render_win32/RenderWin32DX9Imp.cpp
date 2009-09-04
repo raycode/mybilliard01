@@ -315,38 +315,27 @@ bool RenderWin32DX9Imp::releaseBackBuffer( SurfaceDX9 * backBuffer ) {
     return remove_only_one_pointer( backBuffers_, backBuffer );
 }
 
-size_t RenderWin32DX9Imp::getWidth()
-{
-    LPDIRECT3DSURFACE9 currentRenderTarget = NULL;
-    const HRESULT hr = getD3D9Device()->GetRenderTarget( 0, & currentRenderTarget );
-    if( FAILED( hr ) ) {
-        DXUT_ERR( L"RenderWin32DX9Imp::getWidth", hr );
-        return 0u;
-    }
-
-    D3DSURFACE_DESC desc;
-    currentRenderTarget->GetDesc( & desc );
-    const size_t width = desc.Width;
-
-    SAFE_RELEASE( currentRenderTarget );
-    return width;
+size_t RenderWin32DX9Imp::getRenderTargetWidth() {
+    return getRenderTargetDesc().Width;
 }
 
-size_t RenderWin32DX9Imp::getHeight()
-{
+size_t RenderWin32DX9Imp::getRenderTargetHeight() {
+    return getRenderTargetDesc().Height;
+}
+
+D3DSURFACE_DESC RenderWin32DX9Imp::getRenderTargetDesc() {
     LPDIRECT3DSURFACE9 currentRenderTarget = NULL;
     const HRESULT hr = getD3D9Device()->GetRenderTarget( 0, & currentRenderTarget );
     if( FAILED( hr ) ) {
         DXUT_ERR( L"RenderWin32DX9Imp::getHeight", hr );
-        return 0u;
+        throw exception();
     }
 
     D3DSURFACE_DESC desc;
     currentRenderTarget->GetDesc( & desc );
-    const size_t height = desc.Height;
-
     SAFE_RELEASE( currentRenderTarget );
-    return height;
+
+    return desc;
 }
 
 

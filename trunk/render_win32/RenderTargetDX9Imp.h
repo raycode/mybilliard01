@@ -6,7 +6,7 @@ class RenderTargetDX9Imp : IMPLEMENTS_INTERFACE( RenderTargetDX9 ) {
 public: // from RenderTarget
     virtual bool displayOnRenderTarget( Render * render, RenderTargetCallBack * ) OVERRIDE;
 
-    virtual Texture * getTexture() OVERRIDE;
+    virtual Texture * getRenderTargetTexture() OVERRIDE;
 
 public: // from RenderTargetDX9
     virtual TextureDX9 * getTextureDX9() OVERRIDE;

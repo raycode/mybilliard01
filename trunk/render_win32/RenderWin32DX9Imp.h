@@ -58,8 +58,8 @@ public: // from Render
     virtual const RenderState * getRenderState() const OVERRIDE;
     virtual RenderState * setRenderState() OVERRIDE;
 
-    virtual size_t getWidth() OVERRIDE;
-    virtual size_t getHeight() OVERRIDE;
+    virtual size_t getRenderTargetWidth() OVERRIDE;
+    virtual size_t getRenderTargetHeight() OVERRIDE;
 
 private: // static members
     static bool CALLBACK IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT AdapterFormat, D3DFORMAT BackBufferFormat, bool bWindowed, void* pUserContext );
@@ -76,7 +76,10 @@ private: // buffer factory
     void setBufferFactory( RenderBufferFactoryDX9Ptr );
 
 private: // render state
-    virtual void setRenderState( RenderStatePtr );
+    void setRenderState( RenderStatePtr );
+
+private: // render target
+    D3DSURFACE_DESC getRenderTargetDesc();
 
 private:
     RenderEventListener * eventListener_;

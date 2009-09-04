@@ -7,6 +7,8 @@ SurfaceDX9Imp::SurfaceDX9Imp( IDirect3DSurface9Ptr surface )
 : dx9Surface_( surface )
 {
     if( NULL == surface ) throw exception();
+
+    surface->GetDesc( &desc_ );
 }
 
 SurfaceLockedRectDX9 * SurfaceDX9Imp::lockRect( int left, int top, int right, int bottom, int flag )
@@ -46,5 +48,14 @@ void SurfaceDX9Imp::unlock( SurfaceLockedRectDX9 * lockedRect )
 LPDIRECT3DSURFACE9 SurfaceDX9Imp::getSurfaceDX9() {
     return dx9Surface_.get();
 }
+
+size_t SurfaceDX9Imp::getWidth() {
+    return desc_.Width;
+}
+
+size_t SurfaceDX9Imp::getHeight() {
+    return desc_.Height;
+}
+
 
 }
