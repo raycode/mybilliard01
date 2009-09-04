@@ -67,7 +67,7 @@ void RenderTargetDX9Imp::releaseResource()
 LPDIRECT3DDEVICE9 RenderTargetDX9Imp::getD3D9Device() {
     return d3d9Device_;
 }
-Texture * RenderTargetDX9Imp::getTexture() {
+Texture * RenderTargetDX9Imp::getRenderTargetTexture() {
     return getTextureDX9();
 }
 TextureDX9 * RenderTargetDX9Imp::getTextureDX9() {

@@ -11,6 +11,34 @@ wstring ConstString::windowTitle() {
 	return L"Billiard";
 }
 
+wstring ConstString::name_CueBall() {
+    return L"CUE_BALL";
+}
+
+wstring ConstString::name_Rack() {
+    return L"rack01";
+}
+
+wstring ConstString::name_Ball_prefix() {
+    return L"ball";
+}
+
+wstring ConstString::name_Pocket_prefix() {
+    return L"pocket";
+}
+
+wstring ConstString::name_Rail_prefix() {
+    return L"rail";
+}
+
+wstring ConstString::name_CueStick() {
+    return L"cue_stick";
+}
+
+wstring ConstString::name_Background() {
+    return L"background";
+}
+
 wstring ConstString::effectFilenameByNodeName( wstring nodeName ) {
     static const wstring effectShaderDirectory = L"..\\asset\\shaders\\";
     static const wstring defaultEffectFilename = L"textured phong.fx";
@@ -22,7 +50,7 @@ wstring ConstString::effectFilenameByNodeName( wstring nodeName ) {
     return effectShaderDirectory + defaultEffectFilename;
 }
 
-wstring ConstString::shadowMapEffectShaderFilename() {
+wstring ConstString::effectFilename_positionOnly() {
     return L"../asset/shaders/shadow_map.fx";
 }
 

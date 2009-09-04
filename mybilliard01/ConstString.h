@@ -13,10 +13,19 @@ namespace my_utility {
 
     public: // effect
         static wstring effectFilenameByNodeName( wstring nodeName );
-        static wstring shadowMapEffectShaderFilename();
+        static wstring effectFilename_positionOnly();
         static wstring effectFilename_Blur();
         static wstring effectFilename_HDR();
         static wstring effectFilename_SSAO();
+
+    public: // node name
+        static wstring name_CueBall();
+        static wstring name_Rack();
+        static wstring name_Ball_prefix();
+        static wstring name_Pocket_prefix();
+        static wstring name_Rail_prefix();
+        static wstring name_CueStick();
+        static wstring name_Background();
 
     public: // sound
         static wstring soundFilename_BallStrong( size_t index );

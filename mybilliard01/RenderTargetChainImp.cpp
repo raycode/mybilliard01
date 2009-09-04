@@ -2,7 +2,7 @@
 #include "my_app.h"
 
 
-PostEffectImp::PostEffectImp( RenderBufferFactory * renderFactory, wstring effectFilename,
+RenderTargetChainImp::RenderTargetChainImp( RenderBufferFactory * renderFactory, wstring effectFilename,
     size_t width, size_t height, wstring outputWidthInverse, wstring outputHeightInverse,
     wstring inputTextureName, wstring inputWidthInverse, wstring inputHeightInverse )
 {
@@ -36,11 +36,11 @@ PostEffectImp::PostEffectImp( RenderBufferFactory * renderFactory, wstring effec
     createQuadVertexBuffer( renderFactory );
 }
 
-bool PostEffectImp::displayOnRenderTarget( Render * render, RenderTargetCallBack * callBack ) {
+bool RenderTargetChainImp::displayOnRenderTarget( Render * render, RenderTargetCallBack * callBack ) {
     return renderTarget_->displayOnRenderTarget( render, callBack );
 }
 
-void PostEffectImp::displayOnRenderTargetCallBack( Render * render ) {
+void RenderTargetChainImp::displayOnRenderTargetCallBack( Render * render ) {
     inputWidthInv_->setFloat( 1.f / (float) render->getRenderTargetWidth() );
     inputHeightInv_->setFloat( 1.f / (float) render->getRenderTargetHeight() );
 
@@ -51,11 +51,11 @@ void PostEffectImp::displayOnRenderTargetCallBack( Render * render ) {
     effect_->renderWithTechnique( this );
 }
 
-void PostEffectImp::displayPass( size_t pass ) {
+void RenderTargetChainImp::displayPass( size_t pass ) {
     quadVertexBuffer_->drawPrimitive_TRIANGLESTRIP();
 }
 
-void PostEffectImp::createQuadVertexBuffer( RenderBufferFactory * renderFactory )
+void RenderTargetChainImp::createQuadVertexBuffer( RenderBufferFactory * renderFactory )
 {
     float quadVertices[] = {
         -1.f,  1.f, 0.f,
@@ -66,7 +66,7 @@ void PostEffectImp::createQuadVertexBuffer( RenderBufferFactory * renderFactory 
     quadVertexBuffer_ = renderFactory->createVertexBuffer_static( 4u, quadVertices );
 }
 
-Texture * PostEffectImp::getRenderTargetTexture() {
+Texture * RenderTargetChainImp::getRenderTargetTexture() {
     return renderTarget_->getRenderTargetTexture();
 }
 

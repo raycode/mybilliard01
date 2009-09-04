@@ -10,6 +10,7 @@ RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShade
     assert( node_ );
     assert( effect_ );
     initPredefinedSemantics();
+    initRenderTarget();
 }
 
 void RenderMonkeySemanticFeeder::updateProjection( const RowMajorMatrix44f & matProj ) {

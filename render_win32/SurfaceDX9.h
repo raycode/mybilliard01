@@ -21,6 +21,9 @@ MY_INTERFACE SurfaceDX9 {
 
     virtual LPDIRECT3DSURFACE9 getSurfaceDX9() PURE;
 
+    virtual size_t getWidth() PURE;
+    virtual size_t getHeight() PURE;
+
 public:
     struct Unlocker
     {

@@ -119,5 +119,4 @@ LPDIRECT3DDEVICE9 RenderBufferFactoryDX9Imp::getD3D9Device() {
     return d3dDevice_;
 }
 
-
 }

@@ -16,6 +16,9 @@
     if( colladaContainer_##ITERATOR.getCount() > 0 ) STL_##ITERATOR = vector< VALUE_TYPE##Ref >( &(colladaContainer_##ITERATOR[ 0 ]), &(colladaContainer_##ITERATOR[ 0 ]) + colladaContainer_##ITERATOR.getCount() ); \
     for( vector< VALUE_TYPE##Ref >::iterator ITERATOR = STL_##ITERATOR.begin(); ITERATOR != STL_##ITERATOR.end() && NULL != *ITERATOR; ++ITERATOR )
 
+#define MY_FAST_FOR_EACH_VECTOR( CONTAINER_TYPE, ITER, CONTAINER ) \
+    CONTAINER_TYPE::value_type * ITER = ( CONTAINER.size() != 0u ) ? ITER = &(CONTAINER.at( 0u )) : NULL; \
+    for( size_t i_##ITER = 0u, CONTAINER_SIZE = CONTAINER.size(); i_##ITER < CONTAINER_SIZE; actor =  ++(i_##ITER), ++(##ITER) )
 
 
 namespace my_utility {
@@ -124,5 +127,16 @@ static bool remove_only_one_pointer( T1 & aList, T2 val ) {
 #else
 #define OVERRIDE  
 #endif
+
+
+
+//#ifdef DEBUG
+
+#define CONTINUE_UNLESS( CONDITION ) if(!(CONDITION)) { assert( L#CONDITION && false ); continue; }
+#define RETURN_VOID_UNLESS( CONDITION ) if(!(CONDITION)) { assert( L#CONDITION && false ); return; }
+#define RETURN_VALUE_UNLESS( CONDITION, VALUE ) if(!(CONDITION)) { assert(L#CONDITION && false);return VALUE;}
+#define THROW_UNLESS( CONDITION, EXCEPTION ) if(!(CONDITION)) { assert(L#CONDITION && false);throw EXCEPTION;}
+
+//#endif
 
 

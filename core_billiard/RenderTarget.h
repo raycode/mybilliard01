@@ -7,7 +7,7 @@ MY_INTERFACE RenderTarget {
 
     virtual bool displayOnRenderTarget( Render * render, RenderTargetCallBack * ) PURE;
 
-    virtual Texture * getTexture() PURE;
+    virtual Texture * getRenderTargetTexture() PURE;
 
 };
 

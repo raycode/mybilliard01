@@ -27,6 +27,7 @@ public:
 
 private: // update and set
     void initPredefinedSemantics();
+    void initRenderTarget();
     void updateMatrixForPredefinedSemantic( int whichSemantic );
     void updateVec4ForPredefinedSemantic( int whichSemantic );
     void uploadValue( int whichSemantic, size_t count );

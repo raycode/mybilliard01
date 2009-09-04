@@ -19,8 +19,8 @@ NULL_OBJECT( Render ) {
     virtual const RenderState * getRenderState() const OVERRIDE { return &nullRenderState_; }
     virtual RenderState * setRenderState() OVERRIDE { return &nullRenderState_; }
 
-    virtual size_t getWidth() OVERRIDE { return 0; }
-    virtual size_t getHeight() OVERRIDE { return 0; }
+    virtual size_t getRenderTargetWidth() OVERRIDE { return 0; }
+    virtual size_t getRenderTargetHeight() OVERRIDE { return 0; }
 
 private:
     RenderStateNull nullRenderState_;
