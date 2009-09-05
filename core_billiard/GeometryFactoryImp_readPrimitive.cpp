@@ -17,8 +17,7 @@ struct GeometryFactoryImp::Pimpl {
     template< typename DomType_ >
     static bool readPrimitive_P_Array( GeometryMesh * newMesh,
         const daeTArray< daeSmartRef< typename DomType_ > > & primitiveArray,
-        GeometryFactoryImp * myThis,
-        bool bPositionOnly )
+        GeometryFactoryImp * myThis )
     {
         bool bRst = false;
         for( size_t i = 0; i < primitiveArray.getCount(); ++i )
@@ -28,7 +27,7 @@ struct GeometryFactoryImp::Pimpl {
             GeometryMeshPrimitiveImp * const newPrimitive = createGeometryMeshPrimitive( primitive, myThis );
             if( NULL == newPrimitive ) continue;
 
-            const bool succeed = myThis->readGeometryMeshPrimitiveVertices( newPrimitive, primitive->getInput_array(), primitive->getP_array(), bPositionOnly );
+            const bool succeed = myThis->readGeometryMeshPrimitiveVertices( newPrimitive, primitive->getInput_array(), primitive->getP_array() );
             if( false == succeed ) {
                 myThis->destroyGeometryMeshPrimitive( newPrimitive );
                 continue;
@@ -43,8 +42,7 @@ struct GeometryFactoryImp::Pimpl {
     template< typename DomType_ >
     static bool readPrimitive_P( GeometryMesh * newMesh,
         const daeTArray< daeSmartRef< typename DomType_ > > & primitiveArray,
-        GeometryFactoryImp * myThis,
-        bool bPositionOnly )
+        GeometryFactoryImp * myThis )
     {
         bool bRst = false;
         for( size_t i = 0; i < primitiveArray.getCount(); ++i )
@@ -56,7 +54,7 @@ struct GeometryFactoryImp::Pimpl {
             domP_Array p_array;
             p_array.append( primitive->getP() );
 
-            const bool succeed = myThis->readGeometryMeshPrimitiveVertices( newPrimitive, primitive->getInput_array(), p_array, bPositionOnly );
+            const bool succeed = myThis->readGeometryMeshPrimitiveVertices( newPrimitive, primitive->getInput_array(), p_array );
             if( false == succeed ) {
                 myThis->destroyGeometryMeshPrimitive( newPrimitive );
                 continue;
@@ -70,24 +68,24 @@ struct GeometryFactoryImp::Pimpl {
 
 };
 
-bool GeometryFactoryImp::readGeometryMesh( GeometryMesh * newMesh, domMeshRef mesh, bool bPositionOnly )
+bool GeometryFactoryImp::readGeometryMesh( GeometryMesh * newMesh, domMeshRef mesh )
 {
     if( NULL == newMesh ) return NULL;
 
     bool bRst = false;
-    bRst |= Pimpl::readPrimitive_P_Array( newMesh, mesh->getPolygons_array(), this, bPositionOnly );
-    bRst |= Pimpl::readPrimitive_P_Array( newMesh, mesh->getTrifans_array(), this, bPositionOnly );
-    bRst |= Pimpl::readPrimitive_P_Array( newMesh, mesh->getTristrips_array(), this, bPositionOnly );
-    bRst |= Pimpl::readPrimitive_P_Array( newMesh, mesh->getLinestrips_array(), this, bPositionOnly );
+    bRst |= Pimpl::readPrimitive_P_Array( newMesh, mesh->getPolygons_array(), this );
+    bRst |= Pimpl::readPrimitive_P_Array( newMesh, mesh->getTrifans_array(), this );
+    bRst |= Pimpl::readPrimitive_P_Array( newMesh, mesh->getTristrips_array(), this );
+    bRst |= Pimpl::readPrimitive_P_Array( newMesh, mesh->getLinestrips_array(), this );
 
-    bRst |= Pimpl::readPrimitive_P( newMesh, mesh->getPolylist_array(), this, bPositionOnly );
-    bRst |= Pimpl::readPrimitive_P( newMesh, mesh->getTriangles_array(), this, bPositionOnly );
-    bRst |= Pimpl::readPrimitive_P( newMesh, mesh->getLines_array(), this, bPositionOnly );
+    bRst |= Pimpl::readPrimitive_P( newMesh, mesh->getPolylist_array(), this );
+    bRst |= Pimpl::readPrimitive_P( newMesh, mesh->getTriangles_array(), this );
+    bRst |= Pimpl::readPrimitive_P( newMesh, mesh->getLines_array(), this );
 
     return bRst;
 }
 
-bool GeometryFactoryImp::readGeometryMeshPrimitiveVertices( GeometryMeshPrimitiveImp * newPrimitive, const domInputLocalOffset_Array & input_array, const domP_Array & p_array, bool bPositionOnly )
+bool GeometryFactoryImp::readGeometryMeshPrimitiveVertices( GeometryMeshPrimitiveImp * newPrimitive, const domInputLocalOffset_Array & input_array, const domP_Array & p_array )
 {
     assert( newPrimitive );
     const size_t beforeNumberOfPosition = newPrimitive->getNumberOfVertex();
@@ -104,7 +102,6 @@ bool GeometryFactoryImp::readGeometryMeshPrimitiveVertices( GeometryMeshPrimitiv
         for( vertexStream.setNewIndices( (*p)->getValue() ); vertexStream.hasVertex(); vertexStream.moveToNextVertex() ) {
 
             newPrimitive->appendPosition( vertexStream.getVertex() );
-            if( bPositionOnly ) continue;
 
             for( size_t i = 0; i < numNormalSet; ++i )
                 newPrimitive->appendNormal( vertexStream.getNormal( i ), i );

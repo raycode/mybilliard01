@@ -78,18 +78,18 @@ void NodeImp::display_positionOnly() {
 
 void NodeImp::renderInstanceGeometries() {
     MY_FOR_EACH( Instances, igeo, instanceGeometries_ ) {
-        Geometry * const geo = renderDowncast< Geometry >( (*igeo)->getResolvedReference() );
-        assert( geo );
-        if( NULL == geo ) continue;
+        GeometryDisplayable * const geo
+            = renderDowncast< GeometryDisplayable >( (*igeo)->getResolvedReference() );
+        CONTINUE_UNLESS( geo );
         geo->display();
     }
 }
 
 void NodeImp::renderInstanceGeometries_positionOnly() {
     MY_FOR_EACH( Instances, igeo, instanceGeometries_ ) {
-        Geometry * const geo = renderDowncast< Geometry >( (*igeo)->getResolvedReference() );
-        assert( geo );
-        if( NULL == geo ) continue;
+        GeometryDisplayable * const geo
+            = renderDowncast< GeometryDisplayable >( (*igeo)->getResolvedReference() );
+        CONTINUE_UNLESS( geo );
         geo->display_positionOnly();
     }
 }

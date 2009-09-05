@@ -12,11 +12,11 @@ public:
     GeometryFactoryImp( InstanceResolver * instanceResolver );
 
 private: // create geometry
-    bool readGeometryMesh( GeometryMesh *, domMeshRef, bool bPositionOnly );
+    bool readGeometryMesh( GeometryMesh *, domMeshRef );
     bool readGeometryConvexMesh( GeometryMesh *, domConvex_meshRef ) { return false; }
     bool readGeometrySpline( GeometryMesh *, domSplineRef ) { return false; }
 
-    bool readGeometryMeshPrimitiveVertices( GeometryMeshPrimitiveImp *, const domInputLocalOffset_Array &, const domP_Array &, bool bPositionOnly );
+    bool readGeometryMeshPrimitiveVertices( GeometryMeshPrimitiveImp *, const domInputLocalOffset_Array &, const domP_Array & );
 
 private: // create geometry
     Geometry * createGeometry( wstring id, wstring name, wstring uri );

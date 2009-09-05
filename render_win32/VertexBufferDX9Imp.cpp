@@ -50,25 +50,37 @@ VertexBufferDX9Imp::VertexBufferDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t how
     if( 0 == howMany || NULL == source ) throw exception();
 
     storageContainer_array_[ D3DDECLUSAGE_POSITION ].push_back( StorageContainer( source, howMany, 0, D3DDECLTYPE_FLOAT3 ) );
+
+    drawPrimitive_[ VERTEX_DECL_COMPLETE ] = DrawPrimitiveImpPtr( new DrawPrimitiveImp( this, false ) );
+    drawPrimitive_[ VERTEX_DECL_POSITION_ONLY ] = DrawPrimitiveImpPtr( new DrawPrimitiveImp( this, true ) );
 }
 
 bool VertexBufferDX9Imp::acquireResource()
 {
-    LPDIRECT3DVERTEXDECLARATION9 vertexDeclarationDX9;
-    const HRESULT hr1 = getD3D9Device()->CreateVertexDeclaration( getVertexElement(), &vertexDeclarationDX9 );
-    RETURN_FALSE_IF_FAILED( hr1, L"RenderBufferFactoryDX9Imp::uploadVertexBuffers" );
-
-    LPDIRECT3DVERTEXBUFFER9 vertexBufferDX9;
-    const HRESULT hr2 = getD3D9Device()->CreateVertexBuffer( getSizeInByteForTotal(), usage_, 0, pool_, &vertexBufferDX9, NULL );
-    if( FAILED( hr2 ) )
+    const D3DVERTEXELEMENT9 element_positionOnly[] =
     {
-        DXUT_ERR( L"RenderBufferFactoryDX9Imp::uploadVertexBuffers", hr2 );
-        SAFE_RELEASE( vertexDeclarationDX9 );
-        return false;
-    }
+        { 0, 0, D3DDECLTYPE_FLOAT3, D3DDECLMETHOD_DEFAULT, D3DDECLUSAGE_POSITION, 0 },
+        D3DDECL_END()
+    };
 
-    vertexDeclarationDX9_ = IDirect3DVertexDeclaration9Ptr( vertexDeclarationDX9, ComReleaser< IDirect3DVertexDeclaration9 >() );
-    vertexBufferDX9_ = IDirect3DVertexBuffer9Ptr( vertexBufferDX9, ComReleaser< IDirect3DVertexBuffer9 >() );
+    LPDIRECT3DVERTEXDECLARATION9 newDecl_complete;
+    const HRESULT hr1 = getD3D9Device()->CreateVertexDeclaration( getVertexElement(), &newDecl_complete );
+    RETURN_FALSE_IF_FAILED( hr1, L"RenderBufferFactoryDX9Imp::acquireResource" );
+    IDirect3DVertexDeclaration9Ptr decl_complete = IDirect3DVertexDeclaration9Ptr( newDecl_complete, ComReleaser< IDirect3DVertexDeclaration9 >() );
+
+    LPDIRECT3DVERTEXDECLARATION9 newDecl_positionOnly;
+    const HRESULT hr2 = getD3D9Device()->CreateVertexDeclaration( element_positionOnly, &newDecl_positionOnly );
+    RETURN_FALSE_IF_FAILED( hr2, L"RenderBufferFactoryDX9Imp::acquireResource" );
+    IDirect3DVertexDeclaration9Ptr decl_positionOnly = IDirect3DVertexDeclaration9Ptr( newDecl_positionOnly, ComReleaser< IDirect3DVertexDeclaration9 >() );
+
+    LPDIRECT3DVERTEXBUFFER9 newBuffer;
+    const HRESULT hr3 = getD3D9Device()->CreateVertexBuffer( getSizeInByteForTotal(), usage_, 0, pool_, &newBuffer, NULL );
+    RETURN_FALSE_IF_FAILED( hr3, L"RenderBufferFactoryDX9Imp::acquireResource" );
+    IDirect3DVertexBuffer9Ptr buffer = IDirect3DVertexBuffer9Ptr( newBuffer, ComReleaser< IDirect3DVertexBuffer9 >() );
+
+    vertexDeclarationDX9_[ VERTEX_DECL_COMPLETE ] = decl_complete;
+    vertexDeclarationDX9_[ VERTEX_DECL_POSITION_ONLY ] = decl_positionOnly;
+    vertexBufferDX9_ = buffer;
 
     writeOntoDevice( lockingFlags_ );
     return true;
@@ -77,7 +89,10 @@ bool VertexBufferDX9Imp::acquireResource()
 void VertexBufferDX9Imp::releaseResource()
 {
     vertexBufferDX9_.reset();
-    vertexDeclarationDX9_.reset();
+
+    for( size_t i = 0; i < SIZE_OF_VERTEX_DECL_ENUM; ++i ) {
+        vertexDeclarationDX9_[ i ].reset();
+    }
 }
 
 LPDIRECT3DDEVICE9 VertexBufferDX9Imp::getD3D9Device() {
@@ -85,8 +100,13 @@ LPDIRECT3DDEVICE9 VertexBufferDX9Imp::getD3D9Device() {
 }
 
 LPDIRECT3DVERTEXDECLARATION9 VertexBufferDX9Imp::getVertexDeclarationDX9() {
-    return vertexDeclarationDX9_.get();
+    return vertexDeclarationDX9_[ VERTEX_DECL_COMPLETE ].get();
 }
+
+LPDIRECT3DVERTEXDECLARATION9 VertexBufferDX9Imp::getVertexDeclarationDX9_positionOnly() {
+    return vertexDeclarationDX9_[ VERTEX_DECL_POSITION_ONLY ].get();
+}
+
 
 LPDIRECT3DVERTEXBUFFER9 VertexBufferDX9Imp::getVertexBufferDX9() {
     return vertexBufferDX9_.get();
