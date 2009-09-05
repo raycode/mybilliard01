@@ -13,13 +13,13 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
 {
     for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i ) {
         resetEffect( renderFactory, lights_[ i ] );
-        lightRenderTargets_[ i ] = RenderTargetPtr( renderFactory->createRenderTarget( 1024, 1024 ) );
+        lightRenderTargets_[ i ] = renderFactory->createRenderTarget( 1024, 1024 );
     }
 
     for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i ) {
         resetEffect( renderFactory, cameras_[ i ] );
         resetEffect( renderFactory, depthCameras_[ i ] );
-        depthCameraRenderTargets_[ i ] = RenderTargetPtr( renderFactory->createRenderTarget( width, height ) );
+        depthCameraRenderTargets_[ i ] = renderFactory->createRenderTarget( width, height );
     }
 }
 
