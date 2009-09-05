@@ -6,10 +6,10 @@ public: // from EffectShaderCallBack
     virtual void displayPass( size_t pass ) OVERRIDE;
 
 public:
-    NodeDisplayer( Node *, bool bPositionOnly );
+    NodeDisplayer( Displayable *, bool bPositionOnly );
 
 private:
-    Node * const node_;
+    Displayable * const node_;
     bool bPositionOnly_;
 };
 
