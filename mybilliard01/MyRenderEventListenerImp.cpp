@@ -22,16 +22,40 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 
 void MyRenderEventListenerImp::init()
 {
-    //initLight( LIGHT0, 80.f, 200.f, NxVec3( -13.f, 10.f, 140.f ), NxVec3( 0.f, -0.090536f, -0.995893f ) );
+    initLight( LIGHT_0, 80.f, 200.f, NxVec3( -13.f, 10.f, 140.f ), NxVec3( 0.f, -0.090536f, -0.995893f ) );
     initSound();
     initVisualOnlyObjects();
 }
 
-void MyRenderEventListenerImp::initCamera( size_t index, NxVec3 pos, NxVec3 dir ) {
+void MyRenderEventListenerImp::initCamera( size_t index, NxVec3 pos, NxVec3 dir )
+{
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
     cameras_[ index ] = new MyCamera( colladaCamera, false, phys_.get(), this, pos, dir );
     cameras_[ index ]->setMovementToFixedHeight( pos.z );
-    cameraMatrixEffects_.push_back( MyCameraPtr( cameras_[ index ] ) );
+    cameraOrLights_.push_back( RenderableCameraPtr( cameras_[ index ] ) );
+
+    depthCameras_[ index ] = new RenderableCamera( colladaCamera, false, true );
+    depthCameras_[ index ]->setPosition( cameras_[ index ]->getPosition() );
+    depthCameras_[ index ]->setDirectionVector( cameras_[ index ]->getDirectionVector() );
+    depthCameras_[ index ]->setUpVector( cameras_[ index ]->getUpVector() );
+    depthCameras_[ index ]->setRightVector( cameras_[ index ]->getRightVector() );
+    cameraOrLights_.push_back( RenderableCameraPtr( depthCameras_[ index ] ) );
+}
+
+void MyRenderEventListenerImp::initLight( size_t index, float zNear, float zFar, NxVec3 pos, NxVec3 dir )
+{
+    Camera * const newCamera = new CameraImp();
+    colladaCameras_.push_back( CameraPtr( newCamera ) );
+    newCamera->getPerspectiveCamera()->setZNear( zNear );
+    newCamera->getPerspectiveCamera()->setZFar( zFar );
+
+    const NxVec3 up = NxVec3( 0.f, 0.f, 1.f );
+    lights_[ index ] = new RenderableCamera( newCamera, false, true );
+    lights_[ index ]->setPosition( pos );
+    lights_[ index ]->setDirectionVector( dir );
+    lights_[ index ]->setUpVector( up );
+    lights_[ index ]->setRightVector( dir.cross( up ) );
+    cameraOrLights_.push_back( RenderableCameraPtr( lights_[ index ] ) );
 }
 
 void MyRenderEventListenerImp::initSound()
@@ -150,6 +174,8 @@ void MyRenderEventListenerImp::display( Render * render ) {
     if( false == render->beginScene() ) return;
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
 
+    lightRenderTargets_[ LIGHT_0 ]->displayOnRenderTarget( render, lights_[ LIGHT_0 ] );
+    depthCameraRenderTargets_[ CAMERA_0 ]->displayOnRenderTarget( render, depthCameras_[ CAMERA_0 ] );
     getActiveCamera()->displayOnRenderTargetCallBack( render );
 
     DXUT_EndPerfEvent();

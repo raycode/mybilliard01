@@ -34,12 +34,6 @@ void RenderMonkeySemanticFeeder::updateCameraMatrix(
     cameraDir_ = cameraDir;
     matView_ = matView;
     matProjView_ = matProjView;
-
-    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Matrix_ )
-        updateMatrixForPredefinedSemantic( *iter );
-
-    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Vec4_ )
-        updateVec4ForPredefinedSemantic( *iter );
 }
 
 void RenderMonkeySemanticFeeder::updateModelMatrix( const RowMajorMatrix44f & matWorld )
@@ -52,10 +46,16 @@ bool RenderMonkeySemanticFeeder::displayWithEffect( EffectShaderCallBack * callB
     //OutputDebugStr( wstring( L"Node name: " + node_->getName() + L"\n" ).c_str() );
 
     MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Matrix_ )
+    {
+        updateMatrixForPredefinedSemantic( *iter );
         uploadValue( *iter, 16u );
+    }
 
     MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Vec4_ )
+    {
+        updateVec4ForPredefinedSemantic( *iter );
         uploadValue( *iter, 4u );
+    }
 
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"Effect with technique" );
     const bool bRst = effect_->renderWithTechnique( callBack );

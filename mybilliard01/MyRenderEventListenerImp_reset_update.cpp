@@ -4,21 +4,26 @@
 
 void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory, int x, int y, int width, int height )
 {
-    resetEffect( renderFactory );
+    resetEffect( renderFactory, width, height );
     scene_->setRenderFactory( renderFactory );
     updateProjection( (float) width / (float) height );
 }
 
-void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory )
+void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, size_t width, size_t height )
 {
-    //for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
-    //    resetEffect( renderFactory, lights_[ i ] );
+    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i ) {
+        resetEffect( renderFactory, lights_[ i ] );
+        lightRenderTargets_[ i ] = RenderTargetPtr( renderFactory->createRenderTarget( 1024, 1024 ) );
+    }
 
-    for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i )
+    for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i ) {
         resetEffect( renderFactory, cameras_[ i ] );
+        resetEffect( renderFactory, depthCameras_[ i ] );
+        depthCameraRenderTargets_[ i ] = RenderTargetPtr( renderFactory->createRenderTarget( width, height ) );
+    }
 }
 
-void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, CameraMatrixEffect * camera )
+void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, RenderableCamera * camera )
 {
     EffectShaderFeederPtr sharedFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( true ) );
     sharedFeeders_.push_back( sharedFeeder );
@@ -33,15 +38,21 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
         if( NULL == node ) continue;
         actor->userData = node;
 
-        EffectShaderFeeder * const newFeeder = createEffectFeeder( nodeName, renderFactory );
-        camera->appendEffectShaderFeederForActor( newFeeder, actor );
+        if( camera->isPositionOnly() ) {
+            const wstring effectFilename2 = ConstString::effectFilename_positionOnly();
+            EffectShaderFeeder * const newFeeder2 = createEffectFeeder( effectFilename2, renderFactory );
+            camera->appendEffectShaderFeederForActor( newFeeder2, actor );
+
+        } else {
+            const wstring effectFilename1 = ConstString::effectFilenameByNodeName( nodeName );
+            EffectShaderFeeder * const newFeeder1 = createEffectFeeder( effectFilename1, renderFactory );
+            camera->appendEffectShaderFeederForActor( newFeeder1, actor );
+        }
     }
 }
 
-EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( wstring nodeName, RenderBufferFactory * renderFactory )
+EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( wstring effectFilename, RenderBufferFactory * renderFactory )
 {
-    const wstring effectFilename = ConstString::effectFilenameByNodeName( nodeName );
-
     EffectShader * const newEffect = renderFactory->createEffectShader( effectFilename );
     RETURN_VALUE_UNLESS( newEffect, NULL );
 
@@ -58,16 +69,46 @@ EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( wstring nodeN
 void MyRenderEventListenerImp::updateProjection( float aspect )
 {
     for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i )
+    {
         cameras_[ i ]->setAspect( aspect );
+        depthCameras_[ i ]->setAspect( aspect );
+    }
 }
 
 void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, float elapsedTime )
 {
     phys_->simulate( bPaused_ ? 0.f : elapsedTime );
-    getActiveCamera()->update( elapsedTime );
+    updateCamera( elapsedTime );
+    updateSharedVariables();
     updateStickPower( elapsedTime );
     updateStickPosition();
     phys_->fetchResult();
+}
+
+void MyRenderEventListenerImp::updateCamera( float elapsedTime )
+{
+    MyCamera * const camera = getActiveCamera();
+    camera->update( elapsedTime );
+    depthCameras_[ 0 ]->setPosition( camera->getPosition() );
+    depthCameras_[ 0 ]->setUpVector( camera->getUpVector() );
+    depthCameras_[ 0 ]->setDirectionVector( camera->getDirectionVector() );
+    depthCameras_[ 0 ]->setRightVector( camera->getRightVector() );
+}
+
+void MyRenderEventListenerImp::updateSharedVariables()
+{
+    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
+    {
+        const NxVec3 position = lights_[ i ]->getPosition();
+
+        float tmp[ 4 ];
+        memcpy( tmp, position.get(), sizeof( float ) * 3 );
+        tmp[ 3 ] = 1.f;
+
+        wstringstream variableName;
+        variableName << "Light" << i << "_Position";
+        getSharedVariable( variableName.str() )->setFloatArray( tmp, 4u );
+    }
 }
 
 void MyRenderEventListenerImp::updateStickPosition() {

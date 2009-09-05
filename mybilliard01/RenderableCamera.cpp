@@ -2,13 +2,14 @@
 #include "my_app.h"
 
 
-CameraMatrixEffect::CameraMatrixEffect( Camera * cameraCollada, bool bRightHand )
+RenderableCamera::RenderableCamera( Camera * cameraCollada, bool bRightHand, bool bPositionOnly )
 : CameraMatrixImp( cameraCollada, bRightHand )
 , colladaCamera_( cameraCollada )
+, bPositionOnly_( bPositionOnly )
 {
 }
 
-void CameraMatrixEffect::displayOnRenderTargetCallBack( Render * render )
+void RenderableCamera::displayOnRenderTargetCallBack( Render * render )
 {
     const NxVec3 position = getPosition();
     const NxVec3 direction = getDirectionVector();
@@ -36,16 +37,16 @@ void CameraMatrixEffect::displayOnRenderTargetCallBack( Render * render )
             actor->getGlobalPose().getRowMajor44( matWorld );
             feeder->updateModelMatrix( matWorld );
 
-            feeder->displayWithEffect( NodeDisplayerPtr( new NodeDisplayer( node, false ) ).get() );
+            feeder->displayWithEffect( NodeDisplayerPtr( new NodeDisplayer( node, isPositionOnly() ) ).get() );
         }
     }
 }
 
-void CameraMatrixEffect::setSharedEffectShaderFeeder( EffectShaderFeeder * sharedVaribleFeeder ) {
+void RenderableCamera::setSharedEffectShaderFeeder( EffectShaderFeeder * sharedVaribleFeeder ) {
     sharedVaribleFeeder_ = sharedVaribleFeeder;
 }
 
-void CameraMatrixEffect::setAspect( float aspectRatio )
+void RenderableCamera::setAspect( float aspectRatio )
 {
     colladaCamera_->getPerspectiveCamera()->setAspect( aspectRatio );
     
@@ -54,7 +55,7 @@ void CameraMatrixEffect::setAspect( float aspectRatio )
 }
 
 
-void CameraMatrixEffect::appendEffectShaderFeederForActor( EffectShaderFeeder * newFeeder, NxActor * actor )
+void RenderableCamera::appendEffectShaderFeederForActor( EffectShaderFeeder * newFeeder, NxActor * actor )
 {
     THROW_UNLESS( sharedVaribleFeeder_, exception() );
 
@@ -73,5 +74,13 @@ void CameraMatrixEffect::appendEffectShaderFeederForActor( EffectShaderFeeder * 
     sharedVaribleFeeder_->setEffectShader( effect );
 }
 
+Camera * RenderableCamera::getProjectionCamera() {
+    return colladaCamera_;
+}
+
+
+bool RenderableCamera::isPositionOnly() {
+    return bPositionOnly_;
+}
 
 

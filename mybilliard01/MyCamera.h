@@ -1,7 +1,7 @@
 #pragma once
 
 
-class MyCamera : public CameraMatrixEffect
+class MyCamera : public RenderableCamera
 {
 public: // from CameraMatrix
     virtual NxVec3 getPosition() OVERRIDE;

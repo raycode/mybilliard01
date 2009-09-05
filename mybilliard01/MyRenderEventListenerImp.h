@@ -61,12 +61,14 @@ private: // init
     void initPhysBallPosition( NxActor * actor );
 
 private: // reset
-    void resetEffect( RenderBufferFactory * );
-    void resetEffect( RenderBufferFactory *, CameraMatrixEffect * );
+    void resetEffect( RenderBufferFactory *, size_t width, size_t height );
+    void resetEffect( RenderBufferFactory *, RenderableCamera * );
 
 private: // update
+    void updateCamera( float elapsedTime );
     void updateProjection( float aspect );
-    void updateProjection( float aspect, CameraMatrixEffect * );
+    void updateProjection( float aspect, RenderableCamera * );
+    void updateSharedVariables();
     void updateStickPosition();
     void updateStickPower( float elapsedTime );
 
@@ -109,18 +111,21 @@ private: // visual only
 
 private: // camera
     enum { LIGHT_0, SIZE_OF_LIGHT_ENUM };
-    CameraMatrixEffect * lights_[ SIZE_OF_LIGHT_ENUM ];
+    RenderableCamera * lights_[ SIZE_OF_LIGHT_ENUM ];
+    RenderTarget * lightRenderTargets_[ SIZE_OF_LIGHT_ENUM ];
 
     enum CameraEnum { CAMERA_0, SIZE_OF_CAMERA_ENUM };
     MyCamera * cameras_[ SIZE_OF_CAMERA_ENUM ];
+    RenderableCamera * depthCameras_[ SIZE_OF_CAMERA_ENUM ];
+    RenderTarget * depthCameraRenderTargets_[ SIZE_OF_CAMERA_ENUM ];
 
     CameraEnum activeCamera_;
 
     typedef list< my_render::CameraPtr > ColladaCameras;
     ColladaCameras colladaCameras_;
 
-    typedef list< CameraMatrixEffectPtr > CameraMatrixEffects;
-    CameraMatrixEffects cameraMatrixEffects_;
+    typedef list< RenderableCameraPtr > RenderableCameras;
+    RenderableCameras cameraOrLights_;
 
 private: // effect
     typedef list< EffectShaderFeederPtr > EffectShaderFeeders;
