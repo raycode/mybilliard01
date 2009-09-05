@@ -26,7 +26,6 @@ public:
 
 private: // update and set
     void initPredefinedSemantics();
-    bool initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, size_t countOfFloat );
     void initRenderTargets();
     void updateForPredefinedSemantic( int whichSemantic );
     void uploadValue( int whichSemantic );
@@ -43,7 +42,9 @@ private: // render monkey semantics
     ShaderVariable * predefinedVariables_[ RenderMonkeySemantics::SIZE_OF_SEMANTICS ];
 
     typedef vector< int > ActiveSemanticFlags;
-    ActiveSemanticFlags activeSemantics_;
+    ActiveSemanticFlags activeSemantics_Projection_, activeSemantics_Camera_, activeSemantics_Model_;
+
+    bool initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, ActiveSemanticFlags & whereToStore, size_t countOfFloat );
 
 private: 
     typedef vector< float > TemporaryStorage;
