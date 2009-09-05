@@ -1862,6 +1862,10 @@
 				Name="3. Node"
 				>
 				<File
+					RelativePath=".\Displayable.h"
+					>
+				</File>
+				<File
 					RelativePath=".\Node.h"
 					>
 				</File>
@@ -1875,10 +1879,6 @@
 				>
 				<File
 					RelativePath=".\Geometry.h"
-					>
-				</File>
-				<File
-					RelativePath=".\GeometryDisplayable.h"
 					>
 				</File>
 				<File

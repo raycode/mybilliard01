@@ -2,8 +2,8 @@
 namespace my_render {
 
 
-MY_INTERFACE GeometryDisplayable {
-    virtual ~GeometryDisplayable() {}
+MY_INTERFACE Displayable {
+    virtual ~Displayable() {}
 
     virtual void display() PURE;
     virtual void display_positionOnly() PURE;

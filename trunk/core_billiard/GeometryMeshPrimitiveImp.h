@@ -13,7 +13,7 @@ public: // from GeometryMeshPrimitive
     virtual void buildDeviceBuffer_onDynamic( RenderBufferFactory * ) OVERRIDE;
     virtual void buildDeviceBuffer_onStream( RenderBufferFactory * ) OVERRIDE;
 
-public: // from GeometryDisplayable
+public: // from Displayable
     virtual void display() OVERRIDE;
     virtual void display_positionOnly() OVERRIDE;
 

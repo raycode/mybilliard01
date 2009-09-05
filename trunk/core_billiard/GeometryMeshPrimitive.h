@@ -2,7 +2,7 @@
 namespace my_render {
 
 
-MY_INTERFACE GeometryMeshPrimitive : EXTENDS_INTERFACE( GeometryDisplayable ) {
+MY_INTERFACE GeometryMeshPrimitive : EXTENDS_INTERFACE( Displayable ) {
 
     virtual wstring getName() PURE;
     virtual size_t getTriangleCount() PURE;

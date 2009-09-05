@@ -2,7 +2,7 @@
 #include "my_app.h"
 
 
-NodeDisplayer::NodeDisplayer( Node * node, bool bPositionOnly )
+NodeDisplayer::NodeDisplayer( Displayable * node, bool bPositionOnly )
 : node_( node )
 , bPositionOnly_( bPositionOnly )
 {
