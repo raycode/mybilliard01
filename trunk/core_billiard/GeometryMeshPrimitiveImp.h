@@ -2,17 +2,20 @@
 namespace my_render_imp {
 
 
-class GeometryMeshPrimitiveImp : IMPLEMENTS_INTERFACE( GeometryMeshPrimitive ) {
+class GeometryMeshPrimitiveImp : IMPLEMENTS_INTERFACE( GeometryMeshPrimitive )
+{
 public: // from GeometryMeshPrimitive
     virtual wstring getName() OVERRIDE;
     virtual size_t getTriangleCount() OVERRIDE;
     virtual wstring getMaterialName() OVERRIDE;
 
-    virtual void display() OVERRIDE;
-
     virtual void buildDeviceBuffer_onStatic( RenderBufferFactory * ) OVERRIDE;
     virtual void buildDeviceBuffer_onDynamic( RenderBufferFactory * ) OVERRIDE;
     virtual void buildDeviceBuffer_onStream( RenderBufferFactory * ) OVERRIDE;
+
+public: // from GeometryDisplayable
+    virtual void display() OVERRIDE;
+    virtual void display_positionOnly() OVERRIDE;
 
 public:
     GeometryMeshPrimitiveImp();
@@ -34,14 +37,8 @@ public: // append vertex information
     void appendTexCoord2D( NxReal u, NxReal v, size_t whichSet );
 
 private: // display by draw type
-    void display_TRIANGLEFAN();
-    void display_TRIANGLESTRIP();
-    void display_LINESTRIP();
-    void display_TRIANGLELIST();
-    void display_LINELIST();
-
-    typedef void (GeometryMeshPrimitiveImp::*Display_pointer)();
-    Display_pointer display_pointer_;
+    typedef void (VertexBuffer::DrawPrimitive::*Draw_pointer)();
+    Draw_pointer display_pointer_;
 
 private: // build buffers on device
     void buildDeviceBuffer( VertexBuffer * vertexBuffer );

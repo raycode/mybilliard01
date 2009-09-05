@@ -5,7 +5,7 @@ namespace my_render_imp {
 
 GeometryMeshPrimitiveImp::GeometryMeshPrimitiveImp()
 : numTriangles_( 0u )
-, display_pointer_( & GeometryMeshPrimitiveImp::display_TRIANGLELIST )
+, display_pointer_( & VertexBuffer::DrawPrimitive::TRIANGLELIST )
 {
 }
 
@@ -42,26 +42,31 @@ void GeometryMeshPrimitiveImp::setRenderingPrimitiveType( const int primitiveTyp
     primitiveTypeID_ = primitiveTypeID;
 
     if( primitiveTypeID == domTrifans::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLEFAN;
+        display_pointer_ = &VertexBuffer::DrawPrimitive::TRIANGLEFAN;
     else if( primitiveTypeID == domTristrips::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLESTRIP;
+        display_pointer_ = &VertexBuffer::DrawPrimitive::TRIANGLESTRIP;
     else if( primitiveTypeID == domPolygons::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLELIST;
+        display_pointer_ = &VertexBuffer::DrawPrimitive::TRIANGLELIST;
     else if( primitiveTypeID == domPolylist::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLELIST;
+        display_pointer_ = &VertexBuffer::DrawPrimitive::TRIANGLELIST;
     else if( primitiveTypeID == domTriangles::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_TRIANGLELIST;
+        display_pointer_ = &VertexBuffer::DrawPrimitive::TRIANGLELIST;
     else if( primitiveTypeID == domLinestrips::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_LINESTRIP;
+        display_pointer_ = &VertexBuffer::DrawPrimitive::LINESTRIP;
     else if( primitiveTypeID == domLines::ID() )
-        display_pointer_ = &GeometryMeshPrimitiveImp::display_LINELIST;
+        display_pointer_ = &VertexBuffer::DrawPrimitive::LINELIST;
     else
         throw exception();
 }
 
 void GeometryMeshPrimitiveImp::display() {
-    (this->*display_pointer_)();
+    ((vertexBuffer_->drawPrimitive())->*display_pointer_)();
 }
+
+void GeometryMeshPrimitiveImp::display_positionOnly() {
+    ((vertexBuffer_->drawPrimitive_positionOnly())->*display_pointer_)();
+}
+
 
 void GeometryMeshPrimitiveImp::appendPosition( NxVec3 val ) {
     const size_t whichSet = 0;
@@ -124,6 +129,7 @@ void GeometryMeshPrimitiveImp::buildDeviceBuffer( VertexBuffer * vertexBuffer ) 
             stream.push_back( PixelColor( *iter ) );
         vertexBuffer->appendColor_Array( &(stream[ 0 ]), i );
     }
+
     for( size_t i = 0; i < semanticSet_[ ETYPE_TEXCOORD_2D ].size(); ++i ) {
         vector< float > stream;
         MY_FOR_EACH( Semantic, iter, semanticSet_[ ETYPE_TEXCOORD_2D ][ i ] ) {
@@ -133,22 +139,5 @@ void GeometryMeshPrimitiveImp::buildDeviceBuffer( VertexBuffer * vertexBuffer ) 
         vertexBuffer->appendTexCoord2D_Array( (float*) &(stream[ 0 ]), i );
     }
 }
-
-void GeometryMeshPrimitiveImp::display_TRIANGLEFAN() {
-    vertexBuffer_->drawPrimitive_TRIANGLEFAN();
-}
-void GeometryMeshPrimitiveImp::display_TRIANGLESTRIP() {
-    vertexBuffer_->drawPrimitive_TRIANGLESTRIP();
-}
-void GeometryMeshPrimitiveImp::display_LINESTRIP() {
-    vertexBuffer_->drawPrimitive_LINESTRIP();
-}
-void GeometryMeshPrimitiveImp::display_TRIANGLELIST() {
-    vertexBuffer_->drawPrimitive_TRIANGLELIST();
-}
-void GeometryMeshPrimitiveImp::display_LINELIST() {
-    vertexBuffer_->drawPrimitive_LINELIST();
-}
-
 
 }

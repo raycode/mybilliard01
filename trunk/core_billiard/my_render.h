@@ -52,6 +52,7 @@ namespace my_render {
     class Geometry;
     class GeometryMesh;
     class GeometryMeshPrimitive;
+    class GeometryDisplayable;
 
     class CameraFactory;
     class CameraPerspective;
@@ -85,6 +86,7 @@ namespace my_render {
     MY_SMART_PTR( CameraMatrix );
     MY_SMART_PTR( ColladaFactory );
     MY_SMART_PTR( NodeFactory );
+    MY_SMART_PTR( GeometryDisplayable );
     MY_SMART_PTR( GeometryFactory );
     MY_SMART_PTR( Instance );
     MY_SMART_PTR( InstanceResolver );
@@ -152,6 +154,7 @@ namespace my_render {
 #include "Instance.h"
 #include "InstanceResolver.h"
 
+#include "GeometryDisplayable.h"
 #include "Geometry.h"
 #include "GeometryMesh.h"
 #include "GeometryMeshPrimitive.h"

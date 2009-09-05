@@ -60,10 +60,8 @@ bool SceneImp::load( wstring filename ) {
 }
 
 void SceneImp::updateDevice() {
-    MY_FOR_EACH( Geometries, geo, geometries_ ) {
+    MY_FOR_EACH( Geometries, geo, geometries_ )
         updateDevice_GeometryMesh( (*geo)->getMesh() );
-        updateDevice_GeometryMesh( (*geo)->getMesh_positionOnly() );
-    }
 }
 
 void SceneImp::updateDevice_GeometryMesh( GeometryMesh * mesh )

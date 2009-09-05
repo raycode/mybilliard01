@@ -9,6 +9,12 @@ void GeometryMeshImp::display() {
     }
 }
 
+void GeometryMeshImp::display_positionOnly() {
+    MY_FOR_EACH( Primitives, primitive, primitives_ ) {
+        (*primitive)->display_positionOnly();
+    }
+}
+
 void GeometryMeshImp::appendPrimitive( GeometryMeshPrimitive * primitive ) {
     primitives_.push_back( primitive );
 }

@@ -1878,6 +1878,10 @@
 					>
 				</File>
 				<File
+					RelativePath=".\GeometryDisplayable.h"
+					>
+				</File>
+				<File
 					RelativePath=".\GeometryFactory.h"
 					>
 				</File>

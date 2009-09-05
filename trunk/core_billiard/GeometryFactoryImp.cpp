@@ -21,10 +21,9 @@ Geometry * GeometryFactoryImp::createGeometry( domGeometryRef geo ) {
     Geometry * const newGeo = createGeometry( id, name, uri );
     if( NULL == newGeo ) return NULL;
 
-    const bool bMesh = readGeometryMesh( newGeo->getMesh(), mesh, false );
-    const bool bMesh_positionOnly = readGeometryMesh( newGeo->getMesh_positionOnly(), mesh, true );
-    assert( bMesh && bMesh_positionOnly );
-    if( false == bMesh || false == bMesh_positionOnly ) {
+    const bool bMesh = readGeometryMesh( newGeo->getMesh(), mesh );
+    assert( bMesh );
+    if( false == bMesh ) {
         destroyGeometry( newGeo );
         return NULL;
     }

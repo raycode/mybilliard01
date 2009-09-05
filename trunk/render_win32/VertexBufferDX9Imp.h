@@ -16,17 +16,14 @@ public: // from VertexBuffer
 
     virtual size_t getNumberOfVertex() OVERRIDE;
 
-    virtual void drawPrimitive_POINTLIST() OVERRIDE;
-    virtual void drawPrimitive_LINELIST() OVERRIDE;
-    virtual void drawPrimitive_LINESTRIP() OVERRIDE;
-    virtual void drawPrimitive_TRIANGLELIST() OVERRIDE;
-    virtual void drawPrimitive_TRIANGLESTRIP() OVERRIDE;
-    virtual void drawPrimitive_TRIANGLEFAN() OVERRIDE;
+    virtual DrawPrimitive * drawPrimitive() OVERRIDE;
+    virtual DrawPrimitive * drawPrimitive_positionOnly() OVERRIDE;
 
 public: // from VertexBufferDX9
     virtual size_t getSizeInByteForEachVertex() OVERRIDE;
-    virtual LPDIRECT3DVERTEXDECLARATION9 getVertexDeclarationDX9() OVERRIDE;
     virtual LPDIRECT3DVERTEXBUFFER9 getVertexBufferDX9() OVERRIDE;
+    virtual LPDIRECT3DVERTEXDECLARATION9 getVertexDeclarationDX9() OVERRIDE;
+    virtual LPDIRECT3DVERTEXDECLARATION9 getVertexDeclarationDX9_positionOnly() OVERRIDE;
 
 public: // from ReleasableResource
     virtual bool acquireResource() OVERRIDE;
@@ -34,6 +31,31 @@ public: // from ReleasableResource
 
 public:
     VertexBufferDX9Imp( LPDIRECT3DDEVICE9 d3d9Device, size_t numberOfPosition, const float * positions_3floatsForEach, DWORD usage, D3DPOOL pool, DWORD lockingFlags  );
+
+private: // from VertexBuffer
+    class DrawPrimitiveImp : IMPLEMENTS_INTERFACE( DrawPrimitive ) {
+    public:
+        virtual void POINTLIST() OVERRIDE;
+        virtual void LINELIST() OVERRIDE;
+        virtual void LINESTRIP() OVERRIDE;
+        virtual void TRIANGLELIST() OVERRIDE;
+        virtual void TRIANGLESTRIP() OVERRIDE;
+        virtual void TRIANGLEFAN() OVERRIDE;
+
+    public:
+        DrawPrimitiveImp( VertexBufferDX9Imp * parent, bool bPositionOnly );
+
+    private:
+        LPDIRECT3DVERTEXDECLARATION9 getVertexDecl();
+        LPDIRECT3DVERTEXBUFFER9 getVertexBuffer();
+        size_t getNumberOfVertex();
+
+    private:
+        VertexBufferDX9Imp * parent_;
+        bool bPositionOnly_;
+    };
+
+    MY_SMART_PTR( DrawPrimitiveImp );
 
 private:
     size_t getSizeInByteForTotal();
@@ -48,7 +70,8 @@ private:
     LPDIRECT3DDEVICE9 getD3D9Device();
 
     void drawPrimitive( D3DPRIMITIVETYPE primitiveType,
-        LPDIRECT3DVERTEXBUFFER9 vb, NxU32 startVertex, NxU32 primitiveCount );
+        LPDIRECT3DVERTEXDECLARATION9 decl, LPDIRECT3DVERTEXBUFFER9 vb,
+        NxU32 startVertex, NxU32 primitiveCount );
 
 private:
     struct Storage {
@@ -125,8 +148,11 @@ private:
     MY_SMART_PTR( IDirect3DVertexBuffer9 );
     IDirect3DVertexBuffer9Ptr vertexBufferDX9_;
 
+    enum VertexDeclEnum { VERTEX_DECL_COMPLETE, VERTEX_DECL_POSITION_ONLY, SIZE_OF_VERTEX_DECL_ENUM };
     MY_SMART_PTR( IDirect3DVertexDeclaration9 );
-    IDirect3DVertexDeclaration9Ptr vertexDeclarationDX9_;
+    IDirect3DVertexDeclaration9Ptr vertexDeclarationDX9_[ SIZE_OF_VERTEX_DECL_ENUM ];
+
+    DrawPrimitiveImpPtr drawPrimitive_[ SIZE_OF_VERTEX_DECL_ENUM ];
 
 private:
     struct Pimpl;
