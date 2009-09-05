@@ -23,6 +23,7 @@ namespace my_render {
     class Texture;
     class EffectShader;
     class EffectShaderCallBack;
+    class EffectShaderFeeder;
     class ShaderVariable;
     class EffectShaderAnnotation;
     class EffectShaderVariable;

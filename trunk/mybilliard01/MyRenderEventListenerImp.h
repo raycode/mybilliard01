@@ -6,11 +6,7 @@ class MyRenderEventListenerImp
     , IMPLEMENTS_INTERFACE( SoundRetriever )
     , IMPLEMENTS_INTERFACE( ActorRecognizer )
     , IMPLEMENTS_INTERFACE( BilliardControl )
-    , IMPLEMENTS_INTERFACE( RenderTargetCallBack )
 {
-public: // from RenderTargetCallBack
-    virtual void displayOnRenderTargetCallBack( Render * render ) OVERRIDE;
-
 public: // from RenderEventListener
     virtual void init() OVERRIDE;
     virtual void displayReset( RenderBufferFactory *, int x, int y, int width, int height ) OVERRIDE;
@@ -65,26 +61,21 @@ private: // init
     void initPhysBallPosition( NxActor * actor );
 
 private: // reset
-    void resetShadowMap( RenderBufferFactory * );
-    void resetEffect( RenderBufferFactory * renderFactory );
+    void resetEffect( RenderBufferFactory * );
+    void resetEffect( RenderBufferFactory *, CameraRenderTarget * );
 
 private: // update
     void updateProjection( float aspect );
-    void updateLight();
-    void updateEffect( float elapsedTime );
+    void updateProjection( float aspect, CameraRenderTarget * );
     void updateStickPosition();
     void updateStickPower( float elapsedTime );
-
-private: // display
-    void preDisplay( Render * render );
 
 private: // reset
     const NxVec3 & getBallDefaultPosition( NxActor * );
     void resetBall( NxActor * ball );
 
 private: // effect
-    EffectShaderFeeder * createEffectFeeder( Node *, RenderBufferFactory * );
-    void createSharedVariableFeeder();
+    EffectShaderFeeder * createEffectFeeder( wstring nodeName, RenderBufferFactory * );
     void findSharedVariables( EffectShader * effect);
     ShaderVariable * getSharedVariable( wstring name );
     void createPostEffects( RenderBufferFactory * );
@@ -102,9 +93,6 @@ private: // physx
     typedef set< NxActor * > ActorGroup;
     ActorGroup actorGroup_[ SIZE_OF_ACTOR_GROUP ];
 
-    typedef map< NxActor *, Node * > NodeMap;
-    NodeMap nodeMap_;
-
     BallContactReport ballContactReport_;
 
 private: // default setting
@@ -120,31 +108,32 @@ private: // visual only
     Node * visualOnlyObjects_[ SIZE_OF_VISUAL_OBJECTS ];
 
 private: // camera
-    enum { CAMERA0, SIZE_OF_CAMERA_ENUM };
-    MyCameraPtr cameras_[ SIZE_OF_CAMERA_ENUM ];
+    enum { LIGHT_0, SIZE_OF_LIGHT_ENUM };
+    CameraRenderTarget * lights_[ SIZE_OF_LIGHT_ENUM ];
+
+    enum CameraEnum { CAMERA_0, SIZE_OF_CAMERA_ENUM };
+    MyCamera * cameras_[ SIZE_OF_CAMERA_ENUM ];
+
+    CameraEnum activeCamera_;
+
+    typedef list< my_render::CameraPtr > ColladaCameras;
+    ColladaCameras colladaCameras_;
+
+    typedef list< CameraRenderTargetPtr > CameraRenderTargets;
+    CameraRenderTargets cameraRenderTargets_;
+
+private: // effect
+    typedef list< EffectShaderFeederPtr > EffectShaderFeeders;
+    EffectShaderFeeders feeders_, sharedFeeders_;
+
+    typedef map< wstring, ShaderVariable * > SharedVariables;
+    SharedVariables sharedVariables_;
 
 private: // keyboard input
     bool bPaused_;
     const float cueShotStrength_;
     bool bChargingStickPower_;
     float chargedStickPower_;
-
-private: // effect
-    typedef list< EffectShaderFeederPtr > EffectShaderFeeders;
-    EffectShaderFeeders feeders_;
-    GlobalEffectShaderFeederPtr sharedVaribleFeeder_;
-
-    EffectShaderFeederNull nullToRender_;
-    ShaderVariableNull nullShaderVariable_;
-
-    typedef map< wstring, ShaderVariable * > SharedVariables;
-    SharedVariables sharedVariables_;
-
-    RenderTargetChainPtr blurEffect_, hdrEffect_, ssaoEffect_;
-
-private: // shadow map
-    enum { LIGHT0, SIZE_OF_LIGHT_ENUM };
-    ShadowMapLightPtr shadowMaps_[ SIZE_OF_LIGHT_ENUM ];
 
     typedef ShaderVariable * Light_Position_Variables;
     Light_Position_Variables light_Position_Variables_[ SIZE_OF_LIGHT_ENUM ];

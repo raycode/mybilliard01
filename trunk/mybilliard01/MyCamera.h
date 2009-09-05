@@ -1,8 +1,7 @@
 #pragma once
 
-class MyCamera
-    : public CameraMatrixImp
-    , IMPLEMENTS_INTERFACE( CameraMatrix )
+
+class MyCamera : public CameraRenderTarget
 {
 public: // from CameraMatrix
     virtual NxVec3 getPosition() OVERRIDE;
@@ -10,8 +9,6 @@ public: // from CameraMatrix
 
 public:
     MyCamera( Camera * colladaCamera, bool bRightHand, MyPhysX * phys, BilliardControl * billiardControl, NxVec3 initPosition, NxVec3 direction );
-
-    void setAspect( float aspectRatio );
 
     void update( float elapsedTime );
 
@@ -44,9 +41,6 @@ private: // parameters
     float getMoveSensitivity();
     float getMoveRotateSensitivity();
     float getMovePitchSensitivity();
-
-private:
-    Camera * colladaCamera_;
 
 private: // camera position , rotate
     NxController * controller_;

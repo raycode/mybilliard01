@@ -10,8 +10,7 @@ EffectShader * RenderBufferFactoryDX9Imp::createEffectShader( wstring filename )
     if( NULL == newEffect ) return NULL;
 
     const bool bAcquire = newEffect->acquireResource();
-    assert( bAcquire );
-    if( false == bAcquire ) return NULL;
+    RETURN_VALUE_UNLESS( bAcquire, NULL );
 
     pushBackToActiveQueue( E_EFFECT_SHADERS, newEffect );
     return newEffect.get();

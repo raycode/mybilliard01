@@ -9,31 +9,29 @@ MyRenderEventListenerImp::MyRenderEventListenerImp( wstring sceneFile, wstring p
 , cueShotStrength_( 20000000.f * 1.f )
 , bChargingStickPower_( false )
 , chargedStickPower_( 0.f )
+, activeCamera_( CAMERA_0 )
 {
     const bool bScene = scene_->load( sceneFile );
     const bool bPhys = phys_->loadXMLFile( physX_File );
     THROW_UNLESS( bScene, exception() );
     THROW_UNLESS( bPhys, exception() );
 
-    initCamera( CAMERA0, NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
+    initCamera( CAMERA_0, NxVec3( -70.f, 0.f, 45.f ), NxVec3( 1.f, 0.f, -0.3f ) );
     initPhys();
 }
 
 void MyRenderEventListenerImp::init()
 {
-    initLight( LIGHT0, 80.f, 200.f, NxVec3( -13.f, 10.f, 140.f ), NxVec3( 0.f, -0.090536f, -0.995893f ) );
+    //initLight( LIGHT0, 80.f, 200.f, NxVec3( -13.f, 10.f, 140.f ), NxVec3( 0.f, -0.090536f, -0.995893f ) );
     initSound();
     initVisualOnlyObjects();
 }
 
 void MyRenderEventListenerImp::initCamera( size_t index, NxVec3 pos, NxVec3 dir ) {
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
-    cameras_[ index ] = MyCameraPtr( new MyCamera( colladaCamera, false, phys_.get(), this, pos, dir ) );
+    cameras_[ index ] = new MyCamera( colladaCamera, false, phys_.get(), this, pos, dir );
     cameras_[ index ]->setMovementToFixedHeight( pos.z );
-}
-
-void MyRenderEventListenerImp::initLight( size_t index, float nearZ, float farZ, NxVec3 pos, NxVec3 dir ) {
-    shadowMaps_[ index ] = ShadowMapLightPtr( new ShadowMapLight( nearZ, farZ, false, pos, dir, NxVec3( 0.f, 0.f, 1.f ), ConstString::effectFilename_positionOnly() ) );
+    cameraRenderTargets_.push_back( MyCameraPtr( cameras_[ index ] ) );
 }
 
 void MyRenderEventListenerImp::initSound()
@@ -152,33 +150,15 @@ void MyRenderEventListenerImp::display( Render * render ) {
     if( false == render->beginScene() ) return;
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
 
-    preDisplay( render );
-    displayOnRenderTargetCallBack( render );
+    getActiveCamera()->displayOnRenderTargetCallBack( render );
 
     DXUT_EndPerfEvent();
     render->endScene();
 }   
 
-void MyRenderEventListenerImp::preDisplay( Render * render )
-{
-    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
-    {
-        ShadowMapLight * const shadowMap = shadowMaps_[ i ].get();
-        shadowMap->renderShadowMap( render );
-    }
-}
-
-void MyRenderEventListenerImp::displayOnRenderTargetCallBack( Render * render )
-{
-    render->clear_Color_Z( PixelColor( 0, 45, 50, 170 ), 1.0f );
-    render->setRenderState()->setWireframe()->setSolid();
-    render->setRenderState()->setCull()->setClockWise();
-    MY_FOR_EACH( EffectShaderFeeders, iter, feeders_ )
-        (*iter)->displayWithEffect();
-}
-
 void MyRenderEventListenerImp::displayLost() {
     sharedVariables_.clear();
+    sharedFeeders_.clear();
     feeders_.clear();
 }
 
@@ -187,7 +167,7 @@ void MyRenderEventListenerImp::destroy()
 }
 
 MyCamera * MyRenderEventListenerImp::getActiveCamera() {
-    return cameras_[ CAMERA0 ].get();
+    return cameras_[ activeCamera_ ];
 }
 
 NxVec3 MyRenderEventListenerImp::getCueBallPosition() {

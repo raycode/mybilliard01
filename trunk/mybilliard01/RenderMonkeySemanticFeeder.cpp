@@ -3,29 +3,33 @@
 using namespace RenderMonkeySemantics;
 
 
-RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( Node * node, EffectShader * effect )
-: node_( node )
-, effect_( effect )
+RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( bool bShared )
+: bShared_( bShared )
 {
-    assert( node_ );
-    assert( effect_ );
-    initPredefinedSemantics();
-    initRenderTarget();
 }
 
-void RenderMonkeySemanticFeeder::updateProjection( const RowMajorMatrix44f & matProj ) {
+void RenderMonkeySemanticFeeder::setEffectShader( EffectShader * effect ) {
+    effect_ = effect;
+
+    collectPredefinedSemantics();
+
+    if( false == bShared_ ) initRenderTargets();
+}
+
+EffectShader * RenderMonkeySemanticFeeder::getEffectShader() {
+    return effect_;
+}
+
+void RenderMonkeySemanticFeeder::updateCameraProjection( const RowMajorMatrix44f & matProj ) {
     matProj_ = matProj;
 }
 
 void RenderMonkeySemanticFeeder::updateCameraMatrix(
     const NxVec3 & cameraPos,
     const NxVec3 & cameraDir,
-    const RowMajorMatrix44f & matWorld,
     const RowMajorMatrix44f & matView,
     const RowMajorMatrix44f & matProjView )
 {
-    matWorld_ = matWorld;
-
     cameraPos_ = cameraPos;
     cameraDir_ = cameraDir;
     matView_ = matView;
@@ -38,7 +42,12 @@ void RenderMonkeySemanticFeeder::updateCameraMatrix(
         updateVec4ForPredefinedSemantic( *iter );
 }
 
-void RenderMonkeySemanticFeeder::displayWithEffect()
+void RenderMonkeySemanticFeeder::updateModelMatrix( const RowMajorMatrix44f & matWorld )
+{
+    matWorld_ = matWorld;
+}
+
+bool RenderMonkeySemanticFeeder::displayWithEffect( EffectShaderCallBack * callBack )
 {
     //OutputDebugStr( wstring( L"Node name: " + node_->getName() + L"\n" ).c_str() );
 
@@ -48,14 +57,15 @@ void RenderMonkeySemanticFeeder::displayWithEffect()
     MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Vec4_ )
         uploadValue( *iter, 4u );
 
-    effect_->renderWithTechnique( this );
+    DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"Effect with technique" );
+    const bool bRst = effect_->renderWithTechnique( callBack );
+    DXUT_EndPerfEvent();
+
+    return bRst;
 }
 
-void RenderMonkeySemanticFeeder::displayPass( size_t pass )
-{
-    DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"Effect displayWithEffect for each pass" );
-    node_->display();
-    DXUT_EndPerfEvent();
+void RenderMonkeySemanticFeeder::initRenderTargets() {
+    // todo
 }
 
 bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, ActiveSemanticFlags & whereToStore )
@@ -63,13 +73,14 @@ bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemanti
     if( false == effect_->hasVariableBySemantic( nameOfSemantic ) ) return false;
 
     EffectShaderVariable * const variableForSemantic = effect_->createEffectVariableBySemantic( nameOfSemantic );
+    if( bShared_ != variableForSemantic->isShared() ) return false;
 
     predefinedVariables_[ whichSemantic ] = variableForSemantic;
     whereToStore.push_back( whichSemantic );
     return true;
 }
 
-void RenderMonkeySemanticFeeder::initPredefinedSemantics() {
+void RenderMonkeySemanticFeeder::collectPredefinedSemantics() {
 
 #define INIT_VEC3_SEMANTIC( SEMANTIC ) initPredefinedSemanticForEach( SEMANTIC, L#SEMANTIC, activeSemantics_Vec4_ );
 
@@ -168,10 +179,6 @@ void RenderMonkeySemanticFeeder::uploadValue( int whichSemantic, size_t count ) 
     //wchar_t tmp[256];
     //_snwprintf_s( tmp, 256, L"%d: %f %f %f %f [1] %f %f %f %f [2] %f %f %f %f [3] %f %f %f %f\n", whichSemantic, ptr[0], ptr[1], ptr[2], ptr[3], ptr[4], ptr[5], ptr[6], ptr[7], ptr[8], ptr[9], ptr[10], ptr[11], ptr[12], ptr[13], ptr[14], ptr[15] );
     //OutputDebugStr( tmp );
-}
-
-EffectShader * RenderMonkeySemanticFeeder::getEffectShader() {
-    return effect_;
 }
 
 

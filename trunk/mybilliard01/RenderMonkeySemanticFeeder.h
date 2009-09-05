@@ -3,38 +3,37 @@
 
 class RenderMonkeySemanticFeeder
     : IMPLEMENTS_INTERFACE( EffectShaderFeeder )
-    , IMPLEMENTS_INTERFACE( EffectShaderCallBack )
 {
-public: // from EffectShaderCallBack
-    void displayPass( size_t pass ) OVERRIDE;
-
 public: // from EffectShaderFeeder
-    void displayWithEffect() OVERRIDE;
+    virtual void setEffectShader( EffectShader * ) OVERRIDE;
 
-    virtual void updateProjection( const RowMajorMatrix44f & matProj ) OVERRIDE;
+    virtual EffectShader * getEffectShader() OVERRIDE;
+
+    virtual void updateCameraProjection( const RowMajorMatrix44f & matProj ) OVERRIDE;
 
     virtual void updateCameraMatrix(
         const NxVec3 & cameraPos,
         const NxVec3 & cameraDir,
-        const RowMajorMatrix44f & matWorld,
         const RowMajorMatrix44f & matView,
         const RowMajorMatrix44f & matProjView ) OVERRIDE;
 
-    virtual EffectShader * getEffectShader() OVERRIDE;
+    virtual void updateModelMatrix( const RowMajorMatrix44f & matWorld ) OVERRIDE;
+
+    virtual bool displayWithEffect( EffectShaderCallBack * calBack ) OVERRIDE;
 
 public:
-    RenderMonkeySemanticFeeder( Node *, EffectShader * );
+    RenderMonkeySemanticFeeder( bool bShared );
 
 private: // update and set
-    void initPredefinedSemantics();
-    void initRenderTarget();
+    void collectPredefinedSemantics();
+    void initRenderTargets();
     void updateMatrixForPredefinedSemantic( int whichSemantic );
     void updateVec4ForPredefinedSemantic( int whichSemantic );
     void uploadValue( int whichSemantic, size_t count );
 
 private: // input
-    Node * const node_;
-    EffectShader * const effect_;
+    EffectShader * effect_;
+    bool bShared_;
 
 private: // input - matrices
     NxVec3 cameraPos_, cameraDir_;
@@ -50,7 +49,7 @@ private: // render monkey semantics
     bool initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, ActiveSemanticFlags & whereToStore );
 
 private: 
-    typedef float TemporaryStorage[16];
+    typedef float TemporaryStorage[ 16 ];
     TemporaryStorage temporaryStorage16f[ RenderMonkeySemantics::SIZE_OF_SEMANTICS ];
 
 };
