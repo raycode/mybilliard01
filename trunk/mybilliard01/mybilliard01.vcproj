@@ -589,22 +589,22 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="4. Camera Matrix Effect"
+				Name="4. RenderableCamera"
 				>
-				<File
-					RelativePath=".\CameraMatrixEffect.cpp"
-					>
-				</File>
-				<File
-					RelativePath=".\CameraMatrixEffect.h"
-					>
-				</File>
 				<File
 					RelativePath=".\NodeDisplayer.cpp"
 					>
 				</File>
 				<File
 					RelativePath=".\NodeDisplayer.h"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderableCamera.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderableCamera.h"
 					>
 				</File>
 			</Filter>

@@ -4,7 +4,7 @@
 
 MyCamera::MyCamera( Camera * cameraCollada, bool bRightHand,
                    MyPhysX * phys, BilliardControl * billiardControl, NxVec3 initPosition, NxVec3 direction )
-: CameraMatrixEffect( cameraCollada, bRightHand )
+: RenderableCamera( cameraCollada, bRightHand, false )
 , bConstrainMovementToHeight_( false )
 , state_( this, billiardControl )
 {
