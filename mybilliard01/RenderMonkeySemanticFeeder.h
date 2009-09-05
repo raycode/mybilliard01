@@ -25,11 +25,11 @@ public:
     RenderMonkeySemanticFeeder( bool bShared );
 
 private: // update and set
-    void collectPredefinedSemantics();
+    void initPredefinedSemantics();
+    bool initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, size_t countOfFloat );
     void initRenderTargets();
-    void updateMatrixForPredefinedSemantic( int whichSemantic );
-    void updateVec4ForPredefinedSemantic( int whichSemantic );
-    void uploadValue( int whichSemantic, size_t count );
+    void updateForPredefinedSemantic( int whichSemantic );
+    void uploadValue( int whichSemantic );
 
 private: // input
     EffectShader * effect_;
@@ -43,14 +43,11 @@ private: // render monkey semantics
     ShaderVariable * predefinedVariables_[ RenderMonkeySemantics::SIZE_OF_SEMANTICS ];
 
     typedef vector< int > ActiveSemanticFlags;
-    ActiveSemanticFlags activeSemantics_Matrix_;
-    ActiveSemanticFlags activeSemantics_Vec4_;
-
-    bool initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, ActiveSemanticFlags & whereToStore );
+    ActiveSemanticFlags activeSemantics_;
 
 private: 
-    typedef float TemporaryStorage[ 16 ];
-    TemporaryStorage temporaryStorage16f[ RenderMonkeySemantics::SIZE_OF_SEMANTICS ];
+    typedef vector< float > TemporaryStorage;
+    TemporaryStorage temporaryStorage_[ RenderMonkeySemantics::SIZE_OF_SEMANTICS ];
 
 };
 

@@ -11,7 +11,7 @@ RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( bool bShared )
 void RenderMonkeySemanticFeeder::setEffectShader( EffectShader * effect ) {
     effect_ = effect;
 
-    collectPredefinedSemantics();
+    initPredefinedSemantics();
 
     if( false == bShared_ ) initRenderTargets();
 }
@@ -43,18 +43,10 @@ void RenderMonkeySemanticFeeder::updateModelMatrix( const RowMajorMatrix44f & ma
 
 bool RenderMonkeySemanticFeeder::displayWithEffect( EffectShaderCallBack * callBack )
 {
-    //OutputDebugStr( wstring( L"Node name: " + node_->getName() + L"\n" ).c_str() );
-
-    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Matrix_ )
+    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_ )
     {
-        updateMatrixForPredefinedSemantic( *iter );
-        uploadValue( *iter, 16u );
-    }
-
-    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Vec4_ )
-    {
-        updateVec4ForPredefinedSemantic( *iter );
-        uploadValue( *iter, 4u );
+        updateForPredefinedSemantic( *iter );
+        uploadValue( *iter );
     }
 
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"Effect with technique" );
@@ -68,7 +60,7 @@ void RenderMonkeySemanticFeeder::initRenderTargets() {
     // todo
 }
 
-bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, ActiveSemanticFlags & whereToStore )
+bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, size_t countOfFloat )
 {
     if( false == effect_->hasVariableBySemantic( nameOfSemantic ) ) return false;
 
@@ -76,69 +68,61 @@ bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemanti
     if( bShared_ != variableForSemantic->isShared() ) return false;
 
     predefinedVariables_[ whichSemantic ] = variableForSemantic;
-    whereToStore.push_back( whichSemantic );
+    activeSemantics_.push_back( whichSemantic );
+
+    temporaryStorage_[ whichSemantic ].resize( countOfFloat );
+
     return true;
 }
 
-void RenderMonkeySemanticFeeder::collectPredefinedSemantics() {
+void RenderMonkeySemanticFeeder::initPredefinedSemantics() {
 
-#define INIT_VEC3_SEMANTIC( SEMANTIC ) initPredefinedSemanticForEach( SEMANTIC, L#SEMANTIC, activeSemantics_Vec4_ );
+#define INIT_SEMANTIC( SEMANTIC, COUNT_OF_FLOAT ) initPredefinedSemanticForEach( SEMANTIC, L#SEMANTIC, COUNT_OF_FLOAT );
 
-    INIT_VEC3_SEMANTIC( ViewPosition );
-    INIT_VEC3_SEMANTIC( ViewDirection );
+    INIT_SEMANTIC( ViewPosition, 4 );
+    INIT_SEMANTIC( ViewDirection, 3 );
 
-#define INIT_MATRIX_SEMANTIC( SEMANTIC ) initPredefinedSemanticForEach( SEMANTIC, L#SEMANTIC, activeSemantics_Matrix_ );
+    INIT_SEMANTIC( World, 16 );
+    INIT_SEMANTIC( WorldTranspose, 16 );
+    INIT_SEMANTIC( WorldInverse, 16 );
+    INIT_SEMANTIC( WorldInverseTranspose, 16 );
 
-    INIT_MATRIX_SEMANTIC( World );
-    INIT_MATRIX_SEMANTIC( WorldTranspose );
-    INIT_MATRIX_SEMANTIC( WorldInverse );
-    INIT_MATRIX_SEMANTIC( WorldInverseTranspose );
+    INIT_SEMANTIC( View, 16 );
+    INIT_SEMANTIC( ViewTranspose, 16 );
+    INIT_SEMANTIC( ViewInverse, 16 );
+    INIT_SEMANTIC( ViewInverseTranspose, 16 );
 
-    INIT_MATRIX_SEMANTIC( View );
-    INIT_MATRIX_SEMANTIC( ViewTranspose );
-    INIT_MATRIX_SEMANTIC( ViewInverse );
-    INIT_MATRIX_SEMANTIC( ViewInverseTranspose );
+    INIT_SEMANTIC( Projection, 16 );
+    INIT_SEMANTIC( ProjectionTranspose, 16 );
+    INIT_SEMANTIC( ProjectionInverse, 16 );
+    INIT_SEMANTIC( ProjectionInverseTranspose, 16 );
 
-    INIT_MATRIX_SEMANTIC( Projection );
-    INIT_MATRIX_SEMANTIC( ProjectionTranspose );
-    INIT_MATRIX_SEMANTIC( ProjectionInverse );
-    INIT_MATRIX_SEMANTIC( ProjectionInverseTranspose );
+    INIT_SEMANTIC( WorldView, 16 );
+    INIT_SEMANTIC( WorldViewTranspose, 16 );
+    INIT_SEMANTIC( WorldViewInverse, 16 );
+    INIT_SEMANTIC( WorldViewInverseTranspose, 16 );
 
-    INIT_MATRIX_SEMANTIC( WorldView );
-    INIT_MATRIX_SEMANTIC( WorldViewTranspose );
-    INIT_MATRIX_SEMANTIC( WorldViewInverse );
-    INIT_MATRIX_SEMANTIC( WorldViewInverseTranspose );
+    INIT_SEMANTIC( ViewProjection, 16 );
+    INIT_SEMANTIC( ViewProjectionTranspose, 16 );
+    INIT_SEMANTIC( ViewProjectionInverse, 16 );
+    INIT_SEMANTIC( ViewProjectionInverseTranspose, 16 );
 
-    INIT_MATRIX_SEMANTIC( ViewProjection );
-    INIT_MATRIX_SEMANTIC( ViewProjectionTranspose );
-    INIT_MATRIX_SEMANTIC( ViewProjectionInverse );
-    INIT_MATRIX_SEMANTIC( ViewProjectionInverseTranspose );
-
-    INIT_MATRIX_SEMANTIC( WorldViewProjection );
-    INIT_MATRIX_SEMANTIC( WorldViewProjectionTranspose );
-    INIT_MATRIX_SEMANTIC( WorldViewProjectionInverse );
-    INIT_MATRIX_SEMANTIC( WorldViewProjectionInverseTranspose );
+    INIT_SEMANTIC( WorldViewProjection, 16 );
+    INIT_SEMANTIC( WorldViewProjectionTranspose, 16 );
+    INIT_SEMANTIC( WorldViewProjectionInverse, 16 );
+    INIT_SEMANTIC( WorldViewProjectionInverseTranspose, 16 );
 }
 
 
-void RenderMonkeySemanticFeeder::updateVec4ForPredefinedSemantic( int whichSemantic )
+void RenderMonkeySemanticFeeder::updateForPredefinedSemantic( int whichSemantic )
 {
-    float * const colMajor44f = temporaryStorage16f[ whichSemantic ];
+    float * const colMajor44f = &( temporaryStorage_[ whichSemantic ][ 0 ] );
 
     switch( whichSemantic )
     {
     case ViewPosition:  memcpy( (char*)colMajor44f, (char*)cameraPos_.get(), sizeof(NxVec3) ); colMajor44f[3] = 1.f; break;
     case ViewDirection: memcpy( (char*)colMajor44f, (char*)cameraDir_.get(), sizeof(NxVec3) ); colMajor44f[3] = 0.f; break;
 
-    }
-}
-
-void RenderMonkeySemanticFeeder::updateMatrixForPredefinedSemantic( int whichSemantic )
-{
-    float * const colMajor44f = temporaryStorage16f[ whichSemantic ];
-
-    switch( whichSemantic )
-    {
     case World:                 matWorld_.GetColumnMajor( colMajor44f ); break;
     case WorldTranspose:        matWorld_.Transpose().GetColumnMajor( colMajor44f ); break;
     case WorldInverse:          matWorld_.Inverse().GetColumnMajor( colMajor44f ); break;
@@ -172,13 +156,9 @@ void RenderMonkeySemanticFeeder::updateMatrixForPredefinedSemantic( int whichSem
 }
 
 
-void RenderMonkeySemanticFeeder::uploadValue( int whichSemantic, size_t count ) {
-    predefinedVariables_[ whichSemantic ]->setFloatArray( temporaryStorage16f[ whichSemantic ], count );
-
-    //const float * ptr = temporaryStorage16f[ whichSemantic ];
-    //wchar_t tmp[256];
-    //_snwprintf_s( tmp, 256, L"%d: %f %f %f %f [1] %f %f %f %f [2] %f %f %f %f [3] %f %f %f %f\n", whichSemantic, ptr[0], ptr[1], ptr[2], ptr[3], ptr[4], ptr[5], ptr[6], ptr[7], ptr[8], ptr[9], ptr[10], ptr[11], ptr[12], ptr[13], ptr[14], ptr[15] );
-    //OutputDebugStr( tmp );
+void RenderMonkeySemanticFeeder::uploadValue( int whichSemantic ) {
+    const size_t countOfFloat = temporaryStorage_[ whichSemantic ].size();
+    predefinedVariables_[ whichSemantic ]->setFloatArray( &( temporaryStorage_[ whichSemantic ][ 0 ]), countOfFloat );
 }
 
 
