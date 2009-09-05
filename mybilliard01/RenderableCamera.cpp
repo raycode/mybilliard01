@@ -19,7 +19,7 @@ void RenderableCamera::displayOnRenderTargetCallBack( Render * render )
     sharedVaribleFeeder_->updateCameraMatrix( position, direction, matrixView, matrixProjectionView );
 
 
-    render->clear_Color_Z( PixelColor( 0, 45, 50, 170 ), 1.0f );
+    render->clear_Color_Z( PixelColor( 0, 0, 0, 0 ), 1.0f );
     render->setRenderState()->setWireframe()->setSolid();
     render->setRenderState()->setCull()->setClockWise();
 
