@@ -32,18 +32,15 @@ class MyRenderEventListenerImp;
 class MyInputListenerImp;
 class MyCamera;
 class NodeDisplayer;
-class CameraRenderTarget;
-class PostEffectImp;
+class CameraMatrixEffect;
 
 
 MY_SMART_PTR( MyRenderEventListenerImp );
 MY_SMART_PTR( MyInputListenerImp );
 MY_SMART_PTR( MyCamera );
 MY_SMART_PTR( NodeDisplayer );
-MY_SMART_PTR( CameraRenderTarget );
-MY_SMART_PTR( PostEffectImp );
+MY_SMART_PTR( CameraMatrixEffect );
 
-#include "PostEffectImp.h"
 
 #include "BilliardControl.h"
 
@@ -67,7 +64,7 @@ using namespace smc;
 #include "SoundRetriever.h"
 #include "ActorRecognizer.h"
 #include "MyControllerHitReport.hpp"
-#include "CameraRenderTarget.h"
+#include "CameraMatrixEffect.h"
 #include "MyCamera.h"
 #include "BallContactReport.h"
 #include "MyInputListenerImp.h"

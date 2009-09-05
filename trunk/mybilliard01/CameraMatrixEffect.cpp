@@ -2,13 +2,13 @@
 #include "my_app.h"
 
 
-CameraRenderTarget::CameraRenderTarget( Camera * cameraCollada, bool bRightHand )
+CameraMatrixEffect::CameraMatrixEffect( Camera * cameraCollada, bool bRightHand )
 : CameraMatrixImp( cameraCollada, bRightHand )
 , colladaCamera_( cameraCollada )
 {
 }
 
-void CameraRenderTarget::displayOnRenderTargetCallBack( Render * render )
+void CameraMatrixEffect::displayOnRenderTargetCallBack( Render * render )
 {
     const NxVec3 position = getPosition();
     const NxVec3 direction = getDirectionVector();
@@ -41,11 +41,11 @@ void CameraRenderTarget::displayOnRenderTargetCallBack( Render * render )
     }
 }
 
-void CameraRenderTarget::setSharedEffectShaderFeeder( EffectShaderFeeder * sharedVaribleFeeder ) {
+void CameraMatrixEffect::setSharedEffectShaderFeeder( EffectShaderFeeder * sharedVaribleFeeder ) {
     sharedVaribleFeeder_ = sharedVaribleFeeder;
 }
 
-void CameraRenderTarget::setAspect( float aspectRatio )
+void CameraMatrixEffect::setAspect( float aspectRatio )
 {
     colladaCamera_->getPerspectiveCamera()->setAspect( aspectRatio );
     
@@ -54,7 +54,7 @@ void CameraRenderTarget::setAspect( float aspectRatio )
 }
 
 
-void CameraRenderTarget::appendEffectShaderFeederForActor( EffectShaderFeeder * newFeeder, NxActor * actor )
+void CameraMatrixEffect::appendEffectShaderFeederForActor( EffectShaderFeeder * newFeeder, NxActor * actor )
 {
     THROW_UNLESS( sharedVaribleFeeder_, exception() );
 

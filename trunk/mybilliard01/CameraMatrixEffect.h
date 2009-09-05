@@ -1,13 +1,13 @@
 #pragma once
 
 
-class CameraRenderTarget : public CameraMatrixImp, IMPLEMENTS_INTERFACE( RenderTargetCallBack )
+class CameraMatrixEffect : public CameraMatrixImp, IMPLEMENTS_INTERFACE( RenderTargetCallBack )
 {
 public: // from RenderTargetCallBack
     virtual void displayOnRenderTargetCallBack( Render * render ) OVERRIDE;
 
 public:
-    CameraRenderTarget( Camera * cameraCollada, bool bRightHand );
+    CameraMatrixEffect( Camera * cameraCollada, bool bRightHand );
 
     void setSharedEffectShaderFeeder( EffectShaderFeeder * );
     void appendEffectShaderFeederForActor( EffectShaderFeeder *, NxActor * );

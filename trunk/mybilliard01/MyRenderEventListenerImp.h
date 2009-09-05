@@ -62,11 +62,11 @@ private: // init
 
 private: // reset
     void resetEffect( RenderBufferFactory * );
-    void resetEffect( RenderBufferFactory *, CameraRenderTarget * );
+    void resetEffect( RenderBufferFactory *, CameraMatrixEffect * );
 
 private: // update
     void updateProjection( float aspect );
-    void updateProjection( float aspect, CameraRenderTarget * );
+    void updateProjection( float aspect, CameraMatrixEffect * );
     void updateStickPosition();
     void updateStickPower( float elapsedTime );
 
@@ -109,7 +109,7 @@ private: // visual only
 
 private: // camera
     enum { LIGHT_0, SIZE_OF_LIGHT_ENUM };
-    CameraRenderTarget * lights_[ SIZE_OF_LIGHT_ENUM ];
+    CameraMatrixEffect * lights_[ SIZE_OF_LIGHT_ENUM ];
 
     enum CameraEnum { CAMERA_0, SIZE_OF_CAMERA_ENUM };
     MyCamera * cameras_[ SIZE_OF_CAMERA_ENUM ];
@@ -119,8 +119,8 @@ private: // camera
     typedef list< my_render::CameraPtr > ColladaCameras;
     ColladaCameras colladaCameras_;
 
-    typedef list< CameraRenderTargetPtr > CameraRenderTargets;
-    CameraRenderTargets cameraRenderTargets_;
+    typedef list< CameraMatrixEffectPtr > CameraMatrixEffects;
+    CameraMatrixEffects cameraMatrixEffects_;
 
 private: // effect
     typedef list< EffectShaderFeederPtr > EffectShaderFeeders;
