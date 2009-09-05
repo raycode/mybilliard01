@@ -10,6 +10,7 @@ NULL_OBJECT( Render ) {
     virtual void clear_Z( float z ) OVERRIDE {}
     virtual void clear_Stencil( NxU32 stencil ) OVERRIDE {}
     virtual void clear_Color_Z( NxU32 color, float z ) OVERRIDE {}
+    virtual void clear_Color_Stencil( NxU32 color, NxU32 stencil ) OVERRIDE {}
     virtual void clear_Z_Stencil( float z, NxU32 stencil ) OVERRIDE {}
     virtual void clear_Color_Z_Stencil( NxU32 Color, float z, NxU32 stencil ) OVERRIDE {}
 

@@ -261,7 +261,7 @@ void RenderWin32DX9Imp::endScene() {
 }
 
 void RenderWin32DX9Imp::clear_Color( NxU32 Color ) {
-    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_TARGET, Color, 0.f, 0 );
+    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_TARGET, Color, 1.f, 0 );
 }
 
 void RenderWin32DX9Imp::clear_Z( float z ) {
@@ -269,11 +269,15 @@ void RenderWin32DX9Imp::clear_Z( float z ) {
 }
 
 void RenderWin32DX9Imp::clear_Stencil( NxU32 stencil ) {
-    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_STENCIL, 0, 0.f, stencil );
+    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_STENCIL, 0, 1.f, stencil );
 }
 
 void RenderWin32DX9Imp::clear_Color_Z( NxU32 color, float z ) {
     getD3D9Device()->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_ZBUFFER, color, z, 0 );
+}
+
+void RenderWin32DX9Imp::clear_Color_Stencil( NxU32 color, NxU32 stencil ) {
+    getD3D9Device()->Clear( 0, NULL, D3DCLEAR_TARGET | D3DCLEAR_STENCIL, color, 1.f, stencil );
 }
 
 void RenderWin32DX9Imp::clear_Z_Stencil( float z, NxU32 stencil ) {
