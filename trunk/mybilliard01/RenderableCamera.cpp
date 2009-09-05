@@ -7,21 +7,19 @@ RenderableCamera::RenderableCamera( Camera * cameraCollada, bool bRightHand, boo
 , colladaCamera_( cameraCollada )
 , bPositionOnly_( bPositionOnly )
 {
+    deferredClear_ = &RenderableCamera::clear_nothing;
 }
 
 void RenderableCamera::displayOnRenderTargetCallBack( Render * render )
 {
+    (this->*deferredClear_)( render );
+
     const NxVec3 position = getPosition();
     const NxVec3 direction = getDirectionVector();
     const RowMajorMatrix44f matrixView = getViewMatrix();
     const RowMajorMatrix44f matrixProjectionView = getProjectionMatrix() * matrixView;
 
     sharedVaribleFeeder_->updateCameraMatrix( position, direction, matrixView, matrixProjectionView );
-
-
-    render->clear_Color_Z( PixelColor( 0, 0, 0, 0 ), 1.0f );
-    render->setRenderState()->setWireframe()->setSolid();
-    render->setRenderState()->setCull()->setClockWise();
 
     MY_FOR_EACH( EffectAndActorMap, iterFeeder, effectAndActorMap_ )
     {
@@ -81,6 +79,68 @@ Camera * RenderableCamera::getProjectionCamera() {
 
 bool RenderableCamera::isPositionOnly() {
     return bPositionOnly_;
+}
+
+
+void RenderableCamera::clear_Color( Render * render ) {
+    render->clear_Color( clearColor_ );
+}
+void RenderableCamera::clear_Z( Render * render ) {
+    render->clear_Z( clearZ_ );
+}
+void RenderableCamera::clear_Stencil( Render * render ) {
+    render->clear_Stencil( clearStencil_ );
+}
+void RenderableCamera::clear_Color_Z( Render * render ) {
+    render->clear_Color_Z( clearColor_, clearZ_ );
+}
+void RenderableCamera::clear_Color_Stencil( Render * render ) {
+    render->clear_Color_Stencil( clearColor_, clearStencil_ );
+}
+void RenderableCamera::clear_Z_Stencil( Render * render ) {
+    render->clear_Z_Stencil( clearZ_, clearStencil_ );
+}
+void RenderableCamera::clear_Color_Z_Stencil( Render * render ) {
+    render->clear_Color_Z_Stencil( clearColor_, clearZ_, clearStencil_ );
+}
+void RenderableCamera::clear_nothing( Render * render ) {
+}
+
+void RenderableCamera::clear_Color( NxU32 color ) {
+    clearColor_ = color;
+    deferredClear_ = &RenderableCamera::clear_Color;
+}
+void RenderableCamera::clear_Z( float z ) {
+    clearZ_ = z;
+    deferredClear_ = &RenderableCamera::clear_Z;
+}
+void RenderableCamera::clear_Stencil( NxU32 stencil ) {
+    clearStencil_ = stencil;
+    deferredClear_ = &RenderableCamera::clear_Stencil;
+}
+void RenderableCamera::clear_Color_Z( NxU32 color, float z ) {
+    clearColor_ = color;
+    clearZ_ = z;
+    deferredClear_ = &RenderableCamera::clear_Color_Z;
+}
+void RenderableCamera::clear_Color_Stencil( NxU32 color, NxU32 stencil ) {
+    clearColor_ = color;
+    clearStencil_ = stencil;
+    deferredClear_ = &RenderableCamera::clear_Color_Stencil;
+}
+void RenderableCamera::clear_Z_Stencil( float z, NxU32 stencil ) {
+    clearZ_ = z;
+    clearStencil_ = stencil;
+    deferredClear_ = &RenderableCamera::clear_Z_Stencil;
+}
+void RenderableCamera::clear_Color_Z_Stencil( NxU32 color, float z, NxU32 stencil ) {
+    clearColor_ = color;
+    clearZ_ = z;
+    clearStencil_ = stencil;
+    deferredClear_ = &RenderableCamera::clear_Color_Z_Stencil;
+}
+void RenderableCamera::clear_nothing() {
+    deferredClear_ = &RenderableCamera::clear_nothing;
 }
 
 

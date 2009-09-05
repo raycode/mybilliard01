@@ -36,7 +36,7 @@ shared float4 Light0_Position
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
-> = float4( 0.00, 0.00, -400.00, 1.00 );
+> = float4( 400.00, 0.00, -0.00, 1.00 );
 float4x4 Light0_WorldLightProjection
 <
    string UIName = "Light0_WorldLightProjection";
@@ -92,19 +92,9 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 
 
-float4 fvAmbient
-<
-   string UIName = "fvAmbient";
-   string UIWidget = "Color";
-   bool UIVisible =  true;
-> = float4( 0.43, 0.42, 0.42, 1.00 );
+float4 fvAmbient;
 float4 fvSpecular;
-float4 fvDiffuse
-<
-   string UIName = "fvDiffuse";
-   string UIWidget = "Color";
-   bool UIVisible =  true;
-> = float4( 0.89, 0.88, 0.85, 1.00 );
+float4 fvDiffuse;
 float fSpecularPower;
 float depthBias
 <
@@ -115,17 +105,7 @@ float depthBias
    float UIMax = 1.00;
 > = float( 0.01 );
 sampler2D baseMap;
-texture shadow0_Tex
-<
-   string ResourceName = "..\\textures\\shadow_map_captured.png";
->;
-sampler2D shadowMap0 = sampler_state
-{
-   Texture = (shadow0_Tex);
-   MINFILTER = LINEAR;
-   MIPFILTER = LINEAR;
-   MAGFILTER = LINEAR;
-};
+sampler2D shadowMap0;
 
 float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
 {
@@ -138,18 +118,22 @@ float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
 
 struct PS_INPUT 
 {
+   float2 Texcoord :           TEXCOORD0;
    float3 PositionFromLight0 : TEXCOORD4;   
 };
 
 float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
+   const float4 baseColor = tex2D( baseMap, Input.Texcoord );
+   
    const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight0.xy );
    const float  actualDepth       = Input.PositionFromLight0.z - depthBias;
    const bool   bUnderShadow      = actualDepth > depthOnShadowMap0;
 
-   const float4 colorOutShadow    = ( fvAmbient + fvDiffuse );
-   const float4 colorUnderShadow  = fvAmbient;
+   const float4 colorOutShadow    = ( fvAmbient + fvDiffuse ) * baseColor;
+   const float4 colorUnderShadow  = fvAmbient * baseColor;
 
+return actualDepth;
    return ( bUnderShadow ? colorUnderShadow : colorOutShadow );
 }
 
