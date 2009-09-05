@@ -4,8 +4,7 @@
 
 MyCamera::MyCamera( Camera * cameraCollada, bool bRightHand,
                    MyPhysX * phys, BilliardControl * billiardControl, NxVec3 initPosition, NxVec3 direction )
-: CameraMatrixImp( cameraCollada, bRightHand )
-, colladaCamera_( cameraCollada )
+: CameraRenderTarget( cameraCollada, bRightHand )
 , bConstrainMovementToHeight_( false )
 , state_( this, billiardControl )
 {
@@ -192,10 +191,6 @@ void MyCamera::setMovementFreeFromHeightContrain() {
 }
 float MyCamera::getConstrainedHeight() {
     return height_;
-}
-
-void MyCamera::setAspect( float aspectRatio ) {
-    colladaCamera_->getPerspectiveCamera()->setAspect( aspectRatio );
 }
 
 NxVec3 MyCamera::getPosition() {

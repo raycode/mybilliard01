@@ -304,78 +304,18 @@
 			<Filter
 				Name="2. EffectShaderFeeder"
 				>
-				<Filter
-					Name="2. RenderMonkey"
+				<File
+					RelativePath=".\RenderMonkeySemanticFeeder.cpp"
 					>
-					<File
-						RelativePath=".\RenderMonkeySemanticFeeder.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderMonkeySemanticFeeder.h"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderMonkeySemantics.hpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderMonkeySharedSemanticsFeeder.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\RenderMonkeySharedSemanticsFeeder.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="1. Abstract"
+				</File>
+				<File
+					RelativePath=".\RenderMonkeySemanticFeeder.h"
 					>
-					<File
-						RelativePath=".\GlobalEffectShaderFeeder.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="3. Shadow Map"
+				</File>
+				<File
+					RelativePath=".\RenderMonkeySemantics.hpp"
 					>
-					<File
-						RelativePath=".\MyShadowCallBack.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\MyShadowCallBack.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ShadowMapEffectShaderFeeder.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\ShadowMapEffectShaderFeeder.h"
-						>
-					</File>
-					<File
-						RelativePath=".\ShadowMapLight.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\ShadowMapLight.h"
-						>
-					</File>
-				</Filter>
-				<Filter
-					Name="4. Post effect"
-					>
-					<File
-						RelativePath=".\PostEffectImp.cpp"
-						>
-					</File>
-					<File
-						RelativePath=".\PostEffectImp.h"
-						>
-					</File>
-				</Filter>
+				</File>
 			</Filter>
 			<Filter
 				Name="1. Main"
@@ -456,7 +396,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="4. MyCamera"
+				Name="5. MyCamera"
 				>
 				<File
 					RelativePath=".\MyCamera.cpp"
@@ -647,6 +587,26 @@
 						>
 					</File>
 				</Filter>
+			</Filter>
+			<Filter
+				Name="4. CameraRenderTarget"
+				>
+				<File
+					RelativePath=".\CameraRenderTarget.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\CameraRenderTarget.h"
+					>
+				</File>
+				<File
+					RelativePath=".\NodeDisplayer.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\NodeDisplayer.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

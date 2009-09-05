@@ -31,26 +31,18 @@ using namespace my_open_al_imp;
 class MyRenderEventListenerImp;
 class MyInputListenerImp;
 class MyCamera;
-class GlobalEffectShaderFeeder;
-class ShadowMapLight;
+class NodeDisplayer;
+class CameraRenderTarget;
 class PostEffectImp;
-
-class MyShadowCallBack;
 
 
 MY_SMART_PTR( MyRenderEventListenerImp );
 MY_SMART_PTR( MyInputListenerImp );
 MY_SMART_PTR( MyCamera );
-MY_SMART_PTR( GlobalEffectShaderFeeder );
-MY_SMART_PTR( MyShadowCallBack );
-MY_SMART_PTR( ShadowMapLight );
+MY_SMART_PTR( NodeDisplayer );
+MY_SMART_PTR( CameraRenderTarget );
 MY_SMART_PTR( PostEffectImp );
 
-
-#include "GlobalEffectShaderFeeder.h"
-#include "ShadowMapEffectShaderFeeder.h"
-#include "MyShadowCallBack.h"
-#include "ShadowMapLight.h"
 #include "PostEffectImp.h"
 
 #include "BilliardControl.h"
@@ -75,13 +67,15 @@ using namespace smc;
 #include "SoundRetriever.h"
 #include "ActorRecognizer.h"
 #include "MyControllerHitReport.hpp"
+#include "CameraRenderTarget.h"
 #include "MyCamera.h"
 #include "BallContactReport.h"
 #include "MyInputListenerImp.h"
 
 #include "RenderMonkeySemantics.hpp"
 #include "RenderMonkeySemanticFeeder.h"
-#include "RenderMonkeySharedSemanticsFeeder.h"
+#include "NodeDisplayer.h"
+
 #include "MyRenderEventListenerImp.h"
 #include "ConstString.h"
 
