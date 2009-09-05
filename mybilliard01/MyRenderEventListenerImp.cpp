@@ -31,7 +31,7 @@ void MyRenderEventListenerImp::initCamera( size_t index, NxVec3 pos, NxVec3 dir 
     Camera * const colladaCamera = scene_->getCameraByIndex( 0u );
     cameras_[ index ] = new MyCamera( colladaCamera, false, phys_.get(), this, pos, dir );
     cameras_[ index ]->setMovementToFixedHeight( pos.z );
-    cameraRenderTargets_.push_back( MyCameraPtr( cameras_[ index ] ) );
+    cameraMatrixEffects_.push_back( MyCameraPtr( cameras_[ index ] ) );
 }
 
 void MyRenderEventListenerImp::initSound()

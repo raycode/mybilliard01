@@ -346,7 +346,7 @@
 					>
 				</File>
 				<File
-					RelativePath=".\MyRenderEventListenerImp_createEffectFeeder.cpp"
+					RelativePath=".\MyRenderEventListenerImp_reset_update.cpp"
 					>
 				</File>
 				<File
@@ -589,14 +589,14 @@
 				</Filter>
 			</Filter>
 			<Filter
-				Name="4. CameraRenderTarget"
+				Name="4. Camera Matrix Effect"
 				>
 				<File
-					RelativePath=".\CameraRenderTarget.cpp"
+					RelativePath=".\CameraMatrixEffect.cpp"
 					>
 				</File>
 				<File
-					RelativePath=".\CameraRenderTarget.h"
+					RelativePath=".\CameraMatrixEffect.h"
 					>
 				</File>
 				<File
