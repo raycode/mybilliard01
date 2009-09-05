@@ -63,6 +63,7 @@ private: // init
 private: // reset
     void resetEffect( RenderBufferFactory *, size_t width, size_t height );
     void resetEffect( RenderBufferFactory *, RenderableCamera * );
+    void resetShadowMap();
 
 private: // update
     void updateCamera( float elapsedTime );

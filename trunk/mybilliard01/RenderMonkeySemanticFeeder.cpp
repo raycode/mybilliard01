@@ -22,6 +22,12 @@ EffectShader * RenderMonkeySemanticFeeder::getEffectShader() {
 
 void RenderMonkeySemanticFeeder::updateCameraProjection( const RowMajorMatrix44f & matProj ) {
     matProj_ = matProj;
+
+    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Projection_ )
+    {
+        updateForPredefinedSemantic( *iter );
+        uploadValue( *iter );
+    }
 }
 
 void RenderMonkeySemanticFeeder::updateCameraMatrix(
@@ -34,21 +40,27 @@ void RenderMonkeySemanticFeeder::updateCameraMatrix(
     cameraDir_ = cameraDir;
     matView_ = matView;
     matProjView_ = matProjView;
+
+    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Camera_ )
+    {
+        updateForPredefinedSemantic( *iter );
+        uploadValue( *iter );
+    }
 }
 
 void RenderMonkeySemanticFeeder::updateModelMatrix( const RowMajorMatrix44f & matWorld )
 {
     matWorld_ = matWorld;
-}
 
-bool RenderMonkeySemanticFeeder::displayWithEffect( EffectShaderCallBack * callBack )
-{
-    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_ )
+    MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Model_ )
     {
         updateForPredefinedSemantic( *iter );
         uploadValue( *iter );
     }
+}
 
+bool RenderMonkeySemanticFeeder::displayWithEffect( EffectShaderCallBack * callBack )
+{
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"Effect with technique" );
     const bool bRst = effect_->renderWithTechnique( callBack );
     DXUT_EndPerfEvent();
@@ -60,7 +72,7 @@ void RenderMonkeySemanticFeeder::initRenderTargets() {
     // todo
 }
 
-bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, size_t countOfFloat )
+bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemantic, wstring nameOfSemantic, ActiveSemanticFlags & whereToStore, size_t countOfFloat )
 {
     if( false == effect_->hasVariableBySemantic( nameOfSemantic ) ) return false;
 
@@ -68,7 +80,7 @@ bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemanti
     if( bShared_ != variableForSemantic->isShared() ) return false;
 
     predefinedVariables_[ whichSemantic ] = variableForSemantic;
-    activeSemantics_.push_back( whichSemantic );
+    whereToStore.push_back( whichSemantic );
 
     temporaryStorage_[ whichSemantic ].resize( countOfFloat );
 
@@ -77,40 +89,40 @@ bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemanti
 
 void RenderMonkeySemanticFeeder::initPredefinedSemantics() {
 
-#define INIT_SEMANTIC( SEMANTIC, COUNT_OF_FLOAT ) initPredefinedSemanticForEach( SEMANTIC, L#SEMANTIC, COUNT_OF_FLOAT );
+#define INIT_SEMANTIC( SEMANTIC, WHERE_TO_STORE, COUNT_OF_FLOAT ) initPredefinedSemanticForEach( SEMANTIC, L#SEMANTIC, WHERE_TO_STORE, COUNT_OF_FLOAT );
 
-    INIT_SEMANTIC( ViewPosition, 4 );
-    INIT_SEMANTIC( ViewDirection, 3 );
+    INIT_SEMANTIC( ViewPosition, activeSemantics_Camera_, 4 );
+    INIT_SEMANTIC( ViewDirection, activeSemantics_Camera_, 3 );
 
-    INIT_SEMANTIC( World, 16 );
-    INIT_SEMANTIC( WorldTranspose, 16 );
-    INIT_SEMANTIC( WorldInverse, 16 );
-    INIT_SEMANTIC( WorldInverseTranspose, 16 );
+    INIT_SEMANTIC( World, activeSemantics_Model_, 16 );
+    INIT_SEMANTIC( WorldTranspose, activeSemantics_Model_, 16 );
+    INIT_SEMANTIC( WorldInverse, activeSemantics_Model_, 16 );
+    INIT_SEMANTIC( WorldInverseTranspose, activeSemantics_Model_, 16 );
 
-    INIT_SEMANTIC( View, 16 );
-    INIT_SEMANTIC( ViewTranspose, 16 );
-    INIT_SEMANTIC( ViewInverse, 16 );
-    INIT_SEMANTIC( ViewInverseTranspose, 16 );
+    INIT_SEMANTIC( View, activeSemantics_Camera_, 16 );
+    INIT_SEMANTIC( ViewTranspose, activeSemantics_Camera_, 16 );
+    INIT_SEMANTIC( ViewInverse, activeSemantics_Camera_, 16 );
+    INIT_SEMANTIC( ViewInverseTranspose, activeSemantics_Camera_, 16 );
 
-    INIT_SEMANTIC( Projection, 16 );
-    INIT_SEMANTIC( ProjectionTranspose, 16 );
-    INIT_SEMANTIC( ProjectionInverse, 16 );
-    INIT_SEMANTIC( ProjectionInverseTranspose, 16 );
+    INIT_SEMANTIC( Projection, activeSemantics_Projection_, 16 );
+    INIT_SEMANTIC( ProjectionTranspose, activeSemantics_Projection_, 16 );
+    INIT_SEMANTIC( ProjectionInverse, activeSemantics_Projection_, 16 );
+    INIT_SEMANTIC( ProjectionInverseTranspose, activeSemantics_Projection_, 16 );
 
-    INIT_SEMANTIC( WorldView, 16 );
-    INIT_SEMANTIC( WorldViewTranspose, 16 );
-    INIT_SEMANTIC( WorldViewInverse, 16 );
-    INIT_SEMANTIC( WorldViewInverseTranspose, 16 );
+    INIT_SEMANTIC( WorldView, activeSemantics_Model_, 16 );
+    INIT_SEMANTIC( WorldViewTranspose, activeSemantics_Model_, 16 );
+    INIT_SEMANTIC( WorldViewInverse, activeSemantics_Model_, 16 );
+    INIT_SEMANTIC( WorldViewInverseTranspose, activeSemantics_Model_, 16 );
 
-    INIT_SEMANTIC( ViewProjection, 16 );
-    INIT_SEMANTIC( ViewProjectionTranspose, 16 );
-    INIT_SEMANTIC( ViewProjectionInverse, 16 );
-    INIT_SEMANTIC( ViewProjectionInverseTranspose, 16 );
+    INIT_SEMANTIC( ViewProjection, activeSemantics_Camera_, 16 );
+    INIT_SEMANTIC( ViewProjectionTranspose, activeSemantics_Camera_, 16 );
+    INIT_SEMANTIC( ViewProjectionInverse, activeSemantics_Camera_, 16 );
+    INIT_SEMANTIC( ViewProjectionInverseTranspose, activeSemantics_Camera_, 16 );
 
-    INIT_SEMANTIC( WorldViewProjection, 16 );
-    INIT_SEMANTIC( WorldViewProjectionTranspose, 16 );
-    INIT_SEMANTIC( WorldViewProjectionInverse, 16 );
-    INIT_SEMANTIC( WorldViewProjectionInverseTranspose, 16 );
+    INIT_SEMANTIC( WorldViewProjection, activeSemantics_Model_, 16 );
+    INIT_SEMANTIC( WorldViewProjectionTranspose, activeSemantics_Model_, 16 );
+    INIT_SEMANTIC( WorldViewProjectionInverse, activeSemantics_Model_, 16 );
+    INIT_SEMANTIC( WorldViewProjectionInverseTranspose, activeSemantics_Model_, 16 );
 }
 
 

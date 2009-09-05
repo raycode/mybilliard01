@@ -4,8 +4,8 @@
 
 void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory, int x, int y, int width, int height )
 {
-    resetEffect( renderFactory, width, height );
     scene_->setRenderFactory( renderFactory );
+    resetEffect( renderFactory, width, height );
     updateProjection( (float) width / (float) height );
 }
 
@@ -24,6 +24,11 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
         depthCameraRenderTargets_[ i ] = renderFactory->createRenderTarget( width, height );
     }
 
+    resetShadowMap();
+}
+
+void MyRenderEventListenerImp::resetShadowMap()
+{
     MY_FOR_EACH( EffectShaderFeeders, iterFeeder, feeders_ )
     {
         EffectShaderFeeder * const feeder = iterFeeder->get();
@@ -34,13 +39,12 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
             wstringstream variableName;
             variableName << L"shadow" << i << L"_Tex";
             if( false == effect->hasVariableByName( variableName.str() ) ) continue;
+            ShaderVariable * const shadowMapVariable = effect->createVariableByName( variableName.str() );
 
             Texture * const shadowMapTexture = lightRenderTargets_[ i ]->getRenderTargetTexture();
-            ShaderVariable * const shadowMapVariable = effect->createVariableByName( variableName.str() );
             shadowMapVariable->setTexture( shadowMapTexture );
         }
     }
-
 }
 
 void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, RenderableCamera * camera )
