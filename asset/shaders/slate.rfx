@@ -915,7 +915,7 @@
       <RmRegistryBranch NAME="Effect Workspace.slate" API="" XML_VERSION="RenderMonkey 1.71">
        <RmRegistryBranch NAME="Disassembly" API="" XML_VERSION="RenderMonkey 1.71"/>
        <RmStringVariable NAME="Editing Shader" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-Pixel Shader]]></RmTextDataBlock></RmStringVariable>
+Vertex Shader]]></RmTextDataBlock></RmStringVariable>
        <RmStringVariable NAME="Editing Pass" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 Pass 0]]></RmTextDataBlock></RmStringVariable>
        <RmIntegerVariable NAME="Y" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="22" MIN="-10" MAX="10" CLAMP="FALSE"/>
@@ -1039,7 +1039,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-6/9/2009 1:8:27]]></RmTextDataBlock></RmStringVariable>
+6/9/2009 2:4:42]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1080,8 +1080,9 @@ float4x4 matWorldViewProjection;
 float4x4 matWorldView;
 float4x4 matWorld;
 
-shared float4 Light0_Position;
+shared float4   Light0_Position;
 shared float4x4 Light0_ViewProjection;
+
 
 struct VS_INPUT 
 {
@@ -1147,6 +1148,7 @@ float fSpecularPower;
 sampler2D baseMap;
 sampler2D shadowMap0;
 
+
 float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
 {
    const float4 colorOnShadowMap = tex2D( shadowMap, texCoord );
@@ -1155,6 +1157,7 @@ float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
                                  + colorOnShadowMap.b / ( 127.f * 127.f );
    return depthOnShadowMap;
 }
+
 
 struct PS_INPUT 
 {

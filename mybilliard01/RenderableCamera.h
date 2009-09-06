@@ -25,6 +25,7 @@ public:
     void appendEffectShaderFeederForActor( EffectShaderFeeder *, NxActor * );
 
     void setAspect( float aspectRatio ); // for projection
+    void updateCameraProjection();
 
     Camera * getProjectionCamera();
 
