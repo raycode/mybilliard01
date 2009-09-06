@@ -12,7 +12,7 @@ public:
     RenderState_CullDX9Imp( LPDIRECT3DDEVICE9 d3d9Device );
 
 private:
-    volatile LPDIRECT3DDEVICE9 d3d9Device_;
+    LPDIRECT3DDEVICE9 d3d9Device_;
 
 };
 

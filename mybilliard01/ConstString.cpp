@@ -50,8 +50,12 @@ wstring ConstString::effectFilenameByNodeName( wstring nodeName ) {
     return effectShaderDirectory + defaultEffectFilename;
 }
 
-wstring ConstString::effectFilename_positionOnly() {
+wstring ConstString::effectFilename_shadowMap() {
     return L"../asset/shaders/shadow_map.fx";
+}
+
+wstring ConstString::effectFilename_depthCull() {
+    return L"../asset/shaders/depth_cull.fx";
 }
 
 wstring ConstString::effectFilename_Blur() {

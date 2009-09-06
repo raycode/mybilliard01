@@ -30,7 +30,7 @@ float depthBias
    bool UIVisible =  true;
    float UIMin = -1.00;
    float UIMax = 1.00;
-> = float( 0.00 );
+> = float( 0.01 );
 
 struct VS_INPUT 
 {
@@ -40,7 +40,6 @@ struct VS_INPUT
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
-   float1 Depth :           TEXCOORD0;   
 };
 
 VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -52,22 +51,24 @@ VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
    Output.Position = pos;
 
-   Output.Depth    = pos.z / pos.w;
-
    return( Output );
    
 }
 
 
-float4 Shadow_Map_Pass_0_Pixel_Shader_ps_main( float1 inDepth: TEXCOORD0 ) : COLOR0
+float4 color
+<
+   string UIName = "color";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 1.00, 1.00, 1.00, 1.00 );
+
+float4 Shadow_Map_Pass_0_Pixel_Shader_ps_main() : COLOR0
 {
-    float4 Depth;
-    Depth.r = floor( inDepth[ 0 ] * 127.f ) / 127.f;
-    Depth.g = floor( ( inDepth[ 0 ] - Depth.r ) * 127.f * 127.f ) / 127.f;
-    Depth.b = 0.f;
-    Depth.a = 1.f;
-    return Depth;
+    return color;
 }
+
+
 
 //--------------------------------------------------------------//
 // Technique Section for Shadow Map

@@ -13,7 +13,8 @@ namespace my_utility {
 
     public: // effect
         static wstring effectFilenameByNodeName( wstring nodeName );
-        static wstring effectFilename_positionOnly();
+        static wstring effectFilename_shadowMap();
+        static wstring effectFilename_depthCull();
         static wstring effectFilename_Blur();
         static wstring effectFilename_HDR();
         static wstring effectFilename_SSAO();

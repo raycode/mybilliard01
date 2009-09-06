@@ -62,7 +62,7 @@ private: // init
 
 private: // reset
     void resetEffect( RenderBufferFactory *, size_t width, size_t height );
-    void resetEffect( RenderBufferFactory *, RenderableCamera * );
+    void resetEffect( RenderBufferFactory *, RenderableCamera *, wstring effectFilenameForPositionOnly );
     void resetShadowMap();
 
 private: // update
@@ -76,6 +76,11 @@ private: // update
 private: // reset
     const NxVec3 & getBallDefaultPosition( NxActor * );
     void resetBall( NxActor * ball );
+
+private: // display
+    void display_renderStates( Render * );
+    void display_lightMaps( Render * );
+    void display_activeCamera( Render * );
 
 private: // effect
     EffectShaderFeeder * createEffectFeeder( wstring nodeName, RenderBufferFactory * );
