@@ -915,7 +915,7 @@
       <RmRegistryBranch NAME="Effect Workspace.Textured Phong" API="" XML_VERSION="RenderMonkey 1.71">
        <RmRegistryBranch NAME="Disassembly" API="" XML_VERSION="RenderMonkey 1.71"/>
        <RmStringVariable NAME="Editing Shader" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-Pixel Shader]]></RmTextDataBlock></RmStringVariable>
+Vertex Shader]]></RmTextDataBlock></RmStringVariable>
        <RmStringVariable NAME="Editing Pass" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 Pass 0]]></RmTextDataBlock></RmStringVariable>
        <RmIntegerVariable NAME="Y" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="22" MIN="-10" MAX="10" CLAMP="FALSE"/>
@@ -1038,7 +1038,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-6/9/2009 0:56:59]]></RmTextDataBlock></RmStringVariable>
+6/9/2009 14:2:30]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1071,9 +1071,9 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
    <RmPass NAME="Pass 0" API="D3D" PASS_INDEX="0" ENABLED="TRUE">
     <RmModelReference NAME="Model" API=""/>
     <RmHLSLShader NAME="Vertex Shader" API="D3D" PIXEL_SHADER="FALSE" TARGET="vs_1_1" ENTRY_POINT="vs_main" COMPILER_FLAGS="0"><RmShaderCode TYPE="TEXT"><![CDATA[
-shared float4 Light0_Position;
-shared float4 fvEyePosition;
-shared float4x4 matView;
+#include "shared.fxh"
+#include "light0.fxh"
+
 float4x4 matWorldViewProjection;
 float4x4 matWorld;
 float4x4 matWorldView;
@@ -1120,8 +1120,8 @@ VS_OUTPUT vs_main( VS_INPUT Input )
 
 
 ]]></RmShaderCode>
-     <RmShaderConstant NAME="Light0_Position" API="" REGISTER="13"/>
-     <RmShaderConstant NAME="fvEyePosition" API="" REGISTER="14"/>
+     <RmShaderConstant NAME="Light0_Position" API="" REGISTER="14"/>
+     <RmShaderConstant NAME="fvEyePosition" API="" REGISTER="13"/>
      <RmShaderConstant NAME="matView" API="" REGISTER="4"/>
      <RmShaderConstant NAME="matWorld" API="" REGISTER="7"/>
      <RmShaderConstant NAME="matWorldView" API="" REGISTER="10"/>

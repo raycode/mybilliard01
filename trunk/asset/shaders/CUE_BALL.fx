@@ -22,17 +22,9 @@
 //--------------------------------------------------------------//
 string CUE_BALL_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
-shared float4 Light0_Position
-<
-   string UIName = "Light0_Position";
-   string UIWidget = "Direction";
-   bool UIVisible =  true;
-   float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
-   float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
-   bool Normalize =  false;
-> = float4( 0.00, 400.00, 0.00, 1.00 );
-shared float4 fvEyePosition : ViewPosition;
-shared float4x4 matView : View;
+#include "shared.fxh"
+#include "light0.fxh"
+
 float4x4 matWorldViewProjection : WorldViewProjection;
 float4x4 matWorld : World;
 float4x4 matWorldView : WorldView;
