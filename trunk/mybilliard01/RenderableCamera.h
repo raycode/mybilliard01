@@ -21,8 +21,8 @@ public:
 
     bool isPositionOnly();
 
-    void setSharedEffectShaderFeeder( EffectShaderFeeder * );
-    void appendEffectShaderFeederForActor( EffectShaderFeeder *, NxActor * );
+    void setSharedEffectShaderFeeder( MyEffectShaderFeeder * );
+    void appendEffectShaderFeederForActor( MyEffectShaderFeeder *, NxActor * );
 
     void setAspect( float aspectRatio ); // for projection
     void updateCameraProjection();
@@ -34,10 +34,10 @@ private:
     const bool bPositionOnly_;
 
     typedef vector< NxActor * > Actors;
-    typedef map< EffectShaderFeeder *, Actors > EffectAndActorMap;
+    typedef map< MyEffectShaderFeeder *, Actors > EffectAndActorMap;
     EffectAndActorMap effectAndActorMap_;
 
-    EffectShaderFeeder * sharedVaribleFeeder_;
+    MyEffectShaderFeeder * sharedVaribleFeeder_;
 
 private:
     NxU32 clearColor_, clearStencil_;

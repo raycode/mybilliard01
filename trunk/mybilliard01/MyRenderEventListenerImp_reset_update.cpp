@@ -47,9 +47,8 @@ void MyRenderEventListenerImp::resetShadowMap()
 
 void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, RenderableCamera * camera, wstring effectFilenameForPositionOnly )
 {
-    EffectShaderFeederPtr sharedFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( true ) );
+    MyEffectShaderFeederPtr sharedFeeder = MyEffectShaderFeederPtr( new MyEffectShaderFeederImp( true ) );
     sharedFeeders_.push_back( sharedFeeder );
-
     camera->setSharedEffectShaderFeeder( sharedFeeder.get() );
 
     for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
@@ -63,22 +62,21 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
 
         const wstring effectFilename = camera->isPositionOnly()
             ? effectFilenameForPositionOnly : ConstString::effectFilenameByNodeName( nodeName );
-        EffectShaderFeeder * const newFeeder = createEffectFeeder( effectFilename, renderFactory );
+        MyEffectShaderFeeder * const newFeeder = createEffectFeeder( effectFilename, renderFactory );
         camera->appendEffectShaderFeederForActor( newFeeder, actor );
-
-        sharedFeeder->setEffectShader( newFeeder->getEffectShader() );
     }
 }
 
-EffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( wstring effectFilename, RenderBufferFactory * renderFactory )
+MyEffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( wstring effectFilename, RenderBufferFactory * renderFactory )
 {
     EffectShader * const newEffect = renderFactory->createEffectShader( effectFilename );
     RETURN_VALUE_UNLESS( newEffect, NULL );
 
     MY_FOR_EACH( EffectShaderFeeders, feeder, feeders_ )
-        if( (*feeder)->getEffectShader() == newEffect ) return feeder->get();
+        if( (*feeder)->getEffectShader() == newEffect )
+            return dynamic_pointer_cast< MyEffectShaderFeeder >( *feeder ).get();
 
-    EffectShaderFeederPtr newFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( false ) );
+    MyEffectShaderFeederPtr newFeeder = MyEffectShaderFeederPtr( new MyEffectShaderFeederImp( false ) );
     feeders_.push_back( newFeeder );
     findSharedVariables( newEffect );
     newFeeder->setEffectShader( newEffect );

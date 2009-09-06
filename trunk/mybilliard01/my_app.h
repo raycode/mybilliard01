@@ -31,6 +31,7 @@ using namespace my_open_al_imp;
 class MyRenderEventListenerImp;
 class MyInputListenerImp;
 class MyCamera;
+class MyEffectShaderFeeder;
 class NodeDisplayer;
 class RenderableCamera;
 
@@ -38,6 +39,7 @@ class RenderableCamera;
 MY_SMART_PTR( MyRenderEventListenerImp );
 MY_SMART_PTR( MyInputListenerImp );
 MY_SMART_PTR( MyCamera );
+MY_SMART_PTR( MyEffectShaderFeeder );
 MY_SMART_PTR( NodeDisplayer );
 MY_SMART_PTR( RenderableCamera );
 
@@ -66,11 +68,14 @@ using namespace smc;
 #include "MyControllerHitReport.hpp"
 #include "RenderableCamera.h"
 #include "MyCamera.h"
+
 #include "BallContactReport.h"
 #include "MyInputListenerImp.h"
 
 #include "RenderMonkeySemantics.hpp"
 #include "RenderMonkeySemanticFeeder.h"
+#include "MyEffectShaderFeeder.h"
+#include "MyEffectShaderFeederImp.h"
 #include "NodeDisplayer.h"
 
 #include "MyRenderEventListenerImp.h"
