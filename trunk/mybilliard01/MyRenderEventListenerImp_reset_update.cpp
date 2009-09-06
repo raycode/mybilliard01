@@ -13,14 +13,14 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
 {
     for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
     {
-        resetEffect( renderFactory, lights_[ i ] );
+        resetEffect( renderFactory, lights_[ i ], ConstString::effectFilename_shadowMap() );
         lightRenderTargets_[ i ] = renderFactory->createRenderTarget( 1024, 1024 );
     }
 
     for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i )
     {
-        resetEffect( renderFactory, cameras_[ i ] );
-        resetEffect( renderFactory, depthCameras_[ i ] );
+        resetEffect( renderFactory, cameras_[ i ], L"" );
+        resetEffect( renderFactory, depthCameras_[ i ], ConstString::effectFilename_depthCull() );
         depthCameraRenderTargets_[ i ] = renderFactory->createRenderTarget( width, height );
     }
 
@@ -47,14 +47,15 @@ void MyRenderEventListenerImp::resetShadowMap()
     }
 }
 
-void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, RenderableCamera * camera )
+void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, RenderableCamera * camera, wstring effectFilenameForPositionOnly )
 {
     EffectShaderFeederPtr sharedFeeder = EffectShaderFeederPtr( new RenderMonkeySemanticFeeder( true ) );
     sharedFeeders_.push_back( sharedFeeder );
 
     camera->setSharedEffectShaderFeeder( sharedFeeder.get() );
 
-    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i ) {
+    for( size_t i = 0; i < phys_->getNumberOfActors(); ++i )
+    {
         NxActor * const actor = phys_->getActor( i );
 
         const wstring nodeName = convertString( actor->getName() );
@@ -63,7 +64,7 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
         actor->userData = node;
 
         if( camera->isPositionOnly() ) {
-            const wstring effectFilename2 = ConstString::effectFilename_positionOnly();
+            const wstring effectFilename2 = effectFilenameForPositionOnly;
             EffectShaderFeeder * const newFeeder2 = createEffectFeeder( effectFilename2, renderFactory );
             camera->appendEffectShaderFeederForActor( newFeeder2, actor );
 
@@ -113,6 +114,7 @@ void MyRenderEventListenerImp::updateCamera( float elapsedTime )
 {
     MyCamera * const camera = getActiveCamera();
     camera->update( elapsedTime );
+
     depthCameras_[ 0 ]->setPosition( camera->getPosition() );
     depthCameras_[ 0 ]->setUpVector( camera->getUpVector() );
     depthCameras_[ 0 ]->setDirectionVector( camera->getDirectionVector() );

@@ -236,18 +236,6 @@
 					>
 				</File>
 				<File
-					RelativePath=".\RenderState_CullDX9.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RenderState_WireframeDX9.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RenderStateDX9.h"
-					>
-				</File>
-				<File
 					RelativePath=".\RenderTargetDX9.h"
 					>
 				</File>
@@ -267,6 +255,30 @@
 					RelativePath=".\TextureDX9.h"
 					>
 				</File>
+				<Filter
+					Name="RenderState"
+					>
+					<File
+						RelativePath=".\RenderState_AlphaDX9.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_CullDX9.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_WireframeDX9.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_ZBufferDX9.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderStateDX9.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="2. Shader"
@@ -380,60 +392,6 @@
 					</FileConfiguration>
 				</File>
 				<File
-					RelativePath=".\RenderState_CullDX9Imp.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
-							PrecompiledHeaderThrough="DXUT.h"
-							PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\RenderState_CullDX9Imp.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RenderState_WireframeDX9Imp.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
-							PrecompiledHeaderThrough="DXUT.h"
-							PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\RenderState_WireframeDX9Imp.h"
-					>
-				</File>
-				<File
-					RelativePath=".\RenderStateDX9Imp.cpp"
-					>
-					<FileConfiguration
-						Name="Debug|Win32"
-						>
-						<Tool
-							Name="VCCLCompilerTool"
-							UsePrecompiledHeader="2"
-							PrecompiledHeaderThrough="DXUT.h"
-							PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
-						/>
-					</FileConfiguration>
-				</File>
-				<File
-					RelativePath=".\RenderStateDX9Imp.h"
-					>
-				</File>
-				<File
 					RelativePath=".\RenderWin32DX9Imp.cpp"
 					>
 					<FileConfiguration
@@ -451,6 +409,80 @@
 					RelativePath=".\RenderWin32DX9Imp.h"
 					>
 				</File>
+				<Filter
+					Name="RenderState"
+					>
+					<File
+						RelativePath=".\RenderState_AlphaDX9Imp.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_AlphaDX9Imp.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_CullDX9Imp.cpp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="DXUT.h"
+								PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\RenderState_CullDX9Imp.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_WireframeDX9Imp.cpp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="DXUT.h"
+								PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\RenderState_WireframeDX9Imp.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_ZBufferDX9Imp.cpp"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_ZBufferDX9Imp.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderStateDX9Imp.cpp"
+						>
+						<FileConfiguration
+							Name="Debug|Win32"
+							>
+							<Tool
+								Name="VCCLCompilerTool"
+								UsePrecompiledHeader="2"
+								PrecompiledHeaderThrough="DXUT.h"
+								PrecompiledHeaderFile="$(IntDir)\$(TargetName)_DXUT.pch"
+							/>
+						</FileConfiguration>
+					</File>
+					<File
+						RelativePath=".\RenderStateDX9Imp.h"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="2. Shader"

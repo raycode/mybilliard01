@@ -18,6 +18,8 @@ namespace my_render {
     class RenderState;
     class RenderState_Wireframe;
     class RenderState_Cull;
+    class RenderState_Alpha;
+    class RenderState_ZBuffer;
 
     class Shader;
     class Texture;
@@ -129,6 +131,10 @@ namespace my_render {
 #include "EffectShaderFeederNull.hpp"
 #include "RenderTargetChain.h"
 
+#include "RenderState_Alpha.h"
+#include "RenderState_AlphaNull.hpp"
+#include "RenderState_ZBuffer.h"
+#include "RenderState_ZBufferNull.hpp"
 #include "RenderState_Wireframe.h"
 #include "RenderState_WireframeNull.hpp"
 #include "RenderState_Cull.h"

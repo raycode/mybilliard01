@@ -174,21 +174,36 @@ void MyRenderEventListenerImp::display( Render * render ) {
     if( false == render->beginScene() ) return;
     DXUT_BeginPerfEvent( DXUT_PERFEVENTCOLOR, L"begin Scene" ); // These events are to help PIX identify
 
-    render->setRenderState()->setWireframe()->setSolid();
-    render->setRenderState()->setCull()->setClockWise();
-
-    lights_[ LIGHT_0 ]->clear_Color_Z( PixelColor( 1.f, 0.f, 0.f, 0.f ), 1.f );
-    lightRenderTargets_[ LIGHT_0 ]->displayOnRenderTarget( render, lights_[ LIGHT_0 ] );
-
-    depthCameras_[ CAMERA_0 ]->clear_Z( 1.f );
-    depthCameras_[ CAMERA_0 ]->displayOnRenderTargetCallBack( render );
-
-    getActiveCamera()->clear_Color( PixelColor( 255, 0, 30, 70 ) );
-    getActiveCamera()->displayOnRenderTargetCallBack( render );
+    display_renderStates( render );
+    display_lightMaps( render );
+    display_activeCamera( render );
 
     DXUT_EndPerfEvent();
     render->endScene();
 }   
+
+void MyRenderEventListenerImp::display_renderStates( Render * render )
+{
+    render->setRenderState()->setWireframe()->setSolid();
+    render->setRenderState()->setCull()->setClockWise();
+}
+
+void MyRenderEventListenerImp::display_lightMaps( Render * render )
+{
+    lights_[ LIGHT_0 ]->clear_Color_Z( PixelColor( 1.f, 0.f, 0.f, 0.f ), 1.f );
+    lightRenderTargets_[ LIGHT_0 ]->displayOnRenderTarget( render, lights_[ LIGHT_0 ] );
+}
+
+void MyRenderEventListenerImp::display_activeCamera( Render * render )
+{
+    render->setRenderState()->setAlpha()->setColorBufferTurnOff();
+    depthCameras_[ CAMERA_0 ]->clear_Z( 1.f );
+    depthCameras_[ CAMERA_0 ]->displayOnRenderTargetCallBack( render );
+    render->setRenderState()->setAlpha()->setColorBufferTurnOn();
+
+    getActiveCamera()->clear_Color( PixelColor( 255, 0, 30, 70 ) );
+    getActiveCamera()->displayOnRenderTargetCallBack( render );
+}
 
 void MyRenderEventListenerImp::displayLost() {
     sharedVariables_.clear();

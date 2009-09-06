@@ -1773,11 +1773,19 @@
 						>
 					</File>
 					<File
+						RelativePath=".\RenderState_Alpha.h"
+						>
+					</File>
+					<File
 						RelativePath=".\RenderState_Cull.h"
 						>
 					</File>
 					<File
 						RelativePath=".\RenderState_Wireframe.h"
+						>
+					</File>
+					<File
+						RelativePath=".\RenderState_ZBuffer.h"
 						>
 					</File>
 				</Filter>
@@ -1930,11 +1938,19 @@
 					>
 				</File>
 				<File
+					RelativePath=".\RenderState_AlphaNull.hpp"
+					>
+				</File>
+				<File
 					RelativePath=".\RenderState_CullNull.hpp"
 					>
 				</File>
 				<File
 					RelativePath=".\RenderState_WireframeNull.hpp"
+					>
+				</File>
+				<File
+					RelativePath=".\RenderState_ZBufferNull.hpp"
 					>
 				</File>
 				<File
