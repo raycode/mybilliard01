@@ -190,15 +190,18 @@ void MyRenderEventListenerImp::display_renderStates( Render * render )
 
 void MyRenderEventListenerImp::display_lightMaps( Render * render )
 {
-    lights_[ LIGHT_0 ]->clear_Color_Z( PixelColor( 1.f, 0.f, 0.f, 0.f ), 1.f );
-    lightRenderTargets_[ LIGHT_0 ]->displayOnRenderTarget( render, lights_[ LIGHT_0 ] );
+    for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
+    {
+        lights_[ i ]->clear_Color_Z( PixelColor( 1.f, 0.f, 0.f, 0.f ), 1.f );
+        lightRenderTargets_[ i ]->displayOnRenderTarget( render, lights_[ i ] );
+    }
 }
 
 void MyRenderEventListenerImp::display_activeCamera( Render * render )
 {
     render->setRenderState()->setAlpha()->setColorBufferTurnOff();
-    depthCameras_[ CAMERA_0 ]->clear_Z( 1.f );
-    depthCameras_[ CAMERA_0 ]->displayOnRenderTargetCallBack( render );
+    depthCameras_[ activeCamera_ ]->clear_Z( 1.f );
+    depthCameras_[ activeCamera_ ]->displayOnRenderTargetCallBack( render );
     render->setRenderState()->setAlpha()->setColorBufferTurnOn();
 
     getActiveCamera()->clear_Color( PixelColor( 255, 0, 30, 70 ) );

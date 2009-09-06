@@ -112,13 +112,18 @@ void MyRenderEventListenerImp::update( RenderBufferFactory * renderFactory, floa
 
 void MyRenderEventListenerImp::updateCamera( float elapsedTime )
 {
-    MyCamera * const camera = getActiveCamera();
-    camera->update( elapsedTime );
+    //for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i )
+    size_t i = activeCamera_;
+    {
+        MyCamera * const camera = cameras_[ i ];
+        RenderableCamera * const depthCamera = depthCameras_[ i ];
+        camera->update( elapsedTime );
 
-    depthCameras_[ 0 ]->setPosition( camera->getPosition() );
-    depthCameras_[ 0 ]->setUpVector( camera->getUpVector() );
-    depthCameras_[ 0 ]->setDirectionVector( camera->getDirectionVector() );
-    depthCameras_[ 0 ]->setRightVector( camera->getRightVector() );
+        depthCamera->setPosition( camera->getPosition() );
+        depthCamera->setUpVector( camera->getUpVector() );
+        depthCamera->setDirectionVector( camera->getDirectionVector() );
+        depthCamera->setRightVector( camera->getRightVector() );
+    }
 }
 
 void MyRenderEventListenerImp::updateSharedVariables()
