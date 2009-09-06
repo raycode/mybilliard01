@@ -30,7 +30,7 @@ float    depthBias
    bool UIVisible =  true;
    float UIMin = -1.00;
    float UIMax = 1.00;
-> = float( 0.00 );
+> = float( 0.01 );
 
 
 struct VS_INPUT 
