@@ -50,8 +50,10 @@ wstring ConstString::effectFilenameByNodeName( wstring nodeName ) {
     return effectShaderDirectory + defaultEffectFilename;
 }
 
-wstring ConstString::effectFilename_shadowMap() {
-    return L"../asset/shaders/shadow_map.fx";
+wstring ConstString::effectFilename_shadowMap( size_t index ) {
+    wstringstream filename;
+    filename << L"../asset/shaders/shadow_map" << std::setw(2) << std::setfill<wchar_t>( '0' ) << index << L".fx";
+    return filename.str();
 }
 
 wstring ConstString::effectFilename_depthCull() {

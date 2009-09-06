@@ -37,9 +37,9 @@ shared float4 Light0_Position
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
 > = float4( 400.00, 0.00, -0.00, 1.00 );
-float4x4 Light0_WorldLightProjection
+shared float4x4 Light0_ViewProjection
 <
-   string UIName = "Light0_WorldLightProjection";
+   string UIName = "Light0_ViewProjection";
    string UIWidget = "Numeric";
    bool UIVisible =  false;
 > = float4x4( 1.00, 0.00, 0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 1.00 );
@@ -49,7 +49,6 @@ struct VS_INPUT
    float4 Position : POSITION0;
    float2 Texcoord : TEXCOORD0;
    float3 Normal :   NORMAL0;
-   
 };
 
 struct VS_OUTPUT 
@@ -79,8 +78,9 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
    float3 fvNormal         = Input.Normal;
    Output.Normal           = mul( fvNormal, matWorldView );
-   
-   float4 posFromLight0    = mul( Input.Position, Light0_WorldLightProjection );
+
+   float4x4 Light0_WorldViewProjection = mul( matWorld, Light0_ViewProjection );   
+   float4 posFromLight0    = mul( Input.Position, Light0_WorldViewProjection );
 
    Output.PositionFromLight0.x = ( posFromLight0.x / posFromLight0.w + 1 ) * 0.5f;
    Output.PositionFromLight0.y = (-posFromLight0.y / posFromLight0.w + 1 ) * 0.5f;
@@ -96,16 +96,18 @@ float4 fvAmbient;
 float4 fvSpecular;
 float4 fvDiffuse;
 float fSpecularPower;
-float depthBias
-<
-   string UIName = "depthBias";
-   string UIWidget = "Numeric";
-   bool UIVisible =  true;
-   float UIMin = -1.00;
-   float UIMax = 1.00;
-> = float( 0.01 );
 sampler2D baseMap;
-sampler2D shadowMap0;
+texture shadow0_Tex
+<
+   string ResourceName = "..\\textures\\shadow_map_captured.png";
+>;
+sampler2D shadowMap0 = sampler_state
+{
+   Texture = (shadow0_Tex);
+   MINFILTER = LINEAR;
+   MIPFILTER = LINEAR;
+   MAGFILTER = LINEAR;
+};
 
 float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
 {
@@ -127,13 +129,12 @@ float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    const float4 baseColor = tex2D( baseMap, Input.Texcoord );
    
    const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight0.xy );
-   const float  actualDepth       = Input.PositionFromLight0.z - depthBias;
+   const float  actualDepth       = Input.PositionFromLight0.z;
    const bool   bUnderShadow      = actualDepth > depthOnShadowMap0;
 
    const float4 colorOutShadow    = ( fvAmbient + fvDiffuse ) * baseColor;
    const float4 colorUnderShadow  = fvAmbient * baseColor;
 
-return actualDepth;
    return ( bUnderShadow ? colorUnderShadow : colorOutShadow );
 }
 

@@ -120,6 +120,8 @@ private: // camera
     RenderableCamera * lights_[ SIZE_OF_LIGHT_ENUM ];
     RenderTarget * lightRenderTargets_[ SIZE_OF_LIGHT_ENUM ];
 
+    ShaderVariable * lightMatrices_[ SIZE_OF_LIGHT_ENUM ];
+
     enum CameraEnum { CAMERA_0, SIZE_OF_CAMERA_ENUM };
     MyCamera * cameras_[ SIZE_OF_CAMERA_ENUM ];
     RenderableCamera * depthCameras_[ SIZE_OF_CAMERA_ENUM ];

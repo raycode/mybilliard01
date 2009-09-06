@@ -13,7 +13,7 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
 {
     for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
     {
-        resetEffect( renderFactory, lights_[ i ], ConstString::effectFilename_shadowMap() );
+        resetEffect( renderFactory, lights_[ i ], ConstString::effectFilename_shadowMap( i + 1 ) );
         lightRenderTargets_[ i ] = renderFactory->createRenderTarget( 1024, 1024 );
     }
 
