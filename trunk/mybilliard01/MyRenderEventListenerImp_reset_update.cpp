@@ -21,7 +21,6 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
     {
         resetEffect( renderFactory, cameras_[ i ], L"" );
         resetEffect( renderFactory, depthCameras_[ i ], ConstString::effectFilename_depthCull() );
-        depthCameraRenderTargets_[ i ] = renderFactory->createRenderTarget( width, height );
     }
 
     resetShadowMap();

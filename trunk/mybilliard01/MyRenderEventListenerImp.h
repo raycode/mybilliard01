@@ -123,7 +123,6 @@ private: // camera
     enum CameraEnum { CAMERA_0, SIZE_OF_CAMERA_ENUM };
     MyCamera * cameras_[ SIZE_OF_CAMERA_ENUM ];
     RenderableCamera * depthCameras_[ SIZE_OF_CAMERA_ENUM ];
-    RenderTarget * depthCameraRenderTargets_[ SIZE_OF_CAMERA_ENUM ];
 
     CameraEnum activeCamera_;
 
