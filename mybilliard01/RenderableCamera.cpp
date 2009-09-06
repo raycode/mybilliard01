@@ -19,12 +19,41 @@ void RenderableCamera::displayOnRenderTargetCallBack( Render * render )
     const RowMajorMatrix44f matrixView = getViewMatrix();
     const RowMajorMatrix44f matrixProjectionView = getProjectionMatrix() * matrixView;
 
+    vector< const NxVec3 > position_shadowMap;
+    vector< const NxVec3 > direction_shadowMap;
+    vector< const RowMajorMatrix44f > matrixView_shadowMap;
+    vector< const RowMajorMatrix44f > matrixProjectionView_shadowMap;
+    
+    for( size_t i = 0; i < shadowMapLights_.size(); ++i )
+    {
+        RenderableCamera * const shadowMap = shadowMapLights_[ i ];
+
+        position_shadowMap.push_back( shadowMap->getPosition() );
+        direction_shadowMap.push_back( shadowMap->getDirectionVector() );
+        matrixView_shadowMap.push_back( shadowMap->getViewMatrix() );
+        matrixProjectionView_shadowMap.push_back( shadowMap->getProjectionMatrix() * *( matrixView_shadowMap.rbegin() ) );
+    }
+
+    //---------------
+
     sharedVaribleFeeder_->updateView_camera( position, direction, matrixView, matrixProjectionView );
+
+    for( size_t i = 0; i < shadowMapLights_.size(); ++i )
+    {
+        sharedVaribleFeeder_->updateView_shadowMap( i, position_shadowMap[ i ], direction_shadowMap[ i ], matrixView_shadowMap[ i ], matrixProjectionView_shadowMap[ i ] );
+    }
+
+    //-----------------
 
     MY_FOR_EACH( EffectAndActorMap, iterFeeder, effectAndActorMap_ )
     {
         MyEffectShaderFeeder * const feeder = iterFeeder->first;
         feeder->updateView_camera( position, direction, matrixView, matrixProjectionView );
+
+        for( size_t i = 0; i < shadowMapLights_.size(); ++i )
+        {
+            feeder->updateView_shadowMap( i, position_shadowMap[ i ], direction_shadowMap[ i ], matrixView_shadowMap[ i ], matrixProjectionView_shadowMap[ i ] );
+        }
 
         MY_FOR_EACH( Actors, iterActor, iterFeeder->second )
         {
@@ -48,12 +77,18 @@ void RenderableCamera::setAspect( float aspectRatio ) {
     colladaCamera_->getPerspectiveCamera()->setAspect( aspectRatio );
 }
 
-void RenderableCamera::updateCameraProjection()
+void RenderableCamera::updateProjectionMatrix()
 {
     sharedVaribleFeeder_->updateProjection_camera( getProjectionMatrix() );
+    for( size_t i = 0; i < shadowMapLights_.size(); ++i )
+        sharedVaribleFeeder_->updateProjection_shadowMap( i, shadowMapLights_[ i ]->getProjectionMatrix() );
 
     MY_FOR_EACH( EffectAndActorMap, feeder, effectAndActorMap_ )
+    {
         feeder->first->updateProjection_camera( getProjectionMatrix() );
+        for( size_t i = 0; i < shadowMapLights_.size(); ++i )
+            feeder->first->updateProjection_shadowMap( i, shadowMapLights_[ i ]->getProjectionMatrix() );
+    }
 }
 
 
@@ -75,6 +110,11 @@ void RenderableCamera::appendEffectShaderFeederForActor( MyEffectShaderFeeder * 
     EffectShader * const effect = newFeeder->getEffectShader();
     sharedVaribleFeeder_->setEffectShader( effect );
 }
+
+void RenderableCamera::appendShadowMapLight( RenderableCamera * shadowMapLight ) {
+    shadowMapLights_.push_back( shadowMapLight );
+}
+
 
 Camera * RenderableCamera::getProjectionCamera() {
     return colladaCamera_;

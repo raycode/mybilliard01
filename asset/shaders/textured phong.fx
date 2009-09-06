@@ -22,9 +22,9 @@
 //--------------------------------------------------------------//
 string Textured_Phong_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
-shared float4 Light0_Position
+shared float4 Light00_Position
 <
-   string UIName = "Light0_Position";
+   string UIName = "Light00_Position";
    string UIWidget = "Direction";
    bool UIVisible =  true;
    float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
@@ -67,7 +67,7 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    float3 fvEminusW        = fvEyePosition - fvWorld;
    Output.ViewDirection    = mul( fvEminusW, matView );
 
-   float3 fvLminusW        = Light0_Position - fvWorld;   
+   float3 fvLminusW        = Light00_Position - fvWorld;   
    Output.LightDirection   = mul( fvLminusW, matView );
 
    float3 fvNormal         = Input.Normal;

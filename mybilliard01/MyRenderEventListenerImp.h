@@ -67,8 +67,8 @@ private: // reset
 
 private: // update
     void updateCamera( float elapsedTime );
-    void updateProjection( float aspect );
-    void updateProjection( float aspect, RenderableCamera * );
+    void resetProjection( float aspect );
+    void resetProjection( float aspect, RenderableCamera * );
     void updateStickPosition();
     void updateStickPower( float elapsedTime );
 

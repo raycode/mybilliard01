@@ -324,10 +324,6 @@
 					RelativePath=".\RenderMonkeySemanticFeeder.h"
 					>
 				</File>
-				<File
-					RelativePath=".\RenderMonkeySemantics.hpp"
-					>
-				</File>
 			</Filter>
 			<Filter
 				Name="1. Main"

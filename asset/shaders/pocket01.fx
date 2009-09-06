@@ -23,7 +23,7 @@
 string CUE_BALL_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
 #include "shared.fxh"
-#include "light0.fxh"
+#include "light00.fxh"
 
 float4x4 matWorldViewProjection : WorldViewProjection;
 float4x4 matWorld : World;
@@ -32,17 +32,17 @@ float4x4 matWorldView : WorldView;
 struct VS_INPUT 
 {
    float4 Position : POSITION0;
+   float2 Texcoord : TEXCOORD0;
    float3 Normal :   NORMAL0;
-   
 };
 
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
-   float3 ViewDirection :   TEXCOORD0;
-   float3 LightDirection :  TEXCOORD1;
-   float3 Normal :          TEXCOORD2;
-   
+   float2 Texcoord :        TEXCOORD0;
+   float3 ViewDirection :   TEXCOORD1;
+   float3 LightDirection :  TEXCOORD2;
+   float3 Normal :          TEXCOORD3;
 };
 
 VS_OUTPUT CUE_BALL_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -50,13 +50,14 @@ VS_OUTPUT CUE_BALL_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    VS_OUTPUT Output;
 
    Output.Position         = mul( Input.Position, matWorldViewProjection );
+   Output.Texcoord         = Input.Texcoord;
 
    float3 fvWorld          = mul( Input.Position, matWorld );
 
    float3 fvEminusW        = fvEyePosition - fvWorld;
    Output.ViewDirection    = mul( fvEminusW, matView );
 
-   float3 fvLminusW        = Light0_Position - fvWorld;   
+   float3 fvLminusW        = Light00_Position - fvWorld;   
    Output.LightDirection   = mul( fvLminusW, matView );
 
    float3 fvNormal         = Input.Normal;

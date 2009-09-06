@@ -72,7 +72,6 @@ using namespace smc;
 #include "BallContactReport.h"
 #include "MyInputListenerImp.h"
 
-#include "RenderMonkeySemantics.hpp"
 #include "RenderMonkeySemanticFeeder.h"
 #include "MyEffectShaderFeeder.h"
 #include "MyEffectShaderFeederImp.h"

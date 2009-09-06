@@ -1036,7 +1036,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-6/9/2009 13:53:15]]></RmTextDataBlock></RmStringVariable>
+6/9/2009 15:55:10]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1047,14 +1047,14 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
    </RmRegistryBranch>
   </RmRegistryBranch>
   <RmDirectXEffect NAME="slate" API="D3D" ACTIVE_CAMERA="">
-   <RmMatrixVariable NAME="matWorldViewProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldViewProjection" VALUE_0="0.143124" VALUE_1="0.097333" VALUE_2="-0.983465" VALUE_3="0.000002" VALUE_4="0.213477" VALUE_5="2.389823" VALUE_6="0.267586" VALUE_7="0.000004" VALUE_8="0.986704" VALUE_9="-0.103076" VALUE_10="0.133394" VALUE_11="199.199188" VALUE_12="0.985717" VALUE_13="-0.102973" VALUE_14="0.133261" VALUE_15="199.999985"/>
-   <RmMatrixVariable NAME="matView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="View" VALUE_0="0.143328" VALUE_1="0.097471" VALUE_2="-0.984864" VALUE_3="0.000002" VALUE_4="0.088425" VALUE_5="0.989897" VALUE_6="0.110838" VALUE_7="0.000002" VALUE_8="0.985717" VALUE_9="-0.102973" VALUE_10="0.133261" VALUE_11="199.999985" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
+   <RmMatrixVariable NAME="matWorldViewProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldViewProjection" VALUE_0="0.998580" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="2.414214" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.001001" VALUE_11="199.199203" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="1.000000" VALUE_15="200.000000"/>
+   <RmMatrixVariable NAME="matView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="View" VALUE_0="1.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="1.000000" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.000000" VALUE_11="200.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
    <RmFloatVariable NAME="fSpecularPower" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE="2.000000" MIN="1.000000" MAX="100.000000" CLAMP="TRUE"/>
    <RmMatrixVariable NAME="matWorld" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="World" VALUE_0="1.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="1.000000" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.000000" VALUE_11="0.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
-   <RmVectorVariable NAME="fvEyePosition" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewPosition" VALUE_0="-197.143417" VALUE_1="20.594582" VALUE_2="-26.652157" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
-   <RmMatrixVariable NAME="matWorldView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldView" VALUE_0="0.143328" VALUE_1="0.097471" VALUE_2="-0.984864" VALUE_3="0.000002" VALUE_4="0.088425" VALUE_5="0.989897" VALUE_6="0.110838" VALUE_7="0.000002" VALUE_8="0.985717" VALUE_9="-0.102973" VALUE_10="0.133261" VALUE_11="199.999985" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
-   <RmVectorVariable NAME="Light0_Position" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="0.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
-   <RmMatrixVariable NAME="Light0_WorldViewProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="1.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="1.000000" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.000000" VALUE_11="0.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
+   <RmVectorVariable NAME="fvEyePosition" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="ViewPosition" VALUE_0="0.000000" VALUE_1="0.000000" VALUE_2="-200.000000" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
+   <RmMatrixVariable NAME="matWorldView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldView" VALUE_0="1.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="1.000000" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.000000" VALUE_11="200.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
+   <RmVectorVariable NAME="Light00_Position" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="0.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
+   <RmMatrixVariable NAME="Light00_WorldViewProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="1.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="1.000000" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.000000" VALUE_11="0.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
    <RmColorVariable NAME="fvAmbient" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.398496" VALUE_1="0.392636" VALUE_2="0.392636" VALUE_3="1.000000"/>
    <RmColorVariable NAME="fvDiffuse" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.827068" VALUE_1="0.817476" VALUE_2="0.788699" VALUE_3="1.000000"/>
    <RmColorVariable NAME="fvSpecular" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.157895" VALUE_1="0.157420" VALUE_2="0.157420" VALUE_3="1.000000"/>
@@ -1072,7 +1072,7 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
     <RmModelReference NAME="Model" API=""/>
     <RmHLSLShader NAME="Vertex Shader" API="D3D" PIXEL_SHADER="FALSE" TARGET="vs_1_1" ENTRY_POINT="vs_main" COMPILER_FLAGS="0"><RmShaderCode TYPE="TEXT"><![CDATA[
 #include "shared.fxh"
-#include "light0.fxh"
+#include "light00.fxh"
 
 float4x4 matWorldViewProjection;
 float4x4 matWorldView;
@@ -1093,7 +1093,7 @@ struct VS_OUTPUT
    float3 ViewDirection :      TEXCOORD1;
    float3 LightDirection :     TEXCOORD2;
    float3 Normal :             TEXCOORD3;
-   float3 PositionFromLight0 : TEXCOORD4;   
+   float3 PositionFromLight00: TEXCOORD4;   
 };
 
 VS_OUTPUT vs_main( VS_INPUT Input )
@@ -1108,17 +1108,17 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    float3 fvEminusW        = fvEyePosition - fvWorld;
    Output.ViewDirection    = mul( fvEminusW, matView );
 
-   float3 fvLminusW        = Light0_Position - fvWorld;   
+   float3 fvLminusW        = Light00_Position - fvWorld;   
    Output.LightDirection   = mul( fvLminusW, matView );
 
    float3 fvNormal         = Input.Normal;
    Output.Normal           = mul( fvNormal, matWorldView );
 
-   float4 posFromLight0    = mul( Input.Position, Light0_WorldViewProjection );
+   float4 posFromLight00   = mul( Input.Position, Light00_WorldViewProjection );
 
-   Output.PositionFromLight0.x = ( posFromLight0.x / posFromLight0.w + 1 ) * 0.5f;
-   Output.PositionFromLight0.y = (-posFromLight0.y / posFromLight0.w + 1 ) * 0.5f;
-   Output.PositionFromLight0.z = posFromLight0.z / posFromLight0.w;
+   Output.PositionFromLight00.x = ( posFromLight00.x / posFromLight00.w + 1 ) * 0.5f;
+   Output.PositionFromLight00.y = (-posFromLight00.y / posFromLight00.w + 1 ) * 0.5f;
+   Output.PositionFromLight00.z = posFromLight00.z / posFromLight00.w;
    
    return( Output );
    
@@ -1126,8 +1126,8 @@ VS_OUTPUT vs_main( VS_INPUT Input )
 
 
 ]]></RmShaderCode>
-     <RmShaderConstant NAME="Light0_Position" API="" REGISTER="18"/>
-     <RmShaderConstant NAME="Light0_WorldViewProjection" API="" REGISTER="0"/>
+     <RmShaderConstant NAME="Light00_Position" API="" REGISTER="18"/>
+     <RmShaderConstant NAME="Light00_WorldViewProjection" API="" REGISTER="0"/>
      <RmShaderConstant NAME="fvEyePosition" API="" REGISTER="17"/>
      <RmShaderConstant NAME="matView" API="" REGISTER="8"/>
      <RmShaderConstant NAME="matWorld" API="" REGISTER="14"/>

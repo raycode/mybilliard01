@@ -1,4 +1,5 @@
 #pragma once
+#pragma warning ( disable : 4121 )
 
 
 class RenderableCamera : public CameraMatrixImp, IMPLEMENTS_INTERFACE( RenderTargetCallBack )
@@ -23,9 +24,10 @@ public:
 
     void setSharedEffectShaderFeeder( MyEffectShaderFeeder * );
     void appendEffectShaderFeederForActor( MyEffectShaderFeeder *, NxActor * );
+    void appendShadowMapLight( RenderableCamera * );
 
     void setAspect( float aspectRatio ); // for projection
-    void updateCameraProjection();
+    void updateProjectionMatrix();
 
     Camera * getProjectionCamera();
 
@@ -38,6 +40,9 @@ private:
     EffectAndActorMap effectAndActorMap_;
 
     MyEffectShaderFeeder * sharedVaribleFeeder_;
+
+    typedef vector< RenderableCamera * > ShadowMapLights;
+    ShadowMapLights shadowMapLights_;
 
 private:
     NxU32 clearColor_, clearStencil_;

@@ -41,7 +41,27 @@ private: // input - matrices
     RowMajorMatrix44f matWorld_, matView_, matProj_, matProjView_;
 
 private: // render monkey semantics
-    ShaderVariable * predefinedVariables_[ RenderMonkeySemantics::SIZE_OF_SEMANTICS ];
+
+#define MATRIX_SEMANTIC( NEW_SEMANTIC ) NEW_SEMANTIC, NEW_SEMANTIC##Transpose, NEW_SEMANTIC##Inverse, NEW_SEMANTIC##InverseTranspose
+
+    enum {
+        ViewPosition,
+        ViewDirection,
+
+        ViewportWidthInverse,
+        ViewportHeightInverse,
+
+        MATRIX_SEMANTIC( World ),
+        MATRIX_SEMANTIC( View ),
+        MATRIX_SEMANTIC( Projection ),
+        MATRIX_SEMANTIC( ViewProjection ),
+        MATRIX_SEMANTIC( WorldView ),
+        MATRIX_SEMANTIC( WorldViewProjection ),
+        SIZE_OF_RENDERMONKEY_SEMANTICS_ENUM };
+
+#undef MATRIX_SEMANTIC
+
+    ShaderVariable * predefinedVariables_[ SIZE_OF_RENDERMONKEY_SEMANTICS_ENUM ];
 
     typedef set< int > ActiveSemanticFlags;
     ActiveSemanticFlags activeSemantics_Projection_, activeSemantics_Camera_, activeSemantics_Model_;
@@ -50,7 +70,7 @@ private: // render monkey semantics
 
 private: 
     typedef vector< float > TemporaryStorage;
-    TemporaryStorage temporaryStorage_[ RenderMonkeySemantics::SIZE_OF_SEMANTICS ];
+    TemporaryStorage temporaryStorage_[ SIZE_OF_RENDERMONKEY_SEMANTICS_ENUM ];
 
 };
 
