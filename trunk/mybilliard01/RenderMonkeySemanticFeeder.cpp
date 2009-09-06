@@ -132,8 +132,8 @@ void RenderMonkeySemanticFeeder::updateForPredefinedSemantic( int whichSemantic 
 
     switch( whichSemantic )
     {
-    case ViewPosition:  memcpy( (char*)colMajor44f, (char*)cameraPos_.get(), sizeof(NxVec3) ); colMajor44f[3] = 1.f; break;
-    case ViewDirection: memcpy( (char*)colMajor44f, (char*)cameraDir_.get(), sizeof(NxVec3) ); colMajor44f[3] = 0.f; break;
+    case ViewPosition:  memcpy( (void*)colMajor44f, (void*)cameraPos_.get(), sizeof(float) *3 ); colMajor44f[3] = 1.f; break;
+    case ViewDirection: memcpy( (void*)colMajor44f, (void*)cameraDir_.get(), sizeof(float) *3 ); break;
 
     case World:                 matWorld_.GetColumnMajor( colMajor44f ); break;
     case WorldTranspose:        matWorld_.Transpose().GetColumnMajor( colMajor44f ); break;

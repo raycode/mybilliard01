@@ -44,10 +44,14 @@ void RenderableCamera::setSharedEffectShaderFeeder( EffectShaderFeeder * sharedV
     sharedVaribleFeeder_ = sharedVaribleFeeder;
 }
 
-void RenderableCamera::setAspect( float aspectRatio )
-{
+void RenderableCamera::setAspect( float aspectRatio ) {
     colladaCamera_->getPerspectiveCamera()->setAspect( aspectRatio );
-    
+}
+
+void RenderableCamera::updateCameraProjection()
+{
+    sharedVaribleFeeder_->updateCameraProjection( getProjectionMatrix() );
+
     MY_FOR_EACH( EffectAndActorMap, feeder, effectAndActorMap_ )
         feeder->first->updateCameraProjection( getProjectionMatrix() );
 }

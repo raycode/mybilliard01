@@ -69,7 +69,6 @@ private: // update
     void updateCamera( float elapsedTime );
     void updateProjection( float aspect );
     void updateProjection( float aspect, RenderableCamera * );
-    void updateSharedVariables();
     void updateStickPosition();
     void updateStickPower( float elapsedTime );
 
