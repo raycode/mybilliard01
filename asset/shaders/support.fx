@@ -15,24 +15,16 @@
 //**************************************************************//
 
 //--------------------------------------------------------------//
-// CUE_BALL
+// Textured Phong
 //--------------------------------------------------------------//
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string CUE_BALL_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
+string Textured_Phong_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
-shared float4 Light0_Position
-<
-   string UIName = "Light0_Position";
-   string UIWidget = "Direction";
-   bool UIVisible =  true;
-   float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
-   float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
-   bool Normalize =  false;
-> = float4( 0.00, 0.00, -400.00, 1.00 );
-float4 fvEyePosition : ViewPosition;
-float4x4 matView : View;
+#include "shared.fxh"
+#include "light0.fxh"
+
 float4x4 matWorldViewProjection : WorldViewProjection;
 float4x4 matWorld : World;
 float4x4 matWorldView : WorldView;
@@ -40,6 +32,7 @@ float4x4 matWorldView : WorldView;
 struct VS_INPUT 
 {
    float4 Position : POSITION0;
+   float2 Texcoord : TEXCOORD0;
    float3 Normal :   NORMAL0;
    
 };
@@ -47,17 +40,19 @@ struct VS_INPUT
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
-   float3 ViewDirection :   TEXCOORD0;
-   float3 LightDirection :  TEXCOORD1;
-   float3 Normal :          TEXCOORD2;
+   float2 Texcoord :        TEXCOORD0;
+   float3 ViewDirection :   TEXCOORD1;
+   float3 LightDirection :  TEXCOORD2;
+   float3 Normal :          TEXCOORD3;
    
 };
 
-VS_OUTPUT CUE_BALL_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
+VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
    Output.Position         = mul( Input.Position, matWorldViewProjection );
+   Output.Texcoord         = Input.Texcoord;
 
    float3 fvWorld          = mul( Input.Position, matWorld );
 
@@ -81,7 +76,7 @@ float4 fvAmbient
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.49, 0.48, 0.48, 1.00 );
+> = float4( 0.77, 0.76, 0.76, 1.00 );
 float4 fvSpecular
 <
    string UIName = "fvSpecular";
@@ -93,7 +88,7 @@ float4 fvDiffuse
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.51, 0.51, 0.49, 1.00 );
+> = float4( 0.89, 0.88, 0.85, 1.00 );
 float fSpecularPower
 <
    string UIName = "fSpecularPower";
@@ -101,18 +96,31 @@ float fSpecularPower
    bool UIVisible =  true;
    float UIMin = 1.00;
    float UIMax = 100.00;
-> = float( 68.32 );
-sampler2D baseMap;
+> = float( 25.00 );
+texture base_Tex
+<
+   string ResourceName = ".\\Fieldstone.tga";
+>;
+sampler2D baseMap = sampler_state
+{
+   Texture = (base_Tex);
+   ADDRESSU = WRAP;
+   ADDRESSV = WRAP;
+   MINFILTER = LINEAR;
+   MAGFILTER = LINEAR;
+   MIPFILTER = LINEAR;
+};
 
 struct PS_INPUT 
 {
-   float3 ViewDirection :   TEXCOORD0;
-   float3 LightDirection:   TEXCOORD1;
-   float3 Normal :          TEXCOORD2;
+   float2 Texcoord :        TEXCOORD0;
+   float3 ViewDirection :   TEXCOORD1;
+   float3 LightDirection:   TEXCOORD2;
+   float3 Normal :          TEXCOORD3;
    
 };
 
-float4 CUE_BALL_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
+float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
    float3 fvLightDirection = normalize( Input.LightDirection );
    float3 fvNormal         = normalize( Input.Normal );
@@ -122,8 +130,10 @@ float4 CUE_BALL_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
    
-   float4 fvTotalAmbient   = fvAmbient; 
-   float4 fvTotalDiffuse   = fvDiffuse * fNDotL; 
+   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
+   
+   float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
+   float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
    float4 fvTotalSpecular  = fvSpecular * pow( fRDotV, fSpecularPower );
    
    return( saturate( fvTotalAmbient + fvTotalDiffuse + fvTotalSpecular ) );
@@ -132,14 +142,14 @@ float4 CUE_BALL_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 
 
 //--------------------------------------------------------------//
-// Technique Section for CUE_BALL
+// Technique Section for Textured Phong
 //--------------------------------------------------------------//
-technique CUE_BALL
+technique Textured_Phong
 {
    pass Pass_0
    {
-      VertexShader = compile vs_1_1 CUE_BALL_Pass_0_Vertex_Shader_vs_main();
-      PixelShader = compile ps_2_0 CUE_BALL_Pass_0_Pixel_Shader_ps_main();
+      VertexShader = compile vs_1_1 Textured_Phong_Pass_0_Vertex_Shader_vs_main();
+      PixelShader = compile ps_2_0 Textured_Phong_Pass_0_Pixel_Shader_ps_main();
    }
 
 }

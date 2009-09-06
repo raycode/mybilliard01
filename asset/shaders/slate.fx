@@ -22,15 +22,12 @@
 //--------------------------------------------------------------//
 string slate_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
-shared float4 fvEyePosition : ViewPosition;
-shared float4x4 matView : View;
+#include "shared.fxh"
+#include "light0.fxh"
+
 float4x4 matWorldViewProjection : WorldViewProjection;
 float4x4 matWorldView : WorldView;
 float4x4 matWorld : World;
-
-shared float4   Light0_Position            : Light0_Position = float4( 0,0,400,0 );
-float4x4        Light0_WorldViewProjection : Light0_WorldViewProjection
-= float4x4( 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 );
 
 
 struct VS_INPUT 
