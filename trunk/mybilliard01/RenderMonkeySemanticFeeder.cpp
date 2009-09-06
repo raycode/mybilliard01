@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "my_app.h"
-using namespace RenderMonkeySemantics;
 
 
 RenderMonkeySemanticFeeder::RenderMonkeySemanticFeeder( bool bShared )

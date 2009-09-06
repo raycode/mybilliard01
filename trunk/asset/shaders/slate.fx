@@ -23,7 +23,7 @@
 string slate_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
 #include "shared.fxh"
-#include "light0.fxh"
+#include "light00.fxh"
 
 float4x4 matWorldViewProjection : WorldViewProjection;
 float4x4 matWorldView : WorldView;
@@ -44,7 +44,7 @@ struct VS_OUTPUT
    float3 ViewDirection :      TEXCOORD1;
    float3 LightDirection :     TEXCOORD2;
    float3 Normal :             TEXCOORD3;
-   float3 PositionFromLight0 : TEXCOORD4;   
+   float3 PositionFromLight00: TEXCOORD4;   
 };
 
 VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -59,17 +59,17 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    float3 fvEminusW        = fvEyePosition - fvWorld;
    Output.ViewDirection    = mul( fvEminusW, matView );
 
-   float3 fvLminusW        = Light0_Position - fvWorld;   
+   float3 fvLminusW        = Light00_Position - fvWorld;   
    Output.LightDirection   = mul( fvLminusW, matView );
 
    float3 fvNormal         = Input.Normal;
    Output.Normal           = mul( fvNormal, matWorldView );
 
-   float4 posFromLight0    = mul( Input.Position, Light0_WorldViewProjection );
+   float4 posFromLight00   = mul( Input.Position, Light00_WorldViewProjection );
 
-   Output.PositionFromLight0.x = ( posFromLight0.x / posFromLight0.w + 1 ) * 0.5f;
-   Output.PositionFromLight0.y = (-posFromLight0.y / posFromLight0.w + 1 ) * 0.5f;
-   Output.PositionFromLight0.z = posFromLight0.z / posFromLight0.w;
+   Output.PositionFromLight00.x = ( posFromLight00.x / posFromLight00.w + 1 ) * 0.5f;
+   Output.PositionFromLight00.y = (-posFromLight00.y / posFromLight00.w + 1 ) * 0.5f;
+   Output.PositionFromLight00.z = posFromLight00.z / posFromLight00.w;
    
    return( Output );
    

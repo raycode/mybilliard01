@@ -7,7 +7,7 @@ void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory
     scene_->setRenderFactory( renderFactory );
     resetEffect( renderFactory, width, height );
     resetShadowMap();
-    updateProjection( (float) width / (float) height );
+    resetProjection( (float) width / (float) height );
 }
 
 void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, size_t width, size_t height )
@@ -22,26 +22,6 @@ void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory,
     {
         resetEffect( renderFactory, cameras_[ i ], L"" );
         resetEffect( renderFactory, depthCameras_[ i ], ConstString::effectFilename_depthCull() );
-    }
-}
-
-void MyRenderEventListenerImp::resetShadowMap()
-{
-    MY_FOR_EACH( EffectShaderFeeders, iterFeeder, feeders_ )
-    {
-        EffectShaderFeeder * const feeder = iterFeeder->get();
-        EffectShader * const effect = feeder->getEffectShader();
-
-        for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
-        {
-            wstringstream variableName;
-            variableName << L"shadow" << i << L"_Tex";
-            if( false == effect->hasVariableByName( variableName.str() ) ) continue;
-            ShaderVariable * const shadowMapVariable = effect->createVariableByName( variableName.str() );
-
-            Texture * const shadowMapTexture = lightRenderTargets_[ i ]->getRenderTargetTexture();
-            shadowMapVariable->setTexture( shadowMapTexture );
-        }
     }
 }
 
@@ -83,18 +63,42 @@ MyEffectShaderFeeder * MyRenderEventListenerImp::createEffectFeeder( wstring eff
     return newFeeder.get();
 }
 
-void MyRenderEventListenerImp::updateProjection( float aspect )
+void MyRenderEventListenerImp::resetShadowMap()
+{
+    MY_FOR_EACH( EffectShaderFeeders, iterFeeder, feeders_ )
+    {
+        EffectShaderFeeder * const feeder = iterFeeder->get();
+        EffectShader * const effect = feeder->getEffectShader();
+
+        for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
+        {
+            wstringstream variableName;
+            variableName << L"shadow" << i << L"_Tex";
+            if( false == effect->hasVariableByName( variableName.str() ) ) continue;
+            ShaderVariable * const shadowMapVariable = effect->createVariableByName( variableName.str() );
+
+            Texture * const shadowMapTexture = lightRenderTargets_[ i ]->getRenderTargetTexture();
+            shadowMapVariable->setTexture( shadowMapTexture );
+        }
+    }
+
+    for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i )
+        for( size_t j = 0; j < SIZE_OF_LIGHT_ENUM; ++j )
+            cameras_[ i ]->appendShadowMapLight( lights_[ j ] );
+}
+
+void MyRenderEventListenerImp::resetProjection( float aspect )
 {
     for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
-        lights_[ i ]->updateCameraProjection();
+        lights_[ i ]->updateProjectionMatrix();
 
     for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i )
     {
         cameras_[ i ]->setAspect( aspect );
         depthCameras_[ i ]->setAspect( aspect );
 
-        cameras_[ i ]->updateCameraProjection();
-        depthCameras_[ i ]->updateCameraProjection();
+        cameras_[ i ]->updateProjectionMatrix();
+        depthCameras_[ i ]->updateProjectionMatrix();
     }
 }
 
