@@ -22,7 +22,7 @@
 //--------------------------------------------------------------//
 string Shadow_Map_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
-float4x4 Light0_WorldLightProjection : WorldViewProjection;
+shared float4x4 Light0_ViewProjection : ViewProjection;
 float depthBias
 <
    string UIName = "depthBias";
@@ -31,6 +31,7 @@ float depthBias
    float UIMin = -1.00;
    float UIMax = 1.00;
 > = float( 0.00 );
+
 
 struct VS_INPUT 
 {
@@ -47,7 +48,7 @@ VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
-   float4 pos      = mul( Input.Position, Light0_WorldLightProjection );
+   float4 pos      = mul( Input.Position, Light0_ViewProjection );
    pos.z          += pos.w * depthBias;
 
    Output.Position = pos;
@@ -55,7 +56,6 @@ VS_OUTPUT Shadow_Map_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    Output.Depth    = pos.z / pos.w;
 
    return( Output );
-   
 }
 
 
