@@ -8,7 +8,7 @@ void WINAPI DXUTDisplaySwitchingToREFWarning( DXUTDeviceVersion ver );
 namespace my_render_win32_dx9_imp {
 
 #ifdef DEBUG
-#define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
+//#define DEBUG_VS   // Uncomment this line to debug D3D9 vertex shaders 
 //#define DEBUG_PS   // Uncomment this line to debug D3D9 pixel shaders 
 #endif
 
@@ -215,7 +215,7 @@ bool RenderWin32DX9Imp::ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSetting
         // If device doesn't support HW T&L or doesn't support 1.1 vertex shaders in HW 
         // then switch to SWVP.
         if( ( Caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT ) == 0 ||
-            Caps.VertexShaderVersion < D3DVS_VERSION( 1, 1 ) )
+            Caps.VertexShaderVersion < D3DVS_VERSION( 2, 0 ) )
         {
             pDeviceSettings->d3d9.BehaviorFlags = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
         }

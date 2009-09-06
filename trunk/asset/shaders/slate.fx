@@ -52,7 +52,7 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    VS_OUTPUT Output;
 
    Output.Position         = mul( Input.Position, matWorldViewProjection );
-   Output.Texcoord         = Input.Texcoord;
+   Output.Texcoord         = Input.Texcoord * 2;
 
    float3 fvWorld          = mul( Input.Position, matWorld );
 
@@ -77,20 +77,22 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 
 
-float4 fvAmbient
+#include "func_pixel.fxh"
+
+const float4 fvAmbient
 <
    string UIName = "fvAmbient";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.40, 0.39, 0.39, 1.00 );
-float4 fvSpecular;
-float4 fvDiffuse
+> = float4( 0.52, 0.52, 0.52, 1.00 );
+const float4 fvSpecular;
+const float4 fvDiffuse
 <
    string UIName = "fvDiffuse";
    string UIWidget = "Color";
    bool UIVisible =  true;
-> = float4( 0.83, 0.82, 0.79, 1.00 );
-float fSpecularPower;
+> = float4( 0.52, 0.51, 0.49, 1.00 );
+const float  fSpecularPower;
 texture base_Tex
 <
    string ResourceName = "..\\textures\\green.jpg";
@@ -117,34 +119,26 @@ sampler2D shadowMap0 = sampler_state
 };
 
 
-float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
-{
-   const float4 colorOnShadowMap = tex2D( shadowMap, texCoord );
-   const float  depthOnShadowMap = colorOnShadowMap.r
-                                 + colorOnShadowMap.g / 127.f;
-                                 + colorOnShadowMap.b / ( 127.f * 127.f );
-   return depthOnShadowMap;
-}
-
-
 struct PS_INPUT 
 {
-   float2 Texcoord :           TEXCOORD0;
-   float3 PositionFromLight0 : TEXCOORD4;   
+   float2 Texcoord :            TEXCOORD0;
+   float3 PositionFromLight00 : TEXCOORD4;   
 };
 
 float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
-   const float4 baseColor = tex2D( baseMap, Input.Texcoord );
+   const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight00.xy );
+   const float  actualDepth       = Input.PositionFromLight00.z;
+   const float  depthUnderObject  = ( actualDepth - depthOnShadowMap0 );
+   const bool   bUnderShadow      = ( depthUnderObject > 0 );
+
+   const float4 baseColor         = tex2D( baseMap, Input.Texcoord );
+   const float4 color_OutShadow    = ( fvAmbient + fvDiffuse ) * baseColor;
+   const float4 color_UnderShadow  = fvAmbient * baseColor / ( 1 + depthUnderObject );
    
-   const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight0.xy );
-   const float  actualDepth       = Input.PositionFromLight0.z;
-   const bool   bUnderShadow      = actualDepth > depthOnShadowMap0;
-
-   const float4 colorOutShadow    = ( fvAmbient + fvDiffuse ) * baseColor;
-   const float4 colorUnderShadow  = fvAmbient * baseColor;
-
-   return ( bUnderShadow ? colorUnderShadow : colorOutShadow );
+   //return color_UnderShadow;
+   //return color_OutShadow;
+   return( bUnderShadow ? color_UnderShadow : color_OutShadow );
 }
 
 

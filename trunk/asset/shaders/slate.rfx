@@ -915,7 +915,7 @@
       <RmRegistryBranch NAME="Effect Workspace.slate" API="" XML_VERSION="RenderMonkey 1.71">
        <RmRegistryBranch NAME="Disassembly" API="" XML_VERSION="RenderMonkey 1.71"/>
        <RmStringVariable NAME="Editing Shader" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-Vertex Shader]]></RmTextDataBlock></RmStringVariable>
+Pixel Shader]]></RmTextDataBlock></RmStringVariable>
        <RmStringVariable NAME="Editing Pass" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 Pass 0]]></RmTextDataBlock></RmStringVariable>
        <RmIntegerVariable NAME="Y" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE="22" MIN="-10" MAX="10" CLAMP="FALSE"/>
@@ -1036,7 +1036,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-6/9/2009 15:55:10]]></RmTextDataBlock></RmStringVariable>
+6/9/2009 17:23:2]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1055,9 +1055,9 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
    <RmMatrixVariable NAME="matWorldView" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="WorldView" VALUE_0="1.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="1.000000" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.000000" VALUE_11="200.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
    <RmVectorVariable NAME="Light00_Position" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="0.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="1.000000" MIN="-10.000000" MAX="10.000000" CLAMP="FALSE" NORMALIZE="FALSE"/>
    <RmMatrixVariable NAME="Light00_WorldViewProjection" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" VALUE_0="1.000000" VALUE_1="0.000000" VALUE_2="0.000000" VALUE_3="0.000000" VALUE_4="0.000000" VALUE_5="1.000000" VALUE_6="0.000000" VALUE_7="0.000000" VALUE_8="0.000000" VALUE_9="0.000000" VALUE_10="1.000000" VALUE_11="0.000000" VALUE_12="0.000000" VALUE_13="0.000000" VALUE_14="0.000000" VALUE_15="1.000000"/>
-   <RmColorVariable NAME="fvAmbient" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.398496" VALUE_1="0.392636" VALUE_2="0.392636" VALUE_3="1.000000"/>
-   <RmColorVariable NAME="fvDiffuse" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.827068" VALUE_1="0.817476" VALUE_2="0.788699" VALUE_3="1.000000"/>
-   <RmColorVariable NAME="fvSpecular" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.157895" VALUE_1="0.157420" VALUE_2="0.157420" VALUE_3="1.000000"/>
+   <RmColorVariable NAME="fvAmbient" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.518797" VALUE_1="0.517859" VALUE_2="0.517859" VALUE_3="1.000000"/>
+   <RmColorVariable NAME="fvDiffuse" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.518797" VALUE_1="0.511820" VALUE_2="0.493803" VALUE_3="1.000000"/>
+   <RmColorVariable NAME="fvSpecular" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.150376" VALUE_1="0.149924" VALUE_2="0.149924" VALUE_3="1.000000"/>
    <Rm2DTextureVariable NAME="shadow0" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC="" FILE_NAME="..\textures\shadow_map_captured.png" ORIGIN="0"/>
    <Rm2DTextureVariable NAME="base" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" FILE_NAME="..\textures\green.jpg" ORIGIN="0"/>
    <RmStreamMap NAME="Stream Mapping" API="">
@@ -1101,7 +1101,7 @@ VS_OUTPUT vs_main( VS_INPUT Input )
    VS_OUTPUT Output;
 
    Output.Position         = mul( Input.Position, matWorldViewProjection );
-   Output.Texcoord         = Input.Texcoord;
+   Output.Texcoord         = Input.Texcoord * 2;
 
    float3 fvWorld          = mul( Input.Position, matWorld );
 
@@ -1135,42 +1135,36 @@ VS_OUTPUT vs_main( VS_INPUT Input )
      <RmShaderConstant NAME="matWorldViewProjection" API="" REGISTER="4"/>
     </RmHLSLShader>
     <RmHLSLShader NAME="Pixel Shader" API="D3D" PIXEL_SHADER="TRUE" TARGET="ps_2_0" ENTRY_POINT="ps_main" COMPILER_FLAGS="0"><RmShaderCode TYPE="TEXT"><![CDATA[
-float4 fvAmbient;
-float4 fvSpecular;
-float4 fvDiffuse;
-float fSpecularPower;
+#include "func_pixel.fxh"
+
+const float4 fvAmbient;
+const float4 fvSpecular;
+const float4 fvDiffuse;
+const float  fSpecularPower;
 sampler2D baseMap;
 sampler2D shadowMap0;
 
 
-float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
-{
-   const float4 colorOnShadowMap = tex2D( shadowMap, texCoord );
-   const float  depthOnShadowMap = colorOnShadowMap.r
-                                 + colorOnShadowMap.g / 127.f;
-                                 + colorOnShadowMap.b / ( 127.f * 127.f );
-   return depthOnShadowMap;
-}
-
-
 struct PS_INPUT 
 {
-   float2 Texcoord :           TEXCOORD0;
-   float3 PositionFromLight0 : TEXCOORD4;   
+   float2 Texcoord :            TEXCOORD0;
+   float3 PositionFromLight00 : TEXCOORD4;   
 };
 
 float4 ps_main( PS_INPUT Input ) : COLOR0
 {
-   const float4 baseColor = tex2D( baseMap, Input.Texcoord );
+   const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight00.xy );
+   const float  actualDepth       = Input.PositionFromLight00.z;
+   const float  depthUnderObject  = ( actualDepth - depthOnShadowMap0 );
+   const bool   bUnderShadow      = ( depthUnderObject > 0 );
+
+   const float4 baseColor         = tex2D( baseMap, Input.Texcoord );
+   const float4 color_OutShadow    = ( fvAmbient + fvDiffuse ) * baseColor;
+   const float4 color_UnderShadow  = fvAmbient * baseColor / ( 1 + depthUnderObject );
    
-   const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight0.xy );
-   const float  actualDepth       = Input.PositionFromLight0.z;
-   const bool   bUnderShadow      = actualDepth > depthOnShadowMap0;
-
-   const float4 colorOutShadow    = ( fvAmbient + fvDiffuse ) * baseColor;
-   const float4 colorUnderShadow  = fvAmbient * baseColor;
-
-   return ( bUnderShadow ? colorUnderShadow : colorOutShadow );
+   //return color_UnderShadow;
+   //return color_OutShadow;
+   return( bUnderShadow ? color_UnderShadow : color_OutShadow );
 }
 
 
