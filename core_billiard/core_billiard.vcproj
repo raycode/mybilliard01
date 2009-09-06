@@ -2006,7 +2006,15 @@
 					>
 				</File>
 				<File
+					RelativePath=".\EffectShaderCameraFeeder.h"
+					>
+				</File>
+				<File
 					RelativePath=".\EffectShaderFeeder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\EffectShaderShadowMapFeeder.h"
 					>
 				</File>
 				<File

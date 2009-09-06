@@ -19,12 +19,12 @@ void RenderableCamera::displayOnRenderTargetCallBack( Render * render )
     const RowMajorMatrix44f matrixView = getViewMatrix();
     const RowMajorMatrix44f matrixProjectionView = getProjectionMatrix() * matrixView;
 
-    sharedVaribleFeeder_->updateCameraMatrix( position, direction, matrixView, matrixProjectionView );
+    sharedVaribleFeeder_->updateView_camera( position, direction, matrixView, matrixProjectionView );
 
     MY_FOR_EACH( EffectAndActorMap, iterFeeder, effectAndActorMap_ )
     {
-        EffectShaderFeeder * const feeder = iterFeeder->first;
-        feeder->updateCameraMatrix( position, direction, matrixView, matrixProjectionView );
+        MyEffectShaderFeeder * const feeder = iterFeeder->first;
+        feeder->updateView_camera( position, direction, matrixView, matrixProjectionView );
 
         MY_FOR_EACH( Actors, iterActor, iterFeeder->second )
         {
@@ -40,7 +40,7 @@ void RenderableCamera::displayOnRenderTargetCallBack( Render * render )
     }
 }
 
-void RenderableCamera::setSharedEffectShaderFeeder( EffectShaderFeeder * sharedVaribleFeeder ) {
+void RenderableCamera::setSharedEffectShaderFeeder( MyEffectShaderFeeder * sharedVaribleFeeder ) {
     sharedVaribleFeeder_ = sharedVaribleFeeder;
 }
 
@@ -50,14 +50,14 @@ void RenderableCamera::setAspect( float aspectRatio ) {
 
 void RenderableCamera::updateCameraProjection()
 {
-    sharedVaribleFeeder_->updateCameraProjection( getProjectionMatrix() );
+    sharedVaribleFeeder_->updateProjection_camera( getProjectionMatrix() );
 
     MY_FOR_EACH( EffectAndActorMap, feeder, effectAndActorMap_ )
-        feeder->first->updateCameraProjection( getProjectionMatrix() );
+        feeder->first->updateProjection_camera( getProjectionMatrix() );
 }
 
 
-void RenderableCamera::appendEffectShaderFeederForActor( EffectShaderFeeder * newFeeder, NxActor * actor )
+void RenderableCamera::appendEffectShaderFeederForActor( MyEffectShaderFeeder * newFeeder, NxActor * actor )
 {
     THROW_UNLESS( sharedVaribleFeeder_, exception() );
 

@@ -28,21 +28,10 @@ float4x4 matWorldViewProjection : WorldViewProjection;
 float4x4 matWorldView : WorldView;
 float4x4 matWorld : World;
 
-shared float4 Light0_Position
-<
-   string UIName = "Light0_Position";
-   string UIWidget = "Direction";
-   bool UIVisible =  true;
-   float4 UIMin = float4( -10.00, -10.00, -10.00, -10.00 );
-   float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
-   bool Normalize =  false;
-> = float4( 400.00, 0.00, -0.00, 1.00 );
-shared float4x4 Light0_ViewProjection
-<
-   string UIName = "Light0_ViewProjection";
-   string UIWidget = "Numeric";
-   bool UIVisible =  false;
-> = float4x4( 1.00, 0.00, 0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 1.00, 0.00, 0.00, 0.00, 0.00, 1.00 );
+shared float4   Light0_Position            : Light0_Position = float4( 0,0,400,0 );
+float4x4        Light0_WorldViewProjection : Light0_WorldViewProjection
+= float4x4( 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1 );
+
 
 struct VS_INPUT 
 {
@@ -79,7 +68,6 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    float3 fvNormal         = Input.Normal;
    Output.Normal           = mul( fvNormal, matWorldView );
 
-   float4x4 Light0_WorldViewProjection = mul( matWorld, Light0_ViewProjection );   
    float4 posFromLight0    = mul( Input.Position, Light0_WorldViewProjection );
 
    Output.PositionFromLight0.x = ( posFromLight0.x / posFromLight0.w + 1 ) * 0.5f;
@@ -92,11 +80,33 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 
 
 
-float4 fvAmbient;
+float4 fvAmbient
+<
+   string UIName = "fvAmbient";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.40, 0.39, 0.39, 1.00 );
 float4 fvSpecular;
-float4 fvDiffuse;
+float4 fvDiffuse
+<
+   string UIName = "fvDiffuse";
+   string UIWidget = "Color";
+   bool UIVisible =  true;
+> = float4( 0.83, 0.82, 0.79, 1.00 );
 float fSpecularPower;
-sampler2D baseMap;
+texture base_Tex
+<
+   string ResourceName = "..\\textures\\green.jpg";
+>;
+sampler2D baseMap = sampler_state
+{
+   Texture = (base_Tex);
+   ADDRESSU = WRAP;
+   ADDRESSV = WRAP;
+   MINFILTER = LINEAR;
+   MAGFILTER = LINEAR;
+   MIPFILTER = LINEAR;
+};
 texture shadow0_Tex
 <
    string ResourceName = "..\\textures\\shadow_map_captured.png";
@@ -109,6 +119,7 @@ sampler2D shadowMap0 = sampler_state
    MAGFILTER = LINEAR;
 };
 
+
 float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
 {
    const float4 colorOnShadowMap = tex2D( shadowMap, texCoord );
@@ -117,6 +128,7 @@ float sampleDepthValue( in sampler2D shadowMap, in float2 texCoord )
                                  + colorOnShadowMap.b / ( 127.f * 127.f );
    return depthOnShadowMap;
 }
+
 
 struct PS_INPUT 
 {

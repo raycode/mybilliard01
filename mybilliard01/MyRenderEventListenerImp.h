@@ -82,7 +82,7 @@ private: // display
     void display_activeCamera( Render * );
 
 private: // effect
-    EffectShaderFeeder * createEffectFeeder( wstring nodeName, RenderBufferFactory * );
+    MyEffectShaderFeeder * createEffectFeeder( wstring nodeName, RenderBufferFactory * );
     void findSharedVariables( EffectShader * effect);
     ShaderVariable * getSharedVariable( wstring name );
     void createPostEffects( RenderBufferFactory * );

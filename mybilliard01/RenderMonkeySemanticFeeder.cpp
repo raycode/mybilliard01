@@ -20,7 +20,7 @@ EffectShader * RenderMonkeySemanticFeeder::getEffectShader() {
     return effect_;
 }
 
-void RenderMonkeySemanticFeeder::updateCameraProjection( const RowMajorMatrix44f & matProj ) {
+void RenderMonkeySemanticFeeder::updateProjection_camera( const RowMajorMatrix44f & matProj ) {
     matProj_ = matProj;
 
     MY_FOR_EACH( ActiveSemanticFlags, iter, activeSemantics_Projection_ )
@@ -30,7 +30,7 @@ void RenderMonkeySemanticFeeder::updateCameraProjection( const RowMajorMatrix44f
     }
 }
 
-void RenderMonkeySemanticFeeder::updateCameraMatrix(
+void RenderMonkeySemanticFeeder::updateView_camera(
     const NxVec3 & cameraPos,
     const NxVec3 & cameraDir,
     const RowMajorMatrix44f & matView,
@@ -80,7 +80,7 @@ bool RenderMonkeySemanticFeeder::initPredefinedSemanticForEach( int whichSemanti
     if( bShared_ != variableForSemantic->isShared() ) return false;
 
     predefinedVariables_[ whichSemantic ] = variableForSemantic;
-    whereToStore.push_back( whichSemantic );
+    whereToStore.insert( whichSemantic );
 
     temporaryStorage_[ whichSemantic ].resize( countOfFloat );
 
@@ -92,7 +92,7 @@ void RenderMonkeySemanticFeeder::initPredefinedSemantics() {
 #define INIT_SEMANTIC( SEMANTIC, WHERE_TO_STORE, COUNT_OF_FLOAT ) initPredefinedSemanticForEach( SEMANTIC, L#SEMANTIC, WHERE_TO_STORE, COUNT_OF_FLOAT );
 
     INIT_SEMANTIC( ViewPosition, activeSemantics_Camera_, 4 );
-    INIT_SEMANTIC( ViewDirection, activeSemantics_Camera_, 3 );
+    INIT_SEMANTIC( ViewDirection, activeSemantics_Camera_, 4 );
 
     INIT_SEMANTIC( World, activeSemantics_Model_, 16 );
     INIT_SEMANTIC( WorldTranspose, activeSemantics_Model_, 16 );
@@ -133,7 +133,7 @@ void RenderMonkeySemanticFeeder::updateForPredefinedSemantic( int whichSemantic 
     switch( whichSemantic )
     {
     case ViewPosition:  memcpy( (void*)colMajor44f, (void*)cameraPos_.get(), sizeof(float) *3 ); colMajor44f[3] = 1.f; break;
-    case ViewDirection: memcpy( (void*)colMajor44f, (void*)cameraDir_.get(), sizeof(float) *3 ); break;
+    case ViewDirection: memcpy( (void*)colMajor44f, (void*)cameraDir_.get(), sizeof(float) *3 ); colMajor44f[3] = 0.f; break;
 
     case World:                 matWorld_.GetColumnMajor( colMajor44f ); break;
     case WorldTranspose:        matWorld_.Transpose().GetColumnMajor( colMajor44f ); break;
@@ -170,7 +170,8 @@ void RenderMonkeySemanticFeeder::updateForPredefinedSemantic( int whichSemantic 
 
 void RenderMonkeySemanticFeeder::uploadValue( int whichSemantic ) {
     const size_t countOfFloat = temporaryStorage_[ whichSemantic ].size();
-    predefinedVariables_[ whichSemantic ]->setFloatArray( &( temporaryStorage_[ whichSemantic ][ 0 ]), countOfFloat );
+    const float * const floatArray = &( temporaryStorage_[ whichSemantic ][ 0 ]);
+    predefinedVariables_[ whichSemantic ]->setFloatArray( floatArray, countOfFloat );
 }
 
 

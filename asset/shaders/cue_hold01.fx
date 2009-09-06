@@ -31,8 +31,8 @@ shared float4 Light0_Position
    float4 UIMax = float4( 10.00, 10.00, 10.00, 10.00 );
    bool Normalize =  false;
 > = float4( 0.00, 0.00, -400.00, 1.00 );
-float4 fvEyePosition : ViewPosition;
-float4x4 matView : View;
+shared float4 fvEyePosition : ViewPosition;
+shared float4x4 matView : View;
 float4x4 matWorldViewProjection : WorldViewProjection;
 float4x4 matWorld : World;
 float4x4 matWorldView : WorldView;
@@ -107,7 +107,7 @@ float fSpecularPower
 > = float( 25.00 );
 texture base_Tex
 <
-   string ResourceName = ".\\Fieldstone.tga";
+   string ResourceName = "..\\textures\\Wood_Cherry_OriginalnoCulling.jpg";
 >;
 sampler2D baseMap = sampler_state
 {

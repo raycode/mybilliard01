@@ -305,6 +305,18 @@
 				Name="2. EffectShaderFeeder"
 				>
 				<File
+					RelativePath=".\MyEffectShaderFeeder.h"
+					>
+				</File>
+				<File
+					RelativePath=".\MyEffectShaderFeederImp.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\MyEffectShaderFeederImp.h"
+					>
+				</File>
+				<File
 					RelativePath=".\RenderMonkeySemanticFeeder.cpp"
 					>
 				</File>
