@@ -193,8 +193,8 @@ bool RenderWin32DX9Imp::IsD3D9DeviceAcceptable( D3DCAPS9* pCaps, D3DFORMAT Adapt
     // doesn't support at least ps2.0
     if( pCaps->PixelShaderVersion < D3DPS_VERSION( 2, 0 ) )
         return false;
-    if( pCaps->VertexShaderVersion < D3DVS_VERSION( 1, 1 ) )
-        return false;
+    //if( pCaps->VertexShaderVersion < D3DVS_VERSION( 1, 1 ) )
+    //    return false;
 
     return true;
 }
@@ -215,7 +215,7 @@ bool RenderWin32DX9Imp::ModifyDeviceSettings( DXUTDeviceSettings* pDeviceSetting
         // If device doesn't support HW T&L or doesn't support 1.1 vertex shaders in HW 
         // then switch to SWVP.
         if( ( Caps.DevCaps & D3DDEVCAPS_HWTRANSFORMANDLIGHT ) == 0 ||
-            Caps.VertexShaderVersion < D3DVS_VERSION( 2, 0 ) )
+            Caps.VertexShaderVersion < D3DVS_VERSION( 1, 1 ) )
         {
             pDeviceSettings->d3d9.BehaviorFlags = D3DCREATE_SOFTWARE_VERTEXPROCESSING;
         }

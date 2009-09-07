@@ -97,7 +97,7 @@ float fSpecularPower
 > = float( 64.00 );
 texture base_Tex
 <
-   string ResourceName = "..\\textures\\poolb1.jpg";
+   string ResourceName = "..\\textures\\poolb1.dds";
 >;
 sampler2D baseMap = sampler_state
 {
