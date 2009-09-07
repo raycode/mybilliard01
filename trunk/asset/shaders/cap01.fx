@@ -128,8 +128,8 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
    
-//   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
-   float4 fvBaseColor      = float4( 1, 1, 1, 1);
+   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
+   //float4 fvBaseColor      = float4( 1, 1, 1, 1);
    
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
    float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 

@@ -1036,7 +1036,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-6/9/2009 17:23:2]]></RmTextDataBlock></RmStringVariable>
+6/9/2009 18:20:24]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1135,8 +1135,6 @@ VS_OUTPUT vs_main( VS_INPUT Input )
      <RmShaderConstant NAME="matWorldViewProjection" API="" REGISTER="4"/>
     </RmHLSLShader>
     <RmHLSLShader NAME="Pixel Shader" API="D3D" PIXEL_SHADER="TRUE" TARGET="ps_2_0" ENTRY_POINT="ps_main" COMPILER_FLAGS="0"><RmShaderCode TYPE="TEXT"><![CDATA[
-#include "func_pixel.fxh"
-
 const float4 fvAmbient;
 const float4 fvSpecular;
 const float4 fvDiffuse;
@@ -1151,28 +1149,31 @@ struct PS_INPUT
    float3 PositionFromLight00 : TEXCOORD4;   
 };
 
+#include "func_pixel.fxh"
+
 float4 ps_main( PS_INPUT Input ) : COLOR0
 {
    const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight00.xy );
    const float  actualDepth       = Input.PositionFromLight00.z;
-   const float  depthUnderObject  = ( actualDepth - depthOnShadowMap0 );
+   const float  depthUnderObject  = clamp( actualDepth - depthOnShadowMap0, 1, 2 );
    const bool   bUnderShadow      = ( depthUnderObject > 0 );
 
    const float4 baseColor         = tex2D( baseMap, Input.Texcoord );
-   const float4 color_OutShadow    = ( fvAmbient + fvDiffuse ) * baseColor;
-   const float4 color_UnderShadow  = fvAmbient * baseColor / ( 1 + depthUnderObject );
+   float4 color_OutShadow   = clamp( ( fvAmbient + fvDiffuse ) * baseColor, 0, 1 );
+   float4 color_UnderShadow = clamp( fvAmbient * baseColor / depthUnderObject, 0, 1 );
+   color_OutShadow.a = 1;
+   color_UnderShadow.a = 1;
    
-   //return color_UnderShadow;
-   //return color_OutShadow;
+//   return color_UnderShadow;
+//   return color_OutShadow;
    return( bUnderShadow ? color_UnderShadow : color_OutShadow );
 }
 
 
 ]]></RmShaderCode>
      <RmSampler NAME="baseMap" API="" REGISTER="0"/>
-     <RmSampler NAME="shadowMap0" API="" REGISTER="1"/>
-     <RmShaderConstant NAME="fvDiffuse" API="" REGISTER="1"/>
      <RmShaderConstant NAME="fvAmbient" API="" REGISTER="0"/>
+     <RmShaderConstant NAME="fvDiffuse" API="" REGISTER="1"/>
     </RmHLSLShader>
     <RmStreamMapReference NAME="Stream Mapping" API=""/>
     <RmTextureObject NAME="baseMap" API="D3D" STATE_INDEX="0" VERTEX_TEXTURE="FALSE">
