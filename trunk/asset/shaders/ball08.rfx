@@ -1038,7 +1038,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-6/9/2009 15:47:35]]></RmTextDataBlock></RmStringVariable>
+7/9/2009 13:23:24]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1059,7 +1059,7 @@ C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects
    <RmColorVariable NAME="fvSpecular" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.992593" VALUE_1="0.989608" VALUE_2="0.989608" VALUE_3="1.000000"/>
    <RmColorVariable NAME="fvAmbient" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.240602" VALUE_1="0.237643" VALUE_2="0.237643" VALUE_3="1.000000"/>
    <RmColorVariable NAME="fvDiffuse" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" VALUE_0="0.187970" VALUE_1="0.185790" VALUE_2="0.179250" VALUE_3="1.000000"/>
-   <Rm2DTextureVariable NAME="base" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" FILE_NAME="..\textures\poolb8.jpg" ORIGIN="0"/>
+   <Rm2DTextureVariable NAME="base" API="" ARTIST_EDITABLE="TRUE" VARIABLE_SEMANTIC="" FILE_NAME="..\textures\poolb8.dds" ORIGIN="0"/>
    <RmStreamMap NAME="Stream Mapping" API="">
     <RmStream NAME="Stream" API="" STRIDE="32">
      <RmStreamChannel NAME="Position_0" API="" DATA_SIZE="12" DATA_TYPE="2" REGISTER="0" USAGE="0" USAGE_INDEX="0" ATTRIBUTE_NAME="rm_Vertex"/>
@@ -1117,7 +1117,14 @@ VS_OUTPUT vs_main( VS_INPUT Input )
 }
 
 
-]]></RmShaderCode></RmHLSLShader>
+]]></RmShaderCode>
+     <RmShaderConstant NAME="Light00_Position" API="" REGISTER="14"/>
+     <RmShaderConstant NAME="fvEyePosition" API="" REGISTER="13"/>
+     <RmShaderConstant NAME="matView" API="" REGISTER="4"/>
+     <RmShaderConstant NAME="matWorld" API="" REGISTER="7"/>
+     <RmShaderConstant NAME="matWorldView" API="" REGISTER="10"/>
+     <RmShaderConstant NAME="matWorldViewProjection" API="" REGISTER="0"/>
+    </RmHLSLShader>
     <RmHLSLShader NAME="Pixel Shader" API="D3D" PIXEL_SHADER="TRUE" TARGET="ps_2_0" ENTRY_POINT="ps_main" COMPILER_FLAGS="0"><RmShaderCode TYPE="TEXT"><![CDATA[
 float4 fvAmbient;
 float4 fvSpecular;

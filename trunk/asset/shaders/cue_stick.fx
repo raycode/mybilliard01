@@ -23,7 +23,7 @@
 string Textured_Phong_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
 #include "shared.fxh"
-#include "light0.fxh"
+#include "light00.fxh"
 
 float4x4 matWorldViewProjection : WorldViewProjection;
 float4x4 matWorld : World;
@@ -34,7 +34,6 @@ struct VS_INPUT
    float4 Position : POSITION0;
    float2 Texcoord : TEXCOORD0;
    float3 Normal :   NORMAL0;
-   
 };
 
 struct VS_OUTPUT 
@@ -44,7 +43,6 @@ struct VS_OUTPUT
    float3 ViewDirection :   TEXCOORD1;
    float3 LightDirection :  TEXCOORD2;
    float3 Normal :          TEXCOORD3;
-   
 };
 
 VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -59,7 +57,7 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    float3 fvEminusW        = fvEyePosition - fvWorld;
    Output.ViewDirection    = mul( fvEminusW, matView );
 
-   float3 fvLminusW        = Light0_Position - fvWorld;   
+   float3 fvLminusW        = Light00_Position - fvWorld;   
    Output.LightDirection   = mul( fvLminusW, matView );
 
    float3 fvNormal         = Input.Normal;
@@ -99,7 +97,7 @@ float fSpecularPower
 > = float( 25.00 );
 texture base_Tex
 <
-   string ResourceName = "..\\textures\\poolstick.jpg";
+   string ResourceName = "..\\textures\\poolstick.dds";
 >;
 sampler2D baseMap = sampler_state
 {

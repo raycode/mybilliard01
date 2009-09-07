@@ -20,7 +20,9 @@ bool EffectShaderDX9Imp::acquireResource()
         DWORD dwFlags = 0;
 
 #if defined( _DEBUG ) || defined( DEBUG )
-        dwFlags |= D3DXSHADER_DEBUG | D3DXSHADER_OPTIMIZATION_LEVEL0;
+        dwFlags |= D3DXSHADER_DEBUG;
+        //dwFlags |= D3DXSHADER_SKIPOPTIMIZATION;
+        //dwFlags |= D3DXSHADER_OPTIMIZATION_LEVEL0;
 #endif
 
         ID3DXBuffer * error = NULL;

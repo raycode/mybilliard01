@@ -15,12 +15,12 @@
 //**************************************************************//
 
 //--------------------------------------------------------------//
-// Textured Phong
+// corner
 //--------------------------------------------------------------//
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string Textured_Phong_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
+string corner_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
 #include "shared.fxh"
 #include "light00.fxh"
@@ -45,7 +45,7 @@ struct VS_OUTPUT
    float3 Normal :          TEXCOORD3;
 };
 
-VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
+VS_OUTPUT corner_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
@@ -118,7 +118,7 @@ struct PS_INPUT
    
 };
 
-float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
+float4 corner_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
    float3 fvLightDirection = normalize( Input.LightDirection );
    float3 fvNormal         = normalize( Input.Normal );
@@ -140,14 +140,14 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 
 
 //--------------------------------------------------------------//
-// Technique Section for Textured Phong
+// Technique Section for corner
 //--------------------------------------------------------------//
-technique Textured_Phong
+technique corner
 {
    pass Pass_0
    {
-      VertexShader = compile vs_1_1 Textured_Phong_Pass_0_Vertex_Shader_vs_main();
-      PixelShader = compile ps_2_0 Textured_Phong_Pass_0_Pixel_Shader_ps_main();
+      VertexShader = compile vs_1_1 corner_Pass_0_Vertex_Shader_vs_main();
+      PixelShader = compile ps_2_0 corner_Pass_0_Pixel_Shader_ps_main();
    }
 
 }

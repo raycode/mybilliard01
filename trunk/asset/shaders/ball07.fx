@@ -15,12 +15,12 @@
 //**************************************************************//
 
 //--------------------------------------------------------------//
-// Textured Phong
+// ball 7
 //--------------------------------------------------------------//
 //--------------------------------------------------------------//
 // Pass 0
 //--------------------------------------------------------------//
-string Textured_Phong_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
+string ball_7_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program Files\\AMD\\RenderMonkey 1.82\\Examples\\Media\\Models\\Sphere.3ds";
 
 #include "shared.fxh"
 #include "light00.fxh"
@@ -45,7 +45,7 @@ struct VS_OUTPUT
    float3 Normal :          TEXCOORD3;
 };
 
-VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
+VS_OUTPUT ball_7_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
 {
    VS_OUTPUT Output;
 
@@ -97,7 +97,7 @@ float fSpecularPower
 > = float( 16.00 );
 texture base_Tex
 <
-   string ResourceName = "..\\textures\\poolb7.jpg";
+   string ResourceName = "..\\textures\\poolb7.dds";
 >;
 sampler2D baseMap = sampler_state
 {
@@ -118,7 +118,7 @@ struct PS_INPUT
    
 };
 
-float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
+float4 ball_7_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
    const float3 lightDirection   = normalize( Input.LightDirection );
    const float3 normal           = normalize( Input.Normal );
@@ -138,14 +138,14 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 
 
 //--------------------------------------------------------------//
-// Technique Section for Textured Phong
+// Technique Section for ball 7
 //--------------------------------------------------------------//
-technique Textured_Phong
+technique ball_7
 {
    pass Pass_0
    {
-      VertexShader = compile vs_1_1 Textured_Phong_Pass_0_Vertex_Shader_vs_main();
-      PixelShader = compile ps_2_0 Textured_Phong_Pass_0_Pixel_Shader_ps_main();
+      VertexShader = compile vs_1_1 ball_7_Pass_0_Vertex_Shader_vs_main();
+      PixelShader = compile ps_2_0 ball_7_Pass_0_Pixel_Shader_ps_main();
    }
 
 }

@@ -26,8 +26,8 @@ string slate_Pass_0_Model : ModelData = "..\\..\\..\\..\\..\\..\\..\\..\\Program
 #include "light00.fxh"
 
 float4x4 matWorldViewProjection : WorldViewProjection;
-float4x4 matWorldView : WorldView;
-float4x4 matWorld : World;
+float4x4 matWorldView;
+float4x4 matWorld;
 
 
 struct VS_INPUT 
@@ -41,10 +41,7 @@ struct VS_OUTPUT
 {
    float4 Position :           POSITION0;
    float2 Texcoord :           TEXCOORD0;
-   float3 ViewDirection :      TEXCOORD1;
-   float3 LightDirection :     TEXCOORD2;
-   float3 Normal :             TEXCOORD3;
-   float3 PositionFromLight00: TEXCOORD4;   
+   float3 PositionFromLight00: TEXCOORD1;   
 };
 
 VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -52,18 +49,7 @@ VS_OUTPUT slate_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    VS_OUTPUT Output;
 
    Output.Position         = mul( Input.Position, matWorldViewProjection );
-   Output.Texcoord         = Input.Texcoord * 2;
-
-   float3 fvWorld          = mul( Input.Position, matWorld );
-
-   float3 fvEminusW        = fvEyePosition - fvWorld;
-   Output.ViewDirection    = mul( fvEminusW, matView );
-
-   float3 fvLminusW        = Light00_Position - fvWorld;   
-   Output.LightDirection   = mul( fvLminusW, matView );
-
-   float3 fvNormal         = Input.Normal;
-   Output.Normal           = mul( fvNormal, matWorldView );
+   Output.Texcoord         = Input.Texcoord;
 
    float4 posFromLight00   = mul( Input.Position, Light00_WorldViewProjection );
 
@@ -93,7 +79,7 @@ const float4 fvDiffuse
 const float  fSpecularPower;
 texture base_Tex
 <
-   string ResourceName = "..\\textures\\green.jpg";
+   string ResourceName = "..\\textures\\pooltablecloth.jpg";
 >;
 sampler2D baseMap = sampler_state
 {
@@ -106,7 +92,7 @@ sampler2D baseMap = sampler_state
 };
 texture shadow0_Tex
 <
-   string ResourceName = "..\\textures\\shadow_map_captured.png";
+   string ResourceName = "..\\textures\\shadow_map_sample.jpg";
 >;
 sampler2D shadowMap0 = sampler_state
 {
@@ -120,21 +106,19 @@ sampler2D shadowMap0 = sampler_state
 struct PS_INPUT 
 {
    float2 Texcoord :            TEXCOORD0;
-   float3 PositionFromLight00 : TEXCOORD4;   
+   float3 PositionFromLight00 : TEXCOORD1;   
 };
 
 #include "func_pixel.fxh"
 
 float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
-   const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight00.xy );
-   const float  depthFromObject  = clamp( Input.PositionFromLight00.z - depthOnShadowMap0, 0, 2 );
-
    const float4 baseColor         = tex2D( baseMap, Input.Texcoord );
-   float4 actualColor             = ( fvAmbient + fvDiffuse / ( 1 + depthFromObject * 100 ) ) * baseColor;
-   actualColor.a = 1;
-
-   return actualColor;   
+   const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight00.xy );
+   
+   const float distanceFromShadowMap = Input.PositionFromLight00.z - depthOnShadowMap0;
+   const float isOutOfShadow = clamp( - distanceFromShadowMap * 1000, 0, 1 );
+   return baseColor * ( isOutOfShadow * fvDiffuse + fvAmbient );
 }
 
 
@@ -146,6 +130,7 @@ technique slate
 {
    pass Pass_0
    {
+
       VertexShader = compile vs_1_1 slate_Pass_0_Vertex_Shader_vs_main();
       PixelShader = compile ps_2_0 slate_Pass_0_Pixel_Shader_ps_main();
    }
