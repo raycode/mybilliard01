@@ -104,7 +104,17 @@ sampler2D baseMap = sampler_state
    MAGFILTER = LINEAR;
    MIPFILTER = LINEAR;
 };
-sampler2D shadowMap0;
+texture shadow0_Tex
+<
+   string ResourceName = "..\\textures\\shadow_map_captured.png";
+>;
+sampler2D shadowMap0 = sampler_state
+{
+   Texture = (shadow0_Tex);
+   MINFILTER = LINEAR;
+   MIPFILTER = LINEAR;
+   MAGFILTER = LINEAR;
+};
 
 
 struct PS_INPUT 
@@ -118,19 +128,13 @@ struct PS_INPUT
 float4 slate_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
 {
    const float  depthOnShadowMap0 = sampleDepthValue( shadowMap0, Input.PositionFromLight00.xy );
-   const float  actualDepth       = Input.PositionFromLight00.z;
-   const float  depthUnderObject  = clamp( actualDepth - depthOnShadowMap0, 1, 2 );
-   const bool   bUnderShadow      = ( depthUnderObject > 0 );
+   const float  depthFromObject  = clamp( Input.PositionFromLight00.z - depthOnShadowMap0, 0, 2 );
 
    const float4 baseColor         = tex2D( baseMap, Input.Texcoord );
-   float4 color_OutShadow   = clamp( ( fvAmbient + fvDiffuse ) * baseColor, 0, 1 );
-   float4 color_UnderShadow = clamp( fvAmbient * baseColor / depthUnderObject, 0, 1 );
-   color_OutShadow.a = 1;
-   color_UnderShadow.a = 1;
-   
-//   return color_UnderShadow;
-   return color_OutShadow;
-   return( bUnderShadow ? color_UnderShadow : color_OutShadow );
+   float4 actualColor             = ( fvAmbient + fvDiffuse / ( 1 + depthFromObject * 100 ) ) * baseColor;
+   actualColor.a = 1;
+
+   return actualColor;   
 }
 
 
