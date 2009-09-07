@@ -60,6 +60,9 @@ void RenderableCamera::displayOnRenderTargetCallBack( Render * render )
             NxActor * const actor = *iterActor;
             Node * const node = (Node *) actor->userData;
 
+            //OutputDebugStr( node->getName().c_str() );
+            //OutputDebugStr( L"\n" );
+
             RowMajorMatrix44f matWorld;
             actor->getGlobalPose().getRowMajor44( matWorld );
             feeder->updateModelMatrix( matWorld );

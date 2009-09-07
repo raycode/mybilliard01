@@ -32,17 +32,15 @@ float4x4 matWorldView : WorldView;
 struct VS_INPUT 
 {
    float4 Position : POSITION0;
-   float2 Texcoord : TEXCOORD0;
    float3 Normal :   NORMAL0;
 };
 
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
-   float2 Texcoord :        TEXCOORD0;
-   float3 ViewDirection :   TEXCOORD1;
-   float3 LightDirection :  TEXCOORD2;
-   float3 Normal :          TEXCOORD3;
+   float3 ViewDirection :   TEXCOORD0;
+   float3 LightDirection :  TEXCOORD1;
+   float3 Normal :          TEXCOORD2;
 };
 
 VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -50,7 +48,6 @@ VS_OUTPUT Textured_Phong_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    VS_OUTPUT Output;
 
    Output.Position         = mul( Input.Position, matWorldViewProjection );
-   Output.Texcoord         = Input.Texcoord;
 
    float3 fvWorld          = mul( Input.Position, matWorld );
 
@@ -95,27 +92,12 @@ float fSpecularPower
    float UIMin = 1.00;
    float UIMax = 100.00;
 > = float( 25.00 );
-texture base_Tex
-<
-   string ResourceName = ".\\Fieldstone.tga";
->;
-sampler2D baseMap = sampler_state
-{
-   Texture = (base_Tex);
-   ADDRESSU = WRAP;
-   ADDRESSV = WRAP;
-   MINFILTER = LINEAR;
-   MAGFILTER = LINEAR;
-   MIPFILTER = LINEAR;
-};
 
 struct PS_INPUT 
 {
-   float2 Texcoord :        TEXCOORD0;
-   float3 ViewDirection :   TEXCOORD1;
-   float3 LightDirection:   TEXCOORD2;
-   float3 Normal :          TEXCOORD3;
-   
+   float3 ViewDirection :   TEXCOORD0;
+   float3 LightDirection:   TEXCOORD1;
+   float3 Normal :          TEXCOORD2;
 };
 
 float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
@@ -128,7 +110,7 @@ float4 Textured_Phong_Pass_0_Pixel_Shader_ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
    
-   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
+   float4 fvBaseColor      = float4( 1, 1, 1, 1 );
    
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
    float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 

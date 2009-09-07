@@ -32,17 +32,15 @@ float4x4 matWorldView : WorldView;
 struct VS_INPUT 
 {
    float4 Position : POSITION0;
-   float2 Texcoord : TEXCOORD0;
    float3 Normal :   NORMAL0;
 };
 
 struct VS_OUTPUT 
 {
    float4 Position :        POSITION0;
-   float2 Texcoord :        TEXCOORD0;
-   float3 ViewDirection :   TEXCOORD1;
-   float3 LightDirection :  TEXCOORD2;
-   float3 Normal :          TEXCOORD3;
+   float3 ViewDirection :   TEXCOORD0;
+   float3 LightDirection :  TEXCOORD1;
+   float3 Normal :          TEXCOORD2;
 };
 
 VS_OUTPUT CUE_BALL_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
@@ -50,7 +48,6 @@ VS_OUTPUT CUE_BALL_Pass_0_Vertex_Shader_vs_main( VS_INPUT Input )
    VS_OUTPUT Output;
 
    Output.Position         = mul( Input.Position, matWorldViewProjection );
-   Output.Texcoord         = Input.Texcoord;
 
    float3 fvWorld          = mul( Input.Position, matWorld );
 

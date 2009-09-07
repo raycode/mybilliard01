@@ -1025,7 +1025,7 @@ Pass 0]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-6/9/2009 17:51:37]]></RmTextDataBlock></RmStringVariable>
+6/9/2009 17:56:23]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
@@ -1138,8 +1138,8 @@ float4 ps_main( PS_INPUT Input ) : COLOR0
    float3 fvViewDirection  = normalize( Input.ViewDirection );
    float  fRDotV           = max( 0.00001f, dot( fvReflection, fvViewDirection ) );
    
-//   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
-   float4 fvBaseColor      = float4( 1, 1, 1, 1);
+   float4 fvBaseColor      = tex2D( baseMap, Input.Texcoord );
+   //float4 fvBaseColor      = float4( 1, 1, 1, 1);
    
    float4 fvTotalAmbient   = fvAmbient * fvBaseColor; 
    float4 fvTotalDiffuse   = fvDiffuse * fNDotL * fvBaseColor; 
