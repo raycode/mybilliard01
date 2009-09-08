@@ -118,6 +118,14 @@ void RenderableCamera::appendShadowMapLight( RenderableCamera * shadowMapLight )
     shadowMapLights_.push_back( shadowMapLight );
 }
 
+void RenderableCamera::clearEffectShaderFeeders() {
+    effectAndActorMap_.clear();
+    sharedVaribleFeeder_ = NULL;
+}
+void RenderableCamera::clearShadowMapLights() {
+    shadowMapLights_.clear();
+}
+
 
 Camera * RenderableCamera::getProjectionCamera() {
     return colladaCamera_;
