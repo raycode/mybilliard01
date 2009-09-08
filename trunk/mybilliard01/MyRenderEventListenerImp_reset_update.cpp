@@ -5,28 +5,30 @@
 void MyRenderEventListenerImp::displayReset( RenderBufferFactory * renderFactory, int x, int y, int width, int height )
 {
     scene_->setRenderFactory( renderFactory );
-    resetEffect( renderFactory, width, height );
+    resetRenderableCameras( renderFactory, width, height );
     resetShadowMap();
     resetProjection( (float) width / (float) height );
 }
 
-void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, size_t width, size_t height )
+void MyRenderEventListenerImp::resetRenderableCameras( RenderBufferFactory * renderFactory, size_t width, size_t height )
 {
     for( size_t i = 0; i < SIZE_OF_LIGHT_ENUM; ++i )
     {
-        resetEffect( renderFactory, lights_[ i ], ConstString::effectFilename_shadowMap( i + 1 ) );
+        resetRenderableCamera( renderFactory, lights_[ i ], ConstString::effectFilename_shadowMap( i + 1 ) );
         lightRenderTargets_[ i ] = renderFactory->createRenderTarget( 1024, 1024 );
     }
 
     for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i )
     {
-        resetEffect( renderFactory, cameras_[ i ], L"" );
-        resetEffect( renderFactory, depthCameras_[ i ], ConstString::effectFilename_depthCull() );
+        resetRenderableCamera( renderFactory, cameras_[ i ], L"" );
+        resetRenderableCamera( renderFactory, depthCameras_[ i ], ConstString::effectFilename_depthCull() );
     }
 }
 
-void MyRenderEventListenerImp::resetEffect( RenderBufferFactory * renderFactory, RenderableCamera * camera, wstring effectFilenameForPositionOnly )
+void MyRenderEventListenerImp::resetRenderableCamera( RenderBufferFactory * renderFactory, RenderableCamera * camera, wstring effectFilenameForPositionOnly )
 {
+    camera->clearEffectShaderFeeders();
+
     MyEffectShaderFeederPtr sharedFeeder = MyEffectShaderFeederPtr( new MyEffectShaderFeederImp( true ) );
     sharedFeeders_.push_back( sharedFeeder );
     camera->setSharedEffectShaderFeeder( sharedFeeder.get() );
@@ -83,8 +85,13 @@ void MyRenderEventListenerImp::resetShadowMap()
     }
 
     for( size_t i = 0; i < SIZE_OF_CAMERA_ENUM; ++i )
+    {
+        MyCamera * const camera = cameras_[ i ];
+        camera->clearShadowMapLights();
+
         for( size_t j = 0; j < SIZE_OF_LIGHT_ENUM; ++j )
-            cameras_[ i ]->appendShadowMapLight( lights_[ j ] );
+            camera->appendShadowMapLight( lights_[ j ] );
+    }
 }
 
 void MyRenderEventListenerImp::resetProjection( float aspect )

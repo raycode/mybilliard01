@@ -20,16 +20,18 @@ public:
 public:
     RenderableCamera( Camera * cameraCollada, bool bRightHand, bool bPositionOnly );
 
+    Camera * getProjectionCamera();
     bool isPositionOnly();
 
     void setSharedEffectShaderFeeder( MyEffectShaderFeeder * );
     void appendEffectShaderFeederForActor( MyEffectShaderFeeder *, NxActor * );
     void appendShadowMapLight( RenderableCamera * );
+    
+    void clearEffectShaderFeeders();
+    void clearShadowMapLights();
 
     void setAspect( float aspectRatio ); // for projection
     void updateProjectionMatrix();
-
-    Camera * getProjectionCamera();
 
 private:
     Camera * const colladaCamera_;

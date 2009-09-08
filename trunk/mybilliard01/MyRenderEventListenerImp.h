@@ -61,8 +61,8 @@ private: // init
     void initPhysBallPosition( NxActor * actor );
 
 private: // reset
-    void resetEffect( RenderBufferFactory *, size_t width, size_t height );
-    void resetEffect( RenderBufferFactory *, RenderableCamera *, wstring effectFilenameForPositionOnly );
+    void resetRenderableCameras( RenderBufferFactory *, size_t width, size_t height );
+    void resetRenderableCamera( RenderBufferFactory *, RenderableCamera *, wstring effectFilenameForPositionOnly );
     void resetShadowMap();
 
 private: // update
