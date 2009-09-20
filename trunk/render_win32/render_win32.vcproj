@@ -715,6 +715,18 @@
 				>
 			</File>
 			<File
+				RelativePath="..\test_all\ApplicationWin32ImpTest.cpp"
+				>
+				<FileConfiguration
+					Name="Debug|Win32"
+					ExcludedFromBuild="true"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
 				RelativePath=".\my_render_win32_imp.h"
 				>
 			</File>

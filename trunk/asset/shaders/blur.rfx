@@ -1005,13 +1005,13 @@ Single Pass]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
     <RmRegistryBranch NAME="WORKSPACE" API="" XML_VERSION="RenderMonkey 1.71">
      <RmStringVariable NAME="LAST_SAVE" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-5/9/2009 19:32:19]]></RmTextDataBlock></RmStringVariable>
+10/9/2009 11:27:40]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey Version 1.82 (build 322)]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="XML_VERSION" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
 RenderMonkey 1.71]]></RmTextDataBlock></RmStringVariable>
      <RmStringVariable NAME="BASE_WORKSPACE_PATH" API="" ARTIST_EDITABLE="FALSE" VARIABLE_SEMANTIC=""><RmTextDataBlock TYPE="TEXT"><![CDATA[
-C:\Documents and Settings\Administrator\My Documents\Visual Studio 2008\Projects\mybilliard01\asset\shaders\]]></RmTextDataBlock></RmStringVariable>
+C:\Documents and Settings\wrice\My Documents\Visual Studio 2008\Projects\mybilliard01\asset\shaders\]]></RmTextDataBlock></RmStringVariable>
     </RmRegistryBranch>
    </RmRegistryBranch>
   </RmRegistryBranch>
@@ -1038,14 +1038,6 @@ float  inputWidthInverse;
 float  inputHeightInverse;
 sampler2D inputTexture;
 
-const float4 poorKernel[ 4 ] =
-{
-   -0.5, -0.5, 0, 0.50,
-    0.5,  0.5, 0, 0.50,
-   -1.0,  1.0, 0, 0.125,
-    1.0, -1.0, 0, 0.125
-};
-
 const float4 betterKernel[ 4 ] =
 {
    -1,  0, 0, 0.25,
@@ -1059,11 +1051,11 @@ float4 ps_main( float2 texCoord: TEXCOORD0 ) : COLOR
    float4 color = 0;
    color.a = 1;
 
-   for( int i = 0; i < 3; ++i ) // 4 doesn't work on my hardware
+   for( int i = 0; i < 4; ++i )
    {
-      const float  weight = poorKernel[ i ].w;
-      const float2 offset = float2( poorKernel[ i ].x * inputWidthInverse,
-                                    poorKernel[ i ].y * inputHeightInverse );
+      const float  weight = betterKernel[ i ].w;
+      const float2 offset = float2( betterKernel[ i ].x * inputWidthInverse,
+                                    betterKernel[ i ].y * inputHeightInverse );
       color += weight * tex2D( inputTexture, texCoord + offset );
    }
 
@@ -1072,9 +1064,9 @@ float4 ps_main( float2 texCoord: TEXCOORD0 ) : COLOR
 
 ]]></RmShaderCode>
      <RmSampler NAME="inputTexture" API="" REGISTER="0"/>
-     <RmShaderConstant NAME="inputHeightInverse" API="" REGISTER="4"/>
-     <RmShaderConstant NAME="inputWidthInverse" API="" REGISTER="3"/>
-     <RmShaderConstant NAME="poorKernel" API="" REGISTER="0"/>
+     <RmShaderConstant NAME="inputHeightInverse" API="" REGISTER="5"/>
+     <RmShaderConstant NAME="betterKernel" API="" REGISTER="0"/>
+     <RmShaderConstant NAME="inputWidthInverse" API="" REGISTER="4"/>
     </RmHLSLShader>
     <RmHLSLShader NAME="Vertex Shader" API="D3D" PIXEL_SHADER="FALSE" TARGET="vs_1_1" ENTRY_POINT="vs_main" COMPILER_FLAGS="0"><RmShaderCode TYPE="TEXT"><![CDATA[
 float  outputWidthInverse;

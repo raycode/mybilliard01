@@ -6,7 +6,7 @@ namespace my_utility {
 
     class ConstString {
     public:
-        static wstring dllDirectory();
+        static const wchar_t * dllDirectory();
 	    static wstring windowTitle();
 	    static wstring colladaPhysXFilename();
 	    static wstring colladaVisualAssetFilename();

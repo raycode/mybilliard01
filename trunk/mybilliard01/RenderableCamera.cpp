@@ -84,13 +84,13 @@ void RenderableCamera::updateProjectionMatrix()
 {
     sharedVaribleFeeder_->updateProjection_camera( getProjectionMatrix() );
     for( size_t i = 0; i < shadowMapLights_.size(); ++i )
-        sharedVaribleFeeder_->updateProjection_shadowMap( i, shadowMapLights_[ i ]->getProjectionMatrix() );
+        sharedVaribleFeeder_->updateProjection_shadowMap( i, shadowMapLights_.at( i )->getProjectionMatrix() );
 
-    MY_FOR_EACH( EffectAndActorMap, feeder, effectAndActorMap_ )
+    MY_FOR_EACH( EffectAndActorMap, iter, effectAndActorMap_ )
     {
-        feeder->first->updateProjection_camera( getProjectionMatrix() );
+        iter->first->updateProjection_camera( getProjectionMatrix() );
         for( size_t i = 0; i < shadowMapLights_.size(); ++i )
-            feeder->first->updateProjection_shadowMap( i, shadowMapLights_[ i ]->getProjectionMatrix() );
+            iter->first->updateProjection_shadowMap( i, shadowMapLights_.at( i )->getProjectionMatrix() );
     }
 }
 

@@ -19,7 +19,7 @@ int WINAPI wWinMain( HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR lpCmdL
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif
 
-    SetDllDirectory( ConstString::dllDirectory().c_str() );
+    SetDllDirectory( ConstString::dllDirectory() );
 
     ApplicationWin32 * const app = new ApplicationWin32Imp();
     {
