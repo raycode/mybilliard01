@@ -204,7 +204,6 @@ void MyRenderEventListenerImp::display_activeCamera( Render * render )
     depthCameras_[ activeCamera_ ]->displayOnRenderTargetCallBack( render );
     render->setRenderState()->setAlpha()->setColorBufferTurnOn();
 
-    getActiveCamera()->clear_Color( PixelColor( 255, 0, 30, 70 ) );
     getActiveCamera()->displayOnRenderTargetCallBack( render );
 }
 

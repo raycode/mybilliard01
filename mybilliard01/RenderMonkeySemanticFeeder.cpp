@@ -122,6 +122,8 @@ void RenderMonkeySemanticFeeder::initPredefinedSemantics() {
     INIT_SEMANTIC( WorldViewProjectionTranspose, activeSemantics_Model_, 16 );
     INIT_SEMANTIC( WorldViewProjectionInverse, activeSemantics_Model_, 16 );
     INIT_SEMANTIC( WorldViewProjectionInverseTranspose, activeSemantics_Model_, 16 );
+
+#undef INIT_SEMANTIC
 }
 
 

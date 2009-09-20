@@ -8,9 +8,9 @@ MyEffectShaderFeederImp::MyEffectShaderFeederImp( bool bShared )
 }
 
 void MyEffectShaderFeederImp::updateProjection_shadowMap( size_t index, const RowMajorMatrix44f & matProj ) {
-    shadowMaps_[ index ].matProj_ = matProj;
+    shadowMaps_.at( index ).matProj_ = matProj;
 
-    MY_FOR_EACH( ShadowMapSemantic::ActiveSemantics, iter, shadowMaps_[ index ].activeSemantics_proj_ )
+    MY_FOR_EACH( ShadowMapSemantic::ActiveSemantics, iter, shadowMaps_.at( index ).activeSemantics_proj_ )
         uploadShadowMapValue( index, *iter );
 }
 
@@ -21,12 +21,12 @@ void MyEffectShaderFeederImp::updateView_shadowMap(
     const RowMajorMatrix44f & matView,
     const RowMajorMatrix44f & matProjView )
 {
-    shadowMaps_[ index ].lightPos_ = lightPos;
-    shadowMaps_[ index ].lightDir_ = lightDir;
-    shadowMaps_[ index ].matView_ = matView;
-    shadowMaps_[ index ].matProjView_ = matProjView;
+    shadowMaps_.at( index ).lightPos_ = lightPos;
+    shadowMaps_.at( index ).lightDir_ = lightDir;
+    shadowMaps_.at( index ).matView_ = matView;
+    shadowMaps_.at( index ).matProjView_ = matProjView;
 
-    MY_FOR_EACH( ShadowMapSemantic::ActiveSemantics, iter, shadowMaps_[ index ].activeSemantics_view_ )
+    MY_FOR_EACH( ShadowMapSemantic::ActiveSemantics, iter, shadowMaps_.at( index ).activeSemantics_view_ )
         uploadShadowMapValue( index, *iter );
 }
 
@@ -37,7 +37,7 @@ void MyEffectShaderFeederImp::updateModelMatrix( const RowMajorMatrix44f & matWo
     matWorld_ = matWorld;
 
     for( size_t index = 0; index < shadowMaps_.size(); ++index )
-        MY_FOR_EACH( ShadowMapSemantic::ActiveSemantics, iter, shadowMaps_[ index ].activeSemantics_world_ )
+        MY_FOR_EACH( ShadowMapSemantic::ActiveSemantics, iter, shadowMaps_.at( index ).activeSemantics_world_ )
             uploadShadowMapValue( index, *iter );
 }
 
@@ -100,6 +100,7 @@ void MyEffectShaderFeederImp::initShadowMapSemantics( EffectShader * effect )
 
         if( false == bFound ) break;
     }
+#undef INIT_SEMANTIC
 }
 
 void MyEffectShaderFeederImp::setEffectShader( EffectShader * effect )

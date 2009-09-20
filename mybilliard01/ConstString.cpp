@@ -72,7 +72,7 @@ wstring ConstString::effectFilename_SSAO() {
     return L"../asset/shaders/ssao.fx";
 }
 
-wstring ConstString::dllDirectory() {
+const wchar_t * ConstString::dllDirectory() {
     return L"..\\dll";
 }
 

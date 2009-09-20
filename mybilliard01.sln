@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "my app", "mybilliard01\mybilliard01.vcproj", "{06B28C9E-8C7F-4CF8-8D33-535C17A298E4}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "my_app", "mybilliard01\mybilliard01.vcproj", "{06B28C9E-8C7F-4CF8-8D33-535C17A298E4}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D} = {F148C4CB-8042-44A2-A04C-1BFB0BD3242D}
 		{F357C5D2-9567-4D14-AECA-A402EE71DE37} = {F357C5D2-9567-4D14-AECA-A402EE71DE37}
@@ -16,24 +16,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{1114145B-F8BD-4057-9D9B-EA37AC4EC10D}"
 	ProjectSection(SolutionItems) = preProject
 		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
-		mybilliard01.vsmdi = mybilliard01.vsmdi
-		mybilliard011.vsmdi = mybilliard011.vsmdi
-		mybilliard0110.vsmdi = mybilliard0110.vsmdi
-		mybilliard0111.vsmdi = mybilliard0111.vsmdi
-		mybilliard0112.vsmdi = mybilliard0112.vsmdi
-		mybilliard0113.vsmdi = mybilliard0113.vsmdi
-		mybilliard0114.vsmdi = mybilliard0114.vsmdi
-		mybilliard012.vsmdi = mybilliard012.vsmdi
-		mybilliard013.vsmdi = mybilliard013.vsmdi
-		mybilliard014.vsmdi = mybilliard014.vsmdi
-		mybilliard015.vsmdi = mybilliard015.vsmdi
-		mybilliard016.vsmdi = mybilliard016.vsmdi
-		mybilliard017.vsmdi = mybilliard017.vsmdi
-		mybilliard018.vsmdi = mybilliard018.vsmdi
-		mybilliard019.vsmdi = mybilliard019.vsmdi
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "abstract engine", "core_billiard\core_billiard.vcproj", "{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "abstract_engine", "core_billiard\core_billiard.vcproj", "{F148C4CB-8042-44A2-A04C-1BFB0BD3242D}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDX9", "TestDX9\TestDX9.vcproj", "{051FAF55-C1E0-4F4C-94E7-17A58A458AB8}"
 	ProjectSection(ProjectDependencies) = postProject
@@ -41,15 +26,19 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TestDX9", "TestDX9\TestDX9.
 		{F357C5D2-9567-4D14-AECA-A402EE71DE37} = {F357C5D2-9567-4D14-AECA-A402EE71DE37}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "engine win32", "render_win32\render_win32.vcproj", "{F357C5D2-9567-4D14-AECA-A402EE71DE37}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "engine_win32", "render_win32\render_win32.vcproj", "{F357C5D2-9567-4D14-AECA-A402EE71DE37}"
 	ProjectSection(ProjectDependencies) = postProject
 		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D} = {F148C4CB-8042-44A2-A04C-1BFB0BD3242D}
 	EndProjectSection
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "test_all", "test_all\test_all.vcproj", "{77F3D30D-5CFB-4E5C-847C-10E6AF1165A1}"
+	ProjectSection(ProjectDependencies) = postProject
+		{06B28C9E-8C7F-4CF8-8D33-535C17A298E4} = {06B28C9E-8C7F-4CF8-8D33-535C17A298E4}
+		{F148C4CB-8042-44A2-A04C-1BFB0BD3242D} = {F148C4CB-8042-44A2-A04C-1BFB0BD3242D}
+		{F357C5D2-9567-4D14-AECA-A402EE71DE37} = {F357C5D2-9567-4D14-AECA-A402EE71DE37}
+	EndProjectSection
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = mybilliard0114.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Win32 = Debug|Win32
 		Release|Win32 = Release|Win32
@@ -75,6 +64,10 @@ Global
 		{F357C5D2-9567-4D14-AECA-A402EE71DE37}.Debug|Win32.Build.0 = Debug|Win32
 		{F357C5D2-9567-4D14-AECA-A402EE71DE37}.Release|Win32.ActiveCfg = Release|Win32
 		{F357C5D2-9567-4D14-AECA-A402EE71DE37}.Release|Win32.Build.0 = Release|Win32
+		{77F3D30D-5CFB-4E5C-847C-10E6AF1165A1}.Debug|Win32.ActiveCfg = Debug|Win32
+		{77F3D30D-5CFB-4E5C-847C-10E6AF1165A1}.Debug|Win32.Build.0 = Debug|Win32
+		{77F3D30D-5CFB-4E5C-847C-10E6AF1165A1}.Release|Win32.ActiveCfg = Release|Win32
+		{77F3D30D-5CFB-4E5C-847C-10E6AF1165A1}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
