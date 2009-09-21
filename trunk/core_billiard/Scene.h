@@ -11,25 +11,30 @@ MY_INTERFACE Scene {
     virtual bool load( wstring filename ) PURE;
     virtual void unload() PURE;
 
-    virtual vector< wstring > getVisualSceneIDs() PURE;
-    virtual wstring getDefaultVisualSceneID() PURE;
-    virtual bool hasDefaultVisualSceneID() PURE;
+    virtual size_t getNumberOfVisualScene() PURE;
+    virtual Node * getVisualSceneByIndex( size_t index ) PURE;
+    virtual Node * getVisualSceneByID( wstring id ) PURE;
+    virtual Node * getDefaultVisualScene() PURE;
+    virtual Node * getCurrentVisualScene() PURE;
+    virtual bool setCurrentVisualScene( Node * ) PURE;
 
-    virtual wstring getCurrentVisualSceneID() PURE;
-    virtual bool setCurrentVisualScene( wstring sceneID ) PURE;
+    virtual size_t getNumberOfNode() PURE;
+    virtual Node * getNodeByIndex( size_t index ) PURE;
+    virtual Node * getNodeByID( wstring nodeID ) PURE;
 
-    virtual Node * getVisualScene( wstring id ) PURE;
-
-    virtual Node * getNode( wstring nodeID ) PURE;
-
+    virtual size_t getNumberOfGeometry() PURE;
+    virtual Geometry * getGeometryByIndex( size_t index ) PURE;
     virtual Geometry * getGeometryByID( wstring id ) PURE;
     virtual Geometry * getGeometryByName( wstring name ) PURE;
 
     virtual size_t getNumberOfCamera() PURE;
+    virtual Camera * getCameraByIndex( size_t index ) PURE;
     virtual Camera * getCameraByID( wstring id ) PURE;
     virtual Camera * getCameraByName( wstring name ) PURE;
-    virtual Camera * getCameraByIndex( size_t index ) PURE;
 
+    virtual bool isUpAxisX() PURE;
+    virtual bool isUpAxisY() PURE;
+    virtual bool isUpAxisZ() PURE;
 };
 
 }

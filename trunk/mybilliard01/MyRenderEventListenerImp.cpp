@@ -166,8 +166,8 @@ const NxVec3 & MyRenderEventListenerImp::getBallDefaultPosition( NxActor * actor
 
 void MyRenderEventListenerImp::initVisualOnlyObjects()
 {
-    visualOnlyObjects_[ VISUAL_STICK ] = scene_->getNode( ConstString::name_CueStick() );
-    visualOnlyObjects_[ VISUAL_BACKGROUND ] = scene_->getNode( ConstString::name_Background() );
+    visualOnlyObjects_[ VISUAL_STICK ] = scene_->getNodeByID( ConstString::name_CueStick() );
+    visualOnlyObjects_[ VISUAL_BACKGROUND ] = scene_->getNodeByID( ConstString::name_Background() );
 }
 
 void MyRenderEventListenerImp::display( Render * render ) {

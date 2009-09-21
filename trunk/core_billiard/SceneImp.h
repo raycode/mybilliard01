@@ -10,22 +10,30 @@ public: // from Scene
     virtual bool load( wstring filename ) OVERRIDE;
     virtual void unload() OVERRIDE;
 
-    virtual vector< wstring > getVisualSceneIDs() OVERRIDE;
-    virtual wstring getDefaultVisualSceneID() OVERRIDE;
-    virtual bool hasDefaultVisualSceneID() OVERRIDE;
+    virtual size_t getNumberOfVisualScene() OVERRIDE;
+    virtual Node * getVisualSceneByIndex( size_t index ) OVERRIDE;
+    virtual Node * getVisualSceneByID( wstring id ) OVERRIDE;
+    virtual Node * getDefaultVisualScene() OVERRIDE;
+    virtual Node * getCurrentVisualScene() OVERRIDE;
+    virtual bool setCurrentVisualScene( Node * ) OVERRIDE;
 
-    virtual wstring getCurrentVisualSceneID() OVERRIDE;
-    virtual bool setCurrentVisualScene( wstring sceneID ) OVERRIDE;
+    virtual size_t getNumberOfNode() OVERRIDE;
+    virtual Node * getNodeByIndex( size_t index ) OVERRIDE;
+    virtual Node * getNodeByID( wstring nodeID ) OVERRIDE;
 
-    virtual Node * getVisualScene( wstring id ) OVERRIDE;
-    virtual Node * getNode( wstring nodeID ) OVERRIDE;
+    virtual size_t getNumberOfGeometry() OVERRIDE;
+    virtual Geometry * getGeometryByIndex( size_t index ) OVERRIDE;
     virtual Geometry * getGeometryByID( wstring id ) OVERRIDE;
     virtual Geometry * getGeometryByName( wstring name ) OVERRIDE;
 
     virtual size_t getNumberOfCamera() OVERRIDE;
+    virtual Camera * getCameraByIndex( size_t index ) OVERRIDE;
     virtual Camera * getCameraByID( wstring id ) OVERRIDE;
     virtual Camera * getCameraByName( wstring name ) OVERRIDE;
-    virtual Camera * getCameraByIndex( size_t index ) OVERRIDE;
+
+    virtual bool isUpAxisX() OVERRIDE;
+    virtual bool isUpAxisY() OVERRIDE;
+    virtual bool isUpAxisZ() OVERRIDE;
 
 public:
     SceneImp();
@@ -72,10 +80,10 @@ private:
     NodeNull nullNode_;
 
 private: // runtime database
-    typedef map< wstring, Node * > VisualScenes;
+    typedef vector< Node * > VisualScenes;
     VisualScenes visualScenes_;
 
-    typedef map< wstring, Node * > Nodes;
+    typedef vector< Node * > Nodes;
     Nodes nodes_;
 
     typedef vector< Geometry * > Geometries;
