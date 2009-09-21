@@ -2090,6 +2090,18 @@
 					RelativePath=".\SceneImp.h"
 					>
 				</File>
+				<File
+					RelativePath="..\test_all\SceneImpTest.cpp"
+					>
+					<FileConfiguration
+						Name="Debug|Win32"
+						ExcludedFromBuild="true"
+						>
+						<Tool
+							Name="VCCLCompilerTool"
+						/>
+					</FileConfiguration>
+				</File>
 			</Filter>
 			<Filter
 				Name="2. Factory"

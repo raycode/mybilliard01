@@ -184,6 +184,10 @@
 					RelativePath=".\PixelColorTest.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\SceneImpTest.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="3. my_app"
