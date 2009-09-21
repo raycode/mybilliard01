@@ -73,7 +73,7 @@ wstring ConstString::effectFilename_SSAO() {
 }
 
 const wchar_t * ConstString::dllDirectory() {
-    return L"..\\dll";
+    return L"../dll";
 }
 
 wstring ConstString::soundFilename_BallStrong( size_t index )

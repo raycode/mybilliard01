@@ -39,13 +39,24 @@ namespace my_render_imp {
         ASSERT_EQ( 0xff020304, color.getARGB() );
     }
 
+    TEST_F( PixelColorTest, Constructor_Integer_Clamp1 ) {
+        PixelColor color( 256, 256, 256, 256 );
+        ASSERT_EQ( 0xffffffff, color.getARGB() );
+    }
+
+    TEST_F( PixelColorTest, Constructor_Integer_Clamp2 ) {
+        PixelColor color( -1, -1, -1, -1 );
+        ASSERT_EQ( 0x0, color.getARGB() );
+    }
+
     TEST_F( PixelColorTest, Constructor_UnsignedInteger ) {
         PixelColor color( 255u, 2u, 3u, 4u );
-        ASSERT_EQ( 255u, color.getA() );
-        ASSERT_EQ( 2u, color.getR() );
-        ASSERT_EQ( 3u, color.getG() );
-        ASSERT_EQ( 4u, color.getB() );
         ASSERT_EQ( 0xff020304, color.getARGB() );
+    }
+
+    TEST_F( PixelColorTest, Constructor_UnsignedInteger_Clamp ) {
+        PixelColor color( 256u, 256u, 256u, 256u );
+        ASSERT_EQ( 0xffffffff, color.getARGB() );
     }
 
     TEST_F( PixelColorTest, Constructor_Color256 ) {
@@ -55,19 +66,11 @@ namespace my_render_imp {
             (PixelColor::Color256) 3,
             (PixelColor::Color256) 4
         );
-        ASSERT_EQ( (PixelColor::Color256) 255, color.getA() );
-        ASSERT_EQ( (PixelColor::Color256) 2, color.getR() );
-        ASSERT_EQ( (PixelColor::Color256) 3, color.getG() );
-        ASSERT_EQ( (PixelColor::Color256) 4, color.getB() );
         ASSERT_EQ( 0xff020304, color.getARGB() );
     }
 
     TEST_F( PixelColorTest, Constructor_NxU32 ) {
         PixelColor color( 0xff020304 );
-        ASSERT_EQ( 255u, color.getA() );
-        ASSERT_EQ( 2u, color.getR() );
-        ASSERT_EQ( 3u, color.getG() );
-        ASSERT_EQ( 4u, color.getB() );
         ASSERT_EQ( 0xff020304, color.getARGB() );
     }
 
@@ -79,12 +82,32 @@ namespace my_render_imp {
         ASSERT_EQ( (PixelColor::Color256) 31, color.getB() );
     }
 
+    TEST_F( PixelColorTest, Constructor_Float4_Clamp1 ) {
+        PixelColor color( 1.1f, 1.1f, 1.1f, 1.1f );
+        ASSERT_EQ( 0xffffffff, color.getARGB() );
+    }
+
+    TEST_F( PixelColorTest, Constructor_Float4_Clamp2 ) {
+        PixelColor color( -0.1f, -0.1f, -0.1f, -0.1f );
+        ASSERT_EQ( 0x0, color.getARGB() );
+    }
+
     TEST_F( PixelColorTest, Constructor_NxVec3 ) {
         PixelColor color( 1.f, NxVec3( 0.5f, 0.25f, 0.125f ) );
         ASSERT_EQ( (PixelColor::Color256) 255, color.getA() );
         ASSERT_EQ( (PixelColor::Color256) 127, color.getR() );
         ASSERT_EQ( (PixelColor::Color256) 63, color.getG() );
         ASSERT_EQ( (PixelColor::Color256) 31, color.getB() );
+    }
+
+    TEST_F( PixelColorTest, Constructor_NxVec3_Clamp1 ) {
+        PixelColor color( 1.1f, NxVec3( 1.1f, 1.1f, 1.1f ) );
+        ASSERT_EQ( 0xffffffff, color.getARGB() );
+    }
+
+    TEST_F( PixelColorTest, Constructor_NxVec3_Clamp2 ) {
+        PixelColor color( -0.1f, NxVec3( -0.1f, -0.1f, -0.1f ) );
+        ASSERT_EQ( 0x0, color.getARGB() );
     }
 
     TEST_F( PixelColorTest, SetEachColor ) {

@@ -6,6 +6,16 @@
 #include "gtest/gtest.h"
 
 
+#ifdef _WIN32
+#define NOMINMAX
+#include <windows.h>
+#include <tchar.h>
+
+const TCHAR * getCustomDllDirectory();
+
+#endif // _WIN32
+
+
 int main(int argc, char **argv)
 {
 #ifdef _WIN32
@@ -13,6 +23,11 @@ int main(int argc, char **argv)
 #if defined(DEBUG) | defined(_DEBUG)
     _CrtSetDbgFlag( _CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF );
 #endif // DEBUG
+
+#ifdef GTEST_CUSTOM_DLL_DIRECTORY
+    SetDllDirectory( getCustomDllDirectory() );
+#endif // GTEST_CUSTOM_DLL_DIRECTORY
+
 #endif // _WIN32
 
     std::cout << "Running main() from my_gtest_main.cc\n";
@@ -26,14 +41,9 @@ int main(int argc, char **argv)
 
 
 #ifdef _WIN32
-#define NOMINMAX
-#include <windows.h>
-#include <tchar.h>
-
 
 void createCmdLine( LPTSTR lpCmdLine, int * argc, TCHAR *** argv );
 void destroyCmdLine( TCHAR ** argv );
-const TCHAR * getCustomDllDirectory();
 
 
 int APIENTRY wWinMain( HINSTANCE hInstance,
