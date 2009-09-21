@@ -44,11 +44,67 @@ namespace my_render_imp {
         ASSERT_EQ( 0u, scene->getNumberOfNode() );
     }
 
-    //TEST_F( SceneImpTest, VisualSceneIDs ) {
-    //    ASSERT_TRUE( scene->load( getFilename() ) );
+    TEST_F( SceneImpTest, GetNumberOfVisualScene ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+        ASSERT_EQ( 1u, scene->getNumberOfVisualScene() );
+    }
+    TEST_F( SceneImpTest, GetVisualSceneByIndex ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetVisualSceneByID ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetDefaultVisualScene ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetCurrentVisualScene ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, SetCurrentVisualScene ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
 
-    //    vector< wstring > id_array = scene->getVisualSceneIDs();
-    //    ASSERT_EQ( 1u, id_array.size() );
-    //    ASSERT_EQ( wstring( L"VisualSceneNode" ), id_array[0] );
-    //}
+    TEST_F( SceneImpTest, GetNumberOfNode ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetNodeByIndex ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetNodeByID ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+
+    TEST_F( SceneImpTest, GetNumberOfGeometry ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetGeometryByIndex ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetGeometryByID ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetGeometryByName ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+
+    TEST_F( SceneImpTest, GetNumberOfCamera ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetCameraByIndex ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetCameraByID ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+    TEST_F( SceneImpTest, GetCameraByName ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+    }
+
+    TEST_F( SceneImpTest, IsUpAxisXYZ ) {
+        ASSERT_TRUE( scene->load( getFilename() ) );
+        ASSERT_FALSE( scene->isUpAxisX() );
+        ASSERT_TRUE( scene->isUpAxisY() );
+        ASSERT_FALSE( scene->isUpAxisZ() );
+    }
+
 }
