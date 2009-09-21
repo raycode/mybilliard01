@@ -26,15 +26,6 @@ void SceneImp::setRenderFactory( RenderBufferFactory * renderFactory ) {
     updateDevice();
 }
 
-void SceneImp::unload() {
-    visualScenes_.clear();
-    nodes_.clear();
-    geometries_.clear();
-
-    dae_->clear();
-    dae_ = DAEPtr( new DAE() );
-}
-
 bool SceneImp::load( wstring filename ) {
     unload();
 
@@ -59,6 +50,103 @@ bool SceneImp::load( wstring filename ) {
     return true;
 }
 
+void SceneImp::unload() {
+    visualScenes_.clear();
+    nodes_.clear();
+    geometries_.clear();
+
+    dae_->clear();
+    dae_ = DAEPtr( new DAE() );
+}
+
+size_t SceneImp::getNumberOfVisualScene() {
+    return visualScenes_.size();
+}
+
+Node * SceneImp::getVisualSceneByIndex( size_t index ) {
+    return visualScenes_.at( index );
+}
+
+Node * SceneImp::getVisualSceneByID( wstring id ) {
+    MY_FOR_EACH( VisualScenes, iter, visualScenes_ )
+        if( (*iter)->getID() == id ) return *iter;
+    return NULL;
+}
+
+Node * SceneImp::getDefaultVisualScene() {
+    domInstanceWithExtraRef ivscene = collada_->getScene()->getInstance_visual_scene();
+    domVisual_scene * const vscene = daeDowncast< domVisual_scene >( ivscene->getUrl().getElement() );
+    if( NULL == vscene ) return NULL;
+
+    return getVisualSceneByID( convertString( vscene->getId() ) );
+}
+
+Node * SceneImp::getCurrentVisualScene() {
+    return currentScene_;
+}
+
+bool SceneImp::setCurrentVisualScene( Node * scene ) {
+    if( NULL == scene ) return false;
+
+    currentScene_ = scene;
+    return true;
+}
+
+size_t SceneImp::getNumberOfNode() {
+    return nodes_.size();
+}
+
+Node * SceneImp::getNodeByIndex( size_t index ) {
+    return nodes_.at( index );
+}
+
+Node * SceneImp::getNodeByID( wstring nodeID ) {
+    MY_FOR_EACH( Nodes, iter, nodes_ )
+        if( (*iter)->getID() == nodeID ) return *iter;
+    return NULL;
+}
+
+size_t SceneImp::getNumberOfGeometry() {
+    return geometries_.size();
+}
+
+Geometry * SceneImp::getGeometryByIndex( size_t index ) {
+    return geometries_.at( index );
+}
+
+Geometry * SceneImp::getGeometryByID( wstring id ) {
+    MY_FOR_EACH( Geometries, iter, geometries_ )
+        if( id == (*iter)->getID() ) return *iter;
+    return NULL;
+}
+
+Geometry * SceneImp::getGeometryByName( wstring name ) {
+    MY_FOR_EACH( Geometries, iter, geometries_ )
+        if( name == (*iter)->getName() ) return *iter;
+    return NULL;
+}
+
+Camera * SceneImp::getCameraByID( wstring id ) {
+    MY_FOR_EACH( Cameras, iter, cameras_ )
+        if( id == (*iter)->getID() ) return *iter;
+    return NULL;
+}
+Camera * SceneImp::getCameraByName( wstring name ) {
+    MY_FOR_EACH( Cameras, iter, cameras_ )
+        if( name == (*iter)->getName() ) return *iter;
+    return NULL;
+}
+
+size_t SceneImp::getNumberOfCamera()
+{
+    return cameras_.size();
+}
+
+Camera * SceneImp::getCameraByIndex( size_t index )
+{
+    return cameras_.at( index );
+}
+
 void SceneImp::updateDevice() {
     MY_FOR_EACH( Geometries, geo, geometries_ )
         updateDevice_GeometryMesh( (*geo)->getMesh() );
@@ -74,8 +162,7 @@ void SceneImp::updateDevice_GeometryMesh( GeometryMesh * mesh )
 }
 
 void SceneImp::setDefaultsAfterLoad() {
-    setCurrentVisualScene( getDefaultVisualSceneID() );
-
+    setCurrentVisualScene( getDefaultVisualScene() );
     addDefaultCameraWhenThereIsNoCamera();
 }
 
@@ -97,18 +184,6 @@ bool SceneImp::loadUpAxis( domCOLLADARef collada ) {
     if( NULL == upAxis ) return false;
 
     upAxis_ = upAxis->getValue();
-    return true;
-}
-
-wstring SceneImp::getCurrentVisualSceneID() {
-    return currentScene_->getID();
-}
-
-bool SceneImp::setCurrentVisualScene( wstring sceneID ) {
-    Node * const scene = getVisualScene( sceneID );
-    if( NULL == scene ) return false;
-
-    currentScene_ = scene;
     return true;
 }
 
@@ -158,7 +233,7 @@ void SceneImp::loadLibraryVisualScenes() {
             Node * const newVisualScene = colladaFactory_->createVisualScene( *vscene );
             if( NULL == newVisualScene ) continue;
 
-            visualScenes_.insert( VisualScenes::value_type( newNodeID, newVisualScene ) );
+            visualScenes_.push_back( newVisualScene );
             loadNodesFromVisualScene( newVisualScene );
         }
     }
@@ -182,7 +257,7 @@ void SceneImp::loadLibraryGeometries() {
 void SceneImp::loadNodesFromVisualScene( Node * node ) {
     if( NULL == node ) return;
     if( node->hasParent() && false == node->getID().empty() )
-        nodes_.insert( Nodes::value_type( node->getID(), node ) );
+        nodes_.push_back( node );
 
     if( node->hasFirstChild() )
         loadNodesFromVisualScene( node->getFirstChild() );
@@ -194,79 +269,7 @@ void SceneImp::loadLibraryScene() {
     domCOLLADA::domSceneRef scene = collada_->getScene();
     if( NULL == scene ) return;
 
-    setCurrentVisualScene( getDefaultVisualSceneID() );
-}
-
-vector< wstring > SceneImp::getVisualSceneIDs() {
-    vector< wstring > visualSceneIDs;
-    MY_FOR_EACH_COLLADA( domLibrary_visual_scenes, vscenes, collada_->getLibrary_visual_scenes_array() ) {
-        MY_FOR_EACH_COLLADA( domVisual_scene, vscene, (*vscenes)->getVisual_scene_array() ) {
-            visualSceneIDs.push_back( convertString( (*vscene)->getId() ) );
-        }
-    }
-    return visualSceneIDs;
-}
-
-bool SceneImp::hasDefaultVisualSceneID() {
-    if( NULL == collada_ ) return false;
-    if( NULL == collada_->getScene() ) return false;
-    if( NULL == collada_->getScene()->getInstance_visual_scene() ) return false;
-    return true;
-}
-
-wstring SceneImp::getDefaultVisualSceneID() {
-    if( false == hasDefaultVisualSceneID() ) return L"";
-
-    domInstanceWithExtraRef ivscene = collada_->getScene()->getInstance_visual_scene();
-    domVisual_scene * const vscene = daeDowncast< domVisual_scene >( ivscene->getUrl().getElement() );
-    if( NULL == vscene ) return L"";
-
-    return convertString( vscene->getId() );
-}
-
-Node * SceneImp::getNode( wstring nodeID ) {
-    Nodes::const_iterator iter = nodes_.find( nodeID );
-    if( iter == nodes_.end() ) return NULL;
-    return iter->second;
-}
-
-Node * SceneImp::getVisualScene( wstring id ) {
-    Nodes::const_iterator iter = visualScenes_.find( id );
-    if( iter == visualScenes_.end() ) return NULL;
-    return iter->second;
-}
-
-Geometry * SceneImp::getGeometryByID( wstring id ) {
-    MY_FOR_EACH( Geometries, iter, geometries_ )
-        if( id == (*iter)->getID() ) return *iter;
-    return NULL;
-}
-
-Geometry * SceneImp::getGeometryByName( wstring name ) {
-    MY_FOR_EACH( Geometries, iter, geometries_ )
-        if( name == (*iter)->getName() ) return *iter;
-    return NULL;
-}
-
-Camera * SceneImp::getCameraByID( wstring id ) {
-    MY_FOR_EACH( Cameras, iter, cameras_ )
-        if( id == (*iter)->getID() ) return *iter;
-    return NULL;
-}
-Camera * SceneImp::getCameraByName( wstring name ) {
-    MY_FOR_EACH( Cameras, iter, cameras_ )
-        if( name == (*iter)->getName() ) return *iter;
-    return NULL;
-}
-
-size_t SceneImp::getNumberOfCamera()
-{
-    return cameras_.size();
-}
-
-Camera * SceneImp::getCameraByIndex( size_t index )
-{
-    return cameras_.at( index );
+    setCurrentVisualScene( getDefaultVisualScene() );
 }
 
 wstring SceneImp::getFilenameOnly( wstring fullFilename ) {
@@ -292,6 +295,18 @@ wstring SceneImp::getFilenameOnly( wstring fullFilename ) {
 wstring SceneImp::getPathnameOnly( wstring fullFilename ) {
     const size_t pos = fullFilename.length() - getFilenameOnly( fullFilename ).length();
     return wstring( fullFilename.c_str(), fullFilename.c_str() + std::max( pos, 1u ) -1u );
+}
+
+bool SceneImp::isUpAxisX() {
+    return upAxis_ == UPAXISTYPE_X_UP;
+}
+
+bool SceneImp::isUpAxisY() {
+    return upAxis_ == UPAXISTYPE_Y_UP;
+}
+
+bool SceneImp::isUpAxisZ() {
+    return upAxis_ == UPAXISTYPE_Z_UP;
 }
 
 

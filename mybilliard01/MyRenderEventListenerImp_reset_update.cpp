@@ -38,7 +38,7 @@ void MyRenderEventListenerImp::resetRenderableCamera( RenderBufferFactory * rend
         NxActor * const actor = phys_->getActor( i );
 
         const wstring nodeName = convertString( actor->getName() );
-        Node * const node = scene_->getNode( nodeName );
+        Node * const node = scene_->getNodeByID( nodeName );
         if( NULL == node ) continue;
         actor->userData = node;
 
