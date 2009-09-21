@@ -126,7 +126,7 @@ void GeometryMeshPrimitiveImp::buildDeviceBuffer( VertexBuffer * vertexBuffer ) 
     for( size_t i = 0; i < semanticSet_[ ETYPE_COLOR ].size(); ++i ) {
         vector< NxU32 > stream;
         MY_FOR_EACH( Semantic, iter, semanticSet_[ ETYPE_COLOR ][ i ] )
-            stream.push_back( PixelColor( *iter ) );
+            stream.push_back( PixelColor( 1.f, *iter ) );
         vertexBuffer->appendColor_Array( &(stream[ 0 ]), i );
     }
 

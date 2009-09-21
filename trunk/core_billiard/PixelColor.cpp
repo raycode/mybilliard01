@@ -13,44 +13,44 @@ PixelColor::PixelColor( NxU32 argb )
     setARGB( argb );
 }
 
-PixelColor::PixelColor( NxVec3 rgb )
+PixelColor::PixelColor( float a, NxVec3 rgb )
 {
-    setA( 0 );
-    setR( (Color256)( rgb.x * 256 ) );
-    setG( (Color256)( rgb.y * 256 ) );
-    setB( (Color256)( rgb.z * 256 ) );
+    setA( clamp_from0_to255( (int)( a * 255 ) ) );
+    setR( clamp_from0_to255( (int)( rgb.x * 255 ) ) );
+    setG( clamp_from0_to255( (int)( rgb.y * 255 ) ) );
+    setB( clamp_from0_to255( (int)( rgb.z * 255 ) ) );
 }
 
 PixelColor::PixelColor( float a, float r, float g, float b )
 {
-    setA( (Color256)( a * 256 ) );
-    setR( (Color256)( r * 256 ) );
-    setG( (Color256)( g * 256 ) );
-    setB( (Color256)( b * 256 ) );
+    setA( clamp_from0_to255( (int)( a * 255 ) ) );
+    setR( clamp_from0_to255( (int)( r * 255 ) ) );
+    setG( clamp_from0_to255( (int)( g * 255 ) ) );
+    setB( clamp_from0_to255( (int)( b * 255 ) ) );
 }
 
 PixelColor::PixelColor( int a, int r, int g, int b )
 {
-    setA( (Color256) a );
-    setR( (Color256) r );
-    setG( (Color256) g );
-    setB( (Color256) b );
+    setA( clamp_from0_to255( a ) );
+    setR( clamp_from0_to255( r ) );
+    setG( clamp_from0_to255( g ) );
+    setB( clamp_from0_to255( b ) );
 }
 
 PixelColor::PixelColor( unsigned int a, unsigned int r, unsigned int g, unsigned int b )
 {
-    setA( (Color256) a );
-    setR( (Color256) r );
-    setG( (Color256) g );
-    setB( (Color256) b );
+    setA( clamp_from0_to255( a ) );
+    setR( clamp_from0_to255( r ) );
+    setG( clamp_from0_to255( g ) );
+    setB( clamp_from0_to255( b ) );
 }
 
 PixelColor::PixelColor( Color256 a, Color256 r, Color256 g, Color256 b )
 {
-    setA( (Color256) a );
-    setR( (Color256) r );
-    setG( (Color256) g );
-    setB( (Color256) b );
+    setA( a );
+    setR( r );
+    setG( g );
+    setB( b );
 }
 
 PixelColor::operator NxU32 ()
@@ -96,6 +96,18 @@ void PixelColor::setG( Color256 g ) {
 
 void PixelColor::setB( Color256 b ) {
     pixelColor_ = ((b & 0xff) << 0) + (pixelColor_ & 0xffffff00);
+}
+
+
+PixelColor::Color256 PixelColor::clamp_from0_to255( int val ) {
+    if( val > 255 ) return (Color256) 255;
+    if( val < 0 ) return (Color256) 0;
+    return (Color256) val;
+}
+
+PixelColor::Color256 PixelColor::clamp_from0_to255( unsigned int val ) {
+    if( val > 255 ) return (Color256) 255;
+    return (Color256) val;
 }
 
 

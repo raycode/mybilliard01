@@ -50,7 +50,7 @@
 				UsePrecompiledHeader="2"
 				WarningLevel="4"
 				WarnAsError="true"
-				DebugInformationFormat="3"
+				DebugInformationFormat="4"
 			/>
 			<Tool
 				Name="VCManagedResourceCompilerTool"
